@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — The Spread</title>
+  <style>
+    :root {
+      --bg: #faf9f5; --surface: #ffffff; --surface-2: #f1efe8;
+      --text: #2b2a27; --muted: #5f5e5a; --hint: #888780;
+      --border: rgba(0,0,0,0.12); --blue: #185fa5; --red: #a32d2d; --green: #3b6d11;
+      --radius: 12px; --radius-sm: 8px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 24px 20px 64px; }
+    .nav { display: flex; align-items: center; justify-content: space-between;
+      padding-bottom: 12px; border-bottom: 0.5px solid var(--border); margin-bottom: 28px; }
+    .brand { font-size: 16px; font-weight: 500; }
+    .brand small { color: var(--hint); font-weight: 400; margin-left: 8px; font-size: 12px; }
+    .navlinks { display: flex; gap: 18px; font-size: 13px; }
+    .navlinks span { color: var(--muted); }
+    .navlinks .active { color: var(--text); font-weight: 500; border-bottom: 2px solid var(--text); padding-bottom: 4px; }
+    h1 { font-size: 22px; font-weight: 500; margin: 0 0 4px; }
+    .sub { color: var(--muted); font-size: 13px; margin: 0 0 24px; }
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+    .kpi { background: var(--surface-2); border-radius: var(--radius-sm); padding: 16px; }
+    .kpi .label { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    .kpi .val { font-size: 24px; font-weight: 500; }
+    .kpi .val.neg { color: var(--red); } .kpi .val.pos { color: var(--green); }
+    .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius);
+      padding: 16px 20px; margin-bottom: 20px; }
+    .card .head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+    .card .title { font-size: 14px; font-weight: 500; } .card .meta { font-size: 12px; color: var(--hint); }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .caveat { background: #fceaea; border-left: 3px solid var(--red); border-radius: 0;
+      padding: 10px 12px; font-size: 12px; color: #791f1f; margin-top: 10px; }
+    .big { font-size: 28px; font-weight: 500; }
+    canvas { max-width: 100%; }
+    .loading { color: var(--hint); font-size: 14px; padding: 40px 0; text-align: center; }
+    @media (max-width: 640px) { .kpis { grid-template-columns: repeat(2, 1fr); } .row2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="nav">
+      <div class="brand">Wattlas <small>European energy data, explored</small></div>
+      <div class="navlinks">
+        <span>Pulse</span><span class="active">Spread</span><span>Divergence</span><span>Mismatch</span>
+      </div>
+    </div>
+    <h1>The Spread</h1>
+    <p class="sub">How wide is the gap each day between the cheapest and most expensive hour of electricity?</p>
+    <div id="kpis" class="kpis"></div>
+    <div class="card">
+      <div class="head">
+        <div class="title">Daily TB1 spread — red bars are days with negative-price hours</div>
+        <div class="meta" id="chartMeta"></div>
+      </div>
+      <canvas id="spreadChart" height="110"></canvas>
+    </div>
+    <div class="row2">
+      <div class="card">
+        <div class="title" style="margin-bottom:12px;">Negative-price hours per month</div>
+        <canvas id="negChart" height="120"></canvas>
+      </div>
+      <div class="card">
+        <div class="title" style="margin-bottom:12px;">Perfect-arbitrage revenue, 1&nbsp;MW / 2h battery</div>
+        <div class="big" id="arbVal">—</div>
+        <div class="meta" id="arbMeta"></div>
+        <div class="caveat" id="arbCaveat"></div>
+      </div>
+    </div>
+    <div id="status" class="loading">Loading data…</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script>
+    const eur = (n) => "€" + Math.round(n).toLocaleString();
+    // Try several locations so it works whether the site is served from the repo
+    // root (../data) or the frontend folder is the web root (data, /data).
+    async function loadJSON(name) {
+      const candidates = ["../data/" + name, "data/" + name, "/data/" + name];
+      for (const path of candidates) {
+        try {
+          const r = await fetch(path);
+          if (r.ok) return r.json();
+        } catch (e) { /* try next */ }
+      }
+      throw new Error("could not load " + name + " from any known path");
+    }
+    function renderKPIs(summary) {
+      const yoy = summary.yoy_tb1_change_pct;
+      const items = [
+        { label: "Avg daily TB1", val: eur(summary.avg_daily_tb1) + "/MWh" },
+        { label: "Widest day", val: summary.widest_day ? eur(summary.widest_day.tb1) : "—" },
+        { label: "Negative hours", val: Math.round(summary.total_negative_hours).toLocaleString() },
+        { label: "YoY change", val: yoy == null ? "n/a" : (yoy > 0 ? "+" : "") + Math.round(yoy) + "%",
+          cls: yoy == null ? "" : (yoy > 0 ? "pos" : "neg") },
+      ];
+      document.getElementById("kpis").innerHTML = items.map(i =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`
+      ).join("");
+    }
+    function renderSpreadChart(spread) {
+      const days = spread.days;
+      const labels = days.map(d => d.date);
+      const data = days.map(d => d.tb1);
+      const colours = days.map(d => d.negative_hours > 0 ? "#a32d2d" : "#185fa5");
+      const alpha = days.map(d => d.complete ? 1 : 0.3);
+      new Chart(document.getElementById("spreadChart"), {
+        type: "bar",
+        data: { labels, datasets: [{
+          data, backgroundColor: colours.map((c,i) => c + (alpha[i]===1 ? "" : "55")),
+          borderWidth: 0, barPercentage: 1.0, categoryPercentage: 1.0 }]},
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => {
+              const d = days[c.dataIndex];
+              return `TB1 ${eur(d.tb1)} · ${d.negative_hours} neg h · range ${eur(d.min_price)}–${eur(d.max_price)}`;
+            }}}},
+          scales: {
+            x: { ticks: { maxTicksLimit: 12, color: "#888780", font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
+      });
+      document.getElementById("chartMeta").textContent = `${days.length} days · ${spread.zone} · source ENTSO-E`;
+    }
+    function renderNegChart(summary) {
+      const m = summary.negative_hours_by_month;
+      new Chart(document.getElementById("negChart"), {
+        type: "bar",
+        data: { labels: m.map(x => x.month.slice(5)), datasets: [{
+          data: m.map(x => x.hours), backgroundColor: "#a32d2d", borderWidth: 0 }]},
+        options: { responsive: true, animation: false, plugins: { legend: { display: false } },
+          scales: { x: { ticks: { color: "#888780", font: { size: 10 } }, grid: { display: false } },
+                    y: { ticks: { color: "#888780", font: { size: 10 } }, grid: { color: "rgba(0,0,0,0.05)" } } } },
+      });
+    }
+    function renderArbitrage(summary) {
+      document.getElementById("arbVal").textContent = eur(summary.perfect_arbitrage_eur_per_mw);
+      const b = summary.battery_assumptions;
+      document.getElementById("arbMeta").textContent = `per MW · ${summary.period_start} to ${summary.period_end}`;
+      document.getElementById("arbCaveat").textContent =
+        `Upper bound only — not achievable. Assumes perfect foresight, ` +
+        `${b.duration_h}h charge/discharge at each day's best hours, and no round-trip losses. ` +
+        `Real battery revenue is materially lower.`;
+    }
+    (async function main() {
+      try {
+        const [spread, summary] = await Promise.all([
+          loadJSON("spread.json"), loadJSON("spread_summary.json") ]);
+        renderKPIs(summary); renderSpreadChart(spread); renderNegChart(summary); renderArbitrage(summary);
+        document.getElementById("status").style.display = "none";
+      } catch (e) {
+        document.getElementById("status").textContent =
+          "Could not load data. Run `python pipeline/build_spread.py` first, then serve the folder.";
+      }
+    })();
+  </script>
+</body>
+</html>

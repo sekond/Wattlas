@@ -1,0 +1,103 @@
+"""Offline unit tests for pipeline/metrics.py — no network required.
+
+Run: python -m pytest pipeline/test_metrics.py -v
+or:  python pipeline/test_metrics.py   (falls back to a simple runner)
+"""
+
+from __future__ import annotations
+
+import pandas as pd
+
+from metrics import (
+    daily_spreads,
+    negative_hours_by_month,
+    perfect_arbitrage_revenue,
+    to_hourly,
+)
+
+
+def _hourly_series(values, start="2025-07-02 00:00", tz="Europe/Berlin"):
+    idx = pd.date_range(start=start, periods=len(values), freq="1h", tz=tz)
+    return pd.Series(values, index=idx)
+
+
+def test_to_hourly_downsamples_quarter_hourly():
+    # 8 quarter-hourly points = 2 hours; each hour should average its 4 points
+    idx = pd.date_range("2025-11-01 00:00", periods=8, freq="15min", tz="Europe/Berlin")
+    s = pd.Series([0, 2, 4, 6, 10, 10, 10, 10], index=idx)
+    out = to_hourly(s)
+    assert len(out) == 2
+    assert out.iloc[0] == 3.0   # mean(0,2,4,6)
+    assert out.iloc[1] == 10.0  # mean(10,10,10,10)
+
+
+def test_to_hourly_requires_tz():
+    naive = pd.Series([1, 2], index=pd.date_range("2025-01-01", periods=2, freq="1h"))
+    try:
+        to_hourly(naive)
+        assert False, "expected ValueError for tz-naive index"
+    except ValueError:
+        pass
+
+
+def test_tb1_tb2_basic():
+    # 24 hours: min 0, max 100; two lowest 0,5; two highest 100,90
+    vals = [0, 5, 20, 30, 40, 50, 60, 70, 80, 90, 100, 45,
+            44, 43, 42, 41, 35, 36, 37, 38, 39, 25, 26, 27]
+    df = daily_spreads(_hourly_series(vals))
+    assert len(df) == 1
+    row = df.iloc[0]
+    assert row["tb1"] == 100.0           # 100 - 0
+    assert row["tb2"] == (100 + 90) / 2 - (0 + 5) / 2  # 95 - 2.5 = 92.5
+    assert row["negative_hours"] == 0
+    assert row["hours_observed"] == 24
+
+
+def test_negative_prices_counted_not_clipped():
+    vals = [-50, -10, -1, 5] + [20] * 20
+    df = daily_spreads(_hourly_series(vals))
+    row = df.iloc[0]
+    assert row["negative_hours"] == 3
+    assert row["min_price"] == -50.0     # not floored at 0
+
+
+def test_dst_long_day_has_25_hours():
+    # 2025-10-26 is the autumn DST switch in Europe/Berlin (clocks back -> 25h day)
+    idx = pd.date_range("2025-10-26 00:00", periods=25, freq="1h", tz="Europe/Berlin")
+    assert len(idx) == 25  # sanity: pandas models the extra hour
+    s = pd.Series(list(range(25)), index=idx)
+    df = daily_spreads(s)
+    row = df.iloc[0]
+    assert row["hours_observed"] == 25
+
+
+def test_perfect_arbitrage_is_positive_upper_bound():
+    # cheapest 2h sum=5 (0+5), priciest 2h sum=190 (100+90) -> 185 per MW per day
+    vals = [0, 5, 20, 30, 40, 50, 60, 70, 80, 90, 100, 45,
+            44, 43, 42, 41, 35, 36, 37, 38, 39, 25, 26, 27]
+    rev = perfect_arbitrage_revenue(_hourly_series(vals), duration_h=2)
+    assert rev == 185.0
+
+
+def test_negative_hours_by_month():
+    vals_day1 = [-1, -1, 5] + [10] * 21   # 2 negative hours, July
+    df = daily_spreads(_hourly_series(vals_day1, start="2025-07-02 00:00"))
+    out = negative_hours_by_month(df)
+    assert out == [{"month": "2025-07", "hours": 2}]
+
+
+def test_empty_input_does_not_crash():
+    empty = pd.Series([], dtype=float, index=pd.DatetimeIndex([], tz="Europe/Berlin"))
+    assert daily_spreads(empty).empty
+    assert perfect_arbitrage_revenue(empty) == 0.0
+    assert negative_hours_by_month(daily_spreads(empty)) == []
+
+
+if __name__ == "__main__":
+    fns = [v for k, v in sorted(globals().items()) if k.startswith("test_") and callable(v)]
+    passed = 0
+    for fn in fns:
+        fn()
+        print(f"ok  {fn.__name__}")
+        passed += 1
+    print(f"\n{passed}/{len(fns)} passed")
