@@ -20,8 +20,9 @@
     .brand { font-size: 16px; font-weight: 500; }
     .brand small { color: var(--hint); font-weight: 400; margin-left: 8px; font-size: 12px; }
     .navlinks { display: flex; gap: 18px; font-size: 13px; }
-    .navlinks span { color: var(--muted); }
-    .navlinks .active { color: var(--text); font-weight: 500; border-bottom: 2px solid var(--text); padding-bottom: 4px; }
+    .navlinks a { color: var(--muted); text-decoration: none; padding-bottom: 4px; }
+    .navlinks a:hover { color: var(--text); }
+    .navlinks a.active { color: var(--text); font-weight: 500; border-bottom: 2px solid var(--text); }
     h1 { font-size: 22px; font-weight: 500; margin: 0 0 4px; }
     .sub { color: var(--muted); font-size: 13px; margin: 0 0 24px; }
     .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
@@ -47,7 +48,7 @@
     <div class="nav">
       <div class="brand">Wattlas <small>European energy data, explored</small></div>
       <div class="navlinks">
-        <span>Pulse</span><span class="active">Spread</span><span>Divergence</span><span>Mismatch</span>
+        <a href="pulse.html">Pulse</a><a href="index.html" class="active">Spread</a><a href="divergence.html">Divergence</a><a href="mismatch.html">Mismatch</a>
       </div>
     </div>
     <h1>The Spread</h1>

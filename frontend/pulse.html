@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Pulse (mockup)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="nav">
+      <div class="brand">Wattlas <small>European energy data, explored</small></div>
+      <div class="navlinks">
+        <a href="pulse.html" class="active">Pulse</a>
+        <a href="index.html">Spread</a>
+        <a href="divergence.html">Divergence</a>
+        <a href="mismatch.html">Mismatch</a>
+      </div>
+    </div>
+    <h1>Pulse</h1>
+    <p class="sub">The daily rhythm — how the price of electricity rises and falls across the hours of an average day.</p>
+    <div class="mock-banner"><strong>MOCKUP — illustrative data, not real.</strong>
+      This is a design placeholder for a future view. The numbers below are invented to show the layout and are not from ENTSO-E.</div>
+
+    <div id="kpis" class="kpis"></div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">Average day-ahead price by hour of day — DE-LU</div>
+        <div class="meta">illustrative · €/MWh</div>
+      </div>
+      <canvas id="rhythmChart" height="120"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:#185fa5"></span>Weekday average</span>
+        <span><span class="swatch" style="background:#3b6d11"></span>Weekend average</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script>
+    // --- MOCK DATA (invented, illustrative only) -------------------------
+    const hours = Array.from({length: 24}, (_, h) => String(h).padStart(2, "0") + ":00");
+    const weekday = [72, 65, 60, 58, 62, 78, 98, 120, 105, 80, 55, 38, 28, 25, 30, 45, 70, 110, 145, 158, 140, 115, 95, 80];
+    const weekend = [58, 52, 48, 46, 48, 55, 64, 72, 70, 58, 44, 32, 26, 24, 27, 36, 52, 78, 102, 112, 100, 84, 70, 62];
+    // ---------------------------------------------------------------------
+    const eur = (n) => "€" + Math.round(n);
+    const peakIdx = weekday.indexOf(Math.max(...weekday));
+    const troughIdx = weekday.indexOf(Math.min(...weekday));
+    const ratio = (weekday[peakIdx] / weekday[troughIdx]);
+
+    const kpis = [
+      { label: "Priciest hour", val: hours[peakIdx] + " · " + eur(weekday[peakIdx]) },
+      { label: "Cheapest hour", val: hours[troughIdx] + " · " + eur(weekday[troughIdx]) },
+      { label: "Peak / trough", val: ratio.toFixed(1) + "×", cls: "neg" },
+      { label: "Evening ramp", val: "+" + eur(weekday[peakIdx] - weekday[troughIdx]) },
+    ];
+    document.getElementById("kpis").innerHTML = kpis.map(i =>
+      `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
+
+    new Chart(document.getElementById("rhythmChart"), {
+      type: "line",
+      data: { labels: hours, datasets: [
+        { label: "Weekday", data: weekday, borderColor: "#185fa5", backgroundColor: "rgba(24,95,165,0.08)",
+          fill: true, tension: 0.35, pointRadius: 0, borderWidth: 2 },
+        { label: "Weekend", data: weekend, borderColor: "#3b6d11", backgroundColor: "transparent",
+          fill: false, tension: 0.35, pointRadius: 0, borderWidth: 2, borderDash: [4,3] } ]},
+      options: { responsive: true, animation: false,
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${eur(c.parsed.y)}/MWh` } } },
+        scales: { x: { ticks: { maxTicksLimit: 12, color: "#888780", font: { size: 10 } }, grid: { display: false } },
+                  y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
+    });
+  </script>
+</body>
+</html>
