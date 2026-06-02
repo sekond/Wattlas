@@ -38,14 +38,32 @@ copy-paste prompts. Run `python bootstrap.py` first to check everything is in pl
 > The repo ships with sample data already in `data/`, so step 5 works before you
 > ever run the pipeline — handy for trying the frontend first.
 
+### Offline re-runs: the raw-price cache
+
+Every normal build caches the raw fetched price series to
+`data/_raw_prices.parquet` (gitignored). Re-run with `--use-cache` to rebuild the
+JSON from that cache **without touching the ENTSO-E API** — useful for iterating
+on the metrics or recovering from an API outage. The cache holds the raw,
+pre-resample prices, so a cached rebuild produces identical output to the live
+one. If no cache exists yet, run once without the flag to populate it.
+
 ## Tests
 
 ```
 python pipeline/test_metrics.py
+python pipeline/test_build.py
 ```
 
-Metric functions are pure and tested offline (DST days, the Oct-2025
-hourly→quarter-hourly resolution break, negative prices, empty input).
+> **On the spread numbers:** TB1/TB2 are computed on hourly-averaged prices. The
+> German market switched to quarter-hourly settlement in Oct 2025, where true
+> intraday spreads are wider — so post-Oct figures are a *conservative lower
+> bound*, not an overstatement.
+
+Metric functions are pure and tested offline (DST days — both the 23-hour spring
+and 25-hour autumn switch, the Oct-2025 hourly→quarter-hourly resolution break,
+negative prices, data-gap days, TB2 fallback, empty input). `test_build.py` runs
+the full `build()` against a fixture into a temp directory and asserts both JSON
+files are written with schema-correct keys — all without network.
 
 ## Layout
 

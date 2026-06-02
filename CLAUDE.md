@@ -88,7 +88,7 @@ These are non-obvious facts about the data. Getting them wrong produces code tha
 
 ## Success Criteria for v1 (definition of done)
 
-- `python pipeline/build_spread.py` fetches ~12 months of DE-LU day-ahead prices, computes daily TB1, TB2, and negative-hour counts, and writes `data/spread.json` + `data/spread_summary.json` plus `data/spread_summary.json`.
+- `python pipeline/build_spread.py` fetches ~12 months of DE-LU day-ahead prices, computes daily TB1, TB2, and negative-hour counts, and writes `data/spread.json` + `data/spread_summary.json`.
 - The pipeline handles the Oct-2025 resolution break, DST days, and missing days without crashing.
 - Opening `frontend/index.html` (served statically) renders the Spread view: KPI cards, the daily-spread bar chart with negative-price days highlighted, and the clearly-labelled upper-bound arbitrage figure.
 - All displayed numbers are rounded; the arbitrage number carries its "upper bound" caveat in the UI.

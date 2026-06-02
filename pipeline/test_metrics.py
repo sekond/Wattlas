@@ -86,6 +86,36 @@ def test_negative_hours_by_month():
     assert out == [{"month": "2025-07", "hours": 2}]
 
 
+def test_spring_dst_short_day_has_23_hours():
+    # 2025-03-30 is the spring DST switch in Europe/Berlin: clocks jump
+    # 02:00 -> 03:00, so the day has only 23 hours (landmine #4). The pipeline
+    # must not assume 24 values/day.
+    idx = pd.date_range("2025-03-30 00:00", periods=23, freq="1h", tz="Europe/Berlin")
+    assert len(idx) == 23  # sanity: pandas models the missing hour
+    df = daily_spreads(pd.Series(list(range(23)), index=idx))
+    assert df.iloc[0]["hours_observed"] == 23
+
+
+def test_data_gap_day_counts_only_available_hours():
+    # A day with a data gap: only 20 of ~24 hours present (landmine #8). Metrics
+    # are computed on what exists; build() flags such a day complete=false
+    # (asserted in test_build.py). Here we confirm the hour count and TB1.
+    idx = pd.date_range("2025-07-02 00:00", periods=20, freq="1h", tz="Europe/Berlin")
+    df = daily_spreads(pd.Series(list(range(20)), index=idx))
+    assert df.iloc[0]["hours_observed"] == 20
+    assert df.iloc[0]["tb1"] == 19.0  # max(19) - min(0)
+
+
+def test_tb2_falls_back_to_tb1_under_4_hours():
+    # TB2 = mean(top 2) - mean(bottom 2) needs >= 4 hours to be meaningful. With
+    # fewer hours it falls back to TB1 = max - min (metrics.py / landmine #5).
+    idx = pd.date_range("2025-07-02 00:00", periods=3, freq="1h", tz="Europe/Berlin")
+    row = daily_spreads(pd.Series([10, 50, 30], index=idx)).iloc[0]
+    assert row["hours_observed"] == 3
+    assert row["tb1"] == 40.0           # 50 - 10
+    assert row["tb2"] == row["tb1"]     # fallback, not mean-of-2 logic
+
+
 def test_empty_input_does_not_crash():
     empty = pd.Series([], dtype=float, index=pd.DatetimeIndex([], tz="Europe/Berlin"))
     assert daily_spreads(empty).empty
