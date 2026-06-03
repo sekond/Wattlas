@@ -114,6 +114,43 @@ def perfect_arbitrage_revenue(
     return round(total, 2)
 
 
+def price_by_hour_of_day(prices: pd.Series, local_tz: str = "Europe/Berlin") -> dict:
+    """Average day-ahead price for each hour of the local day (0-23).
+
+    The Pulse view's core metric: it shows the daily *rhythm* of prices —
+    typically a midday solar trough and an evening peak. Split into weekday
+    (Mon-Fri) and weekend (Sat-Sun) because the demand shape differs.
+
+    Resamples to canonical hourly first (landmine #3) and groups by local hour
+    in Europe/Berlin (landmine #4). Returns a dict with 24-length lists; a slot
+    is None if no data fell in that hour. Negative averages are kept (landmine
+    #6). All values rounded to 2 dp.
+    """
+    out = {
+        "hours": list(range(24)),
+        "all_mean": [None] * 24,
+        "weekday_mean": [None] * 24,
+        "weekend_mean": [None] * 24,
+    }
+    hourly = to_hourly(prices)
+    if hourly.empty:
+        return out
+
+    local = hourly.tz_convert(local_tz)
+    df = local.to_frame("price")
+    df["hour"] = df.index.hour
+    df["is_weekend"] = df.index.dayofweek >= 5  # Sat=5, Sun=6
+
+    def _fill(frame: pd.DataFrame, key: str) -> None:
+        for hour, mean in frame.groupby("hour")["price"].mean().items():
+            out[key][int(hour)] = round(float(mean), 2)
+
+    _fill(df, "all_mean")
+    _fill(df[~df["is_weekend"]], "weekday_mean")
+    _fill(df[df["is_weekend"]], "weekend_mean")
+    return out
+
+
 def negative_hours_by_month(daily: pd.DataFrame) -> list[dict]:
     """Aggregate negative-hour counts by calendar month from a daily DataFrame."""
     if daily.empty:

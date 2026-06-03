@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wattlas — Pulse (mockup)</title>
+  <title>Wattlas — Pulse</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -19,58 +19,85 @@
     </div>
     <h1>Pulse</h1>
     <p class="sub">The daily rhythm — how the price of electricity rises and falls across the hours of an average day.</p>
-    <div class="mock-banner"><strong>MOCKUP — illustrative data, not real.</strong>
-      This is a design placeholder for a future view. The numbers below are invented to show the layout and are not from ENTSO-E.</div>
 
     <div id="kpis" class="kpis"></div>
 
     <div class="card">
       <div class="head">
         <div class="title">Average day-ahead price by hour of day — DE-LU</div>
-        <div class="meta">illustrative · €/MWh</div>
+        <div class="meta" id="chartMeta"></div>
       </div>
       <canvas id="rhythmChart" height="120"></canvas>
       <div class="legend">
-        <span><span class="swatch" style="background:#185fa5"></span>Weekday average</span>
-        <span><span class="swatch" style="background:#3b6d11"></span>Weekend average</span>
+        <span><span class="swatch" style="background:#185fa5"></span>Weekday average (Mon–Fri)</span>
+        <span><span class="swatch" style="background:#3b6d11"></span>Weekend average (Sat–Sun)</span>
       </div>
+      <div class="meta" style="margin-top:8px;">Averages use hourly-resampled prices grouped in local time (Europe/Berlin). Source: ENTSO-E.</div>
     </div>
+    <div id="status" class="loading">Loading data…</div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <script>
-    // --- MOCK DATA (invented, illustrative only) -------------------------
-    const hours = Array.from({length: 24}, (_, h) => String(h).padStart(2, "0") + ":00");
-    const weekday = [72, 65, 60, 58, 62, 78, 98, 120, 105, 80, 55, 38, 28, 25, 30, 45, 70, 110, 145, 158, 140, 115, 95, 80];
-    const weekend = [58, 52, 48, 46, 48, 55, 64, 72, 70, 58, 44, 32, 26, 24, 27, 36, 52, 78, 102, 112, 100, 84, 70, 62];
-    // ---------------------------------------------------------------------
     const eur = (n) => "€" + Math.round(n);
-    const peakIdx = weekday.indexOf(Math.max(...weekday));
-    const troughIdx = weekday.indexOf(Math.min(...weekday));
-    const ratio = (weekday[peakIdx] / weekday[troughIdx]);
-
-    const kpis = [
-      { label: "Priciest hour", val: hours[peakIdx] + " · " + eur(weekday[peakIdx]) },
-      { label: "Cheapest hour", val: hours[troughIdx] + " · " + eur(weekday[troughIdx]) },
-      { label: "Peak / trough", val: ratio.toFixed(1) + "×", cls: "neg" },
-      { label: "Evening ramp", val: "+" + eur(weekday[peakIdx] - weekday[troughIdx]) },
-    ];
-    document.getElementById("kpis").innerHTML = kpis.map(i =>
-      `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
-
-    new Chart(document.getElementById("rhythmChart"), {
-      type: "line",
-      data: { labels: hours, datasets: [
-        { label: "Weekday", data: weekday, borderColor: "#185fa5", backgroundColor: "rgba(24,95,165,0.08)",
-          fill: true, tension: 0.35, pointRadius: 0, borderWidth: 2 },
-        { label: "Weekend", data: weekend, borderColor: "#3b6d11", backgroundColor: "transparent",
-          fill: false, tension: 0.35, pointRadius: 0, borderWidth: 2, borderDash: [4,3] } ]},
-      options: { responsive: true, animation: false,
-        plugins: { legend: { display: false },
-          tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${eur(c.parsed.y)}/MWh` } } },
-        scales: { x: { ticks: { maxTicksLimit: 12, color: "#888780", font: { size: 10 } }, grid: { display: false } },
-                  y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
-    });
+    const hh = (h) => String(h).padStart(2, "0") + ":00";
+    async function loadJSON(name) {
+      const candidates = ["../data/" + name, "data/" + name, "/data/" + name];
+      for (const path of candidates) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) { /* try next */ }
+      }
+      throw new Error("could not load " + name);
+    }
+    // argmax/argmin ignoring null slots
+    function extreme(arr, want) {
+      let idx = -1, val = want === "max" ? -Infinity : Infinity;
+      arr.forEach((v, i) => {
+        if (v == null) return;
+        if ((want === "max" && v > val) || (want === "min" && v < val)) { val = v; idx = i; }
+      });
+      return { idx, val };
+    }
+    function renderKPIs(p) {
+      const wd = p.weekday_mean;
+      const peak = extreme(wd, "max"), trough = extreme(wd, "min");
+      const ratio = (trough.val > 0) ? (peak.val / trough.val) : null;
+      const items = [
+        { label: "Priciest hour", val: peak.idx >= 0 ? hh(peak.idx) + " · " + eur(peak.val) : "—" },
+        { label: "Cheapest hour", val: trough.idx >= 0 ? hh(trough.idx) + " · " + eur(trough.val) : "—" },
+        { label: "Peak / trough", val: ratio == null ? "n/a" : ratio.toFixed(1) + "×", cls: "neg" },
+        { label: "Evening ramp", val: (peak.idx >= 0 && trough.idx >= 0) ? "+" + eur(peak.val - trough.val) : "—" },
+      ];
+      document.getElementById("kpis").innerHTML = items.map(i =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
+    }
+    function renderChart(p) {
+      const labels = p.hours.map(hh);
+      new Chart(document.getElementById("rhythmChart"), {
+        type: "line",
+        data: { labels, datasets: [
+          { label: "Weekday", data: p.weekday_mean, borderColor: "#185fa5",
+            backgroundColor: "rgba(24,95,165,0.08)", fill: true, tension: 0.35, pointRadius: 0, borderWidth: 2, spanGaps: true },
+          { label: "Weekend", data: p.weekend_mean, borderColor: "#3b6d11",
+            backgroundColor: "transparent", fill: false, tension: 0.35, pointRadius: 0, borderWidth: 2, borderDash: [4,3], spanGaps: true } ]},
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${eur(c.parsed.y)}/MWh` } } },
+          scales: { x: { ticks: { maxTicksLimit: 12, color: "#888780", font: { size: 10 } }, grid: { display: false } },
+                    y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
+      });
+      document.getElementById("chartMeta").textContent = `${p.period_start} to ${p.period_end} · ${p.zone} · source ENTSO-E`;
+    }
+    (async function main() {
+      const status = document.getElementById("status");
+      let pulse = null;
+      try { pulse = await loadJSON("pulse.json"); } catch (e) { /* handled below */ }
+      if (!pulse) {
+        status.textContent = "Could not load data. Run `python pipeline/build_pulse.py` first, then serve the folder.";
+        return;
+      }
+      renderKPIs(pulse); renderChart(pulse);
+      status.style.display = "none";
+    })();
   </script>
 </body>
 </html>

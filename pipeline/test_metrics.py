@@ -12,6 +12,7 @@ from metrics import (
     daily_spreads,
     negative_hours_by_month,
     perfect_arbitrage_revenue,
+    price_by_hour_of_day,
     to_hourly,
 )
 
@@ -114,6 +115,30 @@ def test_tb2_falls_back_to_tb1_under_4_hours():
     assert row["hours_observed"] == 3
     assert row["tb1"] == 40.0           # 50 - 10
     assert row["tb2"] == row["tb1"]     # fallback, not mean-of-2 logic
+
+
+def test_price_by_hour_of_day_weekday_weekend_split():
+    # Two weekdays (Tue 2025-07-01, Wed 2025-07-02): day2 = day1 + 10 each hour.
+    wd = pd.concat([
+        _hourly_series(list(range(24)), start="2025-07-01 00:00"),
+        _hourly_series([h + 10 for h in range(24)], start="2025-07-02 00:00"),
+    ])
+    # One weekend day (Sat 2025-07-05): price = 100 + h.
+    we = _hourly_series([100 + h for h in range(24)], start="2025-07-05 00:00")
+    out = price_by_hour_of_day(pd.concat([wd, we]))
+    assert out["hours"] == list(range(24))
+    assert out["weekday_mean"][0] == 5.0      # mean(0, 10)
+    assert out["weekday_mean"][23] == 28.0     # mean(23, 33)
+    assert out["weekend_mean"][0] == 100.0     # Saturday only
+    assert out["weekend_mean"][23] == 123.0
+    assert out["all_mean"][0] == round((0 + 10 + 100) / 3, 2)  # all three days at hour 0
+
+
+def test_price_by_hour_of_day_empty_is_safe():
+    empty = pd.Series([], dtype=float, index=pd.DatetimeIndex([], tz="Europe/Berlin"))
+    out = price_by_hour_of_day(empty)
+    assert out["hours"] == list(range(24))
+    assert all(v is None for v in out["all_mean"])
 
 
 def test_empty_input_does_not_crash():

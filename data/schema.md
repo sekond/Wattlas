@@ -53,6 +53,28 @@ Pre-computed headline figures so the frontend does no aggregation.
 }
 ```
 
+## `pulse.json`
+
+Powers the **Pulse** view: the average price shape across the hours of a local
+day, split weekday vs weekend. Arrays are length 24, indexed by local hour 0–23
+(Europe/Berlin). A slot is `null` if no data fell in that hour.
+
+```json
+{
+  "zone": "DE_LU",
+  "generated_at": "2026-06-03T10:00:00Z",
+  "period_start": "2025-06-03",
+  "period_end": "2026-06-03",
+  "hours": [0, 1, 2, "…", 23],
+  "all_mean":     [62.1, "…"],   // mean price across all days, per hour
+  "weekday_mean": [58.4, "…"],   // Mon–Fri only
+  "weekend_mean": [48.9, "…"]    // Sat–Sun only
+}
+```
+
+Means are computed on hourly-resampled prices (landmine #3) grouped in local
+time (landmine #4); negative averages are kept (landmine #6).
+
 ### Frontend obligations
 - Render `perfect_arbitrage_eur_per_mw` only alongside a visible caveat that it is an unachievable upper bound (see CLAUDE.md landmine #7).
 - Treat `complete: false` days distinctly (e.g. muted) and never break if `days` has gaps.
