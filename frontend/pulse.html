@@ -64,10 +64,10 @@
       const peak = extreme(wd, "max"), trough = extreme(wd, "min");
       const ratio = (trough.val > 0) ? (peak.val / trough.val) : null;
       const items = [
-        { label: "Priciest hour", val: peak.idx >= 0 ? hh(peak.idx) + " · " + eur(peak.val) : "—" },
-        { label: "Cheapest hour", val: trough.idx >= 0 ? hh(trough.idx) + " · " + eur(trough.val) : "—" },
+        { label: "Priciest hour", val: peak.idx >= 0 ? hh(peak.idx) + " · " + eur(peak.val) + "/MWh" : "—" },
+        { label: "Cheapest hour", val: trough.idx >= 0 ? hh(trough.idx) + " · " + eur(trough.val) + "/MWh" : "—" },
         { label: "Peak / trough", val: ratio == null ? "n/a" : ratio.toFixed(1) + "×", cls: "neg" },
-        { label: "Evening ramp", val: (peak.idx >= 0 && trough.idx >= 0) ? "+" + eur(peak.val - trough.val) : "—" },
+        { label: "Evening ramp", val: (peak.idx >= 0 && trough.idx >= 0) ? "+" + eur(peak.val - trough.val) + "/MWh" : "—" },
       ];
       document.getElementById("kpis").innerHTML = items.map(i =>
         `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
@@ -87,7 +87,7 @@
           scales: { x: { ticks: { maxTicksLimit: 12, color: "#888780", font: { size: 10 } }, grid: { display: false } },
                     y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
       });
-      document.getElementById("chartMeta").textContent = `${fmtPeriod(p.period_start, p.period_end)} · source ENTSO-E`;
+      document.getElementById("chartMeta").textContent = `${fmtPeriod(p.period_start, p.period_end)} · €/MWh · source ENTSO-E`;
     }
     (async function main() {
       const status = document.getElementById("status");

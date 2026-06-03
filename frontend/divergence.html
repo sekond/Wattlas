@@ -68,7 +68,7 @@
       const sorted = Object.entries(coupl).sort((a, b) => a[1] - b[1]);
       const items = [
         { label: "Avg DE-FR spread", val: eur(avg) + "/MWh" },
-        { label: "Widest month", val: widestIdx >= 0 ? monthLabel(d.months[widestIdx]) + " · " + eur(d.de_fr_spread[widestIdx]) : "—" },
+        { label: "Widest month", val: widestIdx >= 0 ? monthLabel(d.months[widestIdx]) + " · " + eur(d.de_fr_spread[widestIdx]) + "/MWh" : "—" },
         { label: "Most coupled", val: zoneName(sorted[0][0]), cls: "pos" },
         { label: "Most divergent", val: zoneName(sorted[sorted.length - 1][0]), cls: "neg" },
       ];
@@ -91,7 +91,7 @@
       });
       document.getElementById("zoneLegend").innerHTML = d.zones.map((z, i) =>
         `<span><span class="swatch" style="background:${COLORS[i % COLORS.length]}"></span>${zoneName(z)}</span>`).join("");
-      document.getElementById("chartMeta").textContent = `${d.months.length} months · source ENTSO-E`;
+      document.getElementById("chartMeta").textContent = `${d.months.length} months · €/MWh · source ENTSO-E`;
     }
     function renderSpreadChart(d) {
       new Chart(document.getElementById("spreadChart"), {

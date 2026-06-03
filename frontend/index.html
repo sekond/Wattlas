@@ -107,7 +107,7 @@
       const yoy = summary.yoy_tb1_change_pct;
       const items = [
         { label: "Avg daily TB1", val: eur(summary.avg_daily_tb1) + "/MWh" },
-        { label: "Widest day", val: summary.widest_day ? eur(summary.widest_day.tb1) : "—" },
+        { label: "Widest day", val: summary.widest_day ? eur(summary.widest_day.tb1) + "/MWh" : "—" },
         { label: "Negative hours", val: Math.round(summary.total_negative_hours).toLocaleString() },
         { label: "YoY change", val: yoy == null ? "n/a" : (yoy > 0 ? "+" : "") + Math.round(yoy) + "%",
           cls: yoy == null ? "" : (yoy > 0 ? "pos" : "neg") },
@@ -170,7 +170,7 @@
             x: { ticks: { maxTicksLimit: 12, color: "#888780", font: { size: 10 } }, grid: { display: false } },
             y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
       });
-      document.getElementById("chartMeta").textContent = `${days.length} days · source ENTSO-E`;
+      document.getElementById("chartMeta").textContent = `${days.length} days · €/MWh · source ENTSO-E`;
     }
     function renderNegChart(summary) {
       const m = summary.negative_hours_by_month;
