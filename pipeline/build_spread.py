@@ -25,6 +25,7 @@ import pandas as pd
 
 from metrics import (
     daily_spreads,
+    data_coverage,
     negative_hours_by_month,
     perfect_arbitrage_revenue,
 )
@@ -151,10 +152,13 @@ def build(start: pd.Timestamp, end: pd.Timestamp, prices: pd.Series | None = Non
         agg = daily
     if not daily.empty:
         widest_idx = agg["tb1"].idxmax()
+        # Report coverage over COMPLETE days only, so the partial current day
+        # doesn't make the period claim data we don't have.
+        cov_start, cov_end = data_coverage(prices, local_tz=LOCAL_TZ)
         summary = {
             "zone": ZONE,
-            "period_start": str(daily.index.min()),
-            "period_end": str(daily.index.max()),
+            "period_start": cov_start,
+            "period_end": cov_end,
             "avg_daily_tb1": round(float(agg["tb1"].mean()), 1),
             "widest_day": {
                 "date": str(widest_idx),

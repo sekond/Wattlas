@@ -151,6 +151,30 @@ def price_by_hour_of_day(prices: pd.Series, local_tz: str = "Europe/Berlin") -> 
     return out
 
 
+def data_coverage(
+    series: pd.Series, local_tz: str = "Europe/Berlin", min_hours: int = 23
+) -> tuple[str | None, str | None]:
+    """First and last local dates that have a COMPLETE day of data.
+
+    A day counts as complete if it has >= min_hours after hourly resampling
+    (23 allows the short spring-DST day; landmine #4). This deliberately excludes
+    a partial leading/trailing day — notably "today", whose data is incomplete —
+    so the period reported to the UI reflects real coverage, not the fetch window.
+
+    Returns (first, last) as 'YYYY-MM-DD' strings, or (None, None) if no complete
+    day exists.
+    """
+    hourly = to_hourly(series)
+    if hourly.empty:
+        return (None, None)
+    local = hourly.tz_convert(local_tz)
+    counts = local.groupby(local.index.date).size()
+    complete = counts[counts >= min_hours]
+    if complete.empty:
+        return (None, None)
+    return (str(min(complete.index)), str(max(complete.index)))
+
+
 def monthly_means(prices: pd.Series, local_tz: str = "Europe/Berlin") -> list[dict]:
     """Mean price per calendar month (local tz). Core metric for the Divergence
     view, computed per bidding zone so zones can be compared month by month.

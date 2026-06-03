@@ -22,7 +22,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
-from metrics import mean_profile_by_hour
+from metrics import mean_profile_by_hour, data_coverage
 from build_spread import DATA_DIR, LOCAL_TZ
 
 logger = logging.getLogger("wattlas.build_mismatch")
@@ -93,12 +93,13 @@ def build(comp: pd.DataFrame) -> None:
     share_profile = mean_profile_by_hour(share, local_tz=LOCAL_TZ)
     demand_profile = mean_profile_by_hour(load_gw, local_tz=LOCAL_TZ)
 
-    idx_local = comp.index.tz_convert(LOCAL_TZ)
+    # Period reflects complete days only (excludes the partial current day).
+    cov_start, cov_end = data_coverage(comp["load_mw"].dropna(), local_tz=LOCAL_TZ)
     payload = {
         "zone": "DE_LU",
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "period_start": str(idx_local.min().date()),
-        "period_end": str(idx_local.max().date()),
+        "period_start": cov_start,
+        "period_end": cov_end,
         "hours": list(range(24)),
         "renewable_share_pct": share_profile,  # wind+solar as % of generation
         "demand_gw": demand_profile,

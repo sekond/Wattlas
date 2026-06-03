@@ -19,7 +19,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
-from metrics import price_by_hour_of_day
+from metrics import price_by_hour_of_day, data_coverage
 # Reuse the shared fetch/cache plumbing — one source of truth for the raw series.
 from build_spread import (
     DATA_DIR,
@@ -38,12 +38,13 @@ def build(prices: pd.Series) -> None:
     """Compute the hour-of-day rhythm and write data/pulse.json."""
     pulse = price_by_hour_of_day(prices, local_tz=LOCAL_TZ)
 
-    idx_local = prices.index.tz_convert(LOCAL_TZ)
+    # Period reflects complete days only (excludes the partial current day).
+    cov_start, cov_end = data_coverage(prices, local_tz=LOCAL_TZ)
     payload = {
         "zone": ZONE,
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "period_start": str(idx_local.min().date()),
-        "period_end": str(idx_local.max().date()),
+        "period_start": cov_start,
+        "period_end": cov_end,
         **pulse,
     }
 

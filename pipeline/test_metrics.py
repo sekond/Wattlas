@@ -10,6 +10,7 @@ import pandas as pd
 
 from metrics import (
     daily_spreads,
+    data_coverage,
     mean_profile_by_hour,
     monthly_means,
     negative_hours_by_month,
@@ -154,6 +155,24 @@ def test_mean_profile_by_hour():
     assert len(prof) == 24
     assert prof[0] == 5.0
     assert prof[23] == 28.0
+
+
+def test_data_coverage_excludes_partial_trailing_day():
+    # Two full days then a partial "today" of only 5 hours — the partial day
+    # must not extend the reported coverage (the bug this guards against).
+    s = pd.concat([
+        _hourly_series([10] * 24, start="2025-07-01 00:00"),
+        _hourly_series([10] * 24, start="2025-07-02 00:00"),
+        _hourly_series([10] * 5, start="2025-07-03 00:00"),
+    ])
+    first, last = data_coverage(s)
+    assert first == "2025-07-01"
+    assert last == "2025-07-02"   # NOT 2025-07-03
+
+
+def test_data_coverage_empty():
+    empty = pd.Series([], dtype=float, index=pd.DatetimeIndex([], tz="Europe/Berlin"))
+    assert data_coverage(empty) == (None, None)
 
 
 def test_price_by_hour_of_day_empty_is_safe():

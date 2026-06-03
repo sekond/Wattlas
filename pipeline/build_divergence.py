@@ -20,7 +20,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
-from metrics import monthly_means
+from metrics import monthly_means, data_coverage
 from build_spread import DATA_DIR, LOCAL_TZ
 
 logger = logging.getLogger("wattlas.build_divergence")
@@ -64,12 +64,13 @@ def build(zone_prices: pd.DataFrame) -> None:
         for i in range(len(months))
     ]
 
-    idx_local = zone_prices.index.tz_convert(LOCAL_TZ)
+    # Period reflects complete days only (uses DE_LU as the reference zone).
+    cov_start, cov_end = data_coverage(zone_prices["DE_LU"].dropna(), local_tz=LOCAL_TZ)
     payload = {
         "zone": "DE_LU",
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "period_start": str(idx_local.min().date()),
-        "period_end": str(idx_local.max().date()),
+        "period_start": cov_start,
+        "period_end": cov_end,
         "zones": ZONES,
         "months": months,
         "series": aligned,
