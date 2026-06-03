@@ -54,15 +54,33 @@ abundant and peaks in the evening — which is exactly why prices peak then too.
 ENTSO-E API  →  pipeline/ (Python/pandas)  →  data/*.json  →  frontend/ (static JS)  →  GitHub Pages
 ```
 
-The **pipeline** is the only thing that touches ENTSO-E. It fetches ~12 months of
-data, computes each view's metrics, and writes small pre-aggregated JSON files.
-Those files are committed to the repo, so the **frontend** — vanilla JS with
-[Chart.js](https://www.chartjs.org/) from a CDN, no build step, no framework, no
-backend — just reads them and renders. Nothing is computed in the browser and
-there's nothing to break from a live API outage.
+The pipeline is the only thing that touches the ENTSO-E API. It fetches roughly a
+year of data, computes the metrics, and writes small JSON files that the frontend
+reads directly. No database, no server, nothing to break.
 
-A scheduled **GitHub Action** re-runs the pipeline daily (05:17 UTC) and commits
-the refreshed JSON to `main`; GitHub Pages redeploys automatically.
+A scheduled GitHub Action re-runs the pipeline daily (05:17 UTC) and commits the
+refreshed JSON to `main`; GitHub Pages redeploys automatically.
+
+### A note on honesty
+
+Energy data is easy to get subtly wrong, so a few correctness choices are made
+explicit in the app rather than hidden:
+
+- Prices are resampled to a consistent hourly resolution. Germany's day-ahead
+  market switched from hourly to quarter-hourly settlement in October 2025, so
+  spreads computed on hourly data are a **conservative lower bound** — true
+  15-minute spreads are wider.
+- All times are handled in local time (Europe/Berlin), including the 23- and
+  25-hour days at daylight-saving transitions.
+- Where the app shows a theoretical battery-arbitrage figure, it is labelled as
+  an **upper bound** that assumes perfect foresight and no losses — not achievable
+  revenue.
+
+### Status
+
+A working, deployed learning project. The data engineering is complete and the
+numbers reproduce known structural features of the German and European markets.
+It is not a commercial product and makes no investment recommendations.
 
 ## Run it locally
 
@@ -103,24 +121,6 @@ Action; locally it's a manual run.
 - `frontend/util.js`, `frontend/styles.css` — shared frontend helpers and styles
 - `.github/workflows/refresh-data.yml` — daily data refresh
 
-## Data notes & caveats
-
-These are the non-obvious facts the pipeline is built around:
-
-- **Bidding zones, not countries.** Germany trades as the combined **DE-LU** zone,
-  shared with Luxembourg.
-- **A resolution break in Oct 2025.** The German day-ahead market switched from
-  hourly to quarter-hourly settlement. Everything is resampled to a single hourly
-  grid before metrics are computed — so post-Oct spreads are a *conservative lower
-  bound* on the true 15-minute spread, never an overstatement.
-- **Timezones & DST.** Days are grouped in local (Europe/Berlin) time, so a day
-  can legitimately have 23 or 25 hours.
-- **Negative prices are real.** They are kept, never clipped — and residual load
-  (Mismatch) can likewise go negative when renewables exceed demand.
-- **The arbitrage figure is an upper bound.** It assumes perfect foresight and no
-  losses, so it materially overstates achievable battery revenue. It is always
-  labelled as such in the UI. Don't quote it as a target.
-
 ## Tests
 
 ```
@@ -133,3 +133,9 @@ and 25-hour autumn switch, the Oct-2025 resolution break, negative prices,
 data-gap days, TB2 fallback, hour-of-day and monthly aggregations). `test_build.py`
 runs the full `build()` against a fixture into a temp directory and asserts the
 JSON is written with schema-correct keys — all without network.
+
+## Data source
+
+[ENTSO-E Transparency Platform](https://transparency.entsoe.eu) — the European
+transmission operators' open data platform. A free API token is required to
+re-run the pipeline; see the setup instructions above.
