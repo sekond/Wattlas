@@ -41,6 +41,7 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="util.js"></script>
   <script>
     const eur = (n) => "€" + Math.round(n);
     const COLORS = ["#185fa5", "#a32d2d", "#3b6d11", "#b8860b", "#7a4fa3", "#2f8f8f"];
@@ -68,8 +69,8 @@
       const items = [
         { label: "Avg DE-FR spread", val: eur(avg) + "/MWh" },
         { label: "Widest month", val: widestIdx >= 0 ? monthLabel(d.months[widestIdx]) + " · " + eur(d.de_fr_spread[widestIdx]) : "—" },
-        { label: "Most coupled", val: sorted[0][0], cls: "pos" },
-        { label: "Most divergent", val: sorted[sorted.length - 1][0], cls: "neg" },
+        { label: "Most coupled", val: zoneName(sorted[0][0]), cls: "pos" },
+        { label: "Most divergent", val: zoneName(sorted[sorted.length - 1][0]), cls: "neg" },
       ];
       document.getElementById("kpis").innerHTML = items.map(i =>
         `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
@@ -77,7 +78,7 @@
     function renderZoneChart(d) {
       const labels = d.months.map(monthLabel);
       const datasets = d.zones.map((z, i) => ({
-        label: z, data: d.series[z], borderColor: COLORS[i % COLORS.length],
+        label: zoneName(z), data: d.series[z], borderColor: COLORS[i % COLORS.length],
         backgroundColor: "transparent", fill: false, tension: 0.3, pointRadius: 0, borderWidth: 2, spanGaps: true,
       }));
       new Chart(document.getElementById("zoneChart"), {
@@ -89,7 +90,7 @@
                     y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
       });
       document.getElementById("zoneLegend").innerHTML = d.zones.map((z, i) =>
-        `<span><span class="swatch" style="background:${COLORS[i % COLORS.length]}"></span>${z}</span>`).join("");
+        `<span><span class="swatch" style="background:${COLORS[i % COLORS.length]}"></span>${zoneName(z)}</span>`).join("");
       document.getElementById("chartMeta").textContent = `${d.months.length} months · source ENTSO-E`;
     }
     function renderSpreadChart(d) {
@@ -109,7 +110,7 @@
       let d = null;
       try { d = await loadJSON("divergence.json"); } catch (e) {}
       if (!d) { status.textContent = "Could not load data. Run `python pipeline/build_divergence.py` first, then serve the folder."; return; }
-      document.getElementById("periodNote").textContent = `${d.zones.join(", ")} · day-ahead prices, ${d.period_start} to ${d.period_end}`;
+      document.getElementById("periodNote").textContent = `Data shown for ${fmtPeriod(d.period_start, d.period_end)}`;
       renderKPIs(d); renderZoneChart(d); renderSpreadChart(d);
       status.style.display = "none";
     })();
