@@ -10,6 +10,8 @@ import pandas as pd
 
 from metrics import (
     daily_spreads,
+    mean_profile_by_hour,
+    monthly_means,
     negative_hours_by_month,
     perfect_arbitrage_revenue,
     price_by_hour_of_day,
@@ -132,6 +134,26 @@ def test_price_by_hour_of_day_weekday_weekend_split():
     assert out["weekend_mean"][0] == 100.0     # Saturday only
     assert out["weekend_mean"][23] == 123.0
     assert out["all_mean"][0] == round((0 + 10 + 100) / 3, 2)  # all three days at hour 0
+
+
+def test_monthly_means():
+    # 48 hourly values in July, all = 10 -> July mean 10. Add 24h in August = 20.
+    jul = _hourly_series([10] * 48, start="2025-07-01 00:00")
+    aug = _hourly_series([20] * 24, start="2025-08-01 00:00")
+    out = monthly_means(pd.concat([jul, aug]))
+    assert out == [{"month": "2025-07", "mean": 10.0}, {"month": "2025-08", "mean": 20.0}]
+
+
+def test_mean_profile_by_hour():
+    # Two days; hour h = h on day1, h+10 on day2 -> profile[h] = h+5.
+    s = pd.concat([
+        _hourly_series(list(range(24)), start="2025-07-01 00:00"),
+        _hourly_series([h + 10 for h in range(24)], start="2025-07-02 00:00"),
+    ])
+    prof = mean_profile_by_hour(s)
+    assert len(prof) == 24
+    assert prof[0] == 5.0
+    assert prof[23] == 28.0
 
 
 def test_price_by_hour_of_day_empty_is_safe():

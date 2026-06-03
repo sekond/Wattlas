@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wattlas — Mismatch (mockup)</title>
+  <title>Wattlas — Mismatch</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -18,64 +18,85 @@
       </div>
     </div>
     <h1>Mismatch</h1>
-    <p class="sub">When the sun shines but no one's home — the timing gap between renewable supply and demand.</p>
-    <div class="mock-banner"><strong>MOCKUP — illustrative data, not real.</strong>
-      This is a design placeholder for a future view. The numbers below are invented to show the layout and are not from ENTSO-E.</div>
+    <p class="sub">When the sun shines but no one's home — the timing gap between wind+solar supply and demand.</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 24px;"></div>
 
     <div id="kpis" class="kpis"></div>
 
     <div class="card">
       <div class="head">
-        <div class="title">Renewable share vs demand by hour of day — DE-LU</div>
-        <div class="meta">illustrative</div>
+        <div class="title">Wind+solar share of generation vs demand, by hour of day — DE-LU</div>
+        <div class="meta" id="chartMeta"></div>
       </div>
       <canvas id="mismatchChart" height="120"></canvas>
       <div class="legend">
-        <span><span class="swatch" style="background:#3b6d11"></span>Renewable share (%)</span>
+        <span><span class="swatch" style="background:#3b6d11"></span>Wind+solar share (%)</span>
         <span><span class="swatch" style="background:#185fa5"></span>Demand (GW)</span>
       </div>
+      <div class="meta" style="margin-top:8px;">Averaged by local hour of day. "Renewable share" here means wind + solar as a percentage of total generation. Source: ENTSO-E.</div>
     </div>
+    <div id="status" class="loading">Loading data…</div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <script>
-    // --- MOCK DATA (invented, illustrative only) -------------------------
-    const hours = Array.from({length: 24}, (_, h) => String(h).padStart(2, "0") + ":00");
-    const reShare = [35, 33, 32, 34, 38, 42, 48, 55, 65, 74, 82, 88, 90, 88, 82, 72, 58, 45, 38, 35, 36, 34, 33, 34];
-    const demand  = [48, 45, 44, 44, 46, 52, 62, 70, 72, 71, 70, 71, 72, 70, 68, 67, 70, 75, 78, 76, 70, 62, 55, 50];
-    // ---------------------------------------------------------------------
-    const rePeakIdx = reShare.indexOf(Math.max(...reShare));
-    const demPeakIdx = demand.indexOf(Math.max(...demand));
-    const hoursOver80 = reShare.filter(v => v > 80).length;
-    const eveningGap = reShare[demPeakIdx]; // renewable share at the evening demand peak
-
-    const kpis = [
-      { label: "Renewable peak", val: hours[rePeakIdx] + " · " + Math.round(reShare[rePeakIdx]) + "%" },
-      { label: "Demand peak", val: hours[demPeakIdx] + " · " + Math.round(demand[demPeakIdx]) + " GW" },
-      { label: "Hours RE > 80%", val: hoursOver80 + " h", cls: "pos" },
-      { label: "RE at demand peak", val: Math.round(eveningGap) + "%", cls: "neg" },
-    ];
-    document.getElementById("kpis").innerHTML = kpis.map(i =>
-      `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
-
-    new Chart(document.getElementById("mismatchChart"), {
-      type: "line",
-      data: { labels: hours, datasets: [
-        { label: "Renewable share", data: reShare, yAxisID: "y", borderColor: "#3b6d11",
-          backgroundColor: "rgba(59,109,17,0.10)", fill: true, tension: 0.35, pointRadius: 0, borderWidth: 2 },
-        { label: "Demand", data: demand, yAxisID: "y1", borderColor: "#185fa5",
-          backgroundColor: "transparent", fill: false, tension: 0.35, pointRadius: 0, borderWidth: 2 } ]},
-      options: { responsive: true, animation: false,
-        plugins: { legend: { display: false },
-          tooltip: { callbacks: { label: (c) => c.dataset.label === "Demand"
-            ? `Demand: ${Math.round(c.parsed.y)} GW` : `Renewable share: ${Math.round(c.parsed.y)}%` } } },
-        scales: {
-          x: { ticks: { maxTicksLimit: 12, color: "#888780", font: { size: 10 } }, grid: { display: false } },
-          y: { position: "left", min: 0, max: 100, ticks: { color: "#3b6d11", font: { size: 10 }, callback: (v) => v + "%" },
-               grid: { color: "rgba(0,0,0,0.05)" } },
-          y1: { position: "right", min: 0, max: 100, ticks: { color: "#185fa5", font: { size: 10 }, callback: (v) => v + " GW" },
-                grid: { display: false } } } },
-    });
+    const hh = (h) => String(h).padStart(2, "0") + ":00";
+    async function loadJSON(name) {
+      for (const path of ["../data/" + name, "data/" + name, "/data/" + name]) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) {}
+      }
+      throw new Error("could not load " + name);
+    }
+    function extreme(arr, want) {
+      let idx = -1, val = want === "max" ? -Infinity : Infinity;
+      arr.forEach((v, i) => { if (v == null) return;
+        if ((want === "max" && v > val) || (want === "min" && v < val)) { val = v; idx = i; } });
+      return { idx, val };
+    }
+    function renderKPIs(m) {
+      const rs = m.renewable_share_pct, dg = m.demand_gw;
+      const rpk = extreme(rs, "max"), dpk = extreme(dg, "max");
+      const over50 = rs.filter(v => v != null && v > 50).length;
+      const items = [
+        { label: "Wind+solar peak", val: rpk.idx >= 0 ? hh(rpk.idx) + " · " + Math.round(rpk.val) + "%" : "—", cls: "pos" },
+        { label: "Demand peak", val: dpk.idx >= 0 ? hh(dpk.idx) + " · " + Math.round(dpk.val) + " GW" : "—" },
+        { label: "Hours share > 50%", val: over50 + " h" },
+        { label: "Share at demand peak", val: dpk.idx >= 0 ? Math.round(rs[dpk.idx]) + "%" : "—", cls: "neg" },
+      ];
+      document.getElementById("kpis").innerHTML = items.map(i =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
+    }
+    function renderChart(m) {
+      const labels = m.hours.map(hh);
+      new Chart(document.getElementById("mismatchChart"), {
+        type: "line",
+        data: { labels, datasets: [
+          { label: "Wind+solar share", data: m.renewable_share_pct, yAxisID: "y", borderColor: "#3b6d11",
+            backgroundColor: "rgba(59,109,17,0.10)", fill: true, tension: 0.35, pointRadius: 0, borderWidth: 2, spanGaps: true },
+          { label: "Demand", data: m.demand_gw, yAxisID: "y1", borderColor: "#185fa5",
+            backgroundColor: "transparent", fill: false, tension: 0.35, pointRadius: 0, borderWidth: 2, spanGaps: true } ]},
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => c.dataset.label === "Demand"
+              ? `Demand: ${Math.round(c.parsed.y)} GW` : `Wind+solar share: ${Math.round(c.parsed.y)}%` } } },
+          scales: {
+            x: { ticks: { maxTicksLimit: 12, color: "#888780", font: { size: 10 } }, grid: { display: false } },
+            y: { position: "left", min: 0, max: 100, ticks: { color: "#3b6d11", font: { size: 10 }, callback: (v) => v + "%" },
+                 grid: { color: "rgba(0,0,0,0.05)" } },
+            y1: { position: "right", min: 0, ticks: { color: "#185fa5", font: { size: 10 }, callback: (v) => v + " GW" },
+                  grid: { display: false } } } },
+      });
+      document.getElementById("chartMeta").textContent = `${m.zone} · source ENTSO-E`;
+    }
+    (async function main() {
+      const status = document.getElementById("status");
+      let m = null;
+      try { m = await loadJSON("mismatch.json"); } catch (e) {}
+      if (!m) { status.textContent = "Could not load data. Run `python pipeline/build_mismatch.py` first, then serve the folder."; return; }
+      document.getElementById("periodNote").textContent = `DE-LU generation + load, ${m.period_start} to ${m.period_end}`;
+      renderKPIs(m); renderChart(m);
+      status.style.display = "none";
+    })();
   </script>
 </body>
 </html>

@@ -30,8 +30,14 @@ copy-paste prompts. Run `python bootstrap.py` first to check everything is in pl
    Settings → Web API Security Token).
 2. `cp .env.example .env` and paste your token in.
 3. Install deps: `pip install -r requirements.txt`
-4. Build the data: `python pipeline/build_spread.py`
-   (re-run offline from cache once fetched: `python pipeline/build_spread.py --use-cache`)
+4. Build the data — one script per view (each supports `--use-cache` for offline
+   re-runs once fetched):
+   ```
+   python pipeline/build_spread.py        # The Spread  -> data/spread*.json
+   python pipeline/build_pulse.py         # Pulse       -> data/pulse.json
+   python pipeline/build_divergence.py    # Divergence  -> data/divergence.json
+   python pipeline/build_mismatch.py      # Mismatch    -> data/mismatch.json
+   ```
 5. Serve the site from the repo root and open the frontend:
    `python -m http.server 8000` then visit `http://localhost:8000/frontend/index.html`
 
@@ -68,11 +74,13 @@ files are written with schema-correct keys — all without network.
 ## Layout
 
 - `CLAUDE.md` — instructions + domain landmines for Claude Code (read this first)
-- `pipeline/metrics.py` — pure, testable metric computations
-- `pipeline/build_spread.py` — fetch + orchestrate + write JSON
-- `pipeline/test_metrics.py` — offline unit tests
+- `pipeline/metrics.py` — pure, testable metric computations (shared across views)
+- `pipeline/build_spread.py` / `build_pulse.py` / `build_divergence.py` / `build_mismatch.py`
+  — one fetch+compute+write script per view (all reuse the metrics + cache plumbing)
+- `pipeline/test_metrics.py`, `pipeline/test_build.py` — offline unit tests
 - `data/schema.md` — the JSON contract between pipeline and frontend
-- `frontend/index.html` — the static Spread view (Chart.js via CDN)
+- `frontend/index.html` — Spread view; `frontend/{pulse,divergence,mismatch}.html` — the other views
+- `frontend/styles.css` — shared styles for the non-Spread views
 - `prompts/implementation_prompts.md` — sequenced prompts to take v1 to "real, tested, polished"
 
 ## A note on the arbitrage number

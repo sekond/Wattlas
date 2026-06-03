@@ -57,6 +57,7 @@
     </div>
     <h1>The Spread</h1>
     <p class="sub">How wide is the gap each day between the cheapest and most expensive hour of electricity?</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 24px;"></div>
     <div id="kpis" class="kpis"></div>
     <div class="card">
       <div class="head">
@@ -203,7 +204,11 @@
           "Could not load data. Run `python pipeline/build_spread.py` first, then serve the folder.";
         return;
       }
-      if (summary) { renderKPIs(summary); renderNegChart(summary); renderArbitrage(summary); }
+      if (summary) {
+        document.getElementById("periodNote").textContent =
+          `${summary.zone} · day-ahead prices, ${summary.period_start} to ${summary.period_end}`;
+        renderKPIs(summary); renderNegChart(summary); renderArbitrage(summary);
+      }
       if (spread) { renderSpreadChart(spread); }
 
       if (spread && summary) {

@@ -151,6 +151,43 @@ def price_by_hour_of_day(prices: pd.Series, local_tz: str = "Europe/Berlin") -> 
     return out
 
 
+def monthly_means(prices: pd.Series, local_tz: str = "Europe/Berlin") -> list[dict]:
+    """Mean price per calendar month (local tz). Core metric for the Divergence
+    view, computed per bidding zone so zones can be compared month by month.
+
+    Resamples to canonical hourly first (landmine #3); months are local-calendar
+    (landmine #4). Values rounded to 2 dp.
+    """
+    hourly = to_hourly(prices)
+    if hourly.empty:
+        return []
+    local = hourly.tz_convert(local_tz)
+    # Group by local calendar month. Drop tz to local wall-time first so
+    # to_period doesn't warn about discarding tzinfo (the conversion above
+    # already put us in local time, so the month assignment is correct).
+    months = local.index.tz_localize(None).to_period("M")
+    grouped = local.groupby(months).mean()
+    return [{"month": str(period), "mean": round(float(v), 2)} for period, v in grouped.items()]
+
+
+def mean_profile_by_hour(series: pd.Series, local_tz: str = "Europe/Berlin") -> list:
+    """Mean value for each hour of the local day (0-23). Generic profile used by
+    the Mismatch view for both renewable-share and demand series.
+
+    Resamples to canonical hourly first (landmine #3), groups by local hour
+    (landmine #4). Returns a 24-length list; a slot is None if no data fell in
+    that hour. Values rounded to 2 dp.
+    """
+    out = [None] * 24
+    hourly = to_hourly(series)
+    if hourly.empty:
+        return out
+    local = hourly.tz_convert(local_tz)
+    for hour, mean in local.groupby(local.index.hour).mean().items():
+        out[int(hour)] = round(float(mean), 2)
+    return out
+
+
 def negative_hours_by_month(daily: pd.DataFrame) -> list[dict]:
     """Aggregate negative-hour counts by calendar month from a daily DataFrame."""
     if daily.empty:

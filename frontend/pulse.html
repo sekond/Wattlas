@@ -19,6 +19,7 @@
     </div>
     <h1>Pulse</h1>
     <p class="sub">The daily rhythm — how the price of electricity rises and falls across the hours of an average day.</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 24px;"></div>
 
     <div id="kpis" class="kpis"></div>
 
@@ -95,6 +96,8 @@
         status.textContent = "Could not load data. Run `python pipeline/build_pulse.py` first, then serve the folder.";
         return;
       }
+      document.getElementById("periodNote").textContent =
+        `${pulse.zone} · day-ahead prices, ${pulse.period_start} to ${pulse.period_end}`;
       renderKPIs(pulse); renderChart(pulse);
       status.style.display = "none";
     })();

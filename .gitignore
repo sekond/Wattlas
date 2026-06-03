@@ -2,4 +2,4 @@
 __pycache__/
 *.pyc
 .venv/
-data/_raw_prices.parquet
+data/_raw_*.parquet
