@@ -96,24 +96,26 @@ A slot is `null` if a zone has no data that month.
 
 ## `mismatch.json`
 
-Powers the **Mismatch** view: the hour-of-day profile of wind+solar share of
-generation vs demand, for DE-LU. Arrays are length 24 (local hour 0–23); a slot
-is `null` if no data fell in that hour.
+Powers the **Mismatch** view: the hour-of-day profile of **residual load** for
+DE-LU. Arrays are length 24 (local hour 0–23); a slot is `null` if no data fell
+in that hour.
 
 ```json
 {
   "zone": "DE_LU",
   "generated_at": "2026-06-03T10:00:00Z",
   "period_start": "2025-06-03",
-  "period_end": "2026-06-03",
+  "period_end": "2026-06-02",
   "hours": [0, 1, "…", 23],
-  "renewable_share_pct": [38.6, "…"],   // wind + solar as % of total generation
-  "demand_gw": [49.4, "…"]              // actual load, GW
+  "residual_load_gw": [33.1, "…"],   // total load - (wind onshore+offshore+solar), GW; MAY BE NEGATIVE
+  "total_load_gw": [49.4, "…"]       // total actual load, GW
 }
 ```
 
 Both are computed on hourly-resampled data (landmine #3) grouped in local time
-(landmine #4).
+(landmine #4). `residual_load_gw` is **not clipped**: a negative value (renewables
+exceeding domestic load) is a real, interesting signal (landmine #6). The
+renewable contribution per hour is `total_load_gw − residual_load_gw`.
 
 ### Frontend obligations
 - Render `perfect_arbitrage_eur_per_mw` only alongside a visible caveat that it is an unachievable upper bound (see CLAUDE.md landmine #7).

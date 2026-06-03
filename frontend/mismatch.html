@@ -18,22 +18,23 @@
       </div>
     </div>
     <h1>Mismatch</h1>
-    <p class="sub">When the sun shines but no one's home — the timing gap between wind+solar supply and demand.</p>
+    <p class="sub">Residual load — the demand left for conventional plants and batteries after wind and solar. It dips midday when solar is abundant and peaks in the evening, when solar fades but people are still home.</p>
     <div class="meta" id="periodNote" style="margin:-16px 0 24px;"></div>
 
     <div id="kpis" class="kpis"></div>
 
     <div class="card">
       <div class="head">
-        <div class="title">Wind+solar share of generation vs demand, by hour of day — DE-LU</div>
+        <div class="title">Residual load by hour of day — DE-LU</div>
         <div class="meta" id="chartMeta"></div>
       </div>
-      <canvas id="mismatchChart" height="120"></canvas>
+      <canvas id="residualChart" height="120"></canvas>
       <div class="legend">
-        <span><span class="swatch" style="background:#3b6d11"></span>Wind+solar share (%)</span>
-        <span><span class="swatch" style="background:#185fa5"></span>Demand (GW)</span>
+        <span><span class="swatch" style="background:#185fa5"></span>Residual load (GW)</span>
+        <span><span class="swatch" style="background:#9b9a94"></span>Total load (GW)</span>
+        <span><span class="swatch" style="background:rgba(59,109,17,0.45)"></span>Covered by wind+solar</span>
       </div>
-      <div class="meta" style="margin-top:8px;">Averaged by local hour of day. "Renewable share" here means wind + solar as a percentage of total generation. Source: ENTSO-E.</div>
+      <div class="meta" style="margin-top:8px;">Residual load = total demand − wind+solar generation. The shaded band is the demand met by wind+solar; its evening collapse is the point. Residual load can go negative when renewables exceed demand. Source: ENTSO-E.</div>
     </div>
     <div id="status" class="loading">Loading data…</div>
   </div>
@@ -42,6 +43,7 @@
   <script src="util.js"></script>
   <script>
     const hh = (h) => String(h).padStart(2, "0") + ":00";
+    const gw = (n) => Math.round(n) + " GW";
     async function loadJSON(name) {
       for (const path of ["../data/" + name, "data/" + name, "/data/" + name]) {
         try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) {}
@@ -55,37 +57,46 @@
       return { idx, val };
     }
     function renderKPIs(m) {
-      const rs = m.renewable_share_pct, dg = m.demand_gw;
-      const rpk = extreme(rs, "max"), dpk = extreme(dg, "max");
-      const over50 = rs.filter(v => v != null && v > 50).length;
+      const res = m.residual_load_gw, tot = m.total_load_gw;
+      const peak = extreme(res, "max"), trough = extreme(res, "min");
+      // Hours where wind+solar (= total − residual) covers more than half of load.
+      let over50 = 0;
+      for (let h = 0; h < 24; h++) {
+        const t = tot[h], r = res[h];
+        if (t == null || r == null || t <= 0) continue;
+        if ((t - r) > 0.5 * t) over50++;
+      }
       const items = [
-        { label: "Wind+solar peak", val: rpk.idx >= 0 ? hh(rpk.idx) + " · " + Math.round(rpk.val) + "%" : "—", cls: "pos" },
-        { label: "Demand peak", val: dpk.idx >= 0 ? hh(dpk.idx) + " · " + Math.round(dpk.val) + " GW" : "—" },
-        { label: "Hours share > 50%", val: over50 + " h" },
-        { label: "Share at demand peak", val: dpk.idx >= 0 ? Math.round(rs[dpk.idx]) + "%" : "—", cls: "neg" },
+        { label: "Residual peak", val: peak.idx >= 0 ? hh(peak.idx) + " · " + gw(peak.val) : "—", cls: "neg" },
+        { label: "Residual trough", val: trough.idx >= 0 ? hh(trough.idx) + " · " + gw(trough.val) : "—", cls: "pos" },
+        { label: "Midday→evening swing", val: (peak.idx >= 0 && trough.idx >= 0) ? "+" + gw(peak.val - trough.val) : "—" },
+        { label: "Hours wind+solar > 50%", val: over50 + " h" },
       ];
       document.getElementById("kpis").innerHTML = items.map(i =>
         `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
     }
     function renderChart(m) {
       const labels = m.hours.map(hh);
-      new Chart(document.getElementById("mismatchChart"), {
+      new Chart(document.getElementById("residualChart"), {
         type: "line",
         data: { labels, datasets: [
-          { label: "Wind+solar share", data: m.renewable_share_pct, yAxisID: "y", borderColor: "#3b6d11",
-            backgroundColor: "rgba(59,109,17,0.10)", fill: true, tension: 0.35, pointRadius: 0, borderWidth: 2, spanGaps: true },
-          { label: "Demand", data: m.demand_gw, yAxisID: "y1", borderColor: "#185fa5",
-            backgroundColor: "transparent", fill: false, tension: 0.35, pointRadius: 0, borderWidth: 2, spanGaps: true } ]},
+          // Total load: lighter reference line (dataset index 0 = fill target).
+          { label: "Total load", data: m.total_load_gw, borderColor: "#9b9a94",
+            backgroundColor: "transparent", fill: false, tension: 0.35, pointRadius: 0,
+            borderWidth: 1.5, borderDash: [4, 3], spanGaps: true },
+          // Residual load: prominent line; fill the band up to total load (= the
+          // demand covered by wind+solar).
+          { label: "Residual load", data: m.residual_load_gw, borderColor: "#185fa5",
+            backgroundColor: "rgba(59,109,17,0.15)", fill: { target: 0 }, tension: 0.35,
+            pointRadius: 0, borderWidth: 2.5, spanGaps: true } ]},
         options: { responsive: true, animation: false,
           plugins: { legend: { display: false },
-            tooltip: { callbacks: { label: (c) => c.dataset.label === "Demand"
-              ? `Demand: ${Math.round(c.parsed.y)} GW` : `Wind+solar share: ${Math.round(c.parsed.y)}%` } } },
+            tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${gw(c.parsed.y)}` } } },
           scales: {
             x: { ticks: { maxTicksLimit: 12, color: "#888780", font: { size: 10 } }, grid: { display: false } },
-            y: { position: "left", min: 0, max: 100, ticks: { color: "#3b6d11", font: { size: 10 }, callback: (v) => v + "%" },
-                 grid: { color: "rgba(0,0,0,0.05)" } },
-            y1: { position: "right", min: 0, ticks: { color: "#185fa5", font: { size: 10 }, callback: (v) => v + " GW" },
-                  grid: { display: false } } } },
+            // No min: residual load can be negative — let the axis show it.
+            y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => v + " GW" },
+                 grid: { color: "rgba(0,0,0,0.05)" } } } },
       });
       document.getElementById("chartMeta").textContent = `source ENTSO-E`;
     }

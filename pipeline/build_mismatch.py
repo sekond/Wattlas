@@ -1,12 +1,15 @@
-"""Build the Mismatch view data: wind+solar share of generation vs electricity
-demand, by hour of the local day, for DE-LU. Writes data/mismatch.json.
+"""Build the Mismatch view data: residual load by hour of the local day, for
+DE-LU. Writes data/mismatch.json.
 
 Run: python pipeline/build_mismatch.py            (fetches 12 months)
      python pipeline/build_mismatch.py --use-cache (offline, parquet cache)
 
-The story: variable renewables (wind+solar) peak midday while demand peaks in the
-morning and evening — a timing mismatch. We report the *wind+solar share of
-generation* (not all renewables) because those two are what drive the mismatch.
+The story: RESIDUAL LOAD = total demand minus wind+solar generation — the demand
+that conventional plants and batteries must actually cover. It dips midday when
+solar is abundant and peaks in the evening when solar vanishes but people are
+home. That evening residual-load peak is what drives the evening price spike seen
+in the Pulse view (~19:00). Residual load can legitimately go negative when
+renewables exceed domestic load — we never clip it (landmine #6).
 
 See CLAUDE.md for the data landmines (resolution resampling, local-tz grouping).
 """
@@ -84,14 +87,17 @@ def fetch_components(start: pd.Timestamp, end: pd.Timestamp) -> pd.DataFrame:
 
 
 def build(comp: pd.DataFrame) -> None:
-    """Compute hour-of-day profiles for renewable share and demand; write JSON."""
-    # Share per timestamp where there is generation, then averaged by hour.
-    mask = comp["total_mw"] > 0
-    share = comp.loc[mask, "renewable_mw"] / comp.loc[mask, "total_mw"] * 100.0
-    load_gw = (comp["load_mw"] / 1000.0).dropna()  # MW -> GW for readability
+    """Compute hour-of-day residual-load + total-load profiles; write JSON.
 
-    share_profile = mean_profile_by_hour(share, local_tz=LOCAL_TZ)
-    demand_profile = mean_profile_by_hour(load_gw, local_tz=LOCAL_TZ)
+    Residual load = total load - wind+solar generation, per timestamp, in GW.
+    It can legitimately be negative when renewables exceed domestic load
+    (landmine #6) — never clipped. dropna aligns load and generation.
+    """
+    residual_gw = ((comp["load_mw"] - comp["renewable_mw"]) / 1000.0).dropna()
+    total_load_gw = (comp["load_mw"] / 1000.0).dropna()  # MW -> GW
+
+    residual_profile = mean_profile_by_hour(residual_gw, local_tz=LOCAL_TZ)
+    total_profile = mean_profile_by_hour(total_load_gw, local_tz=LOCAL_TZ)
 
     # Period reflects complete days only (excludes the partial current day).
     cov_start, cov_end = data_coverage(comp["load_mw"].dropna(), local_tz=LOCAL_TZ)
@@ -101,12 +107,21 @@ def build(comp: pd.DataFrame) -> None:
         "period_start": cov_start,
         "period_end": cov_end,
         "hours": list(range(24)),
-        "renewable_share_pct": share_profile,  # wind+solar as % of generation
-        "demand_gw": demand_profile,
+        "residual_load_gw": residual_profile,  # total load - (wind+solar), GW; may be negative
+        "total_load_gw": total_profile,        # total actual load, GW
     }
     DATA_DIR.mkdir(exist_ok=True)
     (DATA_DIR / "mismatch.json").write_text(json.dumps(payload, indent=2))
-    logger.info("wrote data/mismatch.json (24-hour profiles)")
+
+    # Console confirmation: the peak should land in the evening, aligning with the
+    # Pulse price peak (~19:00) — that alignment is the correctness check.
+    pts = [(h, v) for h, v in enumerate(residual_profile) if v is not None]
+    peak = max(pts, key=lambda x: x[1])
+    trough = min(pts, key=lambda x: x[1])
+    logger.info(
+        "wrote data/mismatch.json — residual-load peak %02d:00 (%.1f GW), trough %02d:00 (%.1f GW)",
+        peak[0], peak[1], trough[0], trough[1],
+    )
 
 
 def main() -> None:
