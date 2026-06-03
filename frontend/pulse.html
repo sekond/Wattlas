@@ -66,7 +66,7 @@
       const items = [
         { label: "Priciest hour", val: peak.idx >= 0 ? hh(peak.idx) + " · " + eur(peak.val) + "/MWh" : "—" },
         { label: "Cheapest hour", val: trough.idx >= 0 ? hh(trough.idx) + " · " + eur(trough.val) + "/MWh" : "—" },
-        { label: "Peak / trough", val: ratio == null ? "n/a" : ratio.toFixed(1) + "×", cls: "neg" },
+        { label: "Peak-to-trough", val: ratio == null ? "n/a" : ratio.toFixed(1) + "×", cls: "neg" },
         { label: "Evening ramp", val: (peak.idx >= 0 && trough.idx >= 0) ? "+" + eur(peak.val - trough.val) + "/MWh" : "—" },
       ];
       document.getElementById("kpis").innerHTML = items.map(i =>
