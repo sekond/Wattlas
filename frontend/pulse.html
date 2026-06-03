@@ -87,7 +87,7 @@
           scales: { x: { ticks: { maxTicksLimit: 12, color: "#888780", font: { size: 10 } }, grid: { display: false } },
                     y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
       });
-      document.getElementById("chartMeta").textContent = `${fmtPeriod(p.period_start, p.period_end)} · €/MWh · source ENTSO-E`;
+      document.getElementById("chartMeta").textContent = `€/MWh · source ENTSO-E`;
     }
     (async function main() {
       const status = document.getElementById("status");
