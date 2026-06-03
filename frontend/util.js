@@ -12,11 +12,11 @@ const MONTHS_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "S
 // "DE_LU" -> "Germany (DE-LU)"; unknown codes fall back to the code itself.
 function zoneName(code) { return ZONE_NAMES[code] || code; }
 
-// "2025-06-03" -> "3 Jun 2025"
-function fmtDate(iso) {
-  const [y, m, d] = iso.split("-");
-  return `${parseInt(d, 10)} ${MONTHS_SHORT[parseInt(m, 10) - 1]} ${y}`;
+// "2025-06-03" -> "Jun 2025"
+function fmtMonthYear(iso) {
+  const [y, m] = iso.split("-");
+  return `${MONTHS_SHORT[parseInt(m, 10) - 1]} ${y}`;
 }
 
-// ("2025-06-03","2026-06-03") -> "3 Jun 2025 – 3 Jun 2026"
-function fmtPeriod(start, end) { return `${fmtDate(start)} – ${fmtDate(end)}`; }
+// ("2025-06-03","2026-06-02") -> "Jun 2025 – Jun 2026"
+function fmtPeriod(start, end) { return `${fmtMonthYear(start)} – ${fmtMonthYear(end)}`; }
