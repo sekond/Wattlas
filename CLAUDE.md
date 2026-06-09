@@ -19,6 +19,12 @@ Never advance past a failed or wrong-looking result; stop and propose a fix.
 
 Run `bootstrap.py` first to verify the project is correctly assembled.
 
+**For the v2 expansion** (more data sources + a consolidated dashboard): the plan
+is in `ROADMAP_V2.md`, driven by `RUN_V2.md`, with prompts in
+`prompts/v2_prompts.md`. When the user says "Follow RUN_V2.md", run those phases
+one at a time with the same confirmation-gated protocol. Read the v2 landmines
+below before starting any v2 phase.
+
 ## Project Overview
 
 Wattlas is a web application that explores the temporal and financial dimensions of European electricity markets, with a focus on the renewable-energy transition. It pulls open data from the ENTSO-E Transparency Platform, computes market metrics in a Python/pandas pipeline, writes small pre-aggregated JSON files, and renders them in a static JavaScript frontend.
@@ -55,6 +61,44 @@ These are non-obvious facts about the data. Getting them wrong produces code tha
 7. **The "perfect-arbitrage revenue" number is an UPPER BOUND, and must always be labelled as such** in both code comments and any text the frontend displays. It assumes perfect foresight, zero round-trip losses, and no price impact, so it materially overstates real battery revenue. Never present it as achievable revenue. This hedge is a credibility requirement, not a nicety.
 
 8. **Missing data happens.** ENTSO-E has gaps. The pipeline must not crash on a missing day; it should record which days are missing and continue. The frontend must render gracefully when a day is absent.
+
+## v2 expansion landmines (read before the v2 phases — see ROADMAP_V2.md)
+
+9. **Generation-by-type is messier than prices.** More categories, more gaps,
+   underreported buckets, and an "other/unknown" category. Never fabricate a
+   clean stacked area from incomplete data — show gaps honestly. Keep a single
+   canonical fuel-colour palette defined in ONE place and reused across every
+   view (a fuel is always the same colour everywhere).
+
+10. **Flows are directional and capacity is per-direction.** DE→FR is not FR→DE;
+    store and display direction explicitly. Net transfer capacity may be reported
+    per direction and is often missing for some borders/periods — that's normal,
+    render "no data", never error. "Congested" means physical flow is at/near
+    available capacity in that direction.
+
+11. **New external sources are isolated by default.** SMARD (Phase 4) and the
+    carbon feed (Phase 5) each get their OWN pipeline module, separate from the
+    ENTSO-E pipeline. Do not entangle them — different auth, units, languages
+    (SMARD uses German field names), resolutions, and lag. A failure in one
+    source must not break the others.
+
+12. **Validate units and methodology on every new source, in writing.** State the
+    units in code comments and in the UI (MWh vs GWh; gCO2/kWh). For carbon
+    intensity, state whether it's production-based or consumption-based and don't
+    mix methodologies across zones. Never assume a new source's timestamps align
+    1:1 with ENTSO-E — reconcile explicitly and document the join.
+
+13. **Stay static across all v2 phases.** Pre-compute everything (including new
+    sources and longer history) into JSON at build time; the frontend slices
+    client-side. No backend, no database. If a phase appears to need a live
+    backend, STOP and flag it as a deliberate decision — do not drift across that
+    line. The honest ceiling is "any metric/zone/window live on demand"; stay
+    below it until real usage forces otherwise.
+
+14. **Longer history (Phase 6) spans more DST transitions and crosses the
+    Oct-2025 resolution break.** Keep the resampling discipline from landmines
+    3–4 over the full range. If a JSON file grows large, split by year and load
+    on demand — still static.
 
 ## Tone and Communication
 

@@ -9,13 +9,19 @@ from __future__ import annotations
 import pandas as pd
 
 from metrics import (
+    carbon_intensity_hourly,
+    collapse_generation,
+    daily_generation_gw,
+    daily_mean_series,
     daily_spreads,
     data_coverage,
+    fuel_profile_by_hour_gw,
     mean_profile_by_hour,
     monthly_means,
     negative_hours_by_month,
     perfect_arbitrage_revenue,
     price_by_hour_of_day,
+    renewable_share_hourly,
     to_hourly,
 )
 
@@ -187,6 +193,160 @@ def test_empty_input_does_not_crash():
     assert daily_spreads(empty).empty
     assert perfect_arbitrage_revenue(empty) == 0.0
     assert negative_hours_by_month(daily_spreads(empty)) == []
+
+
+# --- Phase 1/5: generation mix + carbon intensity ------------------------------
+
+def _gen_fixture(n_hours=4, start="2025-07-02 00:00", tz="Europe/Berlin"):
+    """A small raw-ENTSO-E-style generation frame: tuple columns, tz-aware index.
+    Two solar-ish sources to test that types mapping to one fuel are summed, and
+    one 'Actual Consumption' column that must be ignored."""
+    idx = pd.date_range(start=start, periods=n_hours, freq="1h", tz=tz)
+    return pd.DataFrame({
+        ("Solar", "Actual Aggregated"): [10.0] * n_hours,
+        ("Fossil Hard coal", "Actual Aggregated"): [20.0] * n_hours,
+        ("Fossil Brown coal/Lignite", "Actual Aggregated"): [30.0] * n_hours,
+        ("Hydro Pumped Storage", "Actual Consumption"): [5.0] * n_hours,  # must be dropped
+    }, index=idx)
+
+
+def test_collapse_generation_drops_consumption_and_orders_fuels():
+    out = collapse_generation(_gen_fixture())
+    # Consumption column gone; only generation fuels remain.
+    assert "Pumped storage" not in out.columns
+    assert set(out.columns) == {"Solar", "Hard coal", "Lignite"}
+    # Canonical order: Lignite, Hard coal before Solar.
+    assert list(out.columns) == ["Lignite", "Hard coal", "Solar"]
+    assert out["Solar"].iloc[0] == 10.0
+
+
+def test_collapse_generation_sums_types_to_same_fuel():
+    # Two hard-coal-ish columns should sum into one "Gas" via the coal-derived map.
+    idx = pd.date_range("2025-07-02 00:00", periods=2, freq="1h", tz="Europe/Berlin")
+    gen = pd.DataFrame({
+        ("Fossil Gas", "Actual Aggregated"): [100.0, 100.0],
+        ("Fossil Coal-derived gas", "Actual Aggregated"): [10.0, 10.0],
+    }, index=idx)
+    out = collapse_generation(gen)
+    assert list(out.columns) == ["Gas"]
+    assert out["Gas"].iloc[0] == 110.0
+
+
+def test_collapse_generation_requires_tz():
+    naive = pd.DataFrame(
+        {("Solar", "Actual Aggregated"): [1.0]},
+        index=pd.date_range("2025-01-01", periods=1, freq="1h"),
+    )
+    try:
+        collapse_generation(naive)
+        assert False, "expected ValueError for tz-naive index"
+    except ValueError:
+        pass
+
+
+def test_fuel_profile_and_daily_in_gw():
+    # Solar at 10 MW all day -> profile/daily = 0.01 GW; units convert MW->GW.
+    out = collapse_generation(_gen_fixture(n_hours=24))
+    prof = fuel_profile_by_hour_gw(out)
+    assert prof["Solar"][0] == 0.01   # 10 MW = 0.01 GW
+    days, daily = daily_generation_gw(out)
+    assert len(days) == 1
+    assert daily["Solar"][0] == prof["Solar"][0]
+
+
+def test_carbon_intensity_pure_solar_is_solar_factor():
+    # Only solar generating -> intensity == solar emission factor (45).
+    idx = pd.date_range("2025-07-02 00:00", periods=3, freq="1h", tz="Europe/Berlin")
+    gen = pd.DataFrame({("Solar", "Actual Aggregated"): [50.0, 50.0, 50.0]}, index=idx)
+    fuels = collapse_generation(gen)
+    ci = carbon_intensity_hourly(fuels, {"Solar": 45.0})
+    assert round(ci.iloc[0], 1) == 45.0
+
+
+def test_carbon_intensity_weighted_mix():
+    # 100 MW gas (490) + 100 MW solar (45) -> mean of the two factors weighted by MW.
+    idx = pd.date_range("2025-07-02 00:00", periods=1, freq="1h", tz="Europe/Berlin")
+    gen = pd.DataFrame({
+        ("Fossil Gas", "Actual Aggregated"): [100.0],
+        ("Solar", "Actual Aggregated"): [100.0],
+    }, index=idx)
+    fuels = collapse_generation(gen)
+    ci = carbon_intensity_hourly(fuels, {"Gas": 490.0, "Solar": 45.0})
+    assert round(ci.iloc[0], 1) == round((490.0 + 45.0) / 2, 1)  # equal MW -> simple mean
+
+
+def test_carbon_intensity_excludes_pumped_storage():
+    # Pumped storage must not affect intensity (excluded as a carrier).
+    idx = pd.date_range("2025-07-02 00:00", periods=1, freq="1h", tz="Europe/Berlin")
+    gen = pd.DataFrame({
+        ("Solar", "Actual Aggregated"): [100.0],
+        ("Hydro Pumped Storage", "Actual Aggregated"): [100.0],
+    }, index=idx)
+    fuels = collapse_generation(gen)
+    ci = carbon_intensity_hourly(fuels, {"Solar": 45.0, "Pumped storage": 999.0})
+    assert round(ci.iloc[0], 1) == 45.0  # pumped storage ignored
+
+
+def test_carbon_intensity_skips_missing_fuel_not_whole_hour():
+    # Regression: a fuel that is NaN for an hour must be treated as 0, not void
+    # the hour (France's Hard coal is reported only sporadically). Hour 0 has gas
+    # only; hour 1 adds NaN hard coal — both hours must yield an intensity.
+    idx = pd.date_range("2025-07-02 00:00", periods=2, freq="1h", tz="Europe/Berlin")
+    fuels = pd.DataFrame({"Gas": [100.0, 100.0], "Hard coal": [float("nan"), float("nan")]}, index=idx)
+    ci = carbon_intensity_hourly(fuels, {"Gas": 490.0, "Hard coal": 820.0})
+    assert len(ci) == 2                 # NOT dropped to 0 hours
+    assert round(ci.iloc[0], 1) == 490.0  # missing hard coal counts as 0 gen
+
+
+def test_renewable_share_hourly():
+    # 30 MW renewable (solar) of 60 MW total -> 50%.
+    idx = pd.date_range("2025-07-02 00:00", periods=1, freq="1h", tz="Europe/Berlin")
+    gen = pd.DataFrame({
+        ("Solar", "Actual Aggregated"): [30.0],
+        ("Fossil Gas", "Actual Aggregated"): [30.0],
+    }, index=idx)
+    fuels = collapse_generation(gen)
+    share = renewable_share_hourly(fuels, {"Solar"})
+    assert round(share.iloc[0], 1) == 50.0
+
+
+def test_daily_mean_series():
+    s = _hourly_series([10.0] * 24, start="2025-07-02 00:00")
+    days, vals = daily_mean_series(s)
+    assert days == ["2025-07-02"]
+    assert vals == [10.0]
+
+
+def test_monthly_flow_stats_direction_and_congestion():
+    from metrics import monthly_flow_stats
+    idx = pd.date_range("2025-07-01 00:00", periods=4, freq="1h", tz="Europe/Berlin")
+    # Net export of 900 MW against an export capacity of 1000 -> 90% = congested.
+    net = pd.Series([900.0, 900.0, -200.0, -200.0], index=idx)  # 2 export, 2 import hours
+    cap_exp = pd.Series([1000.0] * 4, index=idx)
+    cap_imp = pd.Series([1000.0] * 4, index=idx)
+    out = monthly_flow_stats(net, cap_exp, cap_imp, threshold=0.9)
+    assert len(out) == 1
+    row = out[0]
+    assert row["month"] == "2025-07"
+    assert row["net_flow_mw"] == round((900 + 900 - 200 - 200) / 4, 1)  # 350.0
+    assert row["congestion_pct"] == 50.0  # the 2 export hours hit 90% of capacity
+
+
+def test_monthly_flow_stats_no_capacity_means_no_congestion():
+    from metrics import monthly_flow_stats
+    idx = pd.date_range("2025-07-01 00:00", periods=2, freq="1h", tz="Europe/Berlin")
+    net = pd.Series([5000.0, 5000.0], index=idx)  # huge flow but no capacity known
+    out = monthly_flow_stats(net, pd.Series(dtype=float), pd.Series(dtype=float))
+    assert out[0]["congestion_pct"] == 0.0  # can't be congested without a capacity reference
+
+
+def test_generation_metrics_empty_safe():
+    empty = pd.DataFrame()
+    assert collapse_generation(empty).empty
+    assert fuel_profile_by_hour_gw(empty) == {}
+    assert daily_generation_gw(empty) == ([], {})
+    assert carbon_intensity_hourly(empty, {}).empty
+    assert renewable_share_hourly(empty, set()).empty
 
 
 if __name__ == "__main__":

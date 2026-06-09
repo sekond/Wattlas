@@ -6,15 +6,15 @@
 
 ## About
 
-Wattlas turns open European electricity-market data into four explorable views
-of how — and when — the price of power moves in Germany (the DE-LU bidding zone).
-It runs on live data from the ENTSO-E Transparency Platform, pre-computed into a
-static site with no backend.
+Wattlas turns open European electricity-market data into a set of explorable views
+of how — and when — the price of power moves across Europe, centred on Germany (the
+DE-LU bidding zone) and its neighbours. It runs on live data from the ENTSO-E
+Transparency Platform, pre-computed into a static site with no backend.
 
 It started as a way to learn the data terrain of European power markets, and grew
 into a small tool that surfaces a few genuinely interesting things about them.
 
-### The four views
+### The views
 
 #### Pulse — the daily rhythm
 
@@ -47,6 +47,43 @@ plants and batteries must still cover. It dips midday when renewables are
 abundant and peaks in the evening — which is exactly why prices peak then too.
 
 ![Mismatch view](docs/screenshots/mismatch.png)
+
+#### Mix — the generation breakdown
+
+Full generation by fuel type, hour by hour, for any zone — with a two-zone
+side-by-side comparison. The headline contrast: France's flat nuclear baseload
+against Germany's volatile wind + solar with gas and coal filling the gaps. An
+optional **carbon-intensity overlay** (production-based, IPCC AR5 lifecycle
+factors) ties "how renewable" to "how clean": it falls when wind/solar rise, and
+sits low for nuclear-heavy France (~30 gCO₂/kWh) vs coal-heavy Poland (~550).
+
+#### Divergence + flows — geography, explained
+
+Beyond *how far* neighbouring zones drift, the upgraded Divergence view shows the
+*physical flow* across each German border and flags congested months where the
+interconnector runs at its transmission limit — the mechanism behind a price gap.
+(Western borders use flow-based market coupling and publish no explicit capacity,
+so congestion is shown only where capacity data exists — never faked.)
+
+#### Dashboard — everything at once
+
+One dense page: pick a zone and a time window, and every panel that supports it
+snaps to your choice. Spread, Pulse, Mix, Carbon, Divergence + flows and Mismatch
+as reactive panels with consistent visual grammar.
+
+#### History — the long view
+
+Several years of daily spread, free to roam: drag to zoom into any stretch, jump
+to a window, fold every year onto one seasonal curve, and read the year-on-year
+trend. This is where the multi-year "YoY change" finally has real data behind it.
+
+#### Curtailment — *(pending a data source)*
+
+Wasted renewable energy — when wind/solar is throttled because the grid can't move
+it. SMARD's public JSON API doesn't expose this; the machine-readable source
+(netztransparenz.de) needs OAuth credentials. The view ships with an honest
+"awaiting source" state and an isolated, runnable pipeline module rather than
+fabricated numbers.
 
 ### How it works
 
@@ -91,10 +128,16 @@ It is not a commercial product and makes no investment recommendations.
 4. Build the data — one script per view (each supports `--use-cache` for offline
    re-runs once fetched):
    ```
-   python pipeline/build_spread.py        # The Spread  -> data/spread*.json
-   python pipeline/build_pulse.py         # Pulse       -> data/pulse.json
-   python pipeline/build_divergence.py    # Divergence  -> data/divergence.json
-   python pipeline/build_mismatch.py      # Mismatch    -> data/mismatch.json
+   python pipeline/build_spread.py        # The Spread   -> data/spread*.json
+   python pipeline/build_pulse.py         # Pulse        -> data/pulse.json
+   python pipeline/build_divergence.py    # Divergence   -> data/divergence.json
+   python pipeline/build_mismatch.py      # Mismatch     -> data/mismatch.json
+   python pipeline/build_mix.py           # Mix (gen mix, all zones) -> data/mix.json
+   python pipeline/build_carbon.py        # Carbon (from the mix cache) -> data/carbon.json
+   python pipeline/build_flows.py         # Cross-border flows + congestion -> data/flows.json
+   python pipeline/build_zone_views.py    # Per-zone Spread/Pulse for the dashboard (offline)
+   python pipeline/build_history.py       # Multi-year history -> data/spread_history.json
+   python pipeline/build_curtailment.py   # Curtailment (needs netztransparenz creds)
    ```
 5. Serve the repo root and open the site:
    `python -m http.server 8000` then visit `http://localhost:8000/` (Pulse is the
@@ -114,11 +157,13 @@ Action; locally it's a manual run.
 ## Project structure
 
 - `pipeline/metrics.py` — pure, testable metric computations (shared across views)
-- `pipeline/build_*.py` — one fetch+compute+write script per view
+- `pipeline/fuels.py` — canonical fuel taxonomy + CO₂ emission factors (single source of truth)
+- `pipeline/build_*.py` — one fetch+compute+write script per view (ENTSO-E modules; `build_curtailment.py` is isolated)
 - `pipeline/test_metrics.py`, `pipeline/test_build.py` — offline unit tests
 - `data/schema.md` — the JSON contract between pipeline and frontend
-- `frontend/index.html` — Spread view; `frontend/{pulse,divergence,mismatch}.html` — the other views
-- `frontend/util.js`, `frontend/styles.css` — shared frontend helpers and styles
+- `frontend/index.html` — Spread; `frontend/{pulse,divergence,mix,mismatch,curtailment,dashboard,history}.html` — the other views
+- `frontend/fuels.js` — fuel palette mirror; `frontend/util.js`, `frontend/styles.css` — shared helpers and styles
+- `ROADMAP_V2.md`, `RUN_V2.md`, `prompts/v2_prompts.md` — the v2 expansion plan, runner and prompts
 - `.github/workflows/refresh-data.yml` — daily data refresh
 
 ## Tests

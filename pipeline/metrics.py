@@ -212,6 +212,201 @@ def mean_profile_by_hour(series: pd.Series, local_tz: str = "Europe/Berlin") -> 
     return out
 
 
+def _gen_ptype(col) -> str:
+    """Production-type name from an entsoe generation column (tuple or string)."""
+    return col[0] if isinstance(col, tuple) else col
+
+
+def _gen_is_aggregated(col) -> bool:
+    """True for 'Actual Aggregated' (generation) columns, not 'Actual Consumption'."""
+    return (col[-1] if isinstance(col, tuple) else "Actual Aggregated") == "Actual Aggregated"
+
+
+def collapse_generation(gen: pd.DataFrame, local_tz: str = "Europe/Berlin") -> pd.DataFrame:
+    """Collapse raw ENTSO-E generation into canonical-fuel columns (MW), hourly.
+
+    Input: the wide DataFrame from `query_generation` whose columns are
+    ('<production type>', 'Actual Aggregated'/'Actual Consumption') tuples. We
+    keep only 'Actual Aggregated' (generation, not load), map each production
+    type to a canonical fuel via fuels.FUEL_MAP, and sum types that share a fuel.
+
+    Resamples to canonical hourly (landmine #3). Gaps are preserved, not faked
+    (landmine #9): an hour where every fuel is missing stays NaN; `min_count=1`
+    keeps a fuel NaN only when all its source columns are missing for that bucket.
+    Columns are returned in canonical FUEL_ORDER, restricted to fuels present.
+    Values stay in MW; the index stays tz-aware.
+    """
+    from fuels import FUEL_MAP, FUEL_ORDER
+
+    if gen.empty:
+        return pd.DataFrame()
+    if gen.index.tz is None:
+        raise ValueError("generation index must be timezone-aware")
+
+    agg_cols = [c for c in gen.columns if _gen_is_aggregated(c)]
+    groups: dict[str, list] = {}
+    for c in agg_cols:
+        groups.setdefault(FUEL_MAP.get(_gen_ptype(c), "Other"), []).append(c)
+
+    fuel_df = pd.DataFrame(index=gen.index)
+    for fuel, cols in groups.items():
+        block = gen[cols].apply(pd.to_numeric, errors="coerce")
+        fuel_df[fuel] = block.sum(axis=1, min_count=1)
+
+    hourly = fuel_df.resample(CANONICAL_FREQ).mean().dropna(how="all")
+    ordered = [f for f in FUEL_ORDER if f in hourly.columns]
+    return hourly[ordered]
+
+
+def fuel_profile_by_hour_gw(fuel_hourly_mw: pd.DataFrame, local_tz: str = "Europe/Berlin") -> dict:
+    """Mean generation per local hour-of-day (0-23) for each fuel, in GW.
+
+    Used by the Mix view's 'average day' stacked area. Returns {fuel: [24]} with
+    None where no data fell in that hour (landmine #9). MW -> GW for display.
+    """
+    out: dict[str, list] = {}
+    if fuel_hourly_mw.empty:
+        return out
+    local = fuel_hourly_mw.tz_convert(local_tz)
+    hours = local.index.hour
+    for fuel in fuel_hourly_mw.columns:
+        prof: list = [None] * 24
+        grp = (local[fuel] / 1000.0).groupby(hours).mean()
+        for hour, mean in grp.items():
+            prof[int(hour)] = round(float(mean), 2) if pd.notna(mean) else None
+        out[fuel] = prof
+    return out
+
+
+def daily_generation_gw(fuel_hourly_mw: pd.DataFrame, local_tz: str = "Europe/Berlin") -> tuple[list, dict]:
+    """Mean generation per local calendar day for each fuel, in GW.
+
+    Returns (date_strings, {fuel: [values aligned to dates]}). A day with no data
+    for a fuel is None. Mean (not sum) keeps units as average GW, comparable with
+    the hour-of-day profile. Grouping is local-tz (landmine #4).
+    """
+    if fuel_hourly_mw.empty:
+        return [], {}
+    local = fuel_hourly_mw.tz_convert(local_tz)
+    dates = sorted(set(local.index.date))
+    date_strs = [str(d) for d in dates]
+    days = local.index.date
+    series: dict[str, list] = {}
+    for fuel in fuel_hourly_mw.columns:
+        grp = (local[fuel] / 1000.0).groupby(days).mean()
+        series[fuel] = [
+            round(float(grp[d]), 2) if (d in grp.index and pd.notna(grp[d])) else None
+            for d in dates
+        ]
+    return date_strs, series
+
+
+def carbon_intensity_hourly(
+    fuel_hourly_mw: pd.DataFrame,
+    factors: dict,
+    exclude: tuple = ("Pumped storage",),
+) -> pd.Series:
+    """Production-based grid carbon intensity per hour, gCO2eq/kWh.
+
+    intensity = Σ(generation_f · EF_f) / Σ(generation_f), a generation-weighted
+    mean of the per-fuel factors (the MW unit cancels, so the result is g/kWh
+    regardless of MW vs MWh). Production-based: emissions are attributed to
+    generation inside the zone, ignoring imports/exports (carbon methodology
+    note). Pumped-storage discharge is excluded as a storage carrier, not primary
+    generation. Hours with no positive generation are dropped (no divide-by-zero).
+    """
+    if fuel_hourly_mw.empty:
+        return pd.Series(dtype=float)
+    cols = [c for c in fuel_hourly_mw.columns if c not in exclude]
+    # Negative values would be reporting artefacts here; clip so they don't make
+    # emissions or totals negative.
+    gen = fuel_hourly_mw[cols].clip(lower=0)
+    # A fuel that is NaN for an hour means "not reported / not generating" — treat
+    # it as 0 for THAT fuel rather than voiding the whole hour. We must use
+    # pandas' NaN-skipping row sums (not Python's sum(), which propagates NaN and
+    # would discard every hour where any one fuel column is missing — e.g. France,
+    # whose Hard coal series is reported only sporadically). min_count=1 keeps an
+    # hour NaN only when every fuel is missing.
+    factor_vec = pd.Series({c: float(factors.get(c, 700.0)) for c in cols})
+    emissions = gen.mul(factor_vec, axis=1).sum(axis=1, min_count=1)
+    total = gen.sum(axis=1, min_count=1)
+    intensity = (emissions / total)[total > 0]
+    return intensity.dropna()
+
+
+def renewable_share_hourly(fuel_hourly_mw: pd.DataFrame, renewable_fuels: set) -> pd.Series:
+    """Renewable share of generation per hour, in percent (0-100).
+
+    share = Σ(renewable fuels) / Σ(all generation). Pairs with carbon intensity:
+    as renewable share rises, production-based intensity should fall (the Phase 5
+    sanity check). Hours with no positive generation are dropped.
+    """
+    if fuel_hourly_mw.empty:
+        return pd.Series(dtype=float)
+    gen = fuel_hourly_mw.clip(lower=0)
+    ren_cols = [c for c in gen.columns if c in renewable_fuels]
+    total = gen.sum(axis=1, min_count=1)
+    ren = gen[ren_cols].sum(axis=1, min_count=1) if ren_cols else total * 0.0
+    share = (100.0 * ren / total)[total > 0]
+    return share.dropna()
+
+
+def daily_mean_series(series: pd.Series, local_tz: str = "Europe/Berlin") -> tuple[list, list]:
+    """Mean of a tz-aware Series per local calendar day -> (date_strings, values)."""
+    if series.empty:
+        return [], []
+    local = series.tz_convert(local_tz)
+    grp = local.groupby(local.index.date).mean()
+    return [str(d) for d in grp.index], [round(float(v), 2) if pd.notna(v) else None for v in grp.values]
+
+
+def monthly_flow_stats(
+    net_flow: pd.Series,
+    cap_export: pd.Series,
+    cap_import: pd.Series,
+    local_tz: str = "Europe/Berlin",
+    threshold: float = 0.9,
+) -> list[dict]:
+    """Monthly mean net flow and congestion fraction for one directed border.
+
+    Sign convention (landmine #10): net_flow > 0 means power flows FROM the home
+    zone TO the neighbour (export); < 0 means import. Congestion is per-direction:
+    an export hour is congested when net_flow >= threshold * cap_export; an import
+    hour when -net_flow >= threshold * cap_import. Capacity is often missing for
+    some hours/borders — those hours simply don't count as congested (never error).
+
+    All three series are resampled to canonical hourly and grouped by local month.
+    Returns [{month, net_flow_mw, congestion_pct, hours}] aligned to months that
+    have flow data. net_flow_mw is rounded MW; congestion_pct is 0-100.
+    """
+    net = to_hourly(net_flow)
+    if net.empty:
+        return []
+    ce = to_hourly(cap_export) if cap_export is not None and not cap_export.empty else pd.Series(dtype=float)
+    ci = to_hourly(cap_import) if cap_import is not None and not cap_import.empty else pd.Series(dtype=float)
+
+    df = pd.DataFrame({"net": net})
+    df["ce"] = ce.reindex(df.index)
+    df["ci"] = ci.reindex(df.index)
+    local = df.tz_convert(local_tz)
+    # Per-hour congestion flag, per direction; missing capacity -> not congested.
+    exp_cong = (local["net"] > 0) & (local["ce"] > 0) & (local["net"] >= threshold * local["ce"])
+    imp_cong = (local["net"] < 0) & (local["ci"] > 0) & (-local["net"] >= threshold * local["ci"])
+    local = local.assign(congested=(exp_cong | imp_cong))
+    months = local.index.tz_localize(None).to_period("M")
+
+    out = []
+    for period, grp in local.groupby(months):
+        n = len(grp)
+        out.append({
+            "month": str(period),
+            "net_flow_mw": round(float(grp["net"].mean()), 1),
+            "congestion_pct": round(100.0 * float(grp["congested"].sum()) / n, 1) if n else 0.0,
+            "hours": int(n),
+        })
+    return out
+
+
 def negative_hours_by_month(daily: pd.DataFrame) -> list[dict]:
     """Aggregate negative-hour counts by calendar month from a daily DataFrame."""
     if daily.empty:

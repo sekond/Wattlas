@@ -1,7 +1,8 @@
 name: Refresh data
 
-# Rebuilds all four views' JSON from fresh ENTSO-E data and commits to main.
+# Rebuilds every view's JSON from fresh data and commits to main.
 # The site (GitHub Pages from main) then redeploys automatically.
+# Sources: ENTSO-E (prices, generation, flows) + netztransparenz (curtailment).
 on:
   schedule:
     # 05:17 UTC daily = 06:17 CET / 07:17 CEST — after the previous day has
@@ -31,14 +32,30 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Build all four views (live fetch)
+      - name: Build all views (live fetch)
         env:
           ENTSOE_API_TOKEN: ${{ secrets.ENTSOE_API_TOKEN }}
+          # netztransparenz OAuth client for the Curtailment view (Phase 4).
+          # If these secrets are absent, build_curtailment.py exits cleanly and
+          # writes a status:"unavailable" artefact — the rest still build.
+          NETZTRANSPARENZ_CLIENT_ID: ${{ secrets.NETZTRANSPARENZ_CLIENT_ID }}
+          NETZTRANSPARENZ_CLIENT_SECRET: ${{ secrets.NETZTRANSPARENZ_CLIENT_SECRET }}
         run: |
+          # ENTSO-E views. build_mix caches per-zone generation; build_divergence
+          # caches zone prices — the two builders that read those caches
+          # (build_carbon, build_zone_views) MUST run after them in the same job,
+          # since the *_raw_*.parquet caches are gitignored and don't persist.
           python pipeline/build_spread.py
           python pipeline/build_pulse.py
           python pipeline/build_divergence.py
           python pipeline/build_mismatch.py
+          python pipeline/build_mix.py
+          python pipeline/build_carbon.py        # reads the generation cache from build_mix
+          python pipeline/build_flows.py
+          python pipeline/build_zone_views.py    # reads the zone-price cache from build_divergence
+          python pipeline/build_history.py --years 3
+          # New external source (isolated): never let it fail the whole refresh.
+          python pipeline/build_curtailment.py --years 2 || echo "curtailment build skipped/failed — continuing"
 
       - name: Commit refreshed data (only if changed)
         run: |

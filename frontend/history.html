@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — History</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .controls { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .controls label { font-size: 12px; color: var(--muted); margin-right: 6px; }
+    .controls input[type=date] { font: inherit; font-size: 13px; padding: 5px 8px; border-radius: var(--radius-sm);
+      border: 0.5px solid var(--border); background: var(--surface); color: var(--text); }
+    .seg { display: inline-flex; border: 0.5px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+    .seg button { font: inherit; font-size: 13px; padding: 6px 10px; border: none; background: var(--surface); color: var(--text); cursor: pointer; }
+    .seg button.active { background: var(--text); color: var(--bg); }
+    .btn { font: inherit; font-size: 12px; padding: 6px 10px; border-radius: var(--radius-sm);
+      border: 0.5px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="nav">
+      <div class="brand">Wattlas <small>European energy data, explored</small></div>
+      <div class="navlinks">
+        <a href="dashboard.html">← Home</a>
+        <a href="mix.html">Mix</a>
+        <a href="divergence.html">Divergence</a>
+        <a href="history.html" class="active">History</a>
+        <a href="curtailment.html">Curtailment</a>
+      </div>
+    </div>
+    <h1>History</h1>
+    <p class="sub">The long view. Years of daily spread, free to roam: drag across the chart to zoom into any stretch, jump to a window, or fold every year onto one seasonal curve.</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 20px;"></div>
+
+    <div id="kpis" class="kpis"></div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">Daily spread (TB1) over the full history — DE-LU</div>
+        <div class="controls">
+          <span class="seg" id="winSeg">
+            <button data-years="1">1y</button>
+            <button data-years="2">2y</button>
+            <button data-years="3">3y</button>
+            <button data-years="99" class="active">All</button>
+          </span>
+          <button class="btn" id="resetZoom">Reset zoom</button>
+        </div>
+      </div>
+      <div class="controls" style="margin-bottom:8px;">
+        <div><label for="from">From</label><input type="date" id="from" /></div>
+        <div><label for="to">To</label><input type="date" id="to" /></div>
+        <button class="btn" id="applyRange">Apply range</button>
+      </div>
+      <canvas id="histChart" height="120"></canvas>
+      <div class="meta" style="margin-top:8px;">TB1 = daily max−min hourly price (€/MWh). Drag horizontally on the chart to zoom; scroll to zoom; double-click or "Reset zoom" to clear. Crosses the Oct-2025 hourly→quarter-hourly resolution break, resampled to hourly throughout. Source: ENTSO-E.</div>
+    </div>
+
+    <div class="row2">
+      <div class="card">
+        <div class="title" style="margin-bottom:12px;">Seasonal shape — average TB1 by month of year</div>
+        <canvas id="seasonChart" height="150"></canvas>
+        <div class="meta" style="margin-top:8px;">Every year folded onto one curve: which months run wide. Summer solar swings vs winter. €/MWh.</div>
+      </div>
+      <div class="card">
+        <div class="title" style="margin-bottom:12px;">Year-on-year — average daily TB1</div>
+        <canvas id="yearChart" height="150"></canvas>
+        <div class="meta" style="margin-top:8px;">Average daily spread per calendar year. The multi-year trend the single-year views can't show. €/MWh.</div>
+      </div>
+    </div>
+    <div id="status" class="loading">Loading data…</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+  <script src="util.js"></script>
+  <script>
+    const eur = (n) => "€" + Math.round(n);
+    const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    let H = null, hist = null;
+    async function loadJSON(name) {
+      for (const path of ["../data/" + name, "data/" + name, "/data/" + name]) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) {}
+      }
+      return null;
+    }
+    const mean = (a) => { const v = a.filter(x => x != null); return v.length ? v.reduce((x, y) => x + y, 0) / v.length : null; };
+
+    function renderKPIs() {
+      const yoy = H.yoy_tb1_change_pct;
+      const yrs = H.yearly;
+      const widest = yrs.reduce((b, y) => y.avg_tb1 > (b ? b.avg_tb1 : -1) ? y : b, null);
+      const totalNeg = yrs.reduce((a, y) => a + (y.neg_hours || 0), 0);
+      const items = [
+        { label: "YoY change in avg TB1", val: yoy != null ? (yoy >= 0 ? "+" : "") + yoy + "%" : "—", cls: yoy != null ? (yoy >= 0 ? "neg" : "pos") : "" },
+        { label: "Years covered", val: H.years_covered.join(", ") },
+        { label: "Widest year (avg TB1)", val: widest ? widest.year + " · " + eur(widest.avg_tb1) : "—" },
+        { label: "Negative hours (all years)", val: totalNeg.toLocaleString() },
+      ];
+      document.getElementById("kpis").innerHTML = items.map(i =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
+    }
+
+    function renderHist() {
+      const pts = H.days.map(d => ({ x: d.date, y: d.tb1 }));
+      const hasZoom = typeof window.ChartZoom !== "undefined" || (Chart.registry.plugins.get && Chart.registry.plugins.get("zoom"));
+      hist = new Chart(document.getElementById("histChart"), {
+        type: "line",
+        data: { datasets: [{ data: pts, parsing: false, borderColor: "#185fa5", backgroundColor: "rgba(24,95,165,0.08)",
+          fill: true, borderWidth: 1, pointRadius: 0, tension: 0 }] },
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { title: (c) => fmtDate(c[0].raw.x), label: (c) => `TB1: ${eur(c.raw.y)}/MWh` } },
+            zoom: { zoom: { drag: { enabled: true }, wheel: { enabled: true }, mode: "x" }, pan: { enabled: false } } },
+          scales: { x: { type: "time", time: { unit: "month" }, ticks: { color: "#888780", font: { size: 10 }, maxTicksLimit: 10 }, grid: { display: false } },
+                    y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
+      });
+    }
+    function setRange(fromISO, toISO) {
+      if (!hist) return;
+      hist.options.scales.x.min = fromISO || undefined;
+      hist.options.scales.x.max = toISO || undefined;
+      hist.update();
+    }
+    function windowYears(y) {
+      if (y >= 99) { setRange(undefined, undefined); return; }
+      const end = H.period_end;
+      const d = new Date(end + "T00:00:00Z"); d.setUTCFullYear(d.getUTCFullYear() - y);
+      setRange(d.toISOString().slice(0, 10), end);
+    }
+
+    function renderSeason() {
+      const byMonth = {}; H.seasonal.forEach(s => { byMonth[s.month] = s.avg_tb1; });
+      new Chart(document.getElementById("seasonChart"), {
+        type: "line",
+        data: { labels: MONTHS, datasets: [{ data: MONTHS.map((_, i) => byMonth[i + 1] ?? null),
+          borderColor: "#b8860b", backgroundColor: "rgba(184,134,11,0.10)", fill: true, borderWidth: 2, pointRadius: 2, tension: 0.35, spanGaps: true }] },
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => `avg TB1: ${eur(c.parsed.y)}/MWh` } } },
+          scales: { x: { ticks: { color: "#888780", font: { size: 10 } }, grid: { display: false } },
+                    y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
+      });
+    }
+    function renderYears() {
+      new Chart(document.getElementById("yearChart"), {
+        type: "bar",
+        data: { labels: H.yearly.map(y => y.year), datasets: [{ data: H.yearly.map(y => y.avg_tb1),
+          backgroundColor: "#185fa5", borderWidth: 0 }] },
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => `avg TB1: ${eur(c.parsed.y)}/MWh · ${H.yearly[c.dataIndex].neg_hours} neg h` } } },
+          scales: { x: { ticks: { color: "#888780", font: { size: 10 } }, grid: { display: false } },
+                    y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
+      });
+    }
+
+    (async function main() {
+      const status = document.getElementById("status");
+      H = await loadJSON("spread_history.json");
+      if (!H) { status.textContent = "Could not load data. Run `python pipeline/build_history.py` first, then serve the folder."; return; }
+      document.getElementById("periodNote").textContent =
+        `Data shown for ${fmtDate(H.period_start)} – ${fmtDate(H.period_end)} (${H.years_covered.length} calendar years)`;
+      document.getElementById("from").value = H.period_start;
+      document.getElementById("to").value = H.period_end;
+      document.getElementById("from").min = H.period_start; document.getElementById("from").max = H.period_end;
+      document.getElementById("to").min = H.period_start; document.getElementById("to").max = H.period_end;
+      renderKPIs(); renderHist(); renderSeason(); renderYears();
+
+      document.querySelectorAll("#winSeg button").forEach(b => b.addEventListener("click", () => {
+        document.querySelectorAll("#winSeg button").forEach(x => x.classList.remove("active"));
+        b.classList.add("active"); windowYears(+b.dataset.years);
+      }));
+      document.getElementById("resetZoom").addEventListener("click", () => { if (hist && hist.resetZoom) hist.resetZoom(); setRange(undefined, undefined); });
+      document.getElementById("applyRange").addEventListener("click", () =>
+        setRange(document.getElementById("from").value, document.getElementById("to").value));
+      status.style.display = "none";
+    })();
+  </script>
+</body>
+</html>

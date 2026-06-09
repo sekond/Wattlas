@@ -5,20 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wattlas — Divergence</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    .controls { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+    .controls label { font-size: 12px; color: var(--muted); margin-right: 6px; }
+    .controls select { font: inherit; font-size: 13px; padding: 5px 9px; border-radius: var(--radius-sm);
+      border: 0.5px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; }
+  </style>
 </head>
 <body>
   <div class="wrap">
     <div class="nav">
       <div class="brand">Wattlas <small>European energy data, explored</small></div>
       <div class="navlinks">
-        <a href="pulse.html">Pulse</a>
-        <a href="index.html">Spread</a>
+        <a href="dashboard.html">← Home</a>
+        <a href="mix.html">Mix</a>
         <a href="divergence.html" class="active">Divergence</a>
-        <a href="mismatch.html">Mismatch</a>
+        <a href="history.html">History</a>
+        <a href="curtailment.html">Curtailment</a>
       </div>
     </div>
     <h1>Divergence</h1>
-    <p class="sub">How far apart do neighbouring bidding zones drift — and where does Germany sit against its neighbours?</p>
+    <p class="sub">How far apart do neighbouring bidding zones drift — and <em>why</em>? Prices decouple when the wires between zones fill up: an interconnector at its limit can't arbitrage the gap away.</p>
     <div class="meta" id="periodNote" style="margin:-16px 0 24px;"></div>
 
     <div id="kpis" class="kpis"></div>
@@ -37,6 +44,20 @@
       <canvas id="spreadChart" height="120"></canvas>
       <div class="meta" style="margin-top:8px;">Positive = Germany more expensive than France (typically the nuclear-vs-renewables gap). Source: ENTSO-E.</div>
     </div>
+
+    <div class="card" id="flowCard">
+      <div class="head">
+        <div class="title">Physical flow vs price gap — DE-LU border</div>
+        <div class="controls"><label for="border">Border</label><select id="border"></select></div>
+      </div>
+      <canvas id="flowChart" height="130"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:#185fa5"></span>Net flow (MW, + = DE-LU exporting)</span>
+        <span><span class="swatch" style="background:#a32d2d"></span>DE-LU − neighbour price (€/MWh)</span>
+        <span><span class="swatch" style="background:#b8860b"></span>Congested months</span>
+      </div>
+      <div class="meta" id="flowNote" style="margin-top:8px;"></div>
+    </div>
     <div id="status" class="loading">Loading data…</div>
   </div>
 
@@ -44,21 +65,22 @@
   <script src="util.js"></script>
   <script>
     const eur = (n) => "€" + Math.round(n);
+    const mw = (n) => Math.round(n) + " MW";
     const COLORS = ["#185fa5", "#a32d2d", "#3b6d11", "#b8860b", "#7a4fa3", "#2f8f8f"];
     const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     const monthLabel = (m) => { const [y, mo] = m.split("-"); return MONTHS[+mo - 1] + " " + y.slice(2); };
+    let DIV = null, FLOWS = null, flowChart = null;
     async function loadJSON(name) {
       for (const path of ["../data/" + name, "data/" + name, "/data/" + name]) {
         try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) {}
       }
-      throw new Error("could not load " + name);
+      return null;
     }
     const mean = (a) => a.reduce((x, y) => x + y, 0) / a.length;
     function renderKPIs(d) {
       const sp = d.de_fr_spread.filter(v => v != null);
       const avg = sp.length ? mean(sp) : 0;
       const widestIdx = d.de_fr_spread.indexOf(Math.max(...d.de_fr_spread.filter(v => v != null)));
-      // coupling = mean absolute monthly gap to DE-LU (lower = more coupled)
       const de = d.series.DE_LU;
       const coupl = {};
       d.zones.filter(z => z !== "DE_LU").forEach(z => {
@@ -105,13 +127,71 @@
                     y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
       });
     }
+    // Price gap DE-LU minus neighbour, aligned to the FLOWS month axis.
+    function priceGapFor(nb) {
+      if (!DIV) return null;
+      const de = DIV.series.DE_LU, other = DIV.series[nb];
+      if (!other) return null;
+      const idx = {};
+      DIV.months.forEach((m, i) => { idx[m] = i; });
+      return FLOWS.months.map(m => {
+        const i = idx[m];
+        return (i == null || de[i] == null || other[i] == null) ? null : Math.round((de[i] - other[i]) * 10) / 10;
+      });
+    }
+    function renderFlowChart(nb) {
+      if (flowChart) flowChart.destroy();
+      const b = FLOWS.data[nb];
+      const labels = FLOWS.months.map(monthLabel);
+      const gap = priceGapFor(nb);
+      // Highlight congested months (only meaningful where capacity is known).
+      const congMonths = (b.congestion_pct || []).map((p, i) => (p != null && p >= 20) ? i : -1).filter(i => i >= 0);
+      const pointBg = FLOWS.months.map((_, i) => congMonths.includes(i) ? "#b8860b" : "#185fa5");
+      const pointR = FLOWS.months.map((_, i) => congMonths.includes(i) ? 4 : 0);
+      flowChart = new Chart(document.getElementById("flowChart"), {
+        data: {
+          labels,
+          datasets: [
+            { type: "bar", label: "Net flow", yAxisID: "yFlow", data: b.net_flow_mw,
+              backgroundColor: b.net_flow_mw.map(v => v == null ? "#ccc" : (v >= 0 ? "rgba(24,95,165,0.55)" : "rgba(24,95,165,0.25)")),
+              borderWidth: 0 },
+            { type: "line", label: "Price gap", yAxisID: "yPrice", data: gap, borderColor: "#a32d2d",
+              backgroundColor: "transparent", tension: 0.3, borderWidth: 2,
+              pointBackgroundColor: pointBg, pointRadius: pointR, spanGaps: true },
+          ],
+        },
+        options: { responsive: true, animation: false, interaction: { mode: "index", intersect: false },
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => c.dataset.label === "Net flow"
+              ? `Net flow: ${c.parsed.y == null ? "n/a" : mw(c.parsed.y)}`
+              : `DE-LU − ${zoneName(nb)}: ${c.parsed.y == null ? "n/a" : eur(c.parsed.y) + "/MWh"}` } } },
+          scales: {
+            x: { ticks: { color: "#888780", font: { size: 10 } }, grid: { display: false } },
+            yFlow: { position: "left", ticks: { color: "#888780", font: { size: 10 }, callback: (v) => v + " MW" }, grid: { color: "rgba(0,0,0,0.05)" } },
+            yPrice: { position: "right", ticks: { color: "#a32d2d", font: { size: 10 }, callback: (v) => eur(v) }, grid: { display: false } } } },
+      });
+      const cap = b.capacity_available;
+      document.getElementById("flowNote").innerHTML = cap
+        ? `Amber dots mark congested months (flow at/near transmission capacity ≥20% of hours). Where flow saturates, the price gap tends to widen — the interconnector can't arbitrage it away. Source: ENTSO-E physical flows + NTC.`
+        : `No published transmission capacity for this border, so congestion can't be flagged — the western borders use flow-based market coupling (CWE/Core), which doesn't publish an explicit day-ahead NTC. Physical flow is still shown. Source: ENTSO-E physical flows.`;
+    }
     (async function main() {
       const status = document.getElementById("status");
-      let d = null;
-      try { d = await loadJSON("divergence.json"); } catch (e) {}
-      if (!d) { status.textContent = "Could not load data. Run `python pipeline/build_divergence.py` first, then serve the folder."; return; }
-      document.getElementById("periodNote").textContent = `Data shown for ${fmtPeriod(d.period_start, d.period_end)}`;
-      renderKPIs(d); renderZoneChart(d); renderSpreadChart(d);
+      DIV = await loadJSON("divergence.json");
+      if (!DIV) { status.textContent = "Could not load data. Run `python pipeline/build_divergence.py` first, then serve the folder."; return; }
+      document.getElementById("periodNote").textContent = `Data shown for ${fmtPeriod(DIV.period_start, DIV.period_end)}`;
+      renderKPIs(DIV); renderZoneChart(DIV); renderSpreadChart(DIV);
+
+      FLOWS = await loadJSON("flows.json");
+      if (FLOWS && FLOWS.borders && FLOWS.borders.length) {
+        const sel = document.getElementById("border");
+        sel.innerHTML = FLOWS.borders.map(nb => `<option value="${nb}">${zoneName(nb)}</option>`).join("");
+        sel.value = FLOWS.borders.includes("FR") ? "FR" : FLOWS.borders[0];
+        renderFlowChart(sel.value);
+        sel.addEventListener("change", () => renderFlowChart(sel.value));
+      } else {
+        document.getElementById("flowCard").style.display = "none";
+      }
       status.style.display = "none";
     })();
   </script>
