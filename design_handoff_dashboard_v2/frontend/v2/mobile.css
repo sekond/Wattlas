@@ -1,0 +1,45 @@
+/* Wattlas Mobile — phone-native shell on top of dash.css component styles. */
+body { background: var(--bg); }
+
+/* Header (padding clears the device status bar) */
+.mhead { position: sticky; top: 0; z-index: 30; background: var(--bg);
+  padding: 58px 0 0; border-bottom: 0.5px solid var(--border); }
+.mhead .brandrow { display: flex; align-items: baseline; justify-content: space-between;
+  padding: 6px 16px 8px; }
+.mhead .brand { font-size: 17px; font-weight: 650; letter-spacing: -0.01em; }
+.mhead .period { font-size: 10.5px; color: var(--hint); font-variant-numeric: tabular-nums; }
+.mhead .chiprow { display: flex; gap: 6px; overflow-x: auto; padding: 2px 16px 10px;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.mhead .chiprow::-webkit-scrollbar { display: none; }
+.mhead .winrow2 { display: flex; align-items: center; gap: 10px; padding: 0 16px 12px; }
+.mhead .seg { flex: 1; display: flex; }
+.mhead .seg button { flex: 1; min-height: 38px; }
+.zchip { min-height: 38px; flex-shrink: 0; }
+
+/* Panels: one visible at a time */
+.mmain { padding: 14px 12px 110px; }
+.panel { display: none; margin-bottom: 0; scroll-margin-top: 0; }
+.panel.active { display: block; }
+.panel-kicker { display: block; line-height: 1.5; }
+.panel-kicker .k { display: block; }
+.panel h2.story { font-size: 17px; margin-top: 8px; }
+.panel .explain { font-size: 12.5px; }
+.panel-tools .seg { display: flex; width: 100%; }
+.panel-tools .seg button { flex: 1; min-height: 40px; }
+.panel-tools { gap: 8px; }
+.statrow .stat { padding: 7px 13px; }
+
+/* Bottom tab bar */
+.mnav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
+  display: flex; gap: 4px; overflow-x: auto; padding: 10px 12px 30px;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(14px) saturate(160%); -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border-top: 0.5px solid var(--border); -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.mnav::-webkit-scrollbar { display: none; }
+.mnav button { font: inherit; font-size: 12.5px; min-height: 44px; padding: 0 15px;
+  border-radius: 999px; border: 0.5px solid transparent; background: transparent;
+  color: var(--muted); cursor: pointer; white-space: nowrap; flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 6px; }
+.mnav button .n { font-size: 10px; color: var(--hint); font-variant-numeric: tabular-nums; }
+.mnav button.active { background: var(--text); color: var(--bg); font-weight: 500; }
+.mnav button.active .n { color: color-mix(in srgb, var(--bg) 65%, transparent); }

@@ -1,0 +1,77 @@
+{
+  "zone": "DE_LU",
+  "period_start": "2025-06-09",
+  "period_end": "2026-06-08",
+  "avg_daily_tb1": 125.0,
+  "widest_day": {
+    "date": "2026-05-01",
+    "tb1": 672.33
+  },
+  "total_negative_hours": 555,
+  "negative_hours_by_month": [
+    {
+      "month": "2025-06",
+      "hours": 106
+    },
+    {
+      "month": "2025-07",
+      "hours": 12
+    },
+    {
+      "month": "2025-08",
+      "hours": 64
+    },
+    {
+      "month": "2025-09",
+      "hours": 60
+    },
+    {
+      "month": "2025-10",
+      "hours": 51
+    },
+    {
+      "month": "2025-11",
+      "hours": 0
+    },
+    {
+      "month": "2025-12",
+      "hours": 0
+    },
+    {
+      "month": "2026-01",
+      "hours": 4
+    },
+    {
+      "month": "2026-02",
+      "hours": 7
+    },
+    {
+      "month": "2026-03",
+      "hours": 35
+    },
+    {
+      "month": "2026-04",
+      "hours": 123
+    },
+    {
+      "month": "2026-05",
+      "hours": 77
+    },
+    {
+      "month": "2026-06",
+      "hours": 16
+    }
+  ],
+  "yoy_tb1_change_pct": null,
+  "perfect_arbitrage_eur_per_mw": 86151.87,
+  "perfect_arbitrage_is_upper_bound": true,
+  "battery_assumptions": {
+    "power_mw": 1,
+    "duration_h": 2,
+    "round_trip_efficiency": 1.0,
+    "foresight": "perfect"
+  },
+  "missing_days": [
+    "2026-06-09"
+  ]
+}
