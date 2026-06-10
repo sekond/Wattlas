@@ -1,5 +1,17 @@
+# Secrets
 .env
+
+# Python
 __pycache__/
 *.pyc
 .venv/
+.pytest_cache/
+*.egg-info/
+
+# Pipeline raw-data caches (regenerated; the committed data/*.json is the shipped data)
 data/_raw_*.parquet
+
+# OS / editor cruft
+.DS_Store
+.idea/
+.vscode/
