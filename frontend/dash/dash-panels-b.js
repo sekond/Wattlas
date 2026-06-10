@@ -3,25 +3,40 @@
 
 // ---------- 4 · MISMATCH ----------
 function renderMis() {
-  const m = D.mis;
-  zoneLock("mismatch");   // residual load is fetched for DE-LU only, like curtailment/history
-  if (!m) { noData("boxMis", "cMis", "No data."); return; }
+  const m = D.misZones;
+  if (!m || !m.zones) { noData("boxMis", "cMis", "No data."); return; }
+  const zs = zonesInPlay().filter((z) => m.zones[z]);
+  if (!zs.length) { noData("boxMis", "cMis", "No residual-load data for " + zoneShort(S.zone) + ".");
+    setStory("storyMis", "No residual-load data for " + zoneShort(S.zone) + "."); setStats("statsMis", []); return; }
+  const primary = m.zones[zs[0]];
+  const comparing = zs.length > 1;
+
+  let datasets;
+  if (comparing) {
+    // One residual-load curve per selected zone (the total-demand band only reads
+    // for a single zone, so we drop it when comparing — same idea as Spread).
+    datasets = zs.map((z) => ({ label: zoneShort(z), data: m.zones[z].residual_load_gw,
+      borderColor: zoneColor(z), backgroundColor: "transparent", borderWidth: z === S.zone ? 2.6 : 1.8,
+      pointRadius: 0, tension: 0.35, spanGaps: true }));
+  } else {
+    datasets = [
+      { label: "Total demand", data: primary.total_load_gw, borderColor: "#9b9a94", borderDash: [5, 4], backgroundColor: "transparent", borderWidth: 1.4, pointRadius: 0, tension: 0.35, spanGaps: true },
+      { label: "Left for conventional", data: primary.residual_load_gw, borderColor: zoneColor(zs[0]),
+        backgroundColor: "rgba(74,166,160,0.18)", fill: { target: 0 }, borderWidth: 2.4, pointRadius: 0, tension: 0.35, spanGaps: true } ];
+  }
   const ch = draw("boxMis", "cMis", { type: "line",
-    data: { labels: m.hours.map(hh), datasets: [
-      { label: "Total demand", data: m.total_load_gw, borderColor: "#9b9a94", borderDash: [5, 4], backgroundColor: "transparent", borderWidth: 1.4, pointRadius: 0, tension: 0.35, spanGaps: true },
-      { label: "Left for conventional", data: m.residual_load_gw, borderColor: "#185fa5",
-        backgroundColor: "rgba(74,166,160,0.18)", fill: { target: 0 }, borderWidth: 2.4, pointRadius: 0, tension: 0.35, spanGaps: true } ] },
+    data: { labels: primary.hours.map(hh), datasets },
     options: baseOpts({ x: axX({ ticks: Object.assign({}, TICK, { maxTicksLimit: 9, maxRotation: 0 }) }), y: axY({ ticks: Object.assign({}, TICK, { callback: (v) => v + " GW" }) }) },
       { tooltip: { callbacks: { title: (c) => hh(c[0].dataIndex), label: (c) => {
-        if (c.datasetIndex === 1) { const t = m.total_load_gw[c.dataIndex];
+        if (!comparing && c.datasetIndex === 1) { const t = primary.total_load_gw[c.dataIndex];
           const renew = t != null && c.parsed.y != null ? t - c.parsed.y : null;
           return ["Left for conventional: " + Math.round(c.parsed.y) + " GW"].concat(renew != null ? ["Covered by wind+solar: " + Math.round(renew) + " GW"] : []); }
         return c.dataset.label + ": " + Math.round(c.parsed.y) + " GW"; } } } }) });
-  linkChart(ch, "hour", m.hours);
-  const pk = extreme(m.residual_load_gw, "max"), tr = extreme(m.residual_load_gw, "min");
-  setStory("storyMis", "After wind and solar do their bit, Germany's grid still needs " + hi(Math.round(pk.val) + " GW", "red") +
+  linkChart(ch, "hour", primary.hours);
+  const pk = extreme(primary.residual_load_gw, "max"), tr = extreme(primary.residual_load_gw, "min");
+  setStory("storyMis", "After wind and solar do their bit, " + zoneShort(zs[0]) + "'s grid still needs " + hi(Math.round(pk.val) + " GW", "red") +
     " at " + hi(hh(pk.idx), "red") + " — the evening ramp that sets the price peak.");
-  let over = 0; for (let h = 0; h < 24; h++) { const t = m.total_load_gw[h], r = m.residual_load_gw[h];
+  let over = 0; for (let h = 0; h < 24; h++) { const t = primary.total_load_gw[h], r = primary.residual_load_gw[h];
     if (t != null && r != null && t > 0 && (t - r) > 0.5 * t) over++; }
   setStats("statsMis", [
     { label: "Residual trough", val: hh(tr.idx) + " · " + Math.round(tr.val) + " GW", cls: "pos" },

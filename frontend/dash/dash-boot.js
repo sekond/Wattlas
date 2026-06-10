@@ -127,12 +127,12 @@ function initTabBar() {
   if (shell) shell.hidden = false;
   if (IS_MOBILE) buildMobilePanels();
 
-  const [spread, pulse, mix, carbon, div, flows, mis, hist, curtail, spreadDE] = await Promise.all([
+  const [spread, pulse, mix, carbon, div, flows, misZones, hist, curtail, spreadDE] = await Promise.all([
     loadJSON("spread_by_zone.json"), loadJSON("pulse_by_zone.json"), loadJSON("mix.json"), loadJSON("carbon.json"),
-    loadJSON("divergence.json"), loadJSON("flows.json"), loadJSON("mismatch.json"), loadJSON("spread_history.json"),
+    loadJSON("divergence.json"), loadJSON("flows.json"), loadJSON("mismatch_by_zone.json"), loadJSON("spread_history.json"),
     loadJSON("curtailment.json"), loadJSON("spread.json"),
   ]);
-  Object.assign(D, { spread, pulse, mix, carbon, div, flows, mis, hist, curtail, spreadDE });
+  Object.assign(D, { spread, pulse, mix, carbon, div, flows, misZones, hist, curtail, spreadDE });
   if (!spread) { document.getElementById("status").textContent = "Could not load data. Serve the project folder so /data is reachable."; return; }
   document.getElementById("status").style.display = "none";
 

@@ -42,17 +42,19 @@ jobs:
           NETZTRANSPARENZ_CLIENT_SECRET: ${{ secrets.NETZTRANSPARENZ_CLIENT_SECRET }}
         run: |
           # ENTSO-E views. build_mix caches per-zone generation; build_divergence
-          # caches zone prices — the two builders that read those caches
-          # (build_carbon, build_zone_views) MUST run after them in the same job,
-          # since the *_raw_*.parquet caches are gitignored and don't persist.
+          # caches zone prices — the builders that read those caches
+          # (build_carbon, build_mismatch_zones, build_zone_views) MUST run after
+          # them in the same job, since the *_raw_*.parquet caches are gitignored
+          # and don't persist between runs.
           python pipeline/build_spread.py
           python pipeline/build_pulse.py
           python pipeline/build_divergence.py
           python pipeline/build_mismatch.py
           python pipeline/build_mix.py
-          python pipeline/build_carbon.py        # reads the generation cache from build_mix
+          python pipeline/build_carbon.py            # reads the generation cache from build_mix
+          python pipeline/build_mismatch_zones.py    # wind+solar from the generation cache + per-zone load
           python pipeline/build_flows.py
-          python pipeline/build_zone_views.py    # reads the zone-price cache from build_divergence
+          python pipeline/build_zone_views.py        # reads the zone-price cache from build_divergence
           python pipeline/build_history.py --years 3
           # New external source (isolated): never let it fail the whole refresh.
           python pipeline/build_curtailment.py --years 2 || echo "curtailment build skipped/failed — continuing"
