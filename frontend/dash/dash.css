@@ -72,11 +72,19 @@ body { margin: 0; background: var(--bg); color: var(--text);
 /* ---------- Panels ---------- */
 .panel { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius);
   padding: var(--pad-card); margin-bottom: var(--gap-section); scroll-margin-top: 132px; }
-.panel-kicker { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+/* Kicker: title at the left; everything after it (Full view link and/or the
+   Germany-only badge) is pushed to the right as a group. */
+.panel-kicker { display: flex; align-items: baseline; gap: 8px; }
+.panel-kicker > *:nth-child(2) { margin-left: auto; }
 .panel-kicker .k { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--amber);
   font-weight: 600; }
 .panel-kicker a { font-size: 12px; color: var(--hint); text-decoration: none; white-space: nowrap; }
 .panel-kicker a:hover { color: var(--text); }
+/* "Germany only" marker for the zone-locked panels (Curtailment, History). */
+.panel-kicker .zone-lock { font-size: 10.5px; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--muted); background: var(--surface-2);
+  border: 0.5px solid var(--border); border-radius: 999px; padding: 2px 9px; white-space: nowrap;
+  cursor: default; font-weight: 500; }
 .panel h2.story { font-size: 21px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.35;
   margin: 6px 0 2px; max-width: 64ch; text-wrap: pretty; }
 .panel h2.story strong { font-weight: 650; }
