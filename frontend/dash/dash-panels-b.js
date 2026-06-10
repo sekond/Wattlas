@@ -4,6 +4,7 @@
 // ---------- 4 · MISMATCH ----------
 function renderMis() {
   const m = D.mis;
+  zoneLock("mismatch");   // residual load is fetched for DE-LU only, like curtailment/history
   if (!m) { noData("boxMis", "cMis", "No data."); return; }
   const ch = draw("boxMis", "cMis", { type: "line",
     data: { labels: m.hours.map(hh), datasets: [
