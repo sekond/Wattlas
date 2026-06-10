@@ -118,7 +118,25 @@ def fetch_flows(start: pd.Timestamp, end: pd.Timestamp) -> pd.DataFrame:
         cols[f"{nb}_cap_exp"] = _safe_ntc(client, HOME, nb, start, end)
         cols[f"{nb}_cap_imp"] = _safe_ntc(client, nb, HOME, start, end)
 
-    return pd.DataFrame(cols)
+    return _assemble(cols)
+
+
+def _assemble(cols: dict) -> pd.DataFrame:
+    """Build the raw flows frame from per-border columns with a guaranteed
+    tz-aware UTC DatetimeIndex.
+
+    When a border has no published NTC, _safe_ntc returns an EMPTY Series whose
+    non-datetime index makes pd.DataFrame(cols) fall back to a plain object Index
+    — which later crashes to_hourly() ("'Index' object has no attribute 'tz'").
+    The --use-cache path hid this because parquet round-trips the index back to
+    datetime; we coerce here so the fresh-fetch path matches (the union values
+    are real Timestamps, just boxed in an object Index).
+    """
+    df = pd.DataFrame(cols)
+    if not df.empty:
+        df.index = pd.to_datetime(df.index, utc=True)
+        df = df.sort_index()
+    return df
 
 
 def build(raw: pd.DataFrame) -> None:

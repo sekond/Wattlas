@@ -233,3 +233,19 @@ function setStats(id, items) {
     "</span>").join("");
 }
 const hi = (txt, c) => '<strong class="hi-' + (c || "amber") + '">' + txt + "</strong>";
+
+// Curtailment and History are Germany-only datasets (netztransparenz is the German
+// TSOs; only DE-LU has multi-year history). They don't follow the zone selector, so
+// mark them explicitly instead of silently always reading "Germany" (issue #17).
+function zoneLock(panelId, label = "Germany only") {
+  const kicker = document.querySelector("#" + panelId + " .panel-kicker");
+  if (!kicker) return;
+  let badge = kicker.querySelector(".zone-lock");
+  if (!badge) {
+    badge = document.createElement("span");
+    badge.className = "zone-lock";
+    kicker.appendChild(badge);
+  }
+  badge.textContent = label;
+  badge.title = "This view has data for Germany only; the zone selector doesn't apply.";
+}

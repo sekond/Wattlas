@@ -141,7 +141,7 @@ function renderCarbon() {
 // ---------- 7 · CURTAILMENT ----------
 function renderCurtail() {
   const c = D.curtail;
-  const panel = document.getElementById("curtailment");
+  zoneLock("curtailment");
   if (!c || c.status === "unavailable" || !c.days || !c.days.length) {
     noData("boxCurtail", "cCurtail", "Awaiting data source — needs netztransparenz credentials.");
     setStory("storyCurtail", "Curtailment data is awaiting its source.");
@@ -188,14 +188,19 @@ function renderHistory() {
     { label: "Widest year", val: widest ? widest.year : "—" },
     { label: "Negative hours (all)", val: totNeg.toLocaleString(), cls: "neg" },
   ]);
+  zoneLock("history");
   const cap = document.getElementById("capHist");
   if (histMode === "multi") {
-    const pts = H.days.map((d) => ({ x: d.date, y: d.tb1 }));
+    // x must be epoch-ms, not an ISO string: with parsing:false a Chart.js time
+    // scale doesn't parse strings, so string x collapsed the axis to ~1 month and
+    // the multi-year line rendered off-canvas (issue #18). Keep the ISO date in `d`
+    // for the tooltip.
+    const pts = H.days.map((d) => ({ x: new Date(d.date + "T00:00:00Z").getTime(), y: d.tb1, d: d.date }));
     draw("boxHist", "cHist", { type: "line",
       data: { datasets: [{ data: pts, parsing: false, borderColor: "#185fa5", backgroundColor: "rgba(24,95,165,0.08)", fill: true, borderWidth: 1, pointRadius: 0, tension: 0 }] },
       options: baseOpts({ x: { type: "time", time: { unit: "month" }, ticks: Object.assign({}, TICK, { maxTicksLimit: 10, maxRotation: 0 }), grid: { display: false }, border: { color: "rgba(40,36,20,0.15)" } },
         y: axY({ ticks: Object.assign({}, TICK, { callback: eur }) }) },
-        { tooltip: { callbacks: { title: (c) => fmtDate(c[0].raw.x), label: (c) => "Spread " + eur(c.raw.y) + "/MWh" } },
+        { tooltip: { callbacks: { title: (c) => fmtDate(c[0].raw.d), label: (c) => "Spread " + eur(c.raw.y) + "/MWh" } },
           zoom: { zoom: { drag: { enabled: true, backgroundColor: "rgba(184,134,11,0.14)" }, wheel: { enabled: true }, mode: "x" } } }) });
     cap.textContent = "Daily spread (TB1), €/MWh, Germany. Drag or scroll to zoom, double-click to reset. Crosses the Oct-2025 resolution break. Source: ENTSO-E.";
   } else if (histMode === "season") {

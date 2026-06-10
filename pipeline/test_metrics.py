@@ -340,6 +340,27 @@ def test_monthly_flow_stats_no_capacity_means_no_congestion():
     assert out[0]["congestion_pct"] == 0.0  # can't be congested without a capacity reference
 
 
+def test_flows_assemble_coerces_index_with_empty_ntc():
+    # Regression for the CI P0 (issue #19): a border with no published NTC yields
+    # an empty capacity Series; pd.DataFrame(cols) then collapses the union index
+    # to a plain object Index, which later crashed to_hourly(). _assemble must
+    # restore a tz-aware DatetimeIndex so monthly_flow_stats works on the result.
+    from build_flows import _assemble
+    from metrics import monthly_flow_stats
+    idx = pd.date_range("2025-01-01", periods=4, freq="1h", tz="UTC")
+    cols = {
+        "PL_net": pd.Series([100.0, -50.0, 100.0, -50.0], index=idx),
+        "PL_cap_exp": pd.Series(dtype=float),   # no NTC published (the trigger)
+        "PL_cap_imp": pd.Series(dtype=float),
+    }
+    df = _assemble(cols)
+    assert isinstance(df.index, pd.DatetimeIndex)
+    assert df.index.tz is not None
+    # And the downstream metric no longer raises on this frame.
+    out = monthly_flow_stats(df["PL_net"].dropna(), pd.Series(dtype=float), pd.Series(dtype=float))
+    assert out and out[0]["congestion_pct"] == 0.0
+
+
 def test_generation_metrics_empty_safe():
     empty = pd.DataFrame()
     assert collapse_generation(empty).empty
