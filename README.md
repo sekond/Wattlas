@@ -67,9 +67,11 @@ so congestion is shown only where capacity data exists — never faked.)
 
 #### Dashboard — everything at once
 
-One dense page: pick a zone and a time window, and every panel that supports it
-snaps to your choice. Spread, Pulse, Mix, Carbon, Divergence + flows and Mismatch
-as reactive panels with consistent visual grammar.
+The landing page. A sidebar-navigated, story-driven layout with all eight views as
+panels: pick a zone (compare up to six), choose a time window — or drag the
+date-range brush — and every panel that supports it snaps to your choice, with a
+linked hover crosshair across charts and a plain-language headline computed live
+from the data. Collapses to a phone-native app with bottom-tab navigation on mobile.
 
 #### History — the long view
 
@@ -77,13 +79,14 @@ Several years of daily spread, free to roam: drag to zoom into any stretch, jump
 to a window, fold every year onto one seasonal curve, and read the year-on-year
 trend. This is where the multi-year "YoY change" finally has real data behind it.
 
-#### Curtailment — *(pending a data source)*
+#### Curtailment — wasted clean power
 
-Wasted renewable energy — when wind/solar is throttled because the grid can't move
-it. SMARD's public JSON API doesn't expose this; the machine-readable source
-(netztransparenz.de) needs OAuth credentials. The view ships with an honest
-"awaiting source" state and an isolated, runnable pipeline module rather than
-fabricated numbers.
+Renewable energy thrown away when the grid can't absorb or move it — the cost of
+Germany's north–south bottleneck, spiking on stormy, negative-price days. Sourced
+from the German TSOs' netztransparenz.de redispatch API through an **isolated**
+pipeline module (SMARD's public JSON API doesn't expose this). If the source's
+credentials are absent the view degrades to an honest "awaiting source" state
+rather than fabricating numbers.
 
 ### How it works
 
@@ -134,14 +137,17 @@ It is not a commercial product and makes no investment recommendations.
    python pipeline/build_mismatch.py      # Mismatch     -> data/mismatch.json
    python pipeline/build_mix.py           # Mix (gen mix, all zones) -> data/mix.json
    python pipeline/build_carbon.py        # Carbon (from the mix cache) -> data/carbon.json
+   python pipeline/build_mismatch_zones.py # Per-zone residual load (uses the mix cache + load) -> data/mismatch_by_zone.json
    python pipeline/build_flows.py         # Cross-border flows + congestion -> data/flows.json
    python pipeline/build_zone_views.py    # Per-zone Spread/Pulse for the dashboard (offline)
    python pipeline/build_history.py       # Multi-year history -> data/spread_history.json
    python pipeline/build_curtailment.py   # Curtailment (needs netztransparenz creds)
    ```
+   > `build_carbon.py` and `build_mismatch_zones.py` read the per-zone generation
+   > cache, so run them **after** `build_mix.py` (the daily Action orders them this way).
 5. Serve the repo root and open the site:
-   `python -m http.server 8000` then visit `http://localhost:8000/` (Pulse is the
-   landing page).
+   `python -m http.server 8000` then visit `http://localhost:8000/` (the dashboard
+   is the landing page).
 
 > The repo ships with real data already in `data/`, so step 5 works before you
 > ever run the pipeline.
@@ -161,9 +167,11 @@ Action; locally it's a manual run.
 - `pipeline/build_*.py` — one fetch+compute+write script per view (ENTSO-E modules; `build_curtailment.py` is isolated)
 - `pipeline/test_metrics.py`, `pipeline/test_build.py` — offline unit tests
 - `data/schema.md` — the JSON contract between pipeline and frontend
-- `frontend/index.html` — Spread; `frontend/{pulse,divergence,mix,mismatch,curtailment,dashboard,history}.html` — the other views
+- `frontend/dashboard.html` — the landing dashboard; `frontend/{pulse,index(Spread),divergence,mix,mismatch,curtailment,history}.html` — the standalone views
+- `frontend/dash/` — dashboard v2 modules (`dash-core/panels-a/panels-b/boot.js`, `mobile-panels.js`, `dash.css`, `mobile.css`)
 - `frontend/fuels.js` — fuel palette mirror; `frontend/util.js`, `frontend/styles.css` — shared helpers and styles
 - `ROADMAP_V2.md`, `RUN_V2.md`, `prompts/v2_prompts.md` — the v2 expansion plan, runner and prompts
+- `design-archive/` — frozen design-handoff bundle (reference only; the live dashboard lives in `frontend/dash/`)
 - `.github/workflows/refresh-data.yml` — daily data refresh
 
 ## Tests
@@ -179,8 +187,11 @@ data-gap days, TB2 fallback, hour-of-day and monthly aggregations). `test_build.
 runs the full `build()` against a fixture into a temp directory and asserts the
 JSON is written with schema-correct keys — all without network.
 
-## Data source
+## Data sources
 
-[ENTSO-E Transparency Platform](https://transparency.entsoe.eu) — the European
-transmission operators' open data platform. A free API token is required to
-re-run the pipeline; see the setup instructions above.
+- [ENTSO-E Transparency Platform](https://transparency.entsoe.eu) — prices,
+  generation, load and cross-border flows for every view except Curtailment. A
+  free API token is required to re-run the pipeline; see the setup above.
+- [netztransparenz.de](https://www.netztransparenz.de) — the German TSOs'
+  redispatch/curtailment API, used only by the Curtailment view (separate OAuth
+  credentials; the view degrades gracefully without them).
