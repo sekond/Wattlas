@@ -2,44 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wattlas — European electricity, explained</title>
-  <link rel="stylesheet" href="dash/dash.css" />
-  <!-- Mobile shell styles only apply at <=900px; the desktop shell is removed
-       from the DOM below that width (dash-boot.js), so the unscoped panel rules
-       in mobile.css can never touch the desktop layout. -->
-  <link rel="stylesheet" href="dash/mobile.css" media="(max-width: 900px)" />
+  <link rel="stylesheet" href="v2/dash.css" />
 </head>
 <body>
-  <!-- ============ Mobile shell (tab-navigated single-panel app) ============ -->
-  <div id="mobileShell" hidden>
-    <header class="mhead">
-      <div class="brandrow">
-        <span class="brand">Wattlas</span>
-        <span class="period" id="periodNote"></span>
-      </div>
-      <div class="chiprow" id="zoneChips"></div>
-      <div class="winrow2">
-        <span class="seg" id="winSeg">
-          <button data-days="30">30d</button>
-          <button data-days="90">90d</button>
-          <button data-days="180">6mo</button>
-          <button data-days="9999" class="active">All</button>
-        </span>
-      </div>
-      <div id="brushSel" style="display:none;"></div>
-    </header>
-    <main class="mmain">
-      <div id="status" class="loading">Loading data…</div>
-      <div id="panels"></div>
-    </main>
-    <nav class="mnav" id="mnav"></nav>
-  </div>
+  <header class="topbar" data-screen-label="Mobile top bar">
+    <div class="brand">Wattlas <small>European electricity, explained</small></div>
+    <nav class="topnav">
+      <a href="#pulse">Pulse</a><a href="#spread">Spread</a><a href="#mix">Mix</a><a href="#mismatch">Mismatch</a><a href="#divergence">Divergence</a><a href="#carbon">Carbon</a><a href="#curtailment">Curtailment</a><a href="#history">History</a>
+    </nav>
+  </header>
 
-  <!-- ============ Desktop shell (sidebar + story-driven panels) ============ -->
-  <div id="desktopShell">
   <div class="shell">
-    <aside class="side">
+    <aside class="side" data-screen-label="Sidebar">
       <div class="brand">Wattlas <small>European electricity, explained</small></div>
       <nav class="sidenav">
         <a href="#pulse"><span class="n">1</span>Pulse</a>
@@ -58,7 +34,7 @@
 
     <main class="main">
       <div class="main-inner">
-        <div class="ctrl">
+        <div class="ctrl" data-screen-label="Controls">
           <div class="ctrl-card">
             <div class="ctrl-row">
               <span class="ctrl-label">Zones</span>
@@ -84,7 +60,7 @@
 
         <div id="status" class="loading">Loading data…</div>
 
-        <section class="panel" id="pulse">
+        <section class="panel" id="pulse" data-screen-label="Pulse">
           <div class="panel-kicker"><span class="k">1 · Pulse — the daily rhythm</span></div>
           <h2 class="story" id="storyPulse"></h2>
           <p class="explain">The average price at each hour of the day. The midday dip is solar flooding the market; the evening peak is solar fading while demand stays high.<button class="info" data-tip="pulse" aria-label="About Pulse">i</button></p>
@@ -94,19 +70,16 @@
           <p class="cap">€/MWh, local time, averaged over the whole period. Source: ENTSO-E.</p>
         </section>
 
-        <section class="panel" id="spread">
+        <section class="panel" id="spread" data-screen-label="Spread">
           <div class="panel-kicker"><span class="k">2 · Spread — the daily gap</span></div>
           <h2 class="story" id="storySpread"></h2>
           <p class="explain">The gap each day between the cheapest and the most expensive hour — the swing that batteries and demand-shifting live on.<button class="info" data-tip="tb1" aria-label="About Spread">i</button></p>
-          <div class="panel-tools">
-            <span class="seg" id="spreadSeg"><button data-s="bars" class="active">Bars</button><button data-s="heatmap">Calendar</button></span>
-          </div>
           <div class="chartwrap" id="boxSpread"><canvas id="cSpread"></canvas></div>
           <div class="statrow" id="statsSpread"></div>
           <p class="cap" id="capSpread"></p>
         </section>
 
-        <section class="panel" id="mix">
+        <section class="panel" id="mix" data-screen-label="Mix">
           <div class="panel-kicker"><span class="k">3 · Mix — what makes the power</span><a href="mix.html">Full view ↗</a></div>
           <h2 class="story" id="storyMix"></h2>
           <p class="explain">What actually generates the electricity, fuel by fuel. France leans on flat nuclear; Germany rides volatile wind and solar.<button class="info" data-tip="mix" aria-label="About Mix">i</button></p>
@@ -120,7 +93,7 @@
           <p class="cap">Stacked average generation by fuel. Gaps render as breaks, never fabricated zeros. Source: ENTSO-E.</p>
         </section>
 
-        <section class="panel" id="mismatch">
+        <section class="panel" id="mismatch" data-screen-label="Mismatch">
           <div class="panel-kicker"><span class="k">4 · Mismatch — residual load</span></div>
           <h2 class="story" id="storyMis"></h2>
           <p class="explain">The demand left for conventional plants after wind and solar have done their bit. It dips midday and peaks in the evening — which is why prices peak then too.<button class="info" data-tip="residual" aria-label="About Mismatch">i</button></p>
@@ -129,7 +102,7 @@
           <p class="cap">Residual load = demand − wind − solar (GW); the shaded band is covered by wind+solar. Germany, whole period. Source: ENTSO-E.</p>
         </section>
 
-        <section class="panel" id="divergence">
+        <section class="panel" id="divergence" data-screen-label="Divergence">
           <div class="panel-kicker"><span class="k">5 · Divergence — geography</span><a href="divergence.html">Full view ↗</a></div>
           <h2 class="story" id="storyDiv"></h2>
           <p class="explain">How far neighbouring zones' prices drift apart. When an interconnector fills up, the cheaper side can't rescue the dearer one and prices decouple.<button class="info" data-tip="divergence" aria-label="About Divergence">i</button></p>
@@ -141,19 +114,16 @@
           <p class="cap" id="capDiv"></p>
         </section>
 
-        <section class="panel" id="carbon">
+        <section class="panel" id="carbon" data-screen-label="Carbon">
           <div class="panel-kicker"><span class="k">6 · Carbon — how clean each hour is</span></div>
           <h2 class="story" id="storyCarbon"></h2>
           <p class="explain">Grid carbon intensity falls as wind and solar rise — and France's nuclear reads far cleaner than coal-heavy hours.<button class="info" data-tip="carbon" aria-label="About Carbon">i</button></p>
-          <div class="panel-tools">
-            <span class="seg" id="carbonSeg"><button data-c="time" class="active">Timeline</button><button data-c="scatter">vs renewables</button></span>
-          </div>
           <div class="chartwrap" id="boxCarbon"><canvas id="cCarbon"></canvas></div>
           <div class="statrow" id="statsCarbon"></div>
           <p class="cap" id="capCarbon"></p>
         </section>
 
-        <section class="panel" id="curtailment">
+        <section class="panel" id="curtailment" data-screen-label="Curtailment">
           <div class="panel-kicker"><span class="k">7 · Curtailment — wasted clean power</span><a href="curtailment.html">Full view ↗</a></div>
           <h2 class="story" id="storyCurtail"></h2>
           <p class="explain">Wind and solar thrown away when the grid can't absorb or move it — the cost of Germany's north–south bottleneck.<button class="info" data-tip="curtail" aria-label="About Curtailment">i</button></p>
@@ -162,7 +132,7 @@
           <p class="cap">Green bars = curtailed renewable energy (MWh/day); red line = negative-price hours that day. Germany. Source: netztransparenz.de.</p>
         </section>
 
-        <section class="panel" id="history">
+        <section class="panel" id="history" data-screen-label="History">
           <div class="panel-kicker"><span class="k">8 · History — the long view</span><a href="history.html">Full view ↗</a></div>
           <h2 class="story" id="storyHist"></h2>
           <p class="explain">Years of daily spread at once. Drag across the chart to zoom; fold every year onto twelve months; read the year-on-year trend. Germany; not affected by the window control.<button class="info" data-tip="history" aria-label="About History">i</button></p>
@@ -176,17 +146,21 @@
       </div>
     </main>
   </div>
-  </div><!-- /#desktopShell -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
   <script src="util.js"></script>
   <script src="fuels.js"></script>
-  <script src="dash/dash-core.js"></script>
-  <script src="dash/dash-panels-a.js"></script>
-  <script src="dash/dash-panels-b.js"></script>
-  <script src="dash/mobile-panels.js"></script>
-  <script src="dash/dash-boot.js"></script>
+  <script src="v2/dash-core.js"></script>
+  <script src="v2/dash-panels-a.js"></script>
+  <script src="v2/dash-panels-b.js"></script>
+  <script src="v2/dash-boot.js"></script>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="v2/tweaks-panel.jsx"></script>
+  <script type="text/babel" src="v2/dash-tweaks.jsx"></script>
 </body>
 </html>

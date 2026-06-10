@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Mobile mockup</title>
+  <style>
+    body { margin: 0; min-height: 100vh; background: #efece4;
+      display: flex; align-items: center; justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    #stage { transform-origin: center center; }
+    .screen-frame { width: 100%; height: 100%; border: none; display: block; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="v2/ios-frame.jsx"></script>
+
+  <script type="text/babel">
+    function Mockup() {
+      return (
+        <div id="stage">
+          <IOSDevice>
+            <iframe className="screen-frame" src="Mobile.html" title="Wattlas mobile app"></iframe>
+          </IOSDevice>
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById("root")).render(<Mockup />);
+
+    // Scale the device to fit the viewport with a margin.
+    function fit() {
+      const stage = document.getElementById("stage");
+      if (!stage) { requestAnimationFrame(fit); return; }
+      const s = Math.min(1, (window.innerHeight - 48) / 902, (window.innerWidth - 48) / 430);
+      stage.style.transform = "scale(" + s + ")";
+    }
+    window.addEventListener("resize", fit);
+    requestAnimationFrame(fit);
+  </script>
+</body>
+</html>

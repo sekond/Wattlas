@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas Mobile</title>
+  <link rel="stylesheet" href="v2/dash.css" />
+  <link rel="stylesheet" href="v2/mobile.css" />
+</head>
+<body>
+  <header class="mhead" data-screen-label="Mobile header">
+    <div class="brandrow">
+      <span class="brand">Wattlas</span>
+      <span class="period" id="periodNote"></span>
+    </div>
+    <div class="chiprow" id="zoneChips"></div>
+    <div class="winrow2">
+      <span class="seg" id="winSeg">
+        <button data-days="30">30d</button>
+        <button data-days="90">90d</button>
+        <button data-days="180">6mo</button>
+        <button data-days="9999" class="active">All</button>
+      </span>
+    </div>
+    <div id="brushSel" style="display:none;"></div>
+  </header>
+
+  <main class="mmain">
+    <div id="status" class="loading">Loading data…</div>
+    <div id="panels"></div>
+  </main>
+
+  <nav class="mnav" id="mnav" data-screen-label="Tab bar"></nav>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+  <script src="util.js"></script>
+  <script src="fuels.js"></script>
+  <script src="v2/dash-core.js"></script>
+  <script src="v2/dash-panels-a.js"></script>
+  <script src="v2/dash-panels-b.js"></script>
+  <script src="v2/mobile-panels.js"></script>
+  <script src="v2/dash-mobile-boot.js"></script>
+</body>
+</html>
