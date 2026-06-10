@@ -4,40 +4,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Wattlas — European electricity, explained</title>
-  <link rel="stylesheet" href="dash/dash.css?v=4" />
-  <!-- Mobile shell styles only apply at <=900px; the desktop shell is removed
-       from the DOM below that width (dash-boot.js), so the unscoped panel rules
-       in mobile.css can never touch the desktop layout. -->
-  <link rel="stylesheet" href="dash/mobile.css?v=4" media="(max-width: 900px)" />
+  <!-- One responsive shell: a sidebar + long-scroll of panels on desktop; a top
+       scroll-spy nav + the same vertical scroll on mobile (no bottom tab bar).
+       Charts render lazily as panels scroll into view (dash-boot.js). -->
+  <link rel="stylesheet" href="dash/dash.css?v=5" />
 </head>
 <body>
-  <!-- ============ Mobile shell (tab-navigated single-panel app) ============ -->
-  <div id="mobileShell" hidden>
-    <header class="mhead">
-      <div class="brandrow">
-        <span class="brand">Wattlas</span>
-        <span class="period" id="periodNote"></span>
-      </div>
-      <div class="chiprow" id="zoneChips"></div>
-      <div class="winrow2">
-        <span class="seg" id="winSeg">
-          <button data-days="30">30d</button>
-          <button data-days="90">90d</button>
-          <button data-days="180">6mo</button>
-          <button data-days="9999" class="active">All</button>
-        </span>
-      </div>
-      <div id="brushSel" style="display:none;"></div>
-    </header>
-    <main class="mmain">
-      <div id="status" class="loading">Loading data…</div>
-      <div id="panels"></div>
-    </main>
-    <nav class="mnav" id="mnav"></nav>
-  </div>
+  <!-- Mobile-only top bar (hidden on desktop via dash.css; sidebar takes over there) -->
+  <header class="topbar">
+    <div class="brand">Wattlas <small>European electricity, explained</small></div>
+    <nav class="topnav">
+      <a href="#pulse">Pulse</a><a href="#spread">Spread</a><a href="#mix">Mix</a><a href="#mismatch">Mismatch</a><a href="#divergence">Divergence</a><a href="#carbon">Carbon</a><a href="#curtailment">Curtailment</a><a href="#history">History</a>
+    </nav>
+  </header>
 
-  <!-- ============ Desktop shell (sidebar + story-driven panels) ============ -->
-  <div id="desktopShell">
   <div class="shell">
     <aside class="side">
       <div class="brand">Wattlas <small>European electricity, explained</small></div>
@@ -176,17 +156,15 @@
       </div>
     </main>
   </div>
-  </div><!-- /#desktopShell -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
   <script src="util.js"></script>
   <script src="fuels.js"></script>
-  <script src="dash/dash-core.js?v=4"></script>
-  <script src="dash/dash-panels-a.js?v=4"></script>
-  <script src="dash/dash-panels-b.js?v=4"></script>
-  <script src="dash/mobile-panels.js?v=4"></script>
-  <script src="dash/dash-boot.js?v=4"></script>
+  <script src="dash/dash-core.js?v=5"></script>
+  <script src="dash/dash-panels-a.js?v=5"></script>
+  <script src="dash/dash-panels-b.js?v=5"></script>
+  <script src="dash/dash-boot.js?v=5"></script>
 </body>
 </html>
