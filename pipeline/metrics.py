@@ -334,6 +334,24 @@ def carbon_intensity_hourly(
     return intensity.dropna()
 
 
+def vre_hourly_mw(
+    fuel_hourly_mw: pd.DataFrame,
+    vre_fuels: tuple = ("Wind onshore", "Wind offshore", "Solar"),
+) -> pd.Series:
+    """Variable-renewable (wind + solar) generation per hour, MW.
+
+    The input the Mismatch view subtracts from demand to get residual load. Fuels
+    absent for a zone are skipped; an hour where every VRE fuel is missing stays
+    NaN (min_count=1), so gaps propagate honestly rather than reading as zero.
+    """
+    if fuel_hourly_mw.empty:
+        return pd.Series(dtype=float)
+    cols = [c for c in fuel_hourly_mw.columns if c in vre_fuels]
+    if not cols:
+        return pd.Series(0.0, index=fuel_hourly_mw.index)
+    return fuel_hourly_mw[cols].clip(lower=0).sum(axis=1, min_count=1)
+
+
 def renewable_share_hourly(fuel_hourly_mw: pd.DataFrame, renewable_fuels: set) -> pd.Series:
     """Renewable share of generation per hour, in percent (0-100).
 

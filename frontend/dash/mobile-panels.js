@@ -18,7 +18,7 @@ const PANEL_DEFS = [
     story: "storyMix" },
   { id: "mismatch", k: "4 · Mismatch — residual load", tip: "residual",
     explain: "The demand left for conventional plants after wind and solar have done their bit — it peaks in the evening, and so do prices.",
-    body: '<div class="chartwrap" id="boxMis"><canvas id="cMis"></canvas></div><div class="statrow" id="statsMis"></div><p class="cap">Residual load = demand − wind − solar (GW). Germany, whole period. Source: ENTSO-E.</p>',
+    body: '<div class="chartwrap" id="boxMis"><canvas id="cMis"></canvas></div><div class="statrow" id="statsMis"></div><p class="cap">Residual load = demand − wind − solar (GW). Hour-of-day average over the whole period. Source: ENTSO-E.</p>',
     story: "storyMis" },
   { id: "divergence", k: "5 · Divergence — geography", tip: "divergence",
     explain: "How far neighbouring zones' prices drift apart when interconnectors fill up.",

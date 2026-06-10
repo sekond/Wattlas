@@ -228,6 +228,24 @@ the cached multi-zone prices (`build_zone_views.py`). Same metrics as the DE-LU
 { "zones": { "DE_LU": { "hours": [0,"…",23], "all_mean": [...], "weekday_mean": [...], "weekend_mean": [...] } } }
 ```
 
+## `mismatch_by_zone.json` (v2 — per-zone Mismatch for the dashboard)
+
+Zone-keyed residual-load + total-demand hour-of-day profiles (GW), powering the
+dashboard's zone-aware Mismatch panel. Built by `build_mismatch_zones.py`:
+wind+solar from the per-zone generation cache (`_raw_generation_{zone}.parquet`)
+minus per-zone `query_load`. The standalone Mismatch page keeps using the
+DE-LU-only `mismatch.json`. Residual is NOT clipped (can be negative). All zones
+grouped in Europe/Berlin local time (Central European).
+
+```json
+{ "zone_default": "DE_LU", "zones_available": ["DE_LU","FR","NL","BE","PL","AT"],
+  "period_start": "2025-06-10", "period_end": "2026-06-09",
+  "zones": { "DE_LU": {
+    "hours": [0,"…",23],
+    "residual_load_gw": [18.2,"…"],   // demand − wind − solar, GW; may be negative
+    "total_load_gw": [49.4,"…"] } } }
+```
+
 ## `spread_history.json` (v2 — Phase 6)
 
 Multi-year DE-LU daily spread for the Time-investigation view, plus monthly,

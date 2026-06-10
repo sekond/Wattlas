@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Wattlas — European electricity, explained</title>
-  <link rel="stylesheet" href="dash/dash.css?v=3" />
+  <link rel="stylesheet" href="dash/dash.css?v=4" />
   <!-- Mobile shell styles only apply at <=900px; the desktop shell is removed
        from the DOM below that width (dash-boot.js), so the unscoped panel rules
        in mobile.css can never touch the desktop layout. -->
-  <link rel="stylesheet" href="dash/mobile.css?v=3" media="(max-width: 900px)" />
+  <link rel="stylesheet" href="dash/mobile.css?v=4" media="(max-width: 900px)" />
 </head>
 <body>
   <!-- ============ Mobile shell (tab-navigated single-panel app) ============ -->
@@ -126,7 +126,7 @@
           <p class="explain">The demand left for conventional plants after wind and solar have done their bit. It dips midday and peaks in the evening — which is why prices peak then too.<button class="info" data-tip="residual" aria-label="About Mismatch">i</button></p>
           <div class="chartwrap" id="boxMis"><canvas id="cMis"></canvas></div>
           <div class="statrow" id="statsMis"></div>
-          <p class="cap">Residual load = demand − wind − solar (GW); the shaded band is covered by wind+solar. Germany, whole period. Source: ENTSO-E.</p>
+          <p class="cap">Residual load = demand − wind − solar (GW); the shaded band is covered by wind+solar. Hour-of-day average over the whole period. Source: ENTSO-E.</p>
         </section>
 
         <section class="panel" id="divergence">
@@ -183,10 +183,10 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
   <script src="util.js"></script>
   <script src="fuels.js"></script>
-  <script src="dash/dash-core.js?v=3"></script>
-  <script src="dash/dash-panels-a.js?v=3"></script>
-  <script src="dash/dash-panels-b.js?v=3"></script>
-  <script src="dash/mobile-panels.js?v=3"></script>
-  <script src="dash/dash-boot.js?v=3"></script>
+  <script src="dash/dash-core.js?v=4"></script>
+  <script src="dash/dash-panels-a.js?v=4"></script>
+  <script src="dash/dash-panels-b.js?v=4"></script>
+  <script src="dash/mobile-panels.js?v=4"></script>
+  <script src="dash/dash-boot.js?v=4"></script>
 </body>
 </html>

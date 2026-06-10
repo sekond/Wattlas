@@ -298,6 +298,19 @@ def test_carbon_intensity_skips_missing_fuel_not_whole_hour():
     assert round(ci.iloc[0], 1) == 490.0  # missing hard coal counts as 0 gen
 
 
+def test_vre_hourly_mw():
+    # Wind + solar summed per hour; non-VRE fuels (gas) ignored; gaps preserved.
+    from metrics import vre_hourly_mw
+    idx = pd.date_range("2025-07-02 00:00", periods=2, freq="1h", tz="Europe/Berlin")
+    gen = pd.DataFrame({
+        ("Solar", "Actual Aggregated"): [10.0, 20.0],
+        ("Wind Onshore", "Actual Aggregated"): [5.0, 5.0],
+        ("Fossil Gas", "Actual Aggregated"): [100.0, 100.0],
+    }, index=idx)
+    vre = vre_hourly_mw(collapse_generation(gen))
+    assert vre.iloc[0] == 15.0 and vre.iloc[1] == 25.0
+
+
 def test_renewable_share_hourly():
     # 30 MW renewable (solar) of 60 MW total -> 50%.
     idx = pd.date_range("2025-07-02 00:00", periods=1, freq="1h", tz="Europe/Berlin")
