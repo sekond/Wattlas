@@ -1,18 +1,7 @@
 {
   "zone": "DE_LU",
-  "generated_at": "2026-06-11T09:46:41+00:00",
+  "generated_at": "2026-06-12T09:14:49+00:00",
   "days": [
-    {
-      "date": "2025-06-11",
-      "tb1": 220.4,
-      "tb2": 201.4,
-      "min_price": -3.4,
-      "max_price": 217.0,
-      "mean_price": 71.6,
-      "negative_hours": 5,
-      "hours_observed": 24,
-      "complete": true
-    },
     {
       "date": "2025-06-12",
       "tb1": 159.9,
@@ -4012,18 +4001,29 @@
       "tb2": 139.37,
       "min_price": 68.68,
       "max_price": 213.98,
-      "mean_price": 122.44,
+      "mean_price": 122.51,
       "negative_hours": 0,
       "hours_observed": 24,
       "complete": true
     },
     {
       "date": "2026-06-11",
+      "tb1": 143.28,
+      "tb2": 131.46,
+      "min_price": 31.58,
+      "max_price": 174.86,
+      "mean_price": 111.97,
+      "negative_hours": 0,
+      "hours_observed": 24,
+      "complete": true
+    },
+    {
+      "date": "2026-06-12",
       "tb1": 0.0,
       "tb2": 0.0,
-      "min_price": 147.22,
-      "max_price": 147.22,
-      "mean_price": 147.22,
+      "min_price": 128.14,
+      "max_price": 128.14,
+      "mean_price": 128.14,
       "negative_hours": 0,
       "hours_observed": 1,
       "complete": false
