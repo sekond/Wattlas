@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-17T10:27:33+00:00",
+  "generated_at": "2026-06-18T10:29:06+00:00",
   "zone_default": "DE_LU",
   "zones_available": [
     "DE_LU",
@@ -9,18 +9,11 @@
     "PL",
     "AT"
   ],
-  "period_start": "2025-06-17",
-  "period_end": "2026-06-16",
+  "period_start": "2025-06-18",
+  "period_end": "2026-06-17",
   "zones": {
     "DE_LU": {
       "days": [
-        {
-          "date": "2025-06-17",
-          "tb1": 248.0,
-          "tb2": 247.15,
-          "negative_hours": 5,
-          "complete": true
-        },
         {
           "date": "2025-06-18",
           "tb1": 177.62,
@@ -2571,6 +2564,13 @@
         },
         {
           "date": "2026-06-17",
+          "tb1": 101.32,
+          "tb2": 98.73,
+          "negative_hours": 0,
+          "complete": true
+        },
+        {
+          "date": "2026-06-18",
           "tb1": 0.0,
           "tb2": 0.0,
           "negative_hours": 0,
@@ -2578,23 +2578,16 @@
         }
       ],
       "summary": {
-        "period_start": "2025-06-17",
-        "period_end": "2026-06-16",
-        "avg_daily_tb1": 124.5,
-        "total_negative_hours": 538,
-        "perfect_arbitrage_eur_per_mw": 85817.61,
+        "period_start": "2025-06-18",
+        "period_end": "2026-06-17",
+        "avg_daily_tb1": 124.1,
+        "total_negative_hours": 533,
+        "perfect_arbitrage_eur_per_mw": 85520.78,
         "perfect_arbitrage_is_upper_bound": true
       }
     },
     "FR": {
       "days": [
-        {
-          "date": "2025-06-17",
-          "tb1": 126.69,
-          "tb2": 124.78,
-          "negative_hours": 3,
-          "complete": true
-        },
         {
           "date": "2025-06-18",
           "tb1": 128.33,
@@ -5145,6 +5138,13 @@
         },
         {
           "date": "2026-06-17",
+          "tb1": 142.64,
+          "tb2": 131.89,
+          "negative_hours": 0,
+          "complete": true
+        },
+        {
+          "date": "2026-06-18",
           "tb1": 0.0,
           "tb2": 0.0,
           "negative_hours": 0,
@@ -5152,23 +5152,16 @@
         }
       ],
       "summary": {
-        "period_start": "2025-06-17",
-        "period_end": "2026-06-16",
-        "avg_daily_tb1": 95.9,
-        "total_negative_hours": 586,
-        "perfect_arbitrage_eur_per_mw": 66366.28,
+        "period_start": "2025-06-18",
+        "period_end": "2026-06-17",
+        "avg_daily_tb1": 96.0,
+        "total_negative_hours": 583,
+        "perfect_arbitrage_eur_per_mw": 66380.49,
         "perfect_arbitrage_is_upper_bound": true
       }
     },
     "NL": {
       "days": [
-        {
-          "date": "2025-06-17",
-          "tb1": 240.34,
-          "tb2": 239.23,
-          "negative_hours": 5,
-          "complete": true
-        },
         {
           "date": "2025-06-18",
           "tb1": 176.36,
@@ -7719,6 +7712,13 @@
         },
         {
           "date": "2026-06-17",
+          "tb1": 86.88,
+          "tb2": 83.56,
+          "negative_hours": 0,
+          "complete": true
+        },
+        {
+          "date": "2026-06-18",
           "tb1": 0.0,
           "tb2": 0.0,
           "negative_hours": 0,
@@ -7726,23 +7726,16 @@
         }
       ],
       "summary": {
-        "period_start": "2025-06-17",
-        "period_end": "2026-06-16",
-        "avg_daily_tb1": 119.8,
-        "total_negative_hours": 470,
-        "perfect_arbitrage_eur_per_mw": 82635.38,
+        "period_start": "2025-06-18",
+        "period_end": "2026-06-17",
+        "avg_daily_tb1": 119.4,
+        "total_negative_hours": 465,
+        "perfect_arbitrage_eur_per_mw": 82324.04,
         "perfect_arbitrage_is_upper_bound": true
       }
     },
     "BE": {
       "days": [
-        {
-          "date": "2025-06-17",
-          "tb1": 198.84,
-          "tb2": 195.32,
-          "negative_hours": 5,
-          "complete": true
-        },
         {
           "date": "2025-06-18",
           "tb1": 155.4,
@@ -10293,6 +10286,13 @@
         },
         {
           "date": "2026-06-17",
+          "tb1": 80.3,
+          "tb2": 76.97,
+          "negative_hours": 0,
+          "complete": true
+        },
+        {
+          "date": "2026-06-18",
           "tb1": 0.0,
           "tb2": 0.0,
           "negative_hours": 0,
@@ -10300,23 +10300,16 @@
         }
       ],
       "summary": {
-        "period_start": "2025-06-17",
-        "period_end": "2026-06-16",
-        "avg_daily_tb1": 109.0,
-        "total_negative_hours": 425,
-        "perfect_arbitrage_eur_per_mw": 75381.67,
+        "period_start": "2025-06-18",
+        "period_end": "2026-06-17",
+        "avg_daily_tb1": 108.7,
+        "total_negative_hours": 420,
+        "perfect_arbitrage_eur_per_mw": 75144.97,
         "perfect_arbitrage_is_upper_bound": true
       }
     },
     "PL": {
       "days": [
-        {
-          "date": "2025-06-17",
-          "tb1": 267.75,
-          "tb2": 262.58,
-          "negative_hours": 0,
-          "complete": true
-        },
         {
           "date": "2025-06-18",
           "tb1": 219.74,
@@ -12867,6 +12860,13 @@
         },
         {
           "date": "2026-06-17",
+          "tb1": 108.91,
+          "tb2": 104.46,
+          "negative_hours": 0,
+          "complete": true
+        },
+        {
+          "date": "2026-06-18",
           "tb1": 0.0,
           "tb2": 0.0,
           "negative_hours": 0,
@@ -12874,23 +12874,16 @@
         }
       ],
       "summary": {
-        "period_start": "2025-06-17",
-        "period_end": "2026-06-16",
-        "avg_daily_tb1": 145.5,
+        "period_start": "2025-06-18",
+        "period_end": "2026-06-17",
+        "avg_daily_tb1": 145.1,
         "total_negative_hours": 307,
-        "perfect_arbitrage_eur_per_mw": 97924.64,
+        "perfect_arbitrage_eur_per_mw": 97608.4,
         "perfect_arbitrage_is_upper_bound": true
       }
     },
     "AT": {
       "days": [
-        {
-          "date": "2025-06-17",
-          "tb1": 241.72,
-          "tb2": 239.05,
-          "negative_hours": 5,
-          "complete": true
-        },
         {
           "date": "2025-06-18",
           "tb1": 169.89,
@@ -15441,6 +15434,13 @@
         },
         {
           "date": "2026-06-17",
+          "tb1": 115.47,
+          "tb2": 109.04,
+          "negative_hours": 0,
+          "complete": true
+        },
+        {
+          "date": "2026-06-18",
           "tb1": 0.0,
           "tb2": 0.0,
           "negative_hours": 0,
@@ -15448,11 +15448,11 @@
         }
       ],
       "summary": {
-        "period_start": "2025-06-17",
-        "period_end": "2026-06-16",
-        "avg_daily_tb1": 121.1,
-        "total_negative_hours": 345,
-        "perfect_arbitrage_eur_per_mw": 83541.82,
+        "period_start": "2025-06-18",
+        "period_end": "2026-06-17",
+        "avg_daily_tb1": 120.8,
+        "total_negative_hours": 340,
+        "perfect_arbitrage_eur_per_mw": 83281.79,
         "perfect_arbitrage_is_upper_bound": true
       }
     }
