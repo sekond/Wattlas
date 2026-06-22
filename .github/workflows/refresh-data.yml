@@ -60,6 +60,11 @@ jobs:
           python pipeline/build_curtailment.py --years 2 || echo "curtailment build skipped/failed — continuing"
           # Wasted-wind Panel 2: per-control-area net balance from SMARD (open, no key).
           python pipeline/build_regional_balance.py || echo "regional balance (SMARD) build skipped/failed — continuing"
+          # France-nuclear slice (v4): éCO2mix régional + national via ODRÉ (open, no key);
+          # the fleet is a committed static list. All isolated and non-fatal.
+          python pipeline/build_fr_nuclear_sites.py || echo "FR fleet build skipped/failed — continuing"
+          python pipeline/build_fr_regional.py || echo "FR régional (éCO2mix) build skipped/failed — continuing"
+          python pipeline/build_fr_nuclear_availability.py || echo "FR availability (éCO2mix) build skipped/failed — continuing"
 
       - name: Build MaStR capacity (weekly — heavy bulk download)
         run: |

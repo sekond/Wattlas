@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — France's nuclear</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Page-scoped map styling (the map is unique to this view). */
+    .map-host { width: 100%; max-width: 360px; margin: 0 auto; }
+    .region { fill: #e3e1d8; stroke: var(--bg); stroke-width: 0.4; }
+    .region:hover { stroke: var(--text); stroke-width: 0.9; }
+    .ramp-legend { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: 11px; color: var(--muted); margin-top: 10px; }
+    .ramp-legend .b { display: inline-flex; align-items: center; gap: 4px; }
+    .ramp-legend .sw { width: 13px; height: 11px; border-radius: 2px; display: inline-block; }
+    .toprow { display: flex; align-items: center; gap: 8px; margin: 5px 0; font-size: 12px; }
+    .toprow .nm { width: 104px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+    .toprow .bar { flex: 1; height: 9px; background: var(--surface-2); border-radius: 3px; position: relative; }
+    .toprow .bar > span { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; }
+    .toprow .v { width: 56px; text-align: right; color: var(--muted); }
+
+    /* ---- Sidebar shell — mirrors the dashboard layout (dash/dash.css). Page-scoped. */
+    .shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh; }
+    .side { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column;
+      padding: 26px 18px 18px 22px; border-right: 0.5px solid var(--border); background: var(--bg); }
+    .side .brand { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; margin-left: 0; }
+    .side .brand small { display: block; color: var(--hint); font-weight: 400; font-size: 12px; margin: 2px 0 0; }
+    .sidenav { margin-top: 24px; display: flex; flex-direction: column; gap: 1px; }
+    .sidenav a { display: flex; align-items: baseline; gap: 8px; color: var(--muted); text-decoration: none;
+      font-size: 13.5px; padding: 7px 10px; border-radius: var(--radius-sm); border-left: 2px solid transparent; }
+    .sidenav a .n { font-variant-numeric: tabular-nums; font-size: 10.5px; color: var(--hint); width: 14px; }
+    .sidenav a:hover { color: var(--text); background: var(--surface-2); }
+    .sidenav a.active { color: var(--text); font-weight: 500; background: var(--surface-2); border-left-color: var(--amber); }
+    .side .foot { margin-top: auto; font-size: 11px; color: var(--hint); line-height: 1.6; }
+    .main { padding: 0 36px 80px; min-width: 0; }
+    .main-inner { max-width: 1060px; margin: 0 auto; padding-top: 26px; }
+    .topbar { display: none; }
+    @media (max-width: 900px) {
+      .shell { grid-template-columns: 1fr; }
+      .side { display: none; }
+      .topbar { display: block; position: sticky; top: 0; z-index: 40; background: var(--bg);
+        border-bottom: 0.5px solid var(--border); padding: 10px 16px 0; }
+      .topbar .brand { font-size: 16px; font-weight: 600; }
+      .topbar .brand small { color: var(--hint); font-weight: 400; font-size: 11px; margin-left: 8px; }
+      .topnav { display: flex; gap: 4px; overflow-x: auto; padding: 8px 0 10px; -webkit-overflow-scrolling: touch; }
+      .topnav a { font-size: 12px; color: var(--muted); text-decoration: none; white-space: nowrap;
+        padding: 6px 12px; border-radius: 999px; border: 0.5px solid transparent; }
+      .topnav a.active { color: var(--text); background: var(--surface-2); border-color: var(--border); }
+      .main { padding: 0 14px 60px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Wattlas <small>European electricity, explained</small></div>
+    <nav class="topnav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="index.html">Spread</a>
+      <a href="pulse.html">Pulse</a>
+      <a href="mix.html">Mix</a>
+      <a href="mismatch.html">Mismatch</a>
+      <a href="divergence.html">Divergence</a>
+      <a href="dashboard.html#carbon">Carbon</a>
+      <a href="curtailment.html">Curtailment</a>
+      <a href="history.html">History</a>
+      <a href="wasted_wind.html">North–south grid</a>
+      <a href="fr_nuclear.html" class="active">France nuclear</a>
+    </nav>
+  </header>
+
+  <div class="shell">
+    <aside class="side">
+      <div class="brand">Wattlas <small>European electricity, explained</small></div>
+      <nav class="sidenav">
+        <a href="dashboard.html"><span class="n">⌂</span>Dashboard</a>
+        <a href="pulse.html"><span class="n">1</span>Pulse</a>
+        <a href="index.html"><span class="n">2</span>Spread</a>
+        <a href="mix.html"><span class="n">3</span>Mix</a>
+        <a href="mismatch.html"><span class="n">4</span>Mismatch</a>
+        <a href="divergence.html"><span class="n">5</span>Divergence</a>
+        <a href="dashboard.html#carbon"><span class="n">6</span>Carbon</a>
+        <a href="curtailment.html"><span class="n">7</span>Curtailment</a>
+        <a href="history.html"><span class="n">8</span>History</a>
+        <a href="wasted_wind.html"><span class="n">↗</span>North–south grid</a>
+        <a href="fr_nuclear.html" class="active"><span class="n">↗</span>France nuclear</a>
+      </nav>
+      <div class="foot">Open data from ENTSO-E, RTE/ODRÉ, SMARD, MaStR and netztransparenz. Pre-computed and static — no live backend.</div>
+    </aside>
+
+    <main class="main">
+      <div class="main-inner">
+
+        <h1>France's nuclear: where it sits, who it powers, when it dips</h1>
+        <p class="sub">France runs on a handful of big nuclear sites instead of scattered renewables. This view shows where that power is made, which régions lean on it, and what happens to the whole country when the fleet goes down for maintenance — or a heatwave warms the rivers. The matched twin of the German north–south view.</p>
+
+        <p class="cap" style="margin:-8px 0 22px;">Régional generation, consumption and balance come from RTE's éCO2mix via ODRÉ (production-based; French fields translated once in the pipeline). Nuclear site locations are public; reactor counts and capacity change over time — figures are current to the build. Pre-computed and static — no live backend.</p>
+
+        <div id="kpis" class="kpis"></div>
+
+        <!-- Panel 1 — the fleet map. -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">1 · The fleet — where the power is made</div>
+            <div class="meta">nuclear sites + host régions</div>
+          </div>
+          <p class="block-pitch">A handful of large sites on the Loire, the Rhône, the eastern rivers and the north coast power the entire country — the centralised opposite of Germany's scattered wind and solar. Red circles are demand centres; note how much Île-de-France consumes with almost no local generation.</p>
+          <div class="row2">
+            <div>
+              <div id="map" class="map-host"><div class="nodata">Loading map…</div></div>
+            </div>
+            <div>
+              <div class="meta" style="margin-bottom:6px;">Largest sites (MW)</div>
+              <div id="topList"></div>
+              <div class="ramp-legend" id="rampLegend"></div>
+              <div class="legend" style="margin-top:10px;">
+                <span><span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:#7d7a86;margin-right:5px;vertical-align:middle"></span>Nuclear site</span>
+                <span><span style="display:inline-block;width:11px;height:11px;border:1.5px solid var(--red);border-radius:50%;background:rgba(163,45,45,.14);margin-right:5px;vertical-align:middle"></span>Demand centre (proxy)</span>
+              </div>
+            </div>
+          </div>
+          <!-- copy block A — verbatim, takes no position on nuclear policy -->
+          <p class="cap" id="blockA" style="margin-top:14px;">France made a deliberate, state-led bet in the 1970s–80s: a large fleet of reactors supplying most of its electricity. The result is a highly centralised, low-carbon grid — a handful of big sites on rivers and the coast powering the whole country, the structural opposite of Germany's distributed wind and solar. This view shows where that power is made and which régions lean on it; it takes no position on nuclear policy.</p>
+          <p class="cap" id="capSrc"></p>
+        </div>
+
+        <!-- Panel 2 — who exports, who imports (éCO2mix régional net balance). -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">2 · Who exports, who imports</div>
+            <div class="meta">régional net balance · avg GW</div>
+          </div>
+          <p class="block-pitch">Generation minus consumption by région. Nuclear-dense régions (Centre-Val de Loire, Auvergne-Rhône-Alpes, Normandie, Grand Est) run large surpluses; demand-heavy Île-de-France and generation-poor régions lean on the rest of the country.</p>
+          <div class="legend" style="margin-bottom:6px;">
+            <span><span class="swatch" style="background:#2f7d78"></span>Net exporter (gen &gt; demand)</span>
+            <span><span class="swatch" style="background:#a32d2d"></span>Net importer (demand &gt; gen)</span>
+          </div>
+          <div id="balWrap" class="chartbox" style="height:340px;"><canvas id="balChart"></canvas></div>
+          <!-- copy block C — verbatim, one bidding zone -->
+          <p class="cap" style="margin-top:12px;">France is a single bidding zone: one wholesale price nationwide. A région's surplus or deficit here is a physical balance (generation − consumption), not a regional price — the same reason Germany's north–south split doesn't show up in prices. <span id="balSrc"></span></p>
+        </div>
+
+        <!-- Panel 3 — the nuclear output dip over the year (éCO2mix national). -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">3 · When the fleet dips — and what moves with it</div>
+            <div class="meta">monthly output by source · GW</div>
+          </div>
+          <p class="block-pitch">Nuclear isn't "always on". Output falls in spring and summer for refuelling and maintenance — concentrated in the lower-demand months by design. France keeps exporting through the dip (demand drops too, and solar rises), so the seasonal swing rarely strains supply; the sharper risk is heatwaves, when warm rivers limit cooling.</p>
+          <div class="legend" id="mixLegend" style="margin-bottom:6px;"></div>
+          <div id="mixWrap" class="chartbox" style="height:250px;"><canvas id="mixChart"></canvas></div>
+
+          <!-- diptych punchline -->
+          <div style="text-align:center;font-size:12px;color:var(--muted);margin:18px 0 6px;">Two low-carbon bets, two structural characteristics</div>
+          <div class="split">
+            <div style="background:#e7f1ef;color:#0f6e56">Germany<br><span style="font-size:11px;color:var(--muted)">can't always move its wind to the demand</span></div>
+            <div style="background:#eef0f5;color:var(--blue)">France<br><span style="font-size:11px;color:var(--muted)">can't always keep its nuclear cool</span></div>
+          </div>
+          <!-- copy block B — verbatim availability methodology, non-alarmist -->
+          <p class="cap" style="margin-top:10px;">"Available capacity" is how much of the fleet could run; "output" is how much actually did. Dips come from planned maintenance and refuelling (concentrated in the lower-demand months), unplanned outages, and — in heatwaves — environmental limits on how much warm water reactors may return to rivers, which forces output down. These are operational and environmental constraints, not safety failures. <span id="mixSrc"></span></p>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="fuels.js"></script>
+  <script src="geo.js"></script>
+  <script>
+    async function loadGeo() {
+      for (const p of ["geo/regions_fr.topo.json", "../frontend/geo/regions_fr.topo.json", "/frontend/geo/regions_fr.topo.json"]) {
+        try { const r = await fetch(p); if (r.ok) return r.json(); } catch (e) {}
+      }
+      return null;
+    }
+    async function loadJSON(name) {
+      for (const base of ["../data/", "data/", "/data/"]) {
+        try { const r = await fetch(base + name); if (r.ok) return r.json(); } catch (e) {}
+      }
+      return null;
+    }
+    const fmtMW = (v) => Math.round(v).toLocaleString("en-US");
+    const GW = (mw) => (mw / 1000).toFixed(1) + " GW";
+
+    // Demand-centre proxy: major cities sized by metro population (millions). Honest
+    // proxy until régional metered consumption lands in Step 5.
+    const CITIES = [
+      { n: "Paris", lon: 2.35, lat: 48.86, p: 11 }, { n: "Lyon", lon: 4.83, lat: 45.76, p: 1.7 },
+      { n: "Marseille", lon: 5.37, lat: 43.30, p: 1.6 }, { n: "Lille", lon: 3.06, lat: 50.63, p: 1.05 },
+      { n: "Toulouse", lon: 1.44, lat: 43.60, p: 1.0 }, { n: "Bordeaux", lon: -0.58, lat: 44.84, p: 1.0 },
+      { n: "Nantes", lon: -1.55, lat: 47.22, p: 0.66 }, { n: "Strasbourg", lon: 7.75, lat: 48.58, p: 0.79 },
+      { n: "Nice", lon: 7.27, lat: 43.70, p: 0.94 },
+    ];
+    // Canonical "Nuclear" grey ramp (matches fuels.js "Nuclear" #7d7a86).
+    const RAMP = ["#ecebe9", "#d6d4d8", "#bdbac2", "#a09caa", "#7d7a86"];
+
+    (async function main() {
+      const host = document.getElementById("map");
+      const [topo, fleet] = await Promise.all([loadGeo(), loadJSON("fr_nuclear_sites.json")]);
+      if (!topo || !topo.objects || !topo.objects.regions || !fleet) {
+        host.innerHTML = '<div class="nodata">Map data unavailable.</div>'; return;
+      }
+      const sites = fleet.sites;
+      // Hosted nuclear capacity (MW) per région NUTS code, from the fleet.
+      const hosted = {};
+      sites.forEach((s) => { hosted[s.nuts_id] = (hosted[s.nuts_id] || 0) + s.capacity_mw; });
+
+      const projection = d3.geoConicConformal().parallels([44, 49]).rotate([-3, 0]);
+      const map = GeoMap.choropleth(host, {
+        topo, object: "regions", width: 360, height: 360, className: "region", projection,
+        ariaLabel: "Map of metropolitan France: régions shaded by hosted nuclear capacity, nuclear sites as grey circles on rivers and coasts, demand cities as red circles.",
+      });
+
+      // choropleth: régions with nuclear shaded by hosted GW; régions with none -> grey
+      const maxHosted = Math.max(...Object.values(hosted));
+      const color = d3.scaleQuantize().domain([0, maxHosted]).range(RAMP);
+      map.recolor((props) => { const v = hosted[props.NUTS_ID]; return v ? color(v) : null; });
+
+      // demand centres (proxy), then nuclear site points on top
+      const rscale = d3.scaleSqrt().domain([0, d3.max(CITIES, (c) => c.p)]).range([3, 16]);
+      GeoMap.points(map, CITIES, {
+        className: "demand", r: (d) => rscale(d.p),
+        fill: "rgba(163,45,45,.14)", stroke: "#a32d2d", strokeWidth: 1.2,
+        title: (d) => `${d.n} — demand centre (population proxy)`,
+      });
+      const sscale = d3.scaleSqrt().domain([0, d3.max(sites, (s) => s.capacity_mw)]).range([2.5, 8]);
+      GeoMap.points(map, sites, {
+        className: "sites", r: (d) => sscale(d.capacity_mw),
+        fill: fuelColor("Nuclear"), stroke: "#4f4d56", strokeWidth: 0.8,
+        title: (d) => `${d.name} · ${d.reactors} reactors · ${fmtMW(d.capacity_mw)} MW · ${d.water}`,
+      });
+
+      // ramp legend
+      document.getElementById("rampLegend").innerHTML =
+        '<span>Hosted nuclear (GW)</span>' +
+        '<span style="display:inline-flex;height:11px;border-radius:2px;overflow:hidden;">' +
+        RAMP.map((c) => `<span class="sw" style="background:${c};border-radius:0;width:14px;"></span>`).join("") +
+        `</span><span>0 → ${(maxHosted / 1000).toFixed(0)}</span>` +
+        '<span class="b"><span class="sw" style="background:#e3e1d8"></span>no nuclear</span>';
+
+      // top sites bar list
+      const top = sites.slice(0, 7);   // already sorted by capacity desc
+      const maxCap = top[0].capacity_mw;
+      document.getElementById("topList").innerHTML = top.map((s) =>
+        `<div class="toprow"><span class="nm" title="${s.name}">${s.name}</span>` +
+        `<span class="bar"><span style="width:${Math.round(s.capacity_mw / maxCap * 100)}%;background:#7d7a86"></span></span>` +
+        `<span class="v">${fmtMW(s.capacity_mw)}</span></div>`).join("");
+
+      // KPIs (from the committed fleet)
+      const t = fleet.fleet_total;
+      document.getElementById("kpis").innerHTML = [
+        { label: "Reactors", val: t.reactors },
+        { label: "Sites", val: t.sites },
+        { label: "Fleet capacity", val: GW(t.capacity_mw) },
+        { label: "Largest site", val: `${sites[0].name} · ${GW(sites[0].capacity_mw)}` },
+      ].map((i) => `<div class="kpi"><div class="label">${i.label}</div><div class="val" style="font-size:${i.label === 'Largest site' ? '15px' : '24px'}">${i.val}</div></div>`).join("");
+
+      document.getElementById("capSrc").textContent =
+        `Map shows installed nuclear capacity (MW) hosted per région — not output, which varies with maintenance and demand (Steps 5–6). Fleet: ${t.sites} sites, ${t.reactors} reactors, ${GW(t.capacity_mw)} (incl. Flamanville-3 EPR). Source: ${fleet.source}, as of ${fleet.as_of}. Demand centres are a population proxy pending régional consumption.`;
+    })();
+
+    // --- Panel 2: régional net balance (éCO2mix régional via ODRÉ) ---------------
+    (async function buildPanel2() {
+      const data = await loadJSON("fr_regional.json");
+      const wrap = document.getElementById("balWrap");
+      if (!data || !data.regions || !data.regions.length) {
+        wrap.innerHTML = '<div class="nodata">Régional balance unavailable.</div>'; return;
+      }
+      const regions = data.regions;   // already sorted exporter → importer
+      new Chart(document.getElementById("balChart"), {
+        type: "bar",
+        data: { labels: regions.map((r) => r.name),
+          datasets: [{ data: regions.map((r) => r.net_balance_gw),
+            backgroundColor: regions.map((r) => (r.net_balance_gw >= 0 ? "#2f7d78" : "#a32d2d")), borderRadius: 3 }] },
+        options: {
+          indexAxis: "y", responsive: true, maintainAspectRatio: false, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${c.parsed.x >= 0 ? "+" : ""}${c.parsed.x} GW (${c.parsed.x >= 0 ? "net exporter" : "net importer"})` } } },
+          scales: { x: { title: { display: true, text: "avg net balance (GW): exporter +  /  importer −", font: { size: 11 } }, grid: { color: "rgba(0,0,0,.06)" } },
+            y: { grid: { display: false }, ticks: { font: { size: 10.5 } } } },
+        },
+      });
+      document.getElementById("balSrc").textContent =
+        `Average over ${data.period_start} to ${data.period_end}, ${data.source}. Corse (a separate, non-interconnected grid) is not in éCO2mix régional, so it has no bar.`;
+    })();
+
+    // --- Panel 3: monthly nuclear output dip + the generation mix (éCO2mix national) ---
+    (async function buildPanel3() {
+      const data = await loadJSON("fr_nuclear_availability.json");
+      const wrap = document.getElementById("mixWrap");
+      if (!data || !data.months || !data.months.length) {
+        wrap.innerHTML = '<div class="nodata">Availability data unavailable.</div>'; return;
+      }
+      const m = data.months;
+      const labels = m.map((x) => x.month);
+      const stack = [
+        { key: "nuclear_gw", label: "Nuclear", color: fuelColor("Nuclear") },
+        { key: "gas_gw", label: "Gas", color: fuelColor("Gas") },
+        { key: "hydro_gw", label: "Hydro", color: fuelColor("Hydro") },
+        { key: "wind_gw", label: "Wind", color: fuelColor("Wind onshore") },
+        { key: "solar_gw", label: "Solar", color: fuelColor("Solar") },
+        { key: "other_gw", label: "Other", color: fuelColor("Other") },
+      ];
+      // sync the (hidden) demand-line axis to the stacked-generation axis so the line
+      // overlays at its true value instead of stacking on top of the bars.
+      const totalGen = m.map((x) => stack.reduce((s, k) => s + x[k.key], 0));
+      const axisMax = Math.ceil(Math.max(Math.max(...totalGen), Math.max(...m.map((x) => x.demand_gw))) * 1.05);
+      const datasets = stack.map((s) => ({
+        type: "bar", label: s.label, data: m.map((x) => x[s.key]),
+        backgroundColor: s.color, stack: "gen", order: 2, categoryPercentage: 0.96, barPercentage: 0.98,
+      }));
+      datasets.push({
+        type: "line", label: "Demand", data: m.map((x) => x.demand_gw), yAxisID: "y1",
+        borderColor: "#2b2a27", backgroundColor: "#2b2a27", borderWidth: 2, tension: 0.3, pointRadius: 1.5, order: 1,
+      });
+      new Chart(document.getElementById("mixChart"), {
+        data: { labels, datasets },
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          interaction: { mode: "index", intersect: false },
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.parsed.y} GW` } } },
+          scales: {
+            x: { stacked: true, grid: { display: false }, ticks: { font: { size: 9 }, maxRotation: 0, autoSkip: true } },
+            y: { stacked: true, min: 0, max: axisMax, title: { display: true, text: "GW", font: { size: 11 } }, grid: { color: "rgba(0,0,0,.06)" }, ticks: { font: { size: 10 } } },
+            y1: { position: "left", min: 0, max: axisMax, display: false, grid: { display: false } },
+          },
+        },
+      });
+      document.getElementById("mixLegend").innerHTML =
+        stack.map((s) => `<span><span class="swatch" style="background:${s.color}"></span>${s.label}</span>`).join("") +
+        '<span><span class="swatch" style="background:#2b2a27;border-radius:50%"></span>Demand</span>';
+      const lo = m.reduce((a, b) => (b.nuclear_gw < a.nuclear_gw ? b : a));
+      document.getElementById("mixSrc").textContent =
+        `Monthly average, ${data.period_start} to ${data.period_end}, ${data.source}. Nuclear output bottoms near ${lo.nuclear_gw} GW in ${lo.month}; France stayed a net exporter every month (demand sits below total generation). "Available capacity" needs the RTE feed (pending) — shown here is output.`;
+    })();
+  </script>
+</body>
+</html>
