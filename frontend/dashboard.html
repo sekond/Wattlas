@@ -14,7 +14,7 @@
   <header class="topbar">
     <div class="brand">Wattlas <small>European electricity, explained</small></div>
     <nav class="topnav">
-      <a href="#pulse">Pulse</a><a href="#spread">Spread</a><a href="#mix">Mix</a><a href="#mismatch">Mismatch</a><a href="#divergence">Divergence</a><a href="#carbon">Carbon</a><a href="#curtailment">Curtailment</a><a href="#history">History</a>
+      <a href="#pulse">Pulse</a><a href="#spread">Spread</a><a href="#mix">Mix</a><a href="#mismatch">Mismatch</a><a href="#divergence">Divergence</a><a href="#carbon">Carbon</a><a href="#curtailment">Curtailment</a><a href="#history">History</a><a href="wasted_wind.html">North–south grid&nbsp;↗</a>
     </nav>
   </header>
 
@@ -30,6 +30,7 @@
         <a href="#carbon"><span class="n">6</span>Carbon</a>
         <a href="#curtailment"><span class="n">7</span>Curtailment</a>
         <a href="#history"><span class="n">8</span>History</a>
+        <a href="wasted_wind.html"><span class="n">↗</span>North–south grid</a>
       </nav>
       <div class="foot">
         Open data from <a href="https://transparency.entsoe.eu">ENTSO-E</a> and <a href="https://www.netztransparenz.de">netztransparenz.de</a>. Pre-computed and static — no live backend.
@@ -134,9 +135,9 @@
         </section>
 
         <section class="panel" id="curtailment">
-          <div class="panel-kicker"><span class="k">7 · Curtailment — wasted clean power</span><a href="curtailment.html">Full view ↗</a></div>
+          <div class="panel-kicker"><span class="k">7 · Curtailment — clean power the grid can't move</span><a href="curtailment.html">Full view ↗</a></div>
           <h2 class="story" id="storyCurtail"></h2>
-          <p class="explain">Wind and solar thrown away when the grid can't absorb or move it — the cost of Germany's north–south bottleneck.<button class="info" data-tip="curtail" aria-label="About Curtailment">i</button></p>
+          <p class="explain">Wind and solar curtailed when the grid can't absorb or move it — a cost of Germany's north–south bottleneck.<button class="info" data-tip="curtail" aria-label="About Curtailment">i</button></p>
           <div class="chartwrap" id="boxCurtail"><canvas id="cCurtail"></canvas></div>
           <div class="statrow" id="statsCurtail"></div>
           <p class="cap">Green bars = curtailed renewable energy (MWh/day); red line = negative-price hours that day. Germany. Source: netztransparenz.de.</p>
