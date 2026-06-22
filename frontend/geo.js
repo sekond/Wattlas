@@ -23,9 +23,11 @@ const GeoMap = (function () {
   // Returns a handle: { svg, projection, path, features, recolor(fillFor) }.
   function choropleth(host, opts) {
     const { topo, object = "landkreise", width = 360, height = 460,
-            ariaLabel = "Map of Germany by Landkreis" } = opts;
+            ariaLabel = "Map", className = "lk", projection: projOpt } = opts;
     const fc = topojson.feature(topo, topo.objects[object]);
-    const projection = d3.geoMercator().fitSize([width, height], fc);
+    // Default projection is Mercator (fine for Germany); a caller can pass a fitted-on
+    // demand projection instance (e.g. d3.geoConicConformal for France) via opts.projection.
+    const projection = (projOpt || d3.geoMercator()).fitSize([width, height], fc);
     const path = d3.geoPath(projection);
 
     host.innerHTML = "";
@@ -37,7 +39,7 @@ const GeoMap = (function () {
 
     const paths = svg.append("g").selectAll("path")
       .data(fc.features).join("path")
-      .attr("class", "lk")
+      .attr("class", className)
       .attr("d", path);
 
     // fillFor(props) -> colour string for that district, or a falsy value for the

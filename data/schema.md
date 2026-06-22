@@ -375,6 +375,91 @@ TenneT) run structurally **positive** (surplus), south/west (Amprion, TransnetBW
 **negative** (deficit). An area absent from a day's dicts is a gap. The Panel-2
 redispatch overlay reuses `curtailment.json` (degrades to "awaiting source" if absent).
 
+## `fr_nuclear_sites.json` (v4 — France-nuclear Panel 1)
+
+The geocoded French nuclear fleet, from `pipeline/build_fr_nuclear_sites.py` (committed,
+attributed source list — the fleet is small and stable). Net capacity in **MW**.
+Operating sites only (Fessenheim excluded; **Flamanville-3 EPR included** → 18 sites /
+57 reactors / ~63 GW; confirm against a live source — the count drifts).
+
+```json
+{
+  "generated_at": "2026-06-22T13:00:00Z",
+  "source": "Public site data / RTE / IAEA PRIS (compiled), net MW",
+  "as_of": "2025",
+  "unit": "MW",
+  "fleet_total": { "sites": 18, "reactors": 57, "capacity_mw": 63010 },
+  "sites": [
+    { "name": "Gravelines", "region": "Hauts-de-France", "nuts_id": "FRE",
+      "reactors": 6, "capacity_mw": 5460, "water": "coast", "lat": 51.015, "lon": 2.136 }
+    // 18 entries, largest capacity first
+  ]
+}
+```
+
+`nuts_id` is the NUTS-1 région code (basemap join key, via `fr_fields`). `water` is one
+of `river` / `coast` / `estuary`. Sites plot as points by `lat`/`lon` (canonical
+`Nuclear` colour), sized by `capacity_mw`. All values rounded.
+
+## `fr_regional.json` (v4 — France-nuclear Panel 2, NEW SOURCE: éCO2mix régional)
+
+Per-région net balance (generation − consumption) from **RTE éCO2mix régional via ODRÉ**
+(`pipeline/build_fr_regional.py`, isolated module). 12-month averages in **GW**.
+`net_balance = −ech_physiques` (the published physical-exchange *solde*) — France is one
+bidding zone, so this is a **physical** balance, not a regional price (no fabricated
+inter-régional flow). **Corse** (non-interconnected zone) is absent from éCO2mix régional
+→ it has no entry and renders as "no data".
+
+```json
+{
+  "generated_at": "2026-06-22T13:00:00Z",
+  "source": "RTE éCO2mix régional via ODRÉ (Opendatasoft)",
+  "unit": "GW",
+  "period_start": "2025-01-31", "period_end": "2026-01-31",
+  "regions": [
+    { "nuts_id": "FRB", "name": "Centre-Val de Loire", "insee": "24",
+      "nuclear_gw": 7.8, "generation_gw": 8.5, "consumption_gw": 2.0, "net_balance_gw": 6.48 }
+    // ~12 entries (Corse absent), sorted exporter → importer
+  ]
+}
+```
+
+`net_balance_gw[region] = generation_gw − consumption_gw`. Positive = net **exporter**
+(nuclear-dense régions: Centre-Val de Loire, Auvergne-Rhône-Alpes, Normandie, Grand Est),
+negative = net **importer** (Île-de-France most negative). Join to the basemap on
+`nuts_id`; a région with no entry (Corse) is a gap, not zero.
+
+## `fr_nuclear_availability.json` (v4 — France-nuclear Panel 3)
+
+Monthly national generation mix + demand from **éCO2mix national via ODRÉ**
+(`pipeline/build_fr_nuclear_availability.py`, isolated). Shows the nuclear **output** dip
+(spring/summer maintenance) — **not available capacity**, which needs the RTE OAuth
+unavailability feed; `available_gw` is null until then (see memory `rte-oauth-pending`).
+Values GW.
+
+```json
+{
+  "generated_at": "2026-06-22T13:00:00Z",
+  "source": "RTE éCO2mix national via ODRÉ (Opendatasoft)",
+  "unit": "GW",
+  "installed_nuclear_gw": 63.0,
+  "available_note": "available_gw is null: needs RTE OAuth; degraded to output.",
+  "period_start": "2024-02", "period_end": "2026-01",
+  "months": [
+    { "month": "2025-05", "nuclear_gw": 34.3, "hydro_gw": 7.5, "gas_gw": 0.4,
+      "wind_gw": 4.6, "solar_gw": 4.9, "other_gw": 1.0, "demand_gw": 41.9,
+      "net_export_gw": 10.0, "available_gw": null }
+    // ~24 months, chronological
+  ]
+}
+```
+
+`net_export_gw` = −`ech_physiques` (**+ = France exporting**). Honest framing: nuclear
+output dips spring/summer (maintenance, in low-demand months by design), yet
+`net_export_gw` stays **positive every month** — France exports even during the dip;
+imports do **not** fill the gap at monthly resolution. Heatwave river-cooling derations
+are event-scale (not monthly) — annotate, never fabricate. No alarmist framing.
+
 ### Frontend obligations
 - Render `perfect_arbitrage_eur_per_mw` only alongside a visible caveat that it is an unachievable upper bound (see CLAUDE.md landmine #7).
 - Treat `complete: false` days distinctly (e.g. muted) and never break if `days` has gaps.
