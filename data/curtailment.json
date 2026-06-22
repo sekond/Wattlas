@@ -2,53 +2,13 @@
   "source": "netztransparenz.de redispatch WebAPI \u2014 renewable curtailment (measures reducing feed-in of renewable plants, GESAMTE_ARBEIT_MWH)",
   "units": "MWh per day (curtailed renewable energy)",
   "methodology": "Each measure's total energy attributed to its start day, grouped in Europe/Berlin local time.",
-  "generated_at": "2026-06-10T11:39:17+00:00",
-  "period_start": "2024-06-10",
-  "period_end": "2026-06-10",
+  "generated_at": "2026-06-22T11:18:45+00:00",
+  "period_start": "2024-06-22",
+  "period_end": "2026-06-22",
   "days": [
     {
-      "date": "2024-06-10",
-      "curtailed_mwh": 12730.5
-    },
-    {
-      "date": "2024-06-11",
-      "curtailed_mwh": 35434.2
-    },
-    {
-      "date": "2024-06-12",
-      "curtailed_mwh": 13249.1
-    },
-    {
-      "date": "2024-06-14",
-      "curtailed_mwh": 4787.6
-    },
-    {
-      "date": "2024-06-15",
-      "curtailed_mwh": 843.8
-    },
-    {
-      "date": "2024-06-16",
-      "curtailed_mwh": 1020.0
-    },
-    {
-      "date": "2024-06-18",
-      "curtailed_mwh": 15370.5
-    },
-    {
-      "date": "2024-06-19",
-      "curtailed_mwh": 4052.8
-    },
-    {
-      "date": "2024-06-20",
-      "curtailed_mwh": 2634.0
-    },
-    {
-      "date": "2024-06-21",
-      "curtailed_mwh": 965.0
-    },
-    {
       "date": "2024-06-22",
-      "curtailed_mwh": 8808.0
+      "curtailed_mwh": 8450.5
     },
     {
       "date": "2024-06-23",
@@ -2404,7 +2364,7 @@
     },
     {
       "date": "2026-05-11",
-      "curtailed_mwh": 5526.8
+      "curtailed_mwh": 8442.2
     },
     {
       "date": "2026-05-12",
@@ -2412,7 +2372,7 @@
     },
     {
       "date": "2026-05-13",
-      "curtailed_mwh": 4193.0
+      "curtailed_mwh": 3952.8
     },
     {
       "date": "2026-05-14",
@@ -2524,7 +2484,55 @@
     },
     {
       "date": "2026-06-10",
-      "curtailed_mwh": 7885.2
+      "curtailed_mwh": 7985.2
+    },
+    {
+      "date": "2026-06-11",
+      "curtailed_mwh": 3630.2
+    },
+    {
+      "date": "2026-06-12",
+      "curtailed_mwh": 16970.7
+    },
+    {
+      "date": "2026-06-13",
+      "curtailed_mwh": 45538.6
+    },
+    {
+      "date": "2026-06-14",
+      "curtailed_mwh": 55730.9
+    },
+    {
+      "date": "2026-06-15",
+      "curtailed_mwh": 72597.4
+    },
+    {
+      "date": "2026-06-16",
+      "curtailed_mwh": 8554.9
+    },
+    {
+      "date": "2026-06-17",
+      "curtailed_mwh": 16206.9
+    },
+    {
+      "date": "2026-06-18",
+      "curtailed_mwh": 17177.0
+    },
+    {
+      "date": "2026-06-19",
+      "curtailed_mwh": 14613.0
+    },
+    {
+      "date": "2026-06-20",
+      "curtailed_mwh": 8730.2
+    },
+    {
+      "date": "2026-06-21",
+      "curtailed_mwh": 18935.5
+    },
+    {
+      "date": "2026-06-22",
+      "curtailed_mwh": 7697.0
     }
   ]
 }

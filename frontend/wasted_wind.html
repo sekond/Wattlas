@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Germany's north–south grid</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Page-scoped map styling. Kept here (not in styles.css) because the map is
+       unique to this view; the shared stylesheet stays focused on Chart.js pages. */
+    .map-host { width: 100%; max-width: 360px; margin: 0 auto; }
+    /* Landkreis polygons. Default fill is the "no data" colour; a real value is
+       applied as an inline fill by geo.js (which then overrides this). The hairline
+       stroke is the paper background so districts read as separated tiles. */
+    .lk { fill: #e3e1d8; stroke: var(--bg); stroke-width: 0.35; }
+    .lk:hover { stroke: var(--text); stroke-width: 0.8; }
+    .ramp-legend { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: 11px; color: var(--muted); margin-top: 10px; }
+    .ramp-legend .b { display: inline-flex; align-items: center; gap: 4px; }
+    .ramp-legend .sw { width: 13px; height: 11px; border-radius: 2px; display: inline-block; }
+    .toprow { display: flex; align-items: center; gap: 8px; margin: 5px 0; font-size: 12px; }
+    .toprow .nm { width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+    .toprow .bar { flex: 1; height: 9px; background: var(--surface-2); border-radius: 3px; position: relative; }
+    .toprow .bar > span { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; }
+    .toprow .v { width: 52px; text-align: right; color: var(--muted); }
+    /* Bidding-zone-split explainer box (copy block A) */
+    .debate { font-size: 12px; color: #444441; background: var(--surface-2);
+      border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; line-height: 1.55; }
+    .debate p { margin: 0 0 8px; } .debate p:last-child { margin-bottom: 0; }
+    .split { display: flex; border-radius: var(--radius-sm); overflow: hidden; border: 0.5px solid var(--border); font-size: 12px; margin: 4px 0 10px; }
+    .split > div { flex: 1; padding: 10px 12px; }
+
+    /* ---- Sidebar shell — mirrors the dashboard layout (dash/dash.css): a left
+       sidebar on desktop, a horizontal scroll-nav on mobile. Page-scoped so the
+       content keeps using styles.css; only the navigation chrome is added here. */
+    .shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh; }
+    .side { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column;
+      padding: 26px 18px 18px 22px; border-right: 0.5px solid var(--border); background: var(--bg); }
+    .side .brand { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; margin-left: 0; }
+    .side .brand small { display: block; color: var(--hint); font-weight: 400; font-size: 12px; margin: 2px 0 0; }
+    .sidenav { margin-top: 24px; display: flex; flex-direction: column; gap: 1px; }
+    .sidenav a { display: flex; align-items: baseline; gap: 8px; color: var(--muted); text-decoration: none;
+      font-size: 13.5px; padding: 7px 10px; border-radius: var(--radius-sm); border-left: 2px solid transparent; }
+    .sidenav a .n { font-variant-numeric: tabular-nums; font-size: 10.5px; color: var(--hint); width: 14px; }
+    .sidenav a:hover { color: var(--text); background: var(--surface-2); }
+    .sidenav a.active { color: var(--text); font-weight: 500; background: var(--surface-2); border-left-color: var(--amber); }
+    .side .foot { margin-top: auto; font-size: 11px; color: var(--hint); line-height: 1.6; }
+    .main { padding: 0 36px 80px; min-width: 0; }
+    .main-inner { max-width: 1060px; margin: 0 auto; padding-top: 26px; }
+    .topbar { display: none; }
+    @media (max-width: 900px) {
+      .shell { grid-template-columns: 1fr; }
+      .side { display: none; }
+      .topbar { display: block; position: sticky; top: 0; z-index: 40; background: var(--bg);
+        border-bottom: 0.5px solid var(--border); padding: 10px 16px 0; }
+      .topbar .brand { font-size: 16px; font-weight: 600; }
+      .topbar .brand small { color: var(--hint); font-weight: 400; font-size: 11px; margin-left: 8px; }
+      .topnav { display: flex; gap: 4px; overflow-x: auto; padding: 8px 0 10px; -webkit-overflow-scrolling: touch; }
+      .topnav a { font-size: 12px; color: var(--muted); text-decoration: none; white-space: nowrap;
+        padding: 6px 12px; border-radius: 999px; border: 0.5px solid transparent; }
+      .topnav a.active { color: var(--text); background: var(--surface-2); border-color: var(--border); }
+      .main { padding: 0 14px 60px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Mobile top nav (hidden on desktop; the sidebar takes over there) -->
+  <header class="topbar">
+    <div class="brand">Wattlas <small>European electricity, explained</small></div>
+    <nav class="topnav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="index.html">Spread</a>
+      <a href="pulse.html">Pulse</a>
+      <a href="mix.html">Mix</a>
+      <a href="mismatch.html">Mismatch</a>
+      <a href="divergence.html">Divergence</a>
+      <a href="dashboard.html#carbon">Carbon</a>
+      <a href="curtailment.html">Curtailment</a>
+      <a href="history.html">History</a>
+      <a href="wasted_wind.html" class="active">North–south grid</a>
+    </nav>
+  </header>
+
+  <div class="shell">
+    <aside class="side">
+      <div class="brand">Wattlas <small>European electricity, explained</small></div>
+      <nav class="sidenav">
+        <a href="dashboard.html"><span class="n">⌂</span>Dashboard</a>
+        <a href="pulse.html"><span class="n">1</span>Pulse</a>
+        <a href="index.html"><span class="n">2</span>Spread</a>
+        <a href="mix.html"><span class="n">3</span>Mix</a>
+        <a href="mismatch.html"><span class="n">4</span>Mismatch</a>
+        <a href="divergence.html"><span class="n">5</span>Divergence</a>
+        <a href="dashboard.html#carbon"><span class="n">6</span>Carbon</a>
+        <a href="curtailment.html"><span class="n">7</span>Curtailment</a>
+        <a href="history.html"><span class="n">8</span>History</a>
+        <a href="wasted_wind.html" class="active"><span class="n">↗</span>North–south grid</a>
+      </nav>
+      <div class="foot">Open data from ENTSO-E, SMARD, MaStR and netztransparenz. Pre-computed and static — no live backend.</div>
+    </aside>
+
+    <main class="main">
+      <div class="main-inner">
+
+    <h1>Germany's wind is in the north, its demand in the south</h1>
+    <p class="sub">When the transmission grid between them is constrained, some northern wind has to be curtailed — turned down to keep the system stable — even though the whole country clears at a single wholesale price. This view shows the mismatch, the congestion, and what it means for pricing Germany as one bidding zone.</p>
+
+    <p class="cap" style="margin:-8px 0 22px;">Sources: installed capacity from the Marktstammdatenregister (© Bundesnetzagentur); regional generation &amp; load from SMARD; curtailment from netztransparenz; negative-price hours from ENTSO-E day-ahead prices. Pre-computed and static — no live backend.</p>
+
+    <div id="kpis" class="kpis"></div>
+
+    <!-- Panel 1 — the mismatch map (capacity vs demand). -->
+    <div class="card hoverable">
+      <div class="head">
+        <div class="title">1 · Where the power is vs where the load is</div>
+        <div class="seg" role="group" aria-label="Metric">
+          <button id="btnWind" class="active" type="button">Wind</button>
+          <button id="btnSolar" type="button">Solar</button>
+        </div>
+      </div>
+      <p class="block-pitch" id="pitch">Installed wind capacity by Landkreis (MaStR), with the 20 largest plants and major demand centres. Capacity clusters in the windy north; demand sits in the southern and western cities.</p>
+      <div class="row2">
+        <div>
+          <div id="map" class="map-host"><div class="nodata">Loading map…</div></div>
+        </div>
+        <div>
+          <div class="meta" id="topTitle" style="margin-bottom:6px;">Top wind districts (MW)</div>
+          <div id="topList"></div>
+          <div class="ramp-legend" id="rampLegend"></div>
+          <div class="legend" style="margin-top:10px;">
+            <span><span style="display:inline-block;width:11px;height:11px;border:1.5px solid var(--red);border-radius:50%;background:rgba(163,45,45,.14);margin-right:5px;vertical-align:middle"></span>Demand centre (proxy)</span>
+            <span id="plantLegend"></span>
+          </div>
+        </div>
+      </div>
+      <p class="cap" id="capD">This map shows installed <em>capacity</em> (MW), not energy produced. A high-capacity Landkreis still generates little on a calm or dark day. Capacity shows where the build-out happened; the time-series panels show what it does.</p>
+      <p class="cap" id="capProxy">Demand centres are shown using population as a proxy; Germany doesn't publish electricity consumption at Landkreis resolution at this cadence. Read them as <em>where people and activity are</em>, not metered load.</p>
+      <p class="cap" id="capSrc"></p>
+    </div>
+
+    <!-- Panel 2 — surplus north / deficit south (SMARD regional balance + redispatch). -->
+    <div class="card hoverable">
+      <div class="head">
+        <div class="title">2 · Surplus north, deficit south</div>
+        <div class="meta">net balance by control area · avg GW</div>
+      </div>
+      <p class="block-pitch">Generation minus load per control area. 50Hertz and TenneT (north) run long; Amprion and TransnetBW (south and west) run short. When the corridor between them is full, the operator pays northern plants to turn down and southern ones to turn up — redispatch — and clean energy gets curtailed.</p>
+      <div class="legend" style="margin-bottom:6px;">
+        <span><span class="swatch" style="background:#2f7d78"></span>Surplus (gen &gt; load)</span>
+        <span><span class="swatch" style="background:#a32d2d"></span>Deficit (load &gt; gen)</span>
+      </div>
+      <div class="chartbox" style="height:200px;"><canvas id="balChart"></canvas></div>
+      <div class="head" style="margin-top:18px;margin-bottom:4px;">
+        <div class="title" style="font-size:13px;">Redispatch / curtailment — the congestion that strands the surplus</div>
+        <div class="meta">GWh / month</div>
+      </div>
+      <div id="redispatchWrap" class="chartbox" style="height:130px;"><canvas id="redispatchChart"></canvas></div>
+      <p class="cap">Net balance = generation − load per control area (SMARD), averaged over the last 12 months in Europe/Berlin local time. The north–south bottleneck is internal to the single DE-LU bidding zone, so it never appears in cross-border flows or zonal prices — redispatch/curtailment volume is the evidence. Curtailment is a regional volume from the German TSOs (netztransparenz), 1–3 day lag.</p>
+    </div>
+
+    <!-- Panel 3 — curtailment and the single price (reuses curtailment + spread). -->
+    <div class="card hoverable">
+      <div class="head">
+        <div class="title">3 · Curtailment and the single price</div>
+        <div class="meta">curtailment vs negative-price hours</div>
+      </div>
+      <p class="block-pitch">High-wind months bring both curtailment and negative prices — yet every region pays the same wholesale price, so the price alone doesn't signal that the south is short or the north is long.</p>
+      <div class="legend" style="margin-bottom:6px;">
+        <span><span class="swatch" style="background:#3b6d11"></span>Curtailment (GWh/month)</span>
+        <span><span class="swatch" style="background:#a32d2d;border-radius:50%"></span>Negative-price hours</span>
+      </div>
+      <div id="wasteWrap" class="chartbox" style="height:230px;"><canvas id="wasteChart"></canvas></div>
+
+      <!-- "one price, split grid" punchline -->
+      <div style="text-align:center;font-size:12px;color:var(--muted);margin:20px 0 6px;">One bidding zone, one price — across a grid that can't always move the power</div>
+      <div class="split">
+        <div style="background:#e7f1ef;color:#0f6e56">North · surplus<br><span style="font-size:11px;color:var(--muted)">wind long, would clear cheaper</span></div>
+        <div style="background:#f8ece9;color:var(--red)">South · deficit<br><span style="font-size:11px;color:var(--muted)">demand heavy, would clear dearer</span></div>
+      </div>
+      <div style="text-align:center;font-size:13px;font-weight:500;margin:2px 0 12px;">DE-LU day-ahead: one price for both halves</div>
+
+      <!-- copy block A — verbatim, even-handed, no advocacy -->
+      <div class="debate">
+        <p>Germany and Luxembourg are a single bidding zone: one wholesale electricity price for the whole area, even when the grid physically can't move power from the windy north to the industrial south. When the link is full, cheap northern wind can't reach southern demand, so the operator pays some plants to turn down and others to turn up — <em>redispatch</em> — and the cost lands on consumers' grid fees.</p>
+        <p>Some economists argue this is the case for splitting Germany into smaller bidding zones, so prices would signal scarcity where the grid is constrained and pull investment to where it's needed. Others argue a single zone preserves price solidarity between regions, avoids structurally higher prices in the south, and keeps the market simpler and more liquid. <em>Wattlas takes no side — it shows the physical mismatch the debate is about.</em></p>
+      </div>
+      <!-- copy block B — verbatim curtailment definition -->
+      <p class="cap" style="margin-top:12px;">Curtailment here means renewable generation the grid couldn't absorb or transmit and that operators instructed to reduce to keep the system stable — a managed grid-stability measure, not energy discarded by choice. These are regional volumes reported by the German TSOs (netztransparenz) with a 1–3 day lag — a real, paid-for quantity, not an estimate, and not attributed to individual turbines.</p>
+    </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- D3 (geo/selection/scale) + topojson-client from CDN. New map dependency for
+       this view; the time-series panels (Steps 5–6) will load Chart.js like the other
+       pages. No map tiles — the committed TopoJSON is the only geo input. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="fuels.js"></script>
+  <script src="geo.js"></script>
+  <script>
+    // --- data-loading (kept separate from render, which lives in geo.js) --------
+    // data/ JSON — same data-first path order the other views use.
+    async function loadJSON(name) {
+      for (const base of ["../data/", "data/", "/data/"]) {
+        try { const r = await fetch(base + name); if (r.ok) return r.json(); } catch (e) {}
+      }
+      return null;
+    }
+    // The committed basemap lives under frontend/geo/, not data/.
+    async function loadGeo() {
+      for (const p of ["geo/landkreise.topo.json", "../frontend/geo/landkreise.topo.json", "/frontend/geo/landkreise.topo.json"]) {
+        try { const r = await fetch(p); if (r.ok) return r.json(); } catch (e) {}
+      }
+      return null;
+    }
+    const GW = (mw) => (mw / 1000).toFixed(1) + " GW";
+    const fmtMW = (v) => Math.round(v).toLocaleString("en-US");
+    // Anglicise the German administrative-type suffixes on official district names
+    // (no German label in the UI). The place name itself is kept; "-Kreis" compound
+    // names (e.g. "Werra-Meißner-Kreis") are proper nouns and left unchanged.
+    const enName = (name) => String(name)
+      .replace(/,\s*Kreisfreie Stadt$/, " (city)")
+      .replace(/,\s*Stadtkreis$/, " (city)")
+      .replace(/,\s*Landkreis$/, " (district)");
+
+    // Demand-centre proxy: major cities sized by population (millions). Honest proxy
+    // (copy block C) — Germany publishes no Landkreis-level metered consumption.
+    const CITIES = [
+      { n: "Berlin", lon: 13.40, lat: 52.52, p: 3.7 }, { n: "Hamburg", lon: 9.99, lat: 53.55, p: 1.9 },
+      { n: "München", lon: 11.58, lat: 48.14, p: 1.5 }, { n: "Köln", lon: 6.96, lat: 50.94, p: 1.1 },
+      { n: "Frankfurt", lon: 8.68, lat: 50.11, p: 0.77 }, { n: "Stuttgart", lon: 9.18, lat: 48.78, p: 0.63 },
+      { n: "Düsseldorf", lon: 6.77, lat: 51.23, p: 0.62 }, { n: "Dortmund", lon: 7.47, lat: 51.51, p: 0.59 },
+      { n: "Leipzig", lon: 12.37, lat: 51.34, p: 0.6 }, { n: "Nürnberg", lon: 11.08, lat: 49.45, p: 0.52 },
+    ];
+    const RAMPS = {
+      wind:  ["#e6f1f0", "#bfe0da", "#8ec9c0", "#57aaa0", "#2f7d78"],  // teal (wind)
+      solar: ["#fdf3d2", "#f7e29a", "#efc857", "#e0a92c", "#b07d10"],  // amber (solar)
+    };
+    const METRIC_FUEL = { wind: "Wind onshore", solar: "Solar" };
+
+    let metric = "wind", map = null, scale = null;
+    let capByNuts = {}, national = {};
+
+    function valueFor(props) {
+      const r = capByNuts[props.NUTS_ID];
+      if (!r) return null;                                   // no data (distinct from 0)
+      return metric === "wind" ? (r.wind_onshore_mw + r.wind_offshore_mw) : r.solar_mw;
+    }
+    function metricValues() {
+      return map.features.map((f) => valueFor(f.properties)).filter((v) => v != null);
+    }
+    function buildScale() {
+      scale = d3.scaleQuantile().domain(metricValues()).range(RAMPS[metric]);
+    }
+    function paint() {
+      map.recolor((props) => { const v = valueFor(props); return v == null ? null : scale(v); });
+    }
+    function renderLegend() {
+      const vals = metricValues();
+      const edges = [Math.min(...vals), ...scale.quantiles(), Math.max(...vals)];
+      const box = document.getElementById("rampLegend");
+      box.innerHTML = RAMPS[metric].map((c, i) =>
+        `<span class="b"><span class="sw" style="background:${c}"></span>${fmtMW(edges[i])}–${fmtMW(edges[i + 1])}</span>`
+      ).join("") + `<span class="b"><span class="sw" style="background:var(--bg);border:0.5px solid var(--border)"></span>no data</span>`;
+    }
+    function renderTop() {
+      const rows = map.features.map((f) => ({ name: f.properties.NAME_LATN, v: valueFor(f.properties) || 0 }))
+        .sort((a, b) => b.v - a.v).slice(0, 6);
+      const max = rows[0].v || 1, col = RAMPS[metric][4];
+      document.getElementById("topTitle").textContent = `Top ${metric} districts (MW)`;
+      document.getElementById("topList").innerHTML = rows.map((r) =>
+        `<div class="toprow"><span class="nm" title="${enName(r.name)}">${enName(r.name)}</span>` +
+        `<span class="bar"><span style="width:${Math.round(r.v / max * 100)}%;background:${col}"></span></span>` +
+        `<span class="v">${fmtMW(r.v)}</span></div>`).join("");
+    }
+    function setMetric(m) {
+      metric = m;
+      document.getElementById("btnWind").classList.toggle("active", m === "wind");
+      document.getElementById("btnSolar").classList.toggle("active", m === "solar");
+      document.getElementById("pitch").textContent = m === "wind"
+        ? "Installed wind capacity by Landkreis (MaStR). Capacity clusters in the windy north and northeast; demand sits in the southern and western cities."
+        : "Installed solar capacity by Landkreis (MaStR). Solar leans south and east — Bayern dominates — a different map from the wind it shares one price with.";
+      buildScale(); paint(); renderLegend(); renderTop();
+    }
+    document.getElementById("btnWind").onclick = () => setMetric("wind");
+    document.getElementById("btnSolar").onclick = () => setMetric("solar");
+
+    function renderKpis() {
+      const topWind = Object.values(capByNuts).sort((a, b) =>
+        (b.wind_onshore_mw + b.wind_offshore_mw) - (a.wind_onshore_mw + a.wind_offshore_mw))[0];
+      const items = [
+        { label: "Onshore wind", val: GW(national.wind_onshore_mw) },
+        { label: "Offshore wind (at sea)", val: GW(national.wind_offshore_mw) },
+        { label: "Solar", val: GW(national.solar_mw) },
+        { label: "Top wind district", val: topWind ? enName(topWind.name) : "—" },
+      ];
+      document.getElementById("kpis").innerHTML = items.map((i) =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val" style="font-size:${i.label === 'Top wind district' ? '16px' : '24px'}">${i.val}</div></div>`).join("");
+    }
+
+    (async function main() {
+      const host = document.getElementById("map");
+      const [topoData, cap, plants] = await Promise.all([
+        loadGeo(),
+        loadJSON("de_capacity_by_landkreis.json"),
+        loadJSON("de_top_plants.json"),
+      ]);
+      if (!topoData || !cap) { host.innerHTML = '<div class="nodata">Map data unavailable.</div>'; return; }
+
+      national = cap.national_mw || {};
+      cap.landkreise.forEach((r) => { capByNuts[r.nuts_id] = r; });
+
+      map = GeoMap.choropleth(host, {
+        topo: topoData, object: "landkreise", width: 360, height: 460,
+        ariaLabel: "Choropleth of Germany by Landkreis shaded by installed wind or solar capacity, with the largest plants and demand centres.",
+      });
+
+      // demand centres (proxy) first, then plant points on top
+      const rscale = d3.scaleSqrt().domain([0, d3.max(CITIES, (c) => c.p)]).range([3, 16]);
+      GeoMap.points(map, CITIES, {
+        className: "demand", r: (d) => rscale(d.p),
+        fill: "rgba(163,45,45,.14)", stroke: "#a32d2d", strokeWidth: 1.2,
+        title: (d) => `${d.n} — demand centre (population proxy)`,
+      });
+      const plantList = (plants && plants.plants) || [];
+      const psize = d3.scaleSqrt().domain([0, d3.max(plantList, (p) => p.mw) || 1]).range([2, 8]);
+      GeoMap.points(map, plantList, {
+        className: "plants", r: (d) => psize(d.mw),
+        fill: (d) => fuelColor(d.fuel), stroke: "#faf9f5", strokeWidth: 0.7,
+        title: (d) => `${d.name} · ${d.fuel} · ${Math.round(d.mw)} MW · ${d.landkreis ? enName(d.landkreis) : "—"}`,
+      });
+      const plantFuels = [...new Set(plantList.map((p) => p.fuel))];
+      document.getElementById("plantLegend").innerHTML = plantFuels.map((f) =>
+        `<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${fuelColor(f)};margin-right:4px;vertical-align:middle"></span>${f} (top 20)`).join(" ");
+
+      document.getElementById("capSrc").textContent =
+        `Installed net nominal capacity from the Marktstammdatenregister (© Bundesnetzagentur), operating units only. Offshore wind (${GW(national.wind_offshore_mw)}) sits in the Exclusive Economic Zone, so it appears in the totals but not on the Landkreis map. Eisenach is shown as no-data (its plants are registered under Wartburgkreis since the 2021 merger).`;
+
+      renderKpis();
+      setMetric("wind");
+    })();
+
+    // --- Panel 2: regional net balance (SMARD) + redispatch overlay (curtailment) ---
+    const AREA_LABEL = { "50Hertz": "50Hertz (NE)", "TenneT": "TenneT (N–S)", "Amprion": "Amprion (W)", "TransnetBW": "TransnetBW (SW)" };
+    function renderRedispatch(cur) {
+      const wrap = document.getElementById("redispatchWrap");
+      // Reuse the Curtailment view's degrade behaviour: no source -> honest note.
+      if (!cur || cur.status === "unavailable" || !cur.days || !cur.days.length) {
+        wrap.innerHTML = '<div class="nodata">Redispatch / curtailment awaiting its data source (netztransparenz credentials).</div>';
+        return;
+      }
+      const m = {};
+      cur.days.forEach((d) => { const k = d.date.slice(0, 7); m[k] = (m[k] || 0) + (d.curtailed_mwh || 0); });
+      const months = Object.keys(m).sort().slice(-12);
+      new Chart(document.getElementById("redispatchChart"), {
+        type: "bar",
+        data: { labels: months, datasets: [{ data: months.map((k) => Math.round(m[k] / 1000)), backgroundColor: "#3b6d11", borderRadius: 2 }] },
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => `${c.parsed.y.toLocaleString()} GWh curtailed` } } },
+          scales: { y: { ticks: { font: { size: 9 } }, grid: { color: "rgba(0,0,0,.06)" } }, x: { ticks: { font: { size: 9 } }, grid: { display: false } } },
+        },
+      });
+    }
+    async function buildPanel2() {
+      const bal = await loadJSON("de_regional_balance.json");
+      if (!bal || !bal.days || !bal.days.length) return;   // leave the placeholder
+      const areas = bal.areas;
+      const avg = areas.map((a) => {
+        const vals = bal.days.map((d) => d.balance_gw[a]).filter((v) => v != null);
+        return vals.length ? Math.round(vals.reduce((s, v) => s + v, 0) / vals.length * 10) / 10 : null;
+      });
+      new Chart(document.getElementById("balChart"), {
+        type: "bar",
+        data: { labels: areas.map((a) => AREA_LABEL[a] || a),
+          datasets: [{ data: avg, backgroundColor: avg.map((v) => (v >= 0 ? "#2f7d78" : "#a32d2d")), borderRadius: 3 }] },
+        options: {
+          indexAxis: "y", responsive: true, maintainAspectRatio: false, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${c.parsed.x >= 0 ? "+" : ""}${c.parsed.x} GW (${c.parsed.x >= 0 ? "surplus" : "deficit"})` } } },
+          scales: { x: { title: { display: true, text: "avg net balance (GW): surplus +  /  deficit −", font: { size: 11 } }, grid: { color: "rgba(0,0,0,.06)" } },
+            y: { grid: { display: false } } },
+        },
+      });
+      renderRedispatch(await loadJSON("curtailment.json"));
+    }
+    buildPanel2();
+
+    // --- Panel 3: curtailment vs the price (reuses curtailment.json + spread.json) ---
+    async function buildPanel3() {
+      const [cur, sp] = await Promise.all([loadJSON("curtailment.json"), loadJSON("spread.json")]);
+      const wrap = document.getElementById("wasteWrap");
+      if (!cur || cur.status === "unavailable" || !cur.days || !cur.days.length || !sp || !sp.days) {
+        wrap.innerHTML = '<div class="nodata">Awaiting the Curtailment and/or Spread data.</div>';
+        return;
+      }
+      // Monthly aggregation of the SAME data the Curtailment/Spread views use (no
+      // recomputation drift): curtailment MWh/day -> GWh/month; negative hours/day -> /month.
+      const cm = {}, nm = {};
+      cur.days.forEach((d) => { const k = d.date.slice(0, 7); cm[k] = (cm[k] || 0) + (d.curtailed_mwh || 0); });
+      sp.days.forEach((d) => { const k = d.date.slice(0, 7); nm[k] = (nm[k] || 0) + (d.negative_hours || 0); });
+      const months = [...new Set([...Object.keys(cm), ...Object.keys(nm)])].sort().filter((m) => m in cm && m in nm).slice(-12);
+      new Chart(document.getElementById("wasteChart"), {
+        data: { labels: months, datasets: [
+          { type: "bar", label: "Curtailment (GWh)", data: months.map((m) => Math.round(cm[m] / 1000)), backgroundColor: "#3b6d11", borderRadius: 2, yAxisID: "y", order: 2 },
+          { type: "line", label: "Negative-price hours", data: months.map((m) => nm[m]), borderColor: "#a32d2d", backgroundColor: "#a32d2d", borderWidth: 2, tension: 0.3, pointRadius: 2, yAxisID: "y1", order: 1 },
+        ] },
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          interaction: { mode: "index", intersect: false },
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => c.dataset.type === "bar" ? `${c.parsed.y.toLocaleString()} GWh curtailed` : `${c.parsed.y} negative-price hours` } } },
+          scales: {
+            y: { position: "left", title: { display: true, text: "GWh", font: { size: 11 } }, grid: { color: "rgba(0,0,0,.06)" }, ticks: { font: { size: 10 } } },
+            y1: { position: "right", title: { display: true, text: "neg. hours", font: { size: 11 } }, grid: { drawOnChartArea: false }, ticks: { font: { size: 10 } } },
+            x: { grid: { display: false }, ticks: { font: { size: 9 } } },
+          },
+        },
+      });
+    }
+    buildPanel3();
+  </script>
+</body>
+</html>

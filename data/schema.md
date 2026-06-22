@@ -287,9 +287,98 @@ renders an explicit "awaiting source" state rather than fabricating data.
 Units are **MWh/day** (validate on first real fetch, landmine #12). Isolated
 pipeline module (landmine #11): no shared code with the ENTSO-E builders.
 
+## `de_capacity_by_landkreis.json` (v3 — Wasted-wind Panel 1, NEW SOURCE: MaStR)
+
+Installed wind/solar capacity per German Landkreis, from the
+Marktstammdatenregister (`pipeline/build_mastr_capacity.py`, isolated module —
+landmine #11). **Aggregates only** (MaStR is millions of units — never commit raw
+points). Capacity is **installed MW, not energy** (frontend caption, copy block D).
+`Nettonennleistung` is kW in the source; converted to **MW** here (landmine #12).
+
+```json
+{
+  "generated_at": "2026-06-22T08:00:00Z",
+  "source": "MaStR (Bundesnetzagentur)",
+  "unit": "MW",
+  "metric": "installed net nominal capacity",
+  "national_mw": { "wind_onshore_mw": 70000, "wind_offshore_mw": 10400, "solar_mw": 110500 },
+  "landkreise": [
+    { "ags": "01060", "nuts_id": "DEF0E", "name": "Segeberg",
+      "wind_onshore_mw": 412, "wind_offshore_mw": 0, "solar_mw": 388 }
+    // ~400 entries, one per Kreis
+  ]
+}
+```
+
+`national_mw` is the country total per fuel (rounded MW), **including offshore wind**
+— which has no Landkreis (EEZ) and so appears here but not in `landkreise`. Lets the
+frontend show the offshore figure and avoid summing 400 rows.
+
+`ags` is the 5-digit Kreisschlüssel (AGS first 5). `nuts_id` is the **join key to the
+basemap** (`frontend/geo/landkreise.topo.json`, keyed by `NUTS_ID`); the mapping
+lives in `pipeline/de_kreis_nuts.json` (Eurostat LAU↔NUTS, built once, static — see
+its `overrides` for the Eisenach/Wartburgkreis NUTS-2021 case). Wind onshore/offshore
+are **separate metrics, never summed with solar**. Offshore wind sits in the Exclusive
+Economic Zone (no Landkreis), so `wind_offshore_mw` is ~0 for land Kreise — offshore
+capacity shows in the national total and the top-20 points, not the choropleth. All
+values rounded.
+
+## `de_top_plants.json` (v3 — Wasted-wind Panel 1)
+
+The 20 largest individual wind/solar units (by MW) with coordinates, plotted as map
+points. Coordinates are public for utility-scale units (≥30 kW).
+
+```json
+{
+  "generated_at": "2026-06-22T08:00:00Z",
+  "source": "MaStR (Bundesnetzagentur)",
+  "unit": "MW",
+  "plants": [
+    { "name": "…", "fuel": "Wind offshore", "mw": 0.0,
+      "lat": 0.0, "lon": 0.0, "landkreis": "…" }
+    // 20 entries, largest first
+  ]
+}
+```
+
+`fuel` is a canonical fuel (use `frontend/fuels.js` colours). `landkreis` may be
+`null` for offshore units at sea.
+
+## `de_regional_balance.json` (v3 — Wasted-wind Panel 2, NEW SOURCE: SMARD)
+
+Per-control-area **net balance = generation − load** per day, from SMARD
+(`pipeline/build_regional_balance.py`, isolated module). Evidence for the intra-zone
+north–south bottleneck (which appears in **no** ENTSO-E flow or zonal price — there is
+no public inter-TSO MW flow series; do not fabricate one). SMARD day-resolution values
+are **MWh/day**; converted to **average GW** (÷24h ÷1000), aggregated by SMARD in
+German local time (DST handled at source). Missing series (e.g. Nuclear post-2023, no
+offshore in inland Amprion, no lignite in TransnetBW) render as gaps, never zeros.
+
+```json
+{
+  "generated_at": "2026-06-22T09:00:00Z",
+  "source": "SMARD (Bundesnetzagentur) — Realisierte Erzeugung & Netzlast",
+  "unit": "GW",
+  "areas": ["50Hertz", "TenneT", "Amprion", "TransnetBW"],
+  "days": [
+    { "date": "2026-06-21",
+      "generation_gw": { "50Hertz": 11.9, "TenneT": 12.87, "Amprion": 11.14, "TransnetBW": 5.16 },
+      "load_gw":       { "50Hertz": 9.66, "TenneT": 12.63, "Amprion": 15.77, "TransnetBW": 5.61 },
+      "balance_gw":    { "50Hertz": 2.24, "TenneT": 0.24, "Amprion": -4.63, "TransnetBW": -0.45 } }
+    // ~365 entries, one per day
+  ]
+}
+```
+
+`balance_gw[area]` = `generation_gw[area] − load_gw[area]`. North areas (50Hertz,
+TenneT) run structurally **positive** (surplus), south/west (Amprion, TransnetBW)
+**negative** (deficit). An area absent from a day's dicts is a gap. The Panel-2
+redispatch overlay reuses `curtailment.json` (degrades to "awaiting source" if absent).
+
 ### Frontend obligations
 - Render `perfect_arbitrage_eur_per_mw` only alongside a visible caveat that it is an unachievable upper bound (see CLAUDE.md landmine #7).
 - Treat `complete: false` days distinctly (e.g. muted) and never break if `days` has gaps.
 - Round every number before display.
 - For `mix`/`carbon`, use the canonical fuel palette (`frontend/fuels.js`); render `null` fuel/hour slots as gaps, never zeros. Show the carbon methodology label.
 - For `flows`, show flow direction explicitly and render "no capacity data" where `capacity_available` is false.
+- For `de_capacity_by_landkreis`, join to the basemap on `nuts_id`; render Kreise with no entry as a distinct "no data" colour (not zero); caption the map as installed *capacity*, not output (copy block D). Wind and solar are separate toggled metrics.
