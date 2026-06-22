@@ -1,0 +1,3213 @@
+{
+"generated_at": "2026-06-22T12:16:13+00:00",
+"source": "MaStR (Bundesnetzagentur)",
+"unit": "MW",
+"metric": "installed net nominal capacity",
+"national_mw": {
+"wind_onshore_mw": 69953,
+"wind_offshore_mw": 10410,
+"solar_mw": 110465
+},
+"landkreise": [
+{
+"ags": "01001",
+"nuts_id": "DEF01",
+"name": "Flensburg, Kreisfreie Stadt",
+"wind_onshore_mw": 73,
+"wind_offshore_mw": 0,
+"solar_mw": 34
+},
+{
+"ags": "01002",
+"nuts_id": "DEF02",
+"name": "Kiel, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 46
+},
+{
+"ags": "01003",
+"nuts_id": "DEF03",
+"name": "Lübeck, Kreisfreie Stadt",
+"wind_onshore_mw": 15,
+"wind_offshore_mw": 0,
+"solar_mw": 57
+},
+{
+"ags": "01004",
+"nuts_id": "DEF04",
+"name": "Neumünster, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 40
+},
+{
+"ags": "01051",
+"nuts_id": "DEF05",
+"name": "Dithmarschen",
+"wind_onshore_mw": 2383,
+"wind_offshore_mw": 0,
+"solar_mw": 433
+},
+{
+"ags": "01053",
+"nuts_id": "DEF06",
+"name": "Herzogtum Lauenburg",
+"wind_onshore_mw": 171,
+"wind_offshore_mw": 0,
+"solar_mw": 191
+},
+{
+"ags": "01054",
+"nuts_id": "DEF07",
+"name": "Nordfriesland",
+"wind_onshore_mw": 2619,
+"wind_offshore_mw": 0,
+"solar_mw": 670
+},
+{
+"ags": "01055",
+"nuts_id": "DEF08",
+"name": "Ostholstein",
+"wind_onshore_mw": 943,
+"wind_offshore_mw": 0,
+"solar_mw": 249
+},
+{
+"ags": "01056",
+"nuts_id": "DEF09",
+"name": "Pinneberg",
+"wind_onshore_mw": 46,
+"wind_offshore_mw": 0,
+"solar_mw": 150
+},
+{
+"ags": "01057",
+"nuts_id": "DEF0A",
+"name": "Plön",
+"wind_onshore_mw": 42,
+"wind_offshore_mw": 0,
+"solar_mw": 134
+},
+{
+"ags": "01058",
+"nuts_id": "DEF0B",
+"name": "Rendsburg-Eckernförde",
+"wind_onshore_mw": 884,
+"wind_offshore_mw": 0,
+"solar_mw": 757
+},
+{
+"ags": "01059",
+"nuts_id": "DEF0C",
+"name": "Schleswig-Flensburg",
+"wind_onshore_mw": 1386,
+"wind_offshore_mw": 0,
+"solar_mw": 726
+},
+{
+"ags": "01060",
+"nuts_id": "DEF0D",
+"name": "Segeberg",
+"wind_onshore_mw": 432,
+"wind_offshore_mw": 0,
+"solar_mw": 318
+},
+{
+"ags": "01061",
+"nuts_id": "DEF0E",
+"name": "Steinburg",
+"wind_onshore_mw": 856,
+"wind_offshore_mw": 0,
+"solar_mw": 490
+},
+{
+"ags": "01062",
+"nuts_id": "DEF0F",
+"name": "Stormarn",
+"wind_onshore_mw": 87,
+"wind_offshore_mw": 0,
+"solar_mw": 155
+},
+{
+"ags": "02000",
+"nuts_id": "DE600",
+"name": "Hamburg",
+"wind_onshore_mw": 122,
+"wind_offshore_mw": 0,
+"solar_mw": 249
+},
+{
+"ags": "03101",
+"nuts_id": "DE911",
+"name": "Braunschweig, Kreisfreie Stadt",
+"wind_onshore_mw": 7,
+"wind_offshore_mw": 0,
+"solar_mw": 103
+},
+{
+"ags": "03102",
+"nuts_id": "DE912",
+"name": "Salzgitter, Kreisfreie Stadt",
+"wind_onshore_mw": 212,
+"wind_offshore_mw": 0,
+"solar_mw": 43
+},
+{
+"ags": "03103",
+"nuts_id": "DE913",
+"name": "Wolfsburg, Kreisfreie Stadt",
+"wind_onshore_mw": 5,
+"wind_offshore_mw": 0,
+"solar_mw": 52
+},
+{
+"ags": "03151",
+"nuts_id": "DE914",
+"name": "Gifhorn",
+"wind_onshore_mw": 326,
+"wind_offshore_mw": 0,
+"solar_mw": 184
+},
+{
+"ags": "03153",
+"nuts_id": "DE916",
+"name": "Goslar",
+"wind_onshore_mw": 117,
+"wind_offshore_mw": 0,
+"solar_mw": 150
+},
+{
+"ags": "03154",
+"nuts_id": "DE917",
+"name": "Helmstedt",
+"wind_onshore_mw": 179,
+"wind_offshore_mw": 0,
+"solar_mw": 110
+},
+{
+"ags": "03155",
+"nuts_id": "DE918",
+"name": "Northeim",
+"wind_onshore_mw": 145,
+"wind_offshore_mw": 0,
+"solar_mw": 181
+},
+{
+"ags": "03157",
+"nuts_id": "DE91A",
+"name": "Peine",
+"wind_onshore_mw": 304,
+"wind_offshore_mw": 0,
+"solar_mw": 125
+},
+{
+"ags": "03158",
+"nuts_id": "DE91B",
+"name": "Wolfenbüttel",
+"wind_onshore_mw": 451,
+"wind_offshore_mw": 0,
+"solar_mw": 123
+},
+{
+"ags": "03159",
+"nuts_id": "DE91C",
+"name": "Göttingen",
+"wind_onshore_mw": 107,
+"wind_offshore_mw": 0,
+"solar_mw": 409
+},
+{
+"ags": "03241",
+"nuts_id": "DE929",
+"name": "Region Hannover",
+"wind_onshore_mw": 524,
+"wind_offshore_mw": 0,
+"solar_mw": 602
+},
+{
+"ags": "03251",
+"nuts_id": "DE922",
+"name": "Diepholz",
+"wind_onshore_mw": 980,
+"wind_offshore_mw": 0,
+"solar_mw": 419
+},
+{
+"ags": "03252",
+"nuts_id": "DE923",
+"name": "Hameln-Pyrmont",
+"wind_onshore_mw": 169,
+"wind_offshore_mw": 0,
+"solar_mw": 117
+},
+{
+"ags": "03254",
+"nuts_id": "DE925",
+"name": "Hildesheim",
+"wind_onshore_mw": 184,
+"wind_offshore_mw": 0,
+"solar_mw": 208
+},
+{
+"ags": "03255",
+"nuts_id": "DE926",
+"name": "Holzminden",
+"wind_onshore_mw": 50,
+"wind_offshore_mw": 0,
+"solar_mw": 78
+},
+{
+"ags": "03256",
+"nuts_id": "DE927",
+"name": "Nienburg (Weser)",
+"wind_onshore_mw": 426,
+"wind_offshore_mw": 0,
+"solar_mw": 223
+},
+{
+"ags": "03257",
+"nuts_id": "DE928",
+"name": "Schaumburg",
+"wind_onshore_mw": 43,
+"wind_offshore_mw": 0,
+"solar_mw": 194
+},
+{
+"ags": "03351",
+"nuts_id": "DE931",
+"name": "Celle",
+"wind_onshore_mw": 164,
+"wind_offshore_mw": 0,
+"solar_mw": 194
+},
+{
+"ags": "03352",
+"nuts_id": "DE932",
+"name": "Cuxhaven",
+"wind_onshore_mw": 810,
+"wind_offshore_mw": 0,
+"solar_mw": 262
+},
+{
+"ags": "03353",
+"nuts_id": "DE933",
+"name": "Harburg",
+"wind_onshore_mw": 197,
+"wind_offshore_mw": 0,
+"solar_mw": 225
+},
+{
+"ags": "03354",
+"nuts_id": "DE934",
+"name": "Lüchow-Dannenberg",
+"wind_onshore_mw": 143,
+"wind_offshore_mw": 0,
+"solar_mw": 82
+},
+{
+"ags": "03355",
+"nuts_id": "DE935",
+"name": "Lüneburg, Landkreis",
+"wind_onshore_mw": 268,
+"wind_offshore_mw": 0,
+"solar_mw": 158
+},
+{
+"ags": "03356",
+"nuts_id": "DE936",
+"name": "Osterholz",
+"wind_onshore_mw": 139,
+"wind_offshore_mw": 0,
+"solar_mw": 112
+},
+{
+"ags": "03357",
+"nuts_id": "DE937",
+"name": "Rotenburg (Wümme)",
+"wind_onshore_mw": 584,
+"wind_offshore_mw": 0,
+"solar_mw": 289
+},
+{
+"ags": "03358",
+"nuts_id": "DE938",
+"name": "Heidekreis",
+"wind_onshore_mw": 343,
+"wind_offshore_mw": 0,
+"solar_mw": 192
+},
+{
+"ags": "03359",
+"nuts_id": "DE939",
+"name": "Stade",
+"wind_onshore_mw": 540,
+"wind_offshore_mw": 0,
+"solar_mw": 222
+},
+{
+"ags": "03360",
+"nuts_id": "DE93A",
+"name": "Uelzen",
+"wind_onshore_mw": 535,
+"wind_offshore_mw": 0,
+"solar_mw": 122
+},
+{
+"ags": "03361",
+"nuts_id": "DE93B",
+"name": "Verden",
+"wind_onshore_mw": 237,
+"wind_offshore_mw": 0,
+"solar_mw": 155
+},
+{
+"ags": "03401",
+"nuts_id": "DE941",
+"name": "Delmenhorst, Kreisfreie Stadt",
+"wind_onshore_mw": 8,
+"wind_offshore_mw": 0,
+"solar_mw": 35
+},
+{
+"ags": "03402",
+"nuts_id": "DE942",
+"name": "Emden, Kreisfreie Stadt",
+"wind_onshore_mw": 193,
+"wind_offshore_mw": 0,
+"solar_mw": 31
+},
+{
+"ags": "03403",
+"nuts_id": "DE943",
+"name": "Oldenburg (Oldenburg), Kreisfreie Stadt",
+"wind_onshore_mw": 22,
+"wind_offshore_mw": 0,
+"solar_mw": 96
+},
+{
+"ags": "03404",
+"nuts_id": "DE944",
+"name": "Osnabrück, Kreisfreie Stadt",
+"wind_onshore_mw": 10,
+"wind_offshore_mw": 0,
+"solar_mw": 93
+},
+{
+"ags": "03405",
+"nuts_id": "DE945",
+"name": "Wilhelmshaven, Kreisfreie Stadt",
+"wind_onshore_mw": 91,
+"wind_offshore_mw": 0,
+"solar_mw": 56
+},
+{
+"ags": "03451",
+"nuts_id": "DE946",
+"name": "Ammerland",
+"wind_onshore_mw": 56,
+"wind_offshore_mw": 0,
+"solar_mw": 209
+},
+{
+"ags": "03452",
+"nuts_id": "DE947",
+"name": "Aurich",
+"wind_onshore_mw": 1102,
+"wind_offshore_mw": 0,
+"solar_mw": 225
+},
+{
+"ags": "03453",
+"nuts_id": "DE948",
+"name": "Cloppenburg",
+"wind_onshore_mw": 445,
+"wind_offshore_mw": 0,
+"solar_mw": 513
+},
+{
+"ags": "03454",
+"nuts_id": "DE949",
+"name": "Emsland",
+"wind_onshore_mw": 1401,
+"wind_offshore_mw": 0,
+"solar_mw": 952
+},
+{
+"ags": "03455",
+"nuts_id": "DE94A",
+"name": "Friesland (DE)",
+"wind_onshore_mw": 385,
+"wind_offshore_mw": 0,
+"solar_mw": 254
+},
+{
+"ags": "03456",
+"nuts_id": "DE94B",
+"name": "Grafschaft Bentheim",
+"wind_onshore_mw": 230,
+"wind_offshore_mw": 0,
+"solar_mw": 328
+},
+{
+"ags": "03457",
+"nuts_id": "DE94C",
+"name": "Leer",
+"wind_onshore_mw": 229,
+"wind_offshore_mw": 0,
+"solar_mw": 191
+},
+{
+"ags": "03458",
+"nuts_id": "DE94D",
+"name": "Oldenburg, Landkreis",
+"wind_onshore_mw": 314,
+"wind_offshore_mw": 0,
+"solar_mw": 248
+},
+{
+"ags": "03459",
+"nuts_id": "DE94E",
+"name": "Osnabrück, Landkreis",
+"wind_onshore_mw": 559,
+"wind_offshore_mw": 0,
+"solar_mw": 686
+},
+{
+"ags": "03460",
+"nuts_id": "DE94F",
+"name": "Vechta",
+"wind_onshore_mw": 206,
+"wind_offshore_mw": 0,
+"solar_mw": 401
+},
+{
+"ags": "03461",
+"nuts_id": "DE94G",
+"name": "Wesermarsch",
+"wind_onshore_mw": 470,
+"wind_offshore_mw": 0,
+"solar_mw": 163
+},
+{
+"ags": "03462",
+"nuts_id": "DE94H",
+"name": "Wittmund",
+"wind_onshore_mw": 370,
+"wind_offshore_mw": 0,
+"solar_mw": 80
+},
+{
+"ags": "04011",
+"nuts_id": "DE501",
+"name": "Bremen, Kreisfreie Stadt",
+"wind_onshore_mw": 124,
+"wind_offshore_mw": 0,
+"solar_mw": 144
+},
+{
+"ags": "04012",
+"nuts_id": "DE502",
+"name": "Bremerhaven, Kreisfreie Stadt",
+"wind_onshore_mw": 67,
+"wind_offshore_mw": 0,
+"solar_mw": 36
+},
+{
+"ags": "05111",
+"nuts_id": "DEA11",
+"name": "Düsseldorf, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 130
+},
+{
+"ags": "05112",
+"nuts_id": "DEA12",
+"name": "Duisburg, Kreisfreie Stadt",
+"wind_onshore_mw": 2,
+"wind_offshore_mw": 0,
+"solar_mw": 119
+},
+{
+"ags": "05113",
+"nuts_id": "DEA13",
+"name": "Essen, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 122
+},
+{
+"ags": "05114",
+"nuts_id": "DEA14",
+"name": "Krefeld, Kreisfreie Stadt",
+"wind_onshore_mw": 16,
+"wind_offshore_mw": 0,
+"solar_mw": 95
+},
+{
+"ags": "05116",
+"nuts_id": "DEA15",
+"name": "Mönchengladbach, Kreisfreie Stadt",
+"wind_onshore_mw": 41,
+"wind_offshore_mw": 0,
+"solar_mw": 119
+},
+{
+"ags": "05117",
+"nuts_id": "DEA16",
+"name": "Mülheim an der Ruhr, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 47
+},
+{
+"ags": "05119",
+"nuts_id": "DEA17",
+"name": "Oberhausen, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 52
+},
+{
+"ags": "05120",
+"nuts_id": "DEA18",
+"name": "Remscheid, Kreisfreie Stadt",
+"wind_onshore_mw": 2,
+"wind_offshore_mw": 0,
+"solar_mw": 35
+},
+{
+"ags": "05122",
+"nuts_id": "DEA19",
+"name": "Solingen, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 53
+},
+{
+"ags": "05124",
+"nuts_id": "DEA1A",
+"name": "Wuppertal, Kreisfreie Stadt",
+"wind_onshore_mw": 9,
+"wind_offshore_mw": 0,
+"solar_mw": 86
+},
+{
+"ags": "05154",
+"nuts_id": "DEA1B",
+"name": "Kleve",
+"wind_onshore_mw": 461,
+"wind_offshore_mw": 0,
+"solar_mw": 508
+},
+{
+"ags": "05158",
+"nuts_id": "DEA1C",
+"name": "Mettmann",
+"wind_onshore_mw": 7,
+"wind_offshore_mw": 0,
+"solar_mw": 226
+},
+{
+"ags": "05162",
+"nuts_id": "DEA1D",
+"name": "Rhein-Kreis Neuss",
+"wind_onshore_mw": 319,
+"wind_offshore_mw": 0,
+"solar_mw": 352
+},
+{
+"ags": "05166",
+"nuts_id": "DEA1E",
+"name": "Viersen",
+"wind_onshore_mw": 119,
+"wind_offshore_mw": 0,
+"solar_mw": 297
+},
+{
+"ags": "05170",
+"nuts_id": "DEA1F",
+"name": "Wesel",
+"wind_onshore_mw": 126,
+"wind_offshore_mw": 0,
+"solar_mw": 439
+},
+{
+"ags": "05314",
+"nuts_id": "DEA22",
+"name": "Bonn, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 76
+},
+{
+"ags": "05315",
+"nuts_id": "DEA23",
+"name": "Köln, Kreisfreie Stadt",
+"wind_onshore_mw": 17,
+"wind_offshore_mw": 0,
+"solar_mw": 227
+},
+{
+"ags": "05316",
+"nuts_id": "DEA24",
+"name": "Leverkusen, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 52
+},
+{
+"ags": "05334",
+"nuts_id": "DEA2D",
+"name": "Städteregion Aachen",
+"wind_onshore_mw": 267,
+"wind_offshore_mw": 0,
+"solar_mw": 293
+},
+{
+"ags": "05358",
+"nuts_id": "DEA26",
+"name": "Düren",
+"wind_onshore_mw": 592,
+"wind_offshore_mw": 0,
+"solar_mw": 345
+},
+{
+"ags": "05362",
+"nuts_id": "DEA27",
+"name": "Rhein-Erft-Kreis",
+"wind_onshore_mw": 177,
+"wind_offshore_mw": 0,
+"solar_mw": 408
+},
+{
+"ags": "05366",
+"nuts_id": "DEA28",
+"name": "Euskirchen",
+"wind_onshore_mw": 303,
+"wind_offshore_mw": 0,
+"solar_mw": 286
+},
+{
+"ags": "05370",
+"nuts_id": "DEA29",
+"name": "Heinsberg",
+"wind_onshore_mw": 318,
+"wind_offshore_mw": 0,
+"solar_mw": 288
+},
+{
+"ags": "05374",
+"nuts_id": "DEA2A",
+"name": "Oberbergischer Kreis",
+"wind_onshore_mw": 20,
+"wind_offshore_mw": 0,
+"solar_mw": 216
+},
+{
+"ags": "05378",
+"nuts_id": "DEA2B",
+"name": "Rheinisch-Bergischer Kreis",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 162
+},
+{
+"ags": "05382",
+"nuts_id": "DEA2C",
+"name": "Rhein-Sieg-Kreis",
+"wind_onshore_mw": 3,
+"wind_offshore_mw": 0,
+"solar_mw": 417
+},
+{
+"ags": "05512",
+"nuts_id": "DEA31",
+"name": "Bottrop, Kreisfreie Stadt",
+"wind_onshore_mw": 18,
+"wind_offshore_mw": 0,
+"solar_mw": 64
+},
+{
+"ags": "05513",
+"nuts_id": "DEA32",
+"name": "Gelsenkirchen, Kreisfreie Stadt",
+"wind_onshore_mw": 5,
+"wind_offshore_mw": 0,
+"solar_mw": 60
+},
+{
+"ags": "05515",
+"nuts_id": "DEA33",
+"name": "Münster, Kreisfreie Stadt",
+"wind_onshore_mw": 83,
+"wind_offshore_mw": 0,
+"solar_mw": 169
+},
+{
+"ags": "05554",
+"nuts_id": "DEA34",
+"name": "Borken",
+"wind_onshore_mw": 772,
+"wind_offshore_mw": 0,
+"solar_mw": 881
+},
+{
+"ags": "05558",
+"nuts_id": "DEA35",
+"name": "Coesfeld",
+"wind_onshore_mw": 377,
+"wind_offshore_mw": 0,
+"solar_mw": 441
+},
+{
+"ags": "05562",
+"nuts_id": "DEA36",
+"name": "Recklinghausen",
+"wind_onshore_mw": 243,
+"wind_offshore_mw": 0,
+"solar_mw": 354
+},
+{
+"ags": "05566",
+"nuts_id": "DEA37",
+"name": "Steinfurt",
+"wind_onshore_mw": 691,
+"wind_offshore_mw": 0,
+"solar_mw": 773
+},
+{
+"ags": "05570",
+"nuts_id": "DEA38",
+"name": "Warendorf",
+"wind_onshore_mw": 553,
+"wind_offshore_mw": 0,
+"solar_mw": 445
+},
+{
+"ags": "05711",
+"nuts_id": "DEA41",
+"name": "Bielefeld, Kreisfreie Stadt",
+"wind_onshore_mw": 15,
+"wind_offshore_mw": 0,
+"solar_mw": 161
+},
+{
+"ags": "05754",
+"nuts_id": "DEA42",
+"name": "Gütersloh",
+"wind_onshore_mw": 96,
+"wind_offshore_mw": 0,
+"solar_mw": 481
+},
+{
+"ags": "05758",
+"nuts_id": "DEA43",
+"name": "Herford",
+"wind_onshore_mw": 22,
+"wind_offshore_mw": 0,
+"solar_mw": 246
+},
+{
+"ags": "05762",
+"nuts_id": "DEA44",
+"name": "Höxter",
+"wind_onshore_mw": 784,
+"wind_offshore_mw": 0,
+"solar_mw": 313
+},
+{
+"ags": "05766",
+"nuts_id": "DEA45",
+"name": "Lippe",
+"wind_onshore_mw": 326,
+"wind_offshore_mw": 0,
+"solar_mw": 336
+},
+{
+"ags": "05770",
+"nuts_id": "DEA46",
+"name": "Minden-Lübbecke",
+"wind_onshore_mw": 129,
+"wind_offshore_mw": 0,
+"solar_mw": 413
+},
+{
+"ags": "05774",
+"nuts_id": "DEA47",
+"name": "Paderborn",
+"wind_onshore_mw": 1417,
+"wind_offshore_mw": 0,
+"solar_mw": 509
+},
+{
+"ags": "05911",
+"nuts_id": "DEA51",
+"name": "Bochum, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 99
+},
+{
+"ags": "05913",
+"nuts_id": "DEA52",
+"name": "Dortmund, Kreisfreie Stadt",
+"wind_onshore_mw": 16,
+"wind_offshore_mw": 0,
+"solar_mw": 179
+},
+{
+"ags": "05914",
+"nuts_id": "DEA53",
+"name": "Hagen, Kreisfreie Stadt",
+"wind_onshore_mw": 45,
+"wind_offshore_mw": 0,
+"solar_mw": 56
+},
+{
+"ags": "05915",
+"nuts_id": "DEA54",
+"name": "Hamm, Kreisfreie Stadt",
+"wind_onshore_mw": 51,
+"wind_offshore_mw": 0,
+"solar_mw": 108
+},
+{
+"ags": "05916",
+"nuts_id": "DEA55",
+"name": "Herne, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 33
+},
+{
+"ags": "05954",
+"nuts_id": "DEA56",
+"name": "Ennepe-Ruhr-Kreis",
+"wind_onshore_mw": 9,
+"wind_offshore_mw": 0,
+"solar_mw": 150
+},
+{
+"ags": "05958",
+"nuts_id": "DEA57",
+"name": "Hochsauerlandkreis",
+"wind_onshore_mw": 379,
+"wind_offshore_mw": 0,
+"solar_mw": 349
+},
+{
+"ags": "05962",
+"nuts_id": "DEA58",
+"name": "Märkischer Kreis",
+"wind_onshore_mw": 80,
+"wind_offshore_mw": 0,
+"solar_mw": 229
+},
+{
+"ags": "05966",
+"nuts_id": "DEA59",
+"name": "Olpe",
+"wind_onshore_mw": 57,
+"wind_offshore_mw": 0,
+"solar_mw": 127
+},
+{
+"ags": "05970",
+"nuts_id": "DEA5A",
+"name": "Siegen-Wittgenstein",
+"wind_onshore_mw": 93,
+"wind_offshore_mw": 0,
+"solar_mw": 179
+},
+{
+"ags": "05974",
+"nuts_id": "DEA5B",
+"name": "Soest",
+"wind_onshore_mw": 397,
+"wind_offshore_mw": 0,
+"solar_mw": 501
+},
+{
+"ags": "05978",
+"nuts_id": "DEA5C",
+"name": "Unna",
+"wind_onshore_mw": 69,
+"wind_offshore_mw": 0,
+"solar_mw": 316
+},
+{
+"ags": "06411",
+"nuts_id": "DE711",
+"name": "Darmstadt, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 45
+},
+{
+"ags": "06412",
+"nuts_id": "DE712",
+"name": "Frankfurt am Main, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 111
+},
+{
+"ags": "06413",
+"nuts_id": "DE713",
+"name": "Offenbach am Main, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 23
+},
+{
+"ags": "06414",
+"nuts_id": "DE714",
+"name": "Wiesbaden, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 63
+},
+{
+"ags": "06431",
+"nuts_id": "DE715",
+"name": "Bergstraße",
+"wind_onshore_mw": 49,
+"wind_offshore_mw": 0,
+"solar_mw": 258
+},
+{
+"ags": "06432",
+"nuts_id": "DE716",
+"name": "Darmstadt-Dieburg",
+"wind_onshore_mw": 25,
+"wind_offshore_mw": 0,
+"solar_mw": 212
+},
+{
+"ags": "06433",
+"nuts_id": "DE717",
+"name": "Groß-Gerau",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 204
+},
+{
+"ags": "06434",
+"nuts_id": "DE718",
+"name": "Hochtaunuskreis",
+"wind_onshore_mw": 52,
+"wind_offshore_mw": 0,
+"solar_mw": 116
+},
+{
+"ags": "06435",
+"nuts_id": "DE719",
+"name": "Main-Kinzig-Kreis",
+"wind_onshore_mw": 302,
+"wind_offshore_mw": 0,
+"solar_mw": 433
+},
+{
+"ags": "06436",
+"nuts_id": "DE71A",
+"name": "Main-Taunus-Kreis",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 106
+},
+{
+"ags": "06437",
+"nuts_id": "DE71B",
+"name": "Odenwaldkreis",
+"wind_onshore_mw": 57,
+"wind_offshore_mw": 0,
+"solar_mw": 98
+},
+{
+"ags": "06438",
+"nuts_id": "DE71C",
+"name": "Offenbach, Landkreis",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 155
+},
+{
+"ags": "06439",
+"nuts_id": "DE71D",
+"name": "Rheingau-Taunus-Kreis",
+"wind_onshore_mw": 62,
+"wind_offshore_mw": 0,
+"solar_mw": 119
+},
+{
+"ags": "06440",
+"nuts_id": "DE71E",
+"name": "Wetteraukreis",
+"wind_onshore_mw": 46,
+"wind_offshore_mw": 0,
+"solar_mw": 231
+},
+{
+"ags": "06531",
+"nuts_id": "DE721",
+"name": "Gießen, Landkreis",
+"wind_onshore_mw": 49,
+"wind_offshore_mw": 0,
+"solar_mw": 232
+},
+{
+"ags": "06532",
+"nuts_id": "DE722",
+"name": "Lahn-Dill-Kreis",
+"wind_onshore_mw": 171,
+"wind_offshore_mw": 0,
+"solar_mw": 229
+},
+{
+"ags": "06533",
+"nuts_id": "DE723",
+"name": "Limburg-Weilburg",
+"wind_onshore_mw": 100,
+"wind_offshore_mw": 0,
+"solar_mw": 218
+},
+{
+"ags": "06534",
+"nuts_id": "DE724",
+"name": "Marburg-Biedenkopf",
+"wind_onshore_mw": 267,
+"wind_offshore_mw": 0,
+"solar_mw": 285
+},
+{
+"ags": "06535",
+"nuts_id": "DE725",
+"name": "Vogelsbergkreis",
+"wind_onshore_mw": 551,
+"wind_offshore_mw": 0,
+"solar_mw": 224
+},
+{
+"ags": "06611",
+"nuts_id": "DE731",
+"name": "Kassel, Kreisfreie Stadt",
+"wind_onshore_mw": 7,
+"wind_offshore_mw": 0,
+"solar_mw": 73
+},
+{
+"ags": "06631",
+"nuts_id": "DE732",
+"name": "Fulda",
+"wind_onshore_mw": 65,
+"wind_offshore_mw": 0,
+"solar_mw": 369
+},
+{
+"ags": "06632",
+"nuts_id": "DE733",
+"name": "Hersfeld-Rotenburg",
+"wind_onshore_mw": 259,
+"wind_offshore_mw": 0,
+"solar_mw": 205
+},
+{
+"ags": "06633",
+"nuts_id": "DE734",
+"name": "Kassel, Landkreis",
+"wind_onshore_mw": 248,
+"wind_offshore_mw": 0,
+"solar_mw": 401
+},
+{
+"ags": "06634",
+"nuts_id": "DE735",
+"name": "Schwalm-Eder-Kreis",
+"wind_onshore_mw": 97,
+"wind_offshore_mw": 0,
+"solar_mw": 303
+},
+{
+"ags": "06635",
+"nuts_id": "DE736",
+"name": "Waldeck-Frankenberg",
+"wind_onshore_mw": 396,
+"wind_offshore_mw": 0,
+"solar_mw": 270
+},
+{
+"ags": "06636",
+"nuts_id": "DE737",
+"name": "Werra-Meißner-Kreis",
+"wind_onshore_mw": 103,
+"wind_offshore_mw": 0,
+"solar_mw": 129
+},
+{
+"ags": "07111",
+"nuts_id": "DEB11",
+"name": "Koblenz, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 44
+},
+{
+"ags": "07131",
+"nuts_id": "DEB12",
+"name": "Ahrweiler",
+"wind_onshore_mw": 13,
+"wind_offshore_mw": 0,
+"solar_mw": 125
+},
+{
+"ags": "07132",
+"nuts_id": "DEB13",
+"name": "Altenkirchen (Westerwald)",
+"wind_onshore_mw": 19,
+"wind_offshore_mw": 0,
+"solar_mw": 128
+},
+{
+"ags": "07133",
+"nuts_id": "DEB14",
+"name": "Bad Kreuznach",
+"wind_onshore_mw": 175,
+"wind_offshore_mw": 0,
+"solar_mw": 236
+},
+{
+"ags": "07134",
+"nuts_id": "DEB15",
+"name": "Birkenfeld",
+"wind_onshore_mw": 172,
+"wind_offshore_mw": 0,
+"solar_mw": 108
+},
+{
+"ags": "07135",
+"nuts_id": "DEB1C",
+"name": "Cochem-Zell",
+"wind_onshore_mw": 187,
+"wind_offshore_mw": 0,
+"solar_mw": 369
+},
+{
+"ags": "07137",
+"nuts_id": "DEB17",
+"name": "Mayen-Koblenz",
+"wind_onshore_mw": 87,
+"wind_offshore_mw": 0,
+"solar_mw": 242
+},
+{
+"ags": "07138",
+"nuts_id": "DEB18",
+"name": "Neuwied",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 171
+},
+{
+"ags": "07140",
+"nuts_id": "DEB1D",
+"name": "Rhein-Hunsrück-Kreis",
+"wind_onshore_mw": 769,
+"wind_offshore_mw": 0,
+"solar_mw": 203
+},
+{
+"ags": "07141",
+"nuts_id": "DEB1A",
+"name": "Rhein-Lahn-Kreis",
+"wind_onshore_mw": 10,
+"wind_offshore_mw": 0,
+"solar_mw": 130
+},
+{
+"ags": "07143",
+"nuts_id": "DEB1B",
+"name": "Westerwaldkreis",
+"wind_onshore_mw": 165,
+"wind_offshore_mw": 0,
+"solar_mw": 310
+},
+{
+"ags": "07211",
+"nuts_id": "DEB21",
+"name": "Trier, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 86
+},
+{
+"ags": "07231",
+"nuts_id": "DEB22",
+"name": "Bernkastel-Wittlich",
+"wind_onshore_mw": 259,
+"wind_offshore_mw": 0,
+"solar_mw": 317
+},
+{
+"ags": "07232",
+"nuts_id": "DEB23",
+"name": "Eifelkreis Bitburg-Prüm",
+"wind_onshore_mw": 491,
+"wind_offshore_mw": 0,
+"solar_mw": 579
+},
+{
+"ags": "07233",
+"nuts_id": "DEB24",
+"name": "Vulkaneifel",
+"wind_onshore_mw": 193,
+"wind_offshore_mw": 0,
+"solar_mw": 113
+},
+{
+"ags": "07235",
+"nuts_id": "DEB25",
+"name": "Trier-Saarburg",
+"wind_onshore_mw": 248,
+"wind_offshore_mw": 0,
+"solar_mw": 274
+},
+{
+"ags": "07311",
+"nuts_id": "DEB31",
+"name": "Frankenthal (Pfalz), Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 30
+},
+{
+"ags": "07312",
+"nuts_id": "DEB32",
+"name": "Kaiserslautern, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 85
+},
+{
+"ags": "07313",
+"nuts_id": "DEB33",
+"name": "Landau in der Pfalz, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 46
+},
+{
+"ags": "07314",
+"nuts_id": "DEB34",
+"name": "Ludwigshafen am Rhein, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 48
+},
+{
+"ags": "07315",
+"nuts_id": "DEB35",
+"name": "Mainz, Kreisfreie Stadt",
+"wind_onshore_mw": 22,
+"wind_offshore_mw": 0,
+"solar_mw": 70
+},
+{
+"ags": "07316",
+"nuts_id": "DEB36",
+"name": "Neustadt an der Weinstraße, Kreisfreie Stadt",
+"wind_onshore_mw": 3,
+"wind_offshore_mw": 0,
+"solar_mw": 42
+},
+{
+"ags": "07317",
+"nuts_id": "DEB37",
+"name": "Pirmasens, Kreisfreie Stadt",
+"wind_onshore_mw": 7,
+"wind_offshore_mw": 0,
+"solar_mw": 31
+},
+{
+"ags": "07318",
+"nuts_id": "DEB38",
+"name": "Speyer, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 39
+},
+{
+"ags": "07319",
+"nuts_id": "DEB39",
+"name": "Worms, Kreisfreie Stadt",
+"wind_onshore_mw": 22,
+"wind_offshore_mw": 0,
+"solar_mw": 56
+},
+{
+"ags": "07320",
+"nuts_id": "DEB3A",
+"name": "Zweibrücken, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 29
+},
+{
+"ags": "07331",
+"nuts_id": "DEB3B",
+"name": "Alzey-Worms",
+"wind_onshore_mw": 495,
+"wind_offshore_mw": 0,
+"solar_mw": 213
+},
+{
+"ags": "07332",
+"nuts_id": "DEB3C",
+"name": "Bad Dürkheim",
+"wind_onshore_mw": 27,
+"wind_offshore_mw": 0,
+"solar_mw": 150
+},
+{
+"ags": "07333",
+"nuts_id": "DEB3D",
+"name": "Donnersbergkreis",
+"wind_onshore_mw": 306,
+"wind_offshore_mw": 0,
+"solar_mw": 167
+},
+{
+"ags": "07334",
+"nuts_id": "DEB3E",
+"name": "Germersheim",
+"wind_onshore_mw": 87,
+"wind_offshore_mw": 0,
+"solar_mw": 148
+},
+{
+"ags": "07335",
+"nuts_id": "DEB3F",
+"name": "Kaiserslautern, Landkreis",
+"wind_onshore_mw": 105,
+"wind_offshore_mw": 0,
+"solar_mw": 165
+},
+{
+"ags": "07336",
+"nuts_id": "DEB3G",
+"name": "Kusel",
+"wind_onshore_mw": 183,
+"wind_offshore_mw": 0,
+"solar_mw": 125
+},
+{
+"ags": "07337",
+"nuts_id": "DEB3H",
+"name": "Südliche Weinstraße",
+"wind_onshore_mw": 40,
+"wind_offshore_mw": 0,
+"solar_mw": 151
+},
+{
+"ags": "07338",
+"nuts_id": "DEB3I",
+"name": "Rhein-Pfalz-Kreis",
+"wind_onshore_mw": 40,
+"wind_offshore_mw": 0,
+"solar_mw": 151
+},
+{
+"ags": "07339",
+"nuts_id": "DEB3J",
+"name": "Mainz-Bingen",
+"wind_onshore_mw": 119,
+"wind_offshore_mw": 0,
+"solar_mw": 220
+},
+{
+"ags": "07340",
+"nuts_id": "DEB3K",
+"name": "Südwestpfalz",
+"wind_onshore_mw": 122,
+"wind_offshore_mw": 0,
+"solar_mw": 153
+},
+{
+"ags": "08111",
+"nuts_id": "DE111",
+"name": "Stuttgart, Stadtkreis",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 147
+},
+{
+"ags": "08115",
+"nuts_id": "DE112",
+"name": "Böblingen",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 315
+},
+{
+"ags": "08116",
+"nuts_id": "DE113",
+"name": "Esslingen",
+"wind_onshore_mw": 2,
+"wind_offshore_mw": 0,
+"solar_mw": 340
+},
+{
+"ags": "08117",
+"nuts_id": "DE114",
+"name": "Göppingen",
+"wind_onshore_mw": 121,
+"wind_offshore_mw": 0,
+"solar_mw": 235
+},
+{
+"ags": "08118",
+"nuts_id": "DE115",
+"name": "Ludwigsburg",
+"wind_onshore_mw": 3,
+"wind_offshore_mw": 0,
+"solar_mw": 393
+},
+{
+"ags": "08119",
+"nuts_id": "DE116",
+"name": "Rems-Murr-Kreis",
+"wind_onshore_mw": 22,
+"wind_offshore_mw": 0,
+"solar_mw": 317
+},
+{
+"ags": "08121",
+"nuts_id": "DE117",
+"name": "Heilbronn, Stadtkreis",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 71
+},
+{
+"ags": "08125",
+"nuts_id": "DE118",
+"name": "Heilbronn, Landkreis",
+"wind_onshore_mw": 71,
+"wind_offshore_mw": 0,
+"solar_mw": 582
+},
+{
+"ags": "08126",
+"nuts_id": "DE119",
+"name": "Hohenlohekreis",
+"wind_onshore_mw": 56,
+"wind_offshore_mw": 0,
+"solar_mw": 297
+},
+{
+"ags": "08127",
+"nuts_id": "DE11A",
+"name": "Schwäbisch Hall",
+"wind_onshore_mw": 361,
+"wind_offshore_mw": 0,
+"solar_mw": 566
+},
+{
+"ags": "08128",
+"nuts_id": "DE11B",
+"name": "Main-Tauber-Kreis",
+"wind_onshore_mw": 304,
+"wind_offshore_mw": 0,
+"solar_mw": 524
+},
+{
+"ags": "08135",
+"nuts_id": "DE11C",
+"name": "Heidenheim",
+"wind_onshore_mw": 146,
+"wind_offshore_mw": 0,
+"solar_mw": 264
+},
+{
+"ags": "08136",
+"nuts_id": "DE11D",
+"name": "Ostalbkreis",
+"wind_onshore_mw": 201,
+"wind_offshore_mw": 0,
+"solar_mw": 534
+},
+{
+"ags": "08211",
+"nuts_id": "DE121",
+"name": "Baden-Baden, Stadtkreis",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 43
+},
+{
+"ags": "08212",
+"nuts_id": "DE122",
+"name": "Karlsruhe, Stadtkreis",
+"wind_onshore_mw": 4,
+"wind_offshore_mw": 0,
+"solar_mw": 121
+},
+{
+"ags": "08215",
+"nuts_id": "DE123",
+"name": "Karlsruhe, Landkreis",
+"wind_onshore_mw": 2,
+"wind_offshore_mw": 0,
+"solar_mw": 530
+},
+{
+"ags": "08216",
+"nuts_id": "DE124",
+"name": "Rastatt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 270
+},
+{
+"ags": "08221",
+"nuts_id": "DE125",
+"name": "Heidelberg, Stadtkreis",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 51
+},
+{
+"ags": "08222",
+"nuts_id": "DE126",
+"name": "Mannheim, Stadtkreis",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 123
+},
+{
+"ags": "08225",
+"nuts_id": "DE127",
+"name": "Neckar-Odenwald-Kreis",
+"wind_onshore_mw": 157,
+"wind_offshore_mw": 0,
+"solar_mw": 399
+},
+{
+"ags": "08226",
+"nuts_id": "DE128",
+"name": "Rhein-Neckar-Kreis",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 526
+},
+{
+"ags": "08231",
+"nuts_id": "DE129",
+"name": "Pforzheim, Stadtkreis",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 55
+},
+{
+"ags": "08235",
+"nuts_id": "DE12A",
+"name": "Calw",
+"wind_onshore_mw": 57,
+"wind_offshore_mw": 0,
+"solar_mw": 214
+},
+{
+"ags": "08236",
+"nuts_id": "DE12B",
+"name": "Enzkreis",
+"wind_onshore_mw": 33,
+"wind_offshore_mw": 0,
+"solar_mw": 247
+},
+{
+"ags": "08237",
+"nuts_id": "DE12C",
+"name": "Freudenstadt",
+"wind_onshore_mw": 31,
+"wind_offshore_mw": 0,
+"solar_mw": 204
+},
+{
+"ags": "08311",
+"nuts_id": "DE131",
+"name": "Freiburg im Breisgau, Stadtkreis",
+"wind_onshore_mw": 18,
+"wind_offshore_mw": 0,
+"solar_mw": 98
+},
+{
+"ags": "08315",
+"nuts_id": "DE132",
+"name": "Breisgau-Hochschwarzwald",
+"wind_onshore_mw": 27,
+"wind_offshore_mw": 0,
+"solar_mw": 333
+},
+{
+"ags": "08316",
+"nuts_id": "DE133",
+"name": "Emmendingen",
+"wind_onshore_mw": 41,
+"wind_offshore_mw": 0,
+"solar_mw": 231
+},
+{
+"ags": "08317",
+"nuts_id": "DE134",
+"name": "Ortenaukreis",
+"wind_onshore_mw": 149,
+"wind_offshore_mw": 0,
+"solar_mw": 617
+},
+{
+"ags": "08325",
+"nuts_id": "DE135",
+"name": "Rottweil",
+"wind_onshore_mw": 33,
+"wind_offshore_mw": 0,
+"solar_mw": 282
+},
+{
+"ags": "08326",
+"nuts_id": "DE136",
+"name": "Schwarzwald-Baar-Kreis",
+"wind_onshore_mw": 17,
+"wind_offshore_mw": 0,
+"solar_mw": 299
+},
+{
+"ags": "08327",
+"nuts_id": "DE137",
+"name": "Tuttlingen",
+"wind_onshore_mw": 41,
+"wind_offshore_mw": 0,
+"solar_mw": 242
+},
+{
+"ags": "08335",
+"nuts_id": "DE138",
+"name": "Konstanz",
+"wind_onshore_mw": 10,
+"wind_offshore_mw": 0,
+"solar_mw": 402
+},
+{
+"ags": "08336",
+"nuts_id": "DE139",
+"name": "Lörrach",
+"wind_onshore_mw": 27,
+"wind_offshore_mw": 0,
+"solar_mw": 197
+},
+{
+"ags": "08337",
+"nuts_id": "DE13A",
+"name": "Waldshut",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 264
+},
+{
+"ags": "08415",
+"nuts_id": "DE141",
+"name": "Reutlingen",
+"wind_onshore_mw": 96,
+"wind_offshore_mw": 0,
+"solar_mw": 369
+},
+{
+"ags": "08416",
+"nuts_id": "DE142",
+"name": "Tübingen, Landkreis",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 215
+},
+{
+"ags": "08417",
+"nuts_id": "DE143",
+"name": "Zollernalbkreis",
+"wind_onshore_mw": 6,
+"wind_offshore_mw": 0,
+"solar_mw": 284
+},
+{
+"ags": "08421",
+"nuts_id": "DE144",
+"name": "Ulm, Stadtkreis",
+"wind_onshore_mw": 18,
+"wind_offshore_mw": 0,
+"solar_mw": 124
+},
+{
+"ags": "08425",
+"nuts_id": "DE145",
+"name": "Alb-Donau-Kreis",
+"wind_onshore_mw": 66,
+"wind_offshore_mw": 0,
+"solar_mw": 604
+},
+{
+"ags": "08426",
+"nuts_id": "DE146",
+"name": "Biberach",
+"wind_onshore_mw": 4,
+"wind_offshore_mw": 0,
+"solar_mw": 657
+},
+{
+"ags": "08435",
+"nuts_id": "DE147",
+"name": "Bodenseekreis",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 271
+},
+{
+"ags": "08436",
+"nuts_id": "DE148",
+"name": "Ravensburg",
+"wind_onshore_mw": 65,
+"wind_offshore_mw": 0,
+"solar_mw": 590
+},
+{
+"ags": "08437",
+"nuts_id": "DE149",
+"name": "Sigmaringen",
+"wind_onshore_mw": 57,
+"wind_offshore_mw": 0,
+"solar_mw": 405
+},
+{
+"ags": "09161",
+"nuts_id": "DE211",
+"name": "Ingolstadt, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 106
+},
+{
+"ags": "09162",
+"nuts_id": "DE212",
+"name": "München, Kreisfreie Stadt",
+"wind_onshore_mw": 5,
+"wind_offshore_mw": 0,
+"solar_mw": 234
+},
+{
+"ags": "09163",
+"nuts_id": "DE213",
+"name": "Rosenheim, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 32
+},
+{
+"ags": "09171",
+"nuts_id": "DE214",
+"name": "Altötting",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 391
+},
+{
+"ags": "09172",
+"nuts_id": "DE215",
+"name": "Berchtesgadener Land",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 121
+},
+{
+"ags": "09173",
+"nuts_id": "DE216",
+"name": "Bad Tölz-Wolfratshausen",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 139
+},
+{
+"ags": "09174",
+"nuts_id": "DE217",
+"name": "Dachau",
+"wind_onshore_mw": 21,
+"wind_offshore_mw": 0,
+"solar_mw": 294
+},
+{
+"ags": "09175",
+"nuts_id": "DE218",
+"name": "Ebersberg",
+"wind_onshore_mw": 7,
+"wind_offshore_mw": 0,
+"solar_mw": 185
+},
+{
+"ags": "09176",
+"nuts_id": "DE219",
+"name": "Eichstätt",
+"wind_onshore_mw": 125,
+"wind_offshore_mw": 0,
+"solar_mw": 526
+},
+{
+"ags": "09177",
+"nuts_id": "DE21A",
+"name": "Erding",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 305
+},
+{
+"ags": "09178",
+"nuts_id": "DE21B",
+"name": "Freising",
+"wind_onshore_mw": 5,
+"wind_offshore_mw": 0,
+"solar_mw": 387
+},
+{
+"ags": "09179",
+"nuts_id": "DE21C",
+"name": "Fürstenfeldbruck",
+"wind_onshore_mw": 6,
+"wind_offshore_mw": 0,
+"solar_mw": 229
+},
+{
+"ags": "09180",
+"nuts_id": "DE21D",
+"name": "Garmisch-Partenkirchen",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 74
+},
+{
+"ags": "09181",
+"nuts_id": "DE21E",
+"name": "Landsberg am Lech",
+"wind_onshore_mw": 33,
+"wind_offshore_mw": 0,
+"solar_mw": 351
+},
+{
+"ags": "09182",
+"nuts_id": "DE21F",
+"name": "Miesbach",
+"wind_onshore_mw": 6,
+"wind_offshore_mw": 0,
+"solar_mw": 103
+},
+{
+"ags": "09183",
+"nuts_id": "DE21G",
+"name": "Mühldorf a. Inn",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 352
+},
+{
+"ags": "09184",
+"nuts_id": "DE21H",
+"name": "München, Landkreis",
+"wind_onshore_mw": 11,
+"wind_offshore_mw": 0,
+"solar_mw": 294
+},
+{
+"ags": "09185",
+"nuts_id": "DE21I",
+"name": "Neuburg-Schrobenhausen",
+"wind_onshore_mw": 6,
+"wind_offshore_mw": 0,
+"solar_mw": 648
+},
+{
+"ags": "09186",
+"nuts_id": "DE21J",
+"name": "Pfaffenhofen a. d. Ilm",
+"wind_onshore_mw": 41,
+"wind_offshore_mw": 0,
+"solar_mw": 385
+},
+{
+"ags": "09187",
+"nuts_id": "DE21K",
+"name": "Rosenheim, Landkreis",
+"wind_onshore_mw": 6,
+"wind_offshore_mw": 0,
+"solar_mw": 404
+},
+{
+"ags": "09188",
+"nuts_id": "DE21L",
+"name": "Starnberg",
+"wind_onshore_mw": 12,
+"wind_offshore_mw": 0,
+"solar_mw": 148
+},
+{
+"ags": "09189",
+"nuts_id": "DE21M",
+"name": "Traunstein",
+"wind_onshore_mw": 5,
+"wind_offshore_mw": 0,
+"solar_mw": 392
+},
+{
+"ags": "09190",
+"nuts_id": "DE21N",
+"name": "Weilheim-Schongau",
+"wind_onshore_mw": 1,
+"wind_offshore_mw": 0,
+"solar_mw": 290
+},
+{
+"ags": "09261",
+"nuts_id": "DE221",
+"name": "Landshut, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 94
+},
+{
+"ags": "09262",
+"nuts_id": "DE222",
+"name": "Passau, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 58
+},
+{
+"ags": "09263",
+"nuts_id": "DE223",
+"name": "Straubing, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 96
+},
+{
+"ags": "09271",
+"nuts_id": "DE224",
+"name": "Deggendorf",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 704
+},
+{
+"ags": "09272",
+"nuts_id": "DE225",
+"name": "Freyung-Grafenau",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 244
+},
+{
+"ags": "09273",
+"nuts_id": "DE226",
+"name": "Kelheim",
+"wind_onshore_mw": 9,
+"wind_offshore_mw": 0,
+"solar_mw": 607
+},
+{
+"ags": "09274",
+"nuts_id": "DE227",
+"name": "Landshut, Landkreis",
+"wind_onshore_mw": 14,
+"wind_offshore_mw": 0,
+"solar_mw": 692
+},
+{
+"ags": "09275",
+"nuts_id": "DE228",
+"name": "Passau, Landkreis",
+"wind_onshore_mw": 1,
+"wind_offshore_mw": 0,
+"solar_mw": 875
+},
+{
+"ags": "09276",
+"nuts_id": "DE229",
+"name": "Regen",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 255
+},
+{
+"ags": "09277",
+"nuts_id": "DE22A",
+"name": "Rottal-Inn",
+"wind_onshore_mw": 2,
+"wind_offshore_mw": 0,
+"solar_mw": 735
+},
+{
+"ags": "09278",
+"nuts_id": "DE22B",
+"name": "Straubing-Bogen",
+"wind_onshore_mw": 11,
+"wind_offshore_mw": 0,
+"solar_mw": 770
+},
+{
+"ags": "09279",
+"nuts_id": "DE22C",
+"name": "Dingolfing-Landau",
+"wind_onshore_mw": 2,
+"wind_offshore_mw": 0,
+"solar_mw": 579
+},
+{
+"ags": "09361",
+"nuts_id": "DE231",
+"name": "Amberg, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 71
+},
+{
+"ags": "09362",
+"nuts_id": "DE232",
+"name": "Regensburg, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 80
+},
+{
+"ags": "09363",
+"nuts_id": "DE233",
+"name": "Weiden i. d. Opf, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 65
+},
+{
+"ags": "09371",
+"nuts_id": "DE234",
+"name": "Amberg-Sulzbach",
+"wind_onshore_mw": 66,
+"wind_offshore_mw": 0,
+"solar_mw": 450
+},
+{
+"ags": "09372",
+"nuts_id": "DE235",
+"name": "Cham",
+"wind_onshore_mw": 1,
+"wind_offshore_mw": 0,
+"solar_mw": 415
+},
+{
+"ags": "09373",
+"nuts_id": "DE236",
+"name": "Neumarkt i. d. OPf.",
+"wind_onshore_mw": 164,
+"wind_offshore_mw": 0,
+"solar_mw": 820
+},
+{
+"ags": "09374",
+"nuts_id": "DE237",
+"name": "Neustadt a. d. Waldnaab",
+"wind_onshore_mw": 11,
+"wind_offshore_mw": 0,
+"solar_mw": 492
+},
+{
+"ags": "09375",
+"nuts_id": "DE238",
+"name": "Regensburg, Landkreis",
+"wind_onshore_mw": 30,
+"wind_offshore_mw": 0,
+"solar_mw": 730
+},
+{
+"ags": "09376",
+"nuts_id": "DE239",
+"name": "Schwandorf",
+"wind_onshore_mw": 30,
+"wind_offshore_mw": 0,
+"solar_mw": 556
+},
+{
+"ags": "09377",
+"nuts_id": "DE23A",
+"name": "Tirschenreuth",
+"wind_onshore_mw": 32,
+"wind_offshore_mw": 0,
+"solar_mw": 224
+},
+{
+"ags": "09461",
+"nuts_id": "DE241",
+"name": "Bamberg, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 40
+},
+{
+"ags": "09462",
+"nuts_id": "DE242",
+"name": "Bayreuth, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 40
+},
+{
+"ags": "09463",
+"nuts_id": "DE243",
+"name": "Coburg, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 53
+},
+{
+"ags": "09464",
+"nuts_id": "DE244",
+"name": "Hof, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 36
+},
+{
+"ags": "09471",
+"nuts_id": "DE245",
+"name": "Bamberg, Landkreis",
+"wind_onshore_mw": 84,
+"wind_offshore_mw": 0,
+"solar_mw": 397
+},
+{
+"ags": "09472",
+"nuts_id": "DE246",
+"name": "Bayreuth, Landkreis",
+"wind_onshore_mw": 131,
+"wind_offshore_mw": 0,
+"solar_mw": 241
+},
+{
+"ags": "09473",
+"nuts_id": "DE247",
+"name": "Coburg, Landkreis",
+"wind_onshore_mw": 23,
+"wind_offshore_mw": 0,
+"solar_mw": 334
+},
+{
+"ags": "09474",
+"nuts_id": "DE248",
+"name": "Forchheim",
+"wind_onshore_mw": 2,
+"wind_offshore_mw": 0,
+"solar_mw": 242
+},
+{
+"ags": "09475",
+"nuts_id": "DE249",
+"name": "Hof, Landkreis",
+"wind_onshore_mw": 246,
+"wind_offshore_mw": 0,
+"solar_mw": 365
+},
+{
+"ags": "09476",
+"nuts_id": "DE24A",
+"name": "Kronach",
+"wind_onshore_mw": 27,
+"wind_offshore_mw": 0,
+"solar_mw": 250
+},
+{
+"ags": "09477",
+"nuts_id": "DE24B",
+"name": "Kulmbach",
+"wind_onshore_mw": 67,
+"wind_offshore_mw": 0,
+"solar_mw": 220
+},
+{
+"ags": "09478",
+"nuts_id": "DE24C",
+"name": "Lichtenfels",
+"wind_onshore_mw": 12,
+"wind_offshore_mw": 0,
+"solar_mw": 194
+},
+{
+"ags": "09479",
+"nuts_id": "DE24D",
+"name": "Wunsiedel i. Fichtelgebirge",
+"wind_onshore_mw": 61,
+"wind_offshore_mw": 0,
+"solar_mw": 199
+},
+{
+"ags": "09561",
+"nuts_id": "DE251",
+"name": "Ansbach, Kreisfreie Stadt",
+"wind_onshore_mw": 22,
+"wind_offshore_mw": 0,
+"solar_mw": 74
+},
+{
+"ags": "09562",
+"nuts_id": "DE252",
+"name": "Erlangen, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 62
+},
+{
+"ags": "09563",
+"nuts_id": "DE253",
+"name": "Fürth, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 56
+},
+{
+"ags": "09564",
+"nuts_id": "DE254",
+"name": "Nürnberg, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 153
+},
+{
+"ags": "09565",
+"nuts_id": "DE255",
+"name": "Schwabach, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 27
+},
+{
+"ags": "09571",
+"nuts_id": "DE256",
+"name": "Ansbach, Landkreis",
+"wind_onshore_mw": 164,
+"wind_offshore_mw": 0,
+"solar_mw": 886
+},
+{
+"ags": "09572",
+"nuts_id": "DE257",
+"name": "Erlangen-Höchstadt",
+"wind_onshore_mw": 40,
+"wind_offshore_mw": 0,
+"solar_mw": 241
+},
+{
+"ags": "09573",
+"nuts_id": "DE258",
+"name": "Fürth, Landkreis",
+"wind_onshore_mw": 52,
+"wind_offshore_mw": 0,
+"solar_mw": 202
+},
+{
+"ags": "09574",
+"nuts_id": "DE259",
+"name": "Nürnberger Land",
+"wind_onshore_mw": 44,
+"wind_offshore_mw": 0,
+"solar_mw": 225
+},
+{
+"ags": "09575",
+"nuts_id": "DE25A",
+"name": "Neustadt a. d. Aisch-Bad Windsheim",
+"wind_onshore_mw": 170,
+"wind_offshore_mw": 0,
+"solar_mw": 477
+},
+{
+"ags": "09576",
+"nuts_id": "DE25B",
+"name": "Roth",
+"wind_onshore_mw": 22,
+"wind_offshore_mw": 0,
+"solar_mw": 375
+},
+{
+"ags": "09577",
+"nuts_id": "DE25C",
+"name": "Weißenburg-Gunzenhausen",
+"wind_onshore_mw": 106,
+"wind_offshore_mw": 0,
+"solar_mw": 426
+},
+{
+"ags": "09661",
+"nuts_id": "DE261",
+"name": "Aschaffenburg, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 40
+},
+{
+"ags": "09662",
+"nuts_id": "DE262",
+"name": "Schweinfurt, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 40
+},
+{
+"ags": "09663",
+"nuts_id": "DE263",
+"name": "Würzburg, Kreisfreie Stadt",
+"wind_onshore_mw": 2,
+"wind_offshore_mw": 0,
+"solar_mw": 65
+},
+{
+"ags": "09671",
+"nuts_id": "DE264",
+"name": "Aschaffenburg, Landkreis",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 180
+},
+{
+"ags": "09672",
+"nuts_id": "DE265",
+"name": "Bad Kissingen",
+"wind_onshore_mw": 128,
+"wind_offshore_mw": 0,
+"solar_mw": 360
+},
+{
+"ags": "09673",
+"nuts_id": "DE266",
+"name": "Rhön-Grabfeld",
+"wind_onshore_mw": 71,
+"wind_offshore_mw": 0,
+"solar_mw": 295
+},
+{
+"ags": "09674",
+"nuts_id": "DE267",
+"name": "Haßberge",
+"wind_onshore_mw": 41,
+"wind_offshore_mw": 0,
+"solar_mw": 586
+},
+{
+"ags": "09675",
+"nuts_id": "DE268",
+"name": "Kitzingen",
+"wind_onshore_mw": 28,
+"wind_offshore_mw": 0,
+"solar_mw": 384
+},
+{
+"ags": "09676",
+"nuts_id": "DE269",
+"name": "Miltenberg",
+"wind_onshore_mw": 30,
+"wind_offshore_mw": 0,
+"solar_mw": 204
+},
+{
+"ags": "09677",
+"nuts_id": "DE26A",
+"name": "Main-Spessart",
+"wind_onshore_mw": 94,
+"wind_offshore_mw": 0,
+"solar_mw": 352
+},
+{
+"ags": "09678",
+"nuts_id": "DE26B",
+"name": "Schweinfurt, Landkreis",
+"wind_onshore_mw": 106,
+"wind_offshore_mw": 0,
+"solar_mw": 370
+},
+{
+"ags": "09679",
+"nuts_id": "DE26C",
+"name": "Würzburg, Landkreis",
+"wind_onshore_mw": 171,
+"wind_offshore_mw": 0,
+"solar_mw": 507
+},
+{
+"ags": "09761",
+"nuts_id": "DE271",
+"name": "Augsburg, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 103
+},
+{
+"ags": "09762",
+"nuts_id": "DE272",
+"name": "Kaufbeuren, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 41
+},
+{
+"ags": "09763",
+"nuts_id": "DE273",
+"name": "Kempten (Allgäu), Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 55
+},
+{
+"ags": "09764",
+"nuts_id": "DE274",
+"name": "Memmingen, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 56
+},
+{
+"ags": "09771",
+"nuts_id": "DE275",
+"name": "Aichach-Friedberg",
+"wind_onshore_mw": 28,
+"wind_offshore_mw": 0,
+"solar_mw": 481
+},
+{
+"ags": "09772",
+"nuts_id": "DE276",
+"name": "Augsburg, Landkreis",
+"wind_onshore_mw": 17,
+"wind_offshore_mw": 0,
+"solar_mw": 545
+},
+{
+"ags": "09773",
+"nuts_id": "DE277",
+"name": "Dillingen a.d. Donau",
+"wind_onshore_mw": 27,
+"wind_offshore_mw": 0,
+"solar_mw": 308
+},
+{
+"ags": "09774",
+"nuts_id": "DE278",
+"name": "Günzburg",
+"wind_onshore_mw": 7,
+"wind_offshore_mw": 0,
+"solar_mw": 439
+},
+{
+"ags": "09775",
+"nuts_id": "DE279",
+"name": "Neu-Ulm",
+"wind_onshore_mw": 2,
+"wind_offshore_mw": 0,
+"solar_mw": 330
+},
+{
+"ags": "09776",
+"nuts_id": "DE27A",
+"name": "Lindau (Bodensee)",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 103
+},
+{
+"ags": "09777",
+"nuts_id": "DE27B",
+"name": "Ostallgäu",
+"wind_onshore_mw": 54,
+"wind_offshore_mw": 0,
+"solar_mw": 461
+},
+{
+"ags": "09778",
+"nuts_id": "DE27C",
+"name": "Unterallgäu",
+"wind_onshore_mw": 7,
+"wind_offshore_mw": 0,
+"solar_mw": 666
+},
+{
+"ags": "09779",
+"nuts_id": "DE27D",
+"name": "Donau-Ries",
+"wind_onshore_mw": 25,
+"wind_offshore_mw": 0,
+"solar_mw": 624
+},
+{
+"ags": "09780",
+"nuts_id": "DE27E",
+"name": "Oberallgäu",
+"wind_onshore_mw": 29,
+"wind_offshore_mw": 0,
+"solar_mw": 319
+},
+{
+"ags": "10041",
+"nuts_id": "DEC01",
+"name": "Regionalverband Saarbrücken",
+"wind_onshore_mw": 28,
+"wind_offshore_mw": 0,
+"solar_mw": 210
+},
+{
+"ags": "10042",
+"nuts_id": "DEC02",
+"name": "Merzig-Wadern",
+"wind_onshore_mw": 191,
+"wind_offshore_mw": 0,
+"solar_mw": 194
+},
+{
+"ags": "10043",
+"nuts_id": "DEC03",
+"name": "Neunkirchen",
+"wind_onshore_mw": 75,
+"wind_offshore_mw": 0,
+"solar_mw": 127
+},
+{
+"ags": "10044",
+"nuts_id": "DEC04",
+"name": "Saarlouis",
+"wind_onshore_mw": 52,
+"wind_offshore_mw": 0,
+"solar_mw": 232
+},
+{
+"ags": "10045",
+"nuts_id": "DEC05",
+"name": "Saarpfalz-Kreis",
+"wind_onshore_mw": 16,
+"wind_offshore_mw": 0,
+"solar_mw": 141
+},
+{
+"ags": "10046",
+"nuts_id": "DEC06",
+"name": "St. Wendel",
+"wind_onshore_mw": 205,
+"wind_offshore_mw": 0,
+"solar_mw": 203
+},
+{
+"ags": "11000",
+"nuts_id": "DE300",
+"name": "Berlin",
+"wind_onshore_mw": 17,
+"wind_offshore_mw": 0,
+"solar_mw": 456
+},
+{
+"ags": "12051",
+"nuts_id": "DE401",
+"name": "Brandenburg an der Havel, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 114
+},
+{
+"ags": "12052",
+"nuts_id": "DE402",
+"name": "Cottbus, Kreisfreie Stadt",
+"wind_onshore_mw": 64,
+"wind_offshore_mw": 0,
+"solar_mw": 110
+},
+{
+"ags": "12053",
+"nuts_id": "DE403",
+"name": "Frankfurt (Oder), Kreisfreie Stadt",
+"wind_onshore_mw": 22,
+"wind_offshore_mw": 0,
+"solar_mw": 45
+},
+{
+"ags": "12054",
+"nuts_id": "DE404",
+"name": "Potsdam, Kreisfreie Stadt",
+"wind_onshore_mw": 98,
+"wind_offshore_mw": 0,
+"solar_mw": 49
+},
+{
+"ags": "12060",
+"nuts_id": "DE405",
+"name": "Barnim",
+"wind_onshore_mw": 415,
+"wind_offshore_mw": 0,
+"solar_mw": 487
+},
+{
+"ags": "12061",
+"nuts_id": "DE406",
+"name": "Dahme-Spreewald",
+"wind_onshore_mw": 804,
+"wind_offshore_mw": 0,
+"solar_mw": 512
+},
+{
+"ags": "12062",
+"nuts_id": "DE407",
+"name": "Elbe-Elster",
+"wind_onshore_mw": 640,
+"wind_offshore_mw": 0,
+"solar_mw": 512
+},
+{
+"ags": "12063",
+"nuts_id": "DE408",
+"name": "Havelland",
+"wind_onshore_mw": 299,
+"wind_offshore_mw": 0,
+"solar_mw": 540
+},
+{
+"ags": "12064",
+"nuts_id": "DE409",
+"name": "Märkisch-Oderland",
+"wind_onshore_mw": 790,
+"wind_offshore_mw": 0,
+"solar_mw": 1293
+},
+{
+"ags": "12065",
+"nuts_id": "DE40A",
+"name": "Oberhavel",
+"wind_onshore_mw": 153,
+"wind_offshore_mw": 0,
+"solar_mw": 330
+},
+{
+"ags": "12066",
+"nuts_id": "DE40B",
+"name": "Oberspreewald-Lausitz",
+"wind_onshore_mw": 493,
+"wind_offshore_mw": 0,
+"solar_mw": 691
+},
+{
+"ags": "12067",
+"nuts_id": "DE40C",
+"name": "Oder-Spree",
+"wind_onshore_mw": 528,
+"wind_offshore_mw": 0,
+"solar_mw": 344
+},
+{
+"ags": "12068",
+"nuts_id": "DE40D",
+"name": "Ostprignitz-Ruppin",
+"wind_onshore_mw": 584,
+"wind_offshore_mw": 0,
+"solar_mw": 585
+},
+{
+"ags": "12069",
+"nuts_id": "DE40E",
+"name": "Potsdam-Mittelmark",
+"wind_onshore_mw": 505,
+"wind_offshore_mw": 0,
+"solar_mw": 348
+},
+{
+"ags": "12070",
+"nuts_id": "DE40F",
+"name": "Prignitz",
+"wind_onshore_mw": 1223,
+"wind_offshore_mw": 0,
+"solar_mw": 712
+},
+{
+"ags": "12071",
+"nuts_id": "DE40G",
+"name": "Spree-Neiße",
+"wind_onshore_mw": 355,
+"wind_offshore_mw": 0,
+"solar_mw": 612
+},
+{
+"ags": "12072",
+"nuts_id": "DE40H",
+"name": "Teltow-Fläming",
+"wind_onshore_mw": 901,
+"wind_offshore_mw": 0,
+"solar_mw": 522
+},
+{
+"ags": "12073",
+"nuts_id": "DE40I",
+"name": "Uckermark",
+"wind_onshore_mw": 1772,
+"wind_offshore_mw": 0,
+"solar_mw": 583
+},
+{
+"ags": "13003",
+"nuts_id": "DE803",
+"name": "Rostock, Kreisfreie Stadt",
+"wind_onshore_mw": 9,
+"wind_offshore_mw": 0,
+"solar_mw": 60
+},
+{
+"ags": "13004",
+"nuts_id": "DE804",
+"name": "Schwerin, Kreisfreie Stadt",
+"wind_onshore_mw": 20,
+"wind_offshore_mw": 0,
+"solar_mw": 73
+},
+{
+"ags": "13071",
+"nuts_id": "DE80J",
+"name": "Mecklenburgische Seenplatte",
+"wind_onshore_mw": 727,
+"wind_offshore_mw": 0,
+"solar_mw": 1283
+},
+{
+"ags": "13072",
+"nuts_id": "DE80K",
+"name": "Landkreis Rostock",
+"wind_onshore_mw": 822,
+"wind_offshore_mw": 0,
+"solar_mw": 565
+},
+{
+"ags": "13073",
+"nuts_id": "DE80L",
+"name": "Vorpommern-Rügen",
+"wind_onshore_mw": 527,
+"wind_offshore_mw": 0,
+"solar_mw": 565
+},
+{
+"ags": "13074",
+"nuts_id": "DE80M",
+"name": "Nordwestmecklenburg",
+"wind_onshore_mw": 389,
+"wind_offshore_mw": 0,
+"solar_mw": 309
+},
+{
+"ags": "13075",
+"nuts_id": "DE80N",
+"name": "Vorpommern-Greifswald",
+"wind_onshore_mw": 736,
+"wind_offshore_mw": 0,
+"solar_mw": 730
+},
+{
+"ags": "13076",
+"nuts_id": "DE80O",
+"name": "Ludwigslust-Parchim",
+"wind_onshore_mw": 863,
+"wind_offshore_mw": 0,
+"solar_mw": 1078
+},
+{
+"ags": "14511",
+"nuts_id": "DED41",
+"name": "Chemnitz, Kreisfreie Stadt",
+"wind_onshore_mw": 13,
+"wind_offshore_mw": 0,
+"solar_mw": 116
+},
+{
+"ags": "14521",
+"nuts_id": "DED42",
+"name": "Erzgebirgskreis",
+"wind_onshore_mw": 93,
+"wind_offshore_mw": 0,
+"solar_mw": 250
+},
+{
+"ags": "14522",
+"nuts_id": "DED43",
+"name": "Mittelsachsen",
+"wind_onshore_mw": 285,
+"wind_offshore_mw": 0,
+"solar_mw": 670
+},
+{
+"ags": "14523",
+"nuts_id": "DED44",
+"name": "Vogtlandkreis",
+"wind_onshore_mw": 35,
+"wind_offshore_mw": 0,
+"solar_mw": 194
+},
+{
+"ags": "14524",
+"nuts_id": "DED45",
+"name": "Zwickau",
+"wind_onshore_mw": 172,
+"wind_offshore_mw": 0,
+"solar_mw": 303
+},
+{
+"ags": "14612",
+"nuts_id": "DED21",
+"name": "Dresden, Kreisfreie Stadt",
+"wind_onshore_mw": 1,
+"wind_offshore_mw": 0,
+"solar_mw": 124
+},
+{
+"ags": "14625",
+"nuts_id": "DED2C",
+"name": "Bautzen",
+"wind_onshore_mw": 141,
+"wind_offshore_mw": 0,
+"solar_mw": 517
+},
+{
+"ags": "14626",
+"nuts_id": "DED2D",
+"name": "Görlitz",
+"wind_onshore_mw": 210,
+"wind_offshore_mw": 0,
+"solar_mw": 360
+},
+{
+"ags": "14627",
+"nuts_id": "DED2E",
+"name": "Meißen",
+"wind_onshore_mw": 195,
+"wind_offshore_mw": 0,
+"solar_mw": 403
+},
+{
+"ags": "14628",
+"nuts_id": "DED2F",
+"name": "Sächsische Schweiz-Osterzgebirge",
+"wind_onshore_mw": 44,
+"wind_offshore_mw": 0,
+"solar_mw": 228
+},
+{
+"ags": "14713",
+"nuts_id": "DED51",
+"name": "Leipzig, Kreisfreie Stadt",
+"wind_onshore_mw": 22,
+"wind_offshore_mw": 0,
+"solar_mw": 179
+},
+{
+"ags": "14729",
+"nuts_id": "DED52",
+"name": "Leipzig",
+"wind_onshore_mw": 109,
+"wind_offshore_mw": 0,
+"solar_mw": 969
+},
+{
+"ags": "14730",
+"nuts_id": "DED53",
+"name": "Nordsachsen",
+"wind_onshore_mw": 121,
+"wind_offshore_mw": 0,
+"solar_mw": 578
+},
+{
+"ags": "15001",
+"nuts_id": "DEE01",
+"name": "Dessau-Roßlau, Kreisfreie Stadt",
+"wind_onshore_mw": 10,
+"wind_offshore_mw": 0,
+"solar_mw": 91
+},
+{
+"ags": "15002",
+"nuts_id": "DEE02",
+"name": "Halle (Saale), Kreisfreie Stadt",
+"wind_onshore_mw": 13,
+"wind_offshore_mw": 0,
+"solar_mw": 81
+},
+{
+"ags": "15003",
+"nuts_id": "DEE03",
+"name": "Magdeburg, Kreisfreie Stadt",
+"wind_onshore_mw": 16,
+"wind_offshore_mw": 0,
+"solar_mw": 102
+},
+{
+"ags": "15081",
+"nuts_id": "DEE04",
+"name": "Altmarkkreis Salzwedel",
+"wind_onshore_mw": 381,
+"wind_offshore_mw": 0,
+"solar_mw": 399
+},
+{
+"ags": "15082",
+"nuts_id": "DEE05",
+"name": "Anhalt-Bitterfeld",
+"wind_onshore_mw": 529,
+"wind_offshore_mw": 0,
+"solar_mw": 682
+},
+{
+"ags": "15083",
+"nuts_id": "DEE07",
+"name": "Börde",
+"wind_onshore_mw": 730,
+"wind_offshore_mw": 0,
+"solar_mw": 711
+},
+{
+"ags": "15084",
+"nuts_id": "DEE08",
+"name": "Burgenlandkreis",
+"wind_onshore_mw": 565,
+"wind_offshore_mw": 0,
+"solar_mw": 303
+},
+{
+"ags": "15085",
+"nuts_id": "DEE09",
+"name": "Harz",
+"wind_onshore_mw": 187,
+"wind_offshore_mw": 0,
+"solar_mw": 430
+},
+{
+"ags": "15086",
+"nuts_id": "DEE06",
+"name": "Jerichower Land",
+"wind_onshore_mw": 309,
+"wind_offshore_mw": 0,
+"solar_mw": 262
+},
+{
+"ags": "15087",
+"nuts_id": "DEE0A",
+"name": "Mansfeld-Südharz",
+"wind_onshore_mw": 415,
+"wind_offshore_mw": 0,
+"solar_mw": 498
+},
+{
+"ags": "15088",
+"nuts_id": "DEE0B",
+"name": "Saalekreis",
+"wind_onshore_mw": 485,
+"wind_offshore_mw": 0,
+"solar_mw": 649
+},
+{
+"ags": "15089",
+"nuts_id": "DEE0C",
+"name": "Salzlandkreis",
+"wind_onshore_mw": 737,
+"wind_offshore_mw": 0,
+"solar_mw": 403
+},
+{
+"ags": "15090",
+"nuts_id": "DEE0D",
+"name": "Stendal",
+"wind_onshore_mw": 958,
+"wind_offshore_mw": 0,
+"solar_mw": 499
+},
+{
+"ags": "15091",
+"nuts_id": "DEE0E",
+"name": "Wittenberg",
+"wind_onshore_mw": 371,
+"wind_offshore_mw": 0,
+"solar_mw": 334
+},
+{
+"ags": "16051",
+"nuts_id": "DEG01",
+"name": "Erfurt, Kreisfreie Stadt",
+"wind_onshore_mw": 47,
+"wind_offshore_mw": 0,
+"solar_mw": 117
+},
+{
+"ags": "16052",
+"nuts_id": "DEG02",
+"name": "Gera, Kreisfreie Stadt",
+"wind_onshore_mw": 11,
+"wind_offshore_mw": 0,
+"solar_mw": 55
+},
+{
+"ags": "16053",
+"nuts_id": "DEG03",
+"name": "Jena, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 31
+},
+{
+"ags": "16054",
+"nuts_id": "DEG04",
+"name": "Suhl, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 17
+},
+{
+"ags": "16055",
+"nuts_id": "DEG05",
+"name": "Weimar, Kreisfreie Stadt",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 29
+},
+{
+"ags": "16061",
+"nuts_id": "DEG06",
+"name": "Eichsfeld",
+"wind_onshore_mw": 84,
+"wind_offshore_mw": 0,
+"solar_mw": 190
+},
+{
+"ags": "16062",
+"nuts_id": "DEG07",
+"name": "Nordhausen",
+"wind_onshore_mw": 81,
+"wind_offshore_mw": 0,
+"solar_mw": 194
+},
+{
+"ags": "16063",
+"nuts_id": "DEG0P",
+"name": "Wartburgkreis",
+"wind_onshore_mw": 149,
+"wind_offshore_mw": 0,
+"solar_mw": 226
+},
+{
+"ags": "16064",
+"nuts_id": "DEG09",
+"name": "Unstrut-Hainich-Kreis",
+"wind_onshore_mw": 236,
+"wind_offshore_mw": 0,
+"solar_mw": 210
+},
+{
+"ags": "16065",
+"nuts_id": "DEG0A",
+"name": "Kyffhäuserkreis",
+"wind_onshore_mw": 221,
+"wind_offshore_mw": 0,
+"solar_mw": 182
+},
+{
+"ags": "16066",
+"nuts_id": "DEG0B",
+"name": "Schmalkalden-Meiningen",
+"wind_onshore_mw": 1,
+"wind_offshore_mw": 0,
+"solar_mw": 182
+},
+{
+"ags": "16067",
+"nuts_id": "DEG0C",
+"name": "Gotha",
+"wind_onshore_mw": 240,
+"wind_offshore_mw": 0,
+"solar_mw": 169
+},
+{
+"ags": "16068",
+"nuts_id": "DEG0D",
+"name": "Sömmerda",
+"wind_onshore_mw": 296,
+"wind_offshore_mw": 0,
+"solar_mw": 127
+},
+{
+"ags": "16069",
+"nuts_id": "DEG0E",
+"name": "Hildburghausen",
+"wind_onshore_mw": 14,
+"wind_offshore_mw": 0,
+"solar_mw": 124
+},
+{
+"ags": "16070",
+"nuts_id": "DEG0F",
+"name": "Ilm-Kreis",
+"wind_onshore_mw": 6,
+"wind_offshore_mw": 0,
+"solar_mw": 128
+},
+{
+"ags": "16071",
+"nuts_id": "DEG0G",
+"name": "Weimarer Land",
+"wind_onshore_mw": 138,
+"wind_offshore_mw": 0,
+"solar_mw": 172
+},
+{
+"ags": "16072",
+"nuts_id": "DEG0H",
+"name": "Sonneberg",
+"wind_onshore_mw": 0,
+"wind_offshore_mw": 0,
+"solar_mw": 50
+},
+{
+"ags": "16073",
+"nuts_id": "DEG0I",
+"name": "Saalfeld-Rudolstadt",
+"wind_onshore_mw": 10,
+"wind_offshore_mw": 0,
+"solar_mw": 101
+},
+{
+"ags": "16074",
+"nuts_id": "DEG0J",
+"name": "Saale-Holzland-Kreis",
+"wind_onshore_mw": 140,
+"wind_offshore_mw": 0,
+"solar_mw": 158
+},
+{
+"ags": "16075",
+"nuts_id": "DEG0K",
+"name": "Saale-Orla-Kreis",
+"wind_onshore_mw": 61,
+"wind_offshore_mw": 0,
+"solar_mw": 168
+},
+{
+"ags": "16076",
+"nuts_id": "DEG0L",
+"name": "Greiz",
+"wind_onshore_mw": 55,
+"wind_offshore_mw": 0,
+"solar_mw": 177
+},
+{
+"ags": "16077",
+"nuts_id": "DEG0M",
+"name": "Altenburger Land",
+"wind_onshore_mw": 112,
+"wind_offshore_mw": 0,
+"solar_mw": 237
+}
+]
+}

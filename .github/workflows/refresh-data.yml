@@ -56,8 +56,23 @@ jobs:
           python pipeline/build_flows.py
           python pipeline/build_zone_views.py        # reads the zone-price cache from build_divergence
           python pipeline/build_history.py --years 3
-          # New external source (isolated): never let it fail the whole refresh.
+          # New external sources (isolated): never let one fail the whole refresh.
           python pipeline/build_curtailment.py --years 2 || echo "curtailment build skipped/failed — continuing"
+          # Wasted-wind Panel 2: per-control-area net balance from SMARD (open, no key).
+          python pipeline/build_regional_balance.py || echo "regional balance (SMARD) build skipped/failed — continuing"
+
+      - name: Build MaStR capacity (weekly — heavy bulk download)
+        run: |
+          # Wasted-wind Panel 1. The MaStR Gesamtdatenexport is large (~1.5 GB) and
+          # installed capacity changes slowly, so this refreshes WEEKLY (Mondays) or on
+          # manual dispatch — not every day. Isolated and non-fatal: a failure here must
+          # never break the daily refresh. Uses the committed basemap + crosswalk.
+          if [ "$(date -u +%u)" = "1" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            pip install open-mastr
+            python pipeline/build_mastr_capacity.py || echo "MaStR capacity build skipped/failed — continuing"
+          else
+            echo "MaStR capacity refreshes weekly (Mondays); skipping today."
+          fi
 
       - name: Commit refreshed data (only if changed)
         run: |
