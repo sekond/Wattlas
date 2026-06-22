@@ -38,3 +38,33 @@ This basemap is keyed by **NUTS-3 code** (`DEF07`). MaStR aggregation (Step 3) k
 on the German **AGS / Kreisschlüssel** (`01054`). These are different coding systems
 with a stable 1:1 crosswalk for Germany. The capacity JSON and the choropleth must be
 joined through that crosswalk (built/applied in Step 3–4); do not assume `NUTS_ID == ags`.
+
+---
+
+## `regions_fr.topo.json` (France slice — v4)
+
+Pre-simplified TopoJSON of the **13 metropolitan French régions**, used by
+`fr_nuclear.html` via `geo.js`. Committed static asset; no tiles.
+
+- **Source:** Eurostat **GISCO** NUTS 2021, **level 1** (EPSG:4326, 1:3M). Note: after
+  the 2016 French reform the 13 régions sit at **NUTS-1** (`FR1`…`FRM`); NUTS-2 still
+  holds the *old* 22 régions, so level 1 is correct here. Overseas (`FRY`) excluded —
+  metropolitan France only.
+- **Licence:** © EuroGeographics (GISCO open terms — attribution required).
+- **Coverage:** 13 régions. **Size:** ~8 KB (target < 100 KB).
+- **Properties kept:** `NUTS_ID` (e.g. `FRB`), `NAME_LATN` (e.g. `Centre — Val de Loire`).
+
+```bash
+mapshaper NUTS_RG_03M_2021_4326_LEVL_1.geojson \
+  -filter 'CNTR_CODE === "FR" && NUTS_ID !== "FRY"' \
+  -filter-fields NUTS_ID,NAME_LATN \
+  -simplify 14% keep-shapes \
+  -rename-layers regions \
+  -o format=topojson quantization=10000 frontend/geo/regions_fr.topo.json
+```
+
+### Join key (read before Step 5)
+
+Keyed by **NUTS-1 code** (`FRB`). éCO2mix régional data identifies régions by **name**
+or **INSEE région code** — build a crosswalk to `NUTS_ID` when wiring `fr_regional.json`
+(Step 5); do not assume the codes match.

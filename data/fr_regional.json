@@ -1,0 +1,118 @@
+{
+"generated_at": "2026-06-22T17:14:31+00:00",
+"source": "RTE éCO2mix régional via ODRÉ (Opendatasoft)",
+"unit": "GW",
+"period_start": "2025-01-31",
+"period_end": "2026-01-31",
+"note": "net_balance = generation − consumption = −physical exchanges (the éCO2mix solde). France is one bidding zone, so this is a physical balance, not a regional price. Corse (non-interconnected zone) is absent → no data.",
+"regions": [
+{
+"nuts_id": "FRB",
+"name": "Centre-Val de Loire",
+"insee": "24",
+"nuclear_gw": 7.83,
+"generation_gw": 8.51,
+"consumption_gw": 2.03,
+"net_balance_gw": 6.48
+},
+{
+"nuts_id": "FRK",
+"name": "Auvergne-Rhône-Alpes",
+"insee": "84",
+"nuclear_gw": 9.81,
+"generation_gw": 13.25,
+"consumption_gw": 7.16,
+"net_balance_gw": 6.09
+},
+{
+"nuts_id": "FRD",
+"name": "Normandie",
+"insee": "28",
+"nuclear_gw": 7.97,
+"generation_gw": 8.78,
+"consumption_gw": 2.94,
+"net_balance_gw": 5.84
+},
+{
+"nuts_id": "FRF",
+"name": "Grand Est",
+"insee": "44",
+"nuclear_gw": 7.34,
+"generation_gw": 10.05,
+"consumption_gw": 4.82,
+"net_balance_gw": 5.23
+},
+{
+"nuts_id": "FRI",
+"name": "Nouvelle-Aquitaine",
+"insee": "75",
+"nuclear_gw": 4.74,
+"generation_gw": 6.75,
+"consumption_gw": 4.74,
+"net_balance_gw": 2.01
+},
+{
+"nuts_id": "FRE",
+"name": "Hauts-de-France",
+"insee": "32",
+"nuclear_gw": 3.67,
+"generation_gw": 5.82,
+"consumption_gw": 5.33,
+"net_balance_gw": 0.48
+},
+{
+"nuts_id": "FRJ",
+"name": "Occitanie",
+"insee": "76",
+"nuclear_gw": 1.19,
+"generation_gw": 3.38,
+"consumption_gw": 4.21,
+"net_balance_gw": -0.83
+},
+{
+"nuts_id": "FRH",
+"name": "Bretagne",
+"insee": "53",
+"nuclear_gw": 0.0,
+"generation_gw": 0.93,
+"consumption_gw": 2.49,
+"net_balance_gw": -1.56
+},
+{
+"nuts_id": "FRC",
+"name": "Bourgogne-Franche-Comté",
+"insee": "27",
+"nuclear_gw": 0.0,
+"generation_gw": 0.61,
+"consumption_gw": 2.23,
+"net_balance_gw": -1.63
+},
+{
+"nuts_id": "FRG",
+"name": "Pays de la Loire",
+"insee": "52",
+"nuclear_gw": 0.0,
+"generation_gw": 1.08,
+"consumption_gw": 2.91,
+"net_balance_gw": -1.83
+},
+{
+"nuts_id": "FRL",
+"name": "Provence-Alpes-Côte d'Azur",
+"insee": "93",
+"nuclear_gw": 0.0,
+"generation_gw": 1.97,
+"consumption_gw": 4.43,
+"net_balance_gw": -2.46
+},
+{
+"nuts_id": "FR1",
+"name": "Île-de-France",
+"insee": "11",
+"nuclear_gw": 0.0,
+"generation_gw": 0.34,
+"consumption_gw": 7.49,
+"net_balance_gw": -7.15
+}
+]
+}
