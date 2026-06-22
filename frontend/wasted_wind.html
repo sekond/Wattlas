@@ -28,20 +28,78 @@
     .debate p { margin: 0 0 8px; } .debate p:last-child { margin-bottom: 0; }
     .split { display: flex; border-radius: var(--radius-sm); overflow: hidden; border: 0.5px solid var(--border); font-size: 12px; margin: 4px 0 10px; }
     .split > div { flex: 1; padding: 10px 12px; }
+
+    /* ---- Sidebar shell — mirrors the dashboard layout (dash/dash.css): a left
+       sidebar on desktop, a horizontal scroll-nav on mobile. Page-scoped so the
+       content keeps using styles.css; only the navigation chrome is added here. */
+    .shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh; }
+    .side { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column;
+      padding: 26px 18px 18px 22px; border-right: 0.5px solid var(--border); background: var(--bg); }
+    .side .brand { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; margin-left: 0; }
+    .side .brand small { display: block; color: var(--hint); font-weight: 400; font-size: 12px; margin: 2px 0 0; }
+    .sidenav { margin-top: 24px; display: flex; flex-direction: column; gap: 1px; }
+    .sidenav a { display: flex; align-items: baseline; gap: 8px; color: var(--muted); text-decoration: none;
+      font-size: 13.5px; padding: 7px 10px; border-radius: var(--radius-sm); border-left: 2px solid transparent; }
+    .sidenav a .n { font-variant-numeric: tabular-nums; font-size: 10.5px; color: var(--hint); width: 14px; }
+    .sidenav a:hover { color: var(--text); background: var(--surface-2); }
+    .sidenav a.active { color: var(--text); font-weight: 500; background: var(--surface-2); border-left-color: var(--amber); }
+    .side .foot { margin-top: auto; font-size: 11px; color: var(--hint); line-height: 1.6; }
+    .main { padding: 0 36px 80px; min-width: 0; }
+    .main-inner { max-width: 1060px; margin: 0 auto; padding-top: 26px; }
+    .topbar { display: none; }
+    @media (max-width: 900px) {
+      .shell { grid-template-columns: 1fr; }
+      .side { display: none; }
+      .topbar { display: block; position: sticky; top: 0; z-index: 40; background: var(--bg);
+        border-bottom: 0.5px solid var(--border); padding: 10px 16px 0; }
+      .topbar .brand { font-size: 16px; font-weight: 600; }
+      .topbar .brand small { color: var(--hint); font-weight: 400; font-size: 11px; margin-left: 8px; }
+      .topnav { display: flex; gap: 4px; overflow-x: auto; padding: 8px 0 10px; -webkit-overflow-scrolling: touch; }
+      .topnav a { font-size: 12px; color: var(--muted); text-decoration: none; white-space: nowrap;
+        padding: 6px 12px; border-radius: 999px; border: 0.5px solid transparent; }
+      .topnav a.active { color: var(--text); background: var(--surface-2); border-color: var(--border); }
+      .main { padding: 0 14px 60px; }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="nav">
-      <div class="brand">Wattlas <small>European energy data, explored</small></div>
-      <div class="navlinks">
-        <a href="dashboard.html">← Home</a>
-        <a href="mix.html">Mix</a>
-        <a href="divergence.html">Divergence</a>
-        <a href="curtailment.html">Curtailment</a>
-        <a href="wasted_wind.html" class="active">North–south grid</a>
-      </div>
-    </div>
+  <!-- Mobile top nav (hidden on desktop; the sidebar takes over there) -->
+  <header class="topbar">
+    <div class="brand">Wattlas <small>European electricity, explained</small></div>
+    <nav class="topnav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="index.html">Spread</a>
+      <a href="pulse.html">Pulse</a>
+      <a href="mix.html">Mix</a>
+      <a href="mismatch.html">Mismatch</a>
+      <a href="divergence.html">Divergence</a>
+      <a href="dashboard.html#carbon">Carbon</a>
+      <a href="curtailment.html">Curtailment</a>
+      <a href="history.html">History</a>
+      <a href="wasted_wind.html" class="active">North–south grid</a>
+    </nav>
+  </header>
+
+  <div class="shell">
+    <aside class="side">
+      <div class="brand">Wattlas <small>European electricity, explained</small></div>
+      <nav class="sidenav">
+        <a href="dashboard.html"><span class="n">⌂</span>Dashboard</a>
+        <a href="pulse.html"><span class="n">1</span>Pulse</a>
+        <a href="index.html"><span class="n">2</span>Spread</a>
+        <a href="mix.html"><span class="n">3</span>Mix</a>
+        <a href="mismatch.html"><span class="n">4</span>Mismatch</a>
+        <a href="divergence.html"><span class="n">5</span>Divergence</a>
+        <a href="dashboard.html#carbon"><span class="n">6</span>Carbon</a>
+        <a href="curtailment.html"><span class="n">7</span>Curtailment</a>
+        <a href="history.html"><span class="n">8</span>History</a>
+        <a href="wasted_wind.html" class="active"><span class="n">↗</span>North–south grid</a>
+      </nav>
+      <div class="foot">Open data from ENTSO-E, SMARD, MaStR and netztransparenz. Pre-computed and static — no live backend.</div>
+    </aside>
+
+    <main class="main">
+      <div class="main-inner">
 
     <h1>Germany's wind is in the north, its demand in the south</h1>
     <p class="sub">When the transmission grid between them is constrained, some northern wind has to be curtailed — turned down to keep the system stable — even though the whole country clears at a single wholesale price. This view shows the mismatch, the congestion, and what it means for pricing Germany as one bidding zone.</p>
@@ -128,6 +186,8 @@
       <!-- copy block B — verbatim curtailment definition -->
       <p class="cap" style="margin-top:12px;">Curtailment here means renewable generation the grid couldn't absorb or transmit and that operators instructed to reduce to keep the system stable — a managed grid-stability measure, not energy discarded by choice. These are regional volumes reported by the German TSOs (netztransparenz) with a 1–3 day lag — a real, paid-for quantity, not an estimate, and not attributed to individual turbines.</p>
     </div>
+      </div>
+    </main>
   </div>
 
   <!-- D3 (geo/selection/scale) + topojson-client from CDN. New map dependency for
