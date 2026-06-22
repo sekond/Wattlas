@@ -1,22 +1,22 @@
 {
-"generated_at": "2026-06-22T09:02:00+00:00",
+"generated_at": "2026-06-22T12:16:13+00:00",
 "source": "MaStR (Bundesnetzagentur)",
 "unit": "MW",
 "plants": [
-{
-"name": "Solarpark Gottesgabe",
-"fuel": "Solar",
-"mw": 144.0,
-"lat": 52.6394,
-"lon": 14.1894,
-"landkreis": "Märkisch-Oderland"
-},
 {
 "name": "Solarpark Alttrebbin",
 "fuel": "Solar",
 "mw": 144.0,
 "lat": 52.6937,
 "lon": 14.2391,
+"landkreis": "Märkisch-Oderland"
+},
+{
+"name": "Solarpark Gottesgabe",
+"fuel": "Solar",
+"mw": 144.0,
+"lat": 52.6394,
+"lon": 14.1894,
 "landkreis": "Märkisch-Oderland"
 },
 {
@@ -76,19 +76,19 @@
 "landkreis": "Teltow-Fläming"
 },
 {
-"name": "PV Bartow Ost 1",
-"fuel": "Solar",
-"mw": 70.4,
-"lat": 53.8188,
-"lon": 13.354,
-"landkreis": "Mecklenburgische Seenplatte"
-},
-{
 "name": "PV Bartow Ost 2",
 "fuel": "Solar",
 "mw": 70.4,
 "lat": 53.8204,
 "lon": 13.3653,
+"landkreis": "Mecklenburgische Seenplatte"
+},
+{
+"name": "PV Bartow Ost 1",
+"fuel": "Solar",
+"mw": 70.4,
+"lat": 53.8188,
+"lon": 13.354,
 "landkreis": "Mecklenburgische Seenplatte"
 },
 {

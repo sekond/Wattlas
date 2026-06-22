@@ -2,21 +2,13 @@
   "source": "netztransparenz.de redispatch WebAPI \u2014 renewable curtailment (measures reducing feed-in of renewable plants, GESAMTE_ARBEIT_MWH)",
   "units": "MWh per day (curtailed renewable energy)",
   "methodology": "Each measure's total energy attributed to its start day, grouped in Europe/Berlin local time.",
-  "generated_at": "2026-06-20T08:55:59+00:00",
-  "period_start": "2024-06-20",
-  "period_end": "2026-06-20",
+  "generated_at": "2026-06-22T11:18:45+00:00",
+  "period_start": "2024-06-22",
+  "period_end": "2026-06-22",
   "days": [
     {
-      "date": "2024-06-20",
-      "curtailed_mwh": 2634.0
-    },
-    {
-      "date": "2024-06-21",
-      "curtailed_mwh": 965.0
-    },
-    {
       "date": "2024-06-22",
-      "curtailed_mwh": 8808.0
+      "curtailed_mwh": 8450.5
     },
     {
       "date": "2024-06-23",
@@ -2533,6 +2525,14 @@
     {
       "date": "2026-06-20",
       "curtailed_mwh": 8730.2
+    },
+    {
+      "date": "2026-06-21",
+      "curtailed_mwh": 18935.5
+    },
+    {
+      "date": "2026-06-22",
+      "curtailed_mwh": 7697.0
     }
   ]
 }
