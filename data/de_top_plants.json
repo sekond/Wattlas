@@ -1,0 +1,167 @@
+{
+"generated_at": "2026-06-22T09:02:00+00:00",
+"source": "MaStR (Bundesnetzagentur)",
+"unit": "MW",
+"plants": [
+{
+"name": "Solarpark Gottesgabe",
+"fuel": "Solar",
+"mw": 144.0,
+"lat": 52.6394,
+"lon": 14.1894,
+"landkreis": "Märkisch-Oderland"
+},
+{
+"name": "Solarpark Alttrebbin",
+"fuel": "Solar",
+"mw": 144.0,
+"lat": 52.6937,
+"lon": 14.2391,
+"landkreis": "Märkisch-Oderland"
+},
+{
+"name": "SILUX Solarpark 1 GmbH ＆ Co. KG",
+"fuel": "Solar",
+"mw": 111.2,
+"lat": 51.1727,
+"lon": 12.4024,
+"landkreis": "Leipzig"
+},
+{
+"name": "SILUX Solarpark 4 GmbH ＆ Co. KG",
+"fuel": "Solar",
+"mw": 99.9,
+"lat": 51.1607,
+"lon": 12.4138,
+"landkreis": "Leipzig"
+},
+{
+"name": "PVA Klüden",
+"fuel": "Solar",
+"mw": 80.1,
+"lat": 52.4179,
+"lon": 11.3926,
+"landkreis": "Börde"
+},
+{
+"name": "PVA Langenenslingen",
+"fuel": "Solar",
+"mw": 74.8,
+"lat": 48.1196,
+"lon": 9.3562,
+"landkreis": "Biberach"
+},
+{
+"name": "SILUX Solarpark 2 GmbH ＆ Co. KG",
+"fuel": "Solar",
+"mw": 74.8,
+"lat": 51.1766,
+"lon": 12.4133,
+"landkreis": "Leipzig"
+},
+{
+"name": "Friedland Rosdorf (Anlagenteil Friedland)",
+"fuel": "Solar",
+"mw": 74.3,
+"lat": 51.4187,
+"lon": 9.8425,
+"landkreis": "Göttingen"
+},
+{
+"name": "PVA Frankenförde Nord 1",
+"fuel": "Solar",
+"mw": 72.9,
+"lat": 52.119,
+"lon": 13.056,
+"landkreis": "Teltow-Fläming"
+},
+{
+"name": "PV Bartow Ost 1",
+"fuel": "Solar",
+"mw": 70.4,
+"lat": 53.8188,
+"lon": 13.354,
+"landkreis": "Mecklenburgische Seenplatte"
+},
+{
+"name": "PV Bartow Ost 2",
+"fuel": "Solar",
+"mw": 70.4,
+"lat": 53.8204,
+"lon": 13.3653,
+"landkreis": "Mecklenburgische Seenplatte"
+},
+{
+"name": "Friesen Elektra PV Sande I",
+"fuel": "Solar",
+"mw": 68.4,
+"lat": 53.5075,
+"lon": 7.9857,
+"landkreis": "Friesland"
+},
+{
+"name": "TG_Trafo 105",
+"fuel": "Solar",
+"mw": 68.3,
+"lat": 53.5711,
+"lon": 11.6987,
+"landkreis": "Ludwigslust-Parchim"
+},
+{
+"name": "PV Amerdingen",
+"fuel": "Solar",
+"mw": 67.3,
+"lat": 48.7322,
+"lon": 10.5068,
+"landkreis": "Donau-Ries"
+},
+{
+"name": "Gaarz 2.1",
+"fuel": "Solar",
+"mw": 67.2,
+"lat": 53.4121,
+"lon": 12.2438,
+"landkreis": "Ludwigslust-Parchim"
+},
+{
+"name": "PVA-Ketzin",
+"fuel": "Solar",
+"mw": 65.5,
+"lat": 52.5323,
+"lon": 12.8418,
+"landkreis": "Havelland"
+},
+{
+"name": "TG_Trafo 104",
+"fuel": "Solar",
+"mw": 64.7,
+"lat": 53.5711,
+"lon": 11.6987,
+"landkreis": "Ludwigslust-Parchim"
+},
+{
+"name": "PV Bartow West",
+"fuel": "Solar",
+"mw": 64.4,
+"lat": 53.8164,
+"lon": 13.3247,
+"landkreis": "Mecklenburgische Seenplatte"
+},
+{
+"name": "SP Görlsdorf I",
+"fuel": "Solar",
+"mw": 63.0,
+"lat": 52.53,
+"lon": 14.2876,
+"landkreis": "Märkisch-Oderland"
+},
+{
+"name": "PV Darstadt",
+"fuel": "Solar",
+"mw": 60.0,
+"lat": 49.682,
+"lon": 9.9896,
+"landkreis": "Würzburg"
+}
+]
+}

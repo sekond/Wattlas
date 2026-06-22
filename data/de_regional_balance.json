@@ -1,0 +1,7679 @@
+{
+"generated_at": "2026-06-22T09:36:27+00:00",
+"source": "SMARD (Bundesnetzagentur) — Realisierte Erzeugung & Netzlast",
+"unit": "GW",
+"note": "Average GW per day (SMARD MWh/day ÷24h). balance = generation − load. Net balance is the evidence for the intra-zone north–south bottleneck (no public inter-TSO flow series exists).",
+"areas": [
+"50Hertz",
+"TenneT",
+"Amprion",
+"TransnetBW"
+],
+"days": [
+{
+"date": "2025-06-22",
+"generation_gw": {
+"50Hertz": 11.26,
+"TenneT": 15.28,
+"Amprion": 10.14,
+"TransnetBW": 4.92
+},
+"load_gw": {
+"50Hertz": 9.4,
+"TenneT": 12.34,
+"Amprion": 14.93,
+"TransnetBW": 4.49
+},
+"balance_gw": {
+"50Hertz": 1.86,
+"TenneT": 2.94,
+"Amprion": -4.79,
+"TransnetBW": 0.43
+}
+},
+{
+"date": "2025-06-23",
+"generation_gw": {
+"50Hertz": 16.45,
+"TenneT": 21.93,
+"Amprion": 13.15,
+"TransnetBW": 5.49
+},
+"load_gw": {
+"50Hertz": 11.76,
+"TenneT": 16.37,
+"Amprion": 19.09,
+"TransnetBW": 6.58
+},
+"balance_gw": {
+"50Hertz": 4.69,
+"TenneT": 5.56,
+"Amprion": -5.94,
+"TransnetBW": -1.09
+}
+},
+{
+"date": "2025-06-24",
+"generation_gw": {
+"50Hertz": 16.93,
+"TenneT": 22.92,
+"Amprion": 14.14,
+"TransnetBW": 5.47
+},
+"load_gw": {
+"50Hertz": 12.0,
+"TenneT": 16.31,
+"Amprion": 18.94,
+"TransnetBW": 6.56
+},
+"balance_gw": {
+"50Hertz": 4.93,
+"TenneT": 6.61,
+"Amprion": -4.8,
+"TransnetBW": -1.09
+}
+},
+{
+"date": "2025-06-25",
+"generation_gw": {
+"50Hertz": 17.47,
+"TenneT": 17.86,
+"Amprion": 14.7,
+"TransnetBW": 5.82
+},
+"load_gw": {
+"50Hertz": 11.86,
+"TenneT": 16.24,
+"Amprion": 19.18,
+"TransnetBW": 6.77
+},
+"balance_gw": {
+"50Hertz": 5.61,
+"TenneT": 1.62,
+"Amprion": -4.48,
+"TransnetBW": -0.95
+}
+},
+{
+"date": "2025-06-26",
+"generation_gw": {
+"50Hertz": 15.3,
+"TenneT": 15.85,
+"Amprion": 14.14,
+"TransnetBW": 4.95
+},
+"load_gw": {
+"50Hertz": 11.36,
+"TenneT": 16.59,
+"Amprion": 19.78,
+"TransnetBW": 6.83
+},
+"balance_gw": {
+"50Hertz": 3.94,
+"TenneT": -0.74,
+"Amprion": -5.64,
+"TransnetBW": -1.88
+}
+},
+{
+"date": "2025-06-27",
+"generation_gw": {
+"50Hertz": 17.15,
+"TenneT": 18.2,
+"Amprion": 12.25,
+"TransnetBW": 4.43
+},
+"load_gw": {
+"50Hertz": 12.21,
+"TenneT": 16.29,
+"Amprion": 18.94,
+"TransnetBW": 6.7
+},
+"balance_gw": {
+"50Hertz": 4.94,
+"TenneT": 1.91,
+"Amprion": -6.69,
+"TransnetBW": -2.27
+}
+},
+{
+"date": "2025-06-28",
+"generation_gw": {
+"50Hertz": 13.7,
+"TenneT": 19.83,
+"Amprion": 10.33,
+"TransnetBW": 4.39
+},
+"load_gw": {
+"50Hertz": 10.47,
+"TenneT": 13.7,
+"Amprion": 16.23,
+"TransnetBW": 5.15
+},
+"balance_gw": {
+"50Hertz": 3.23,
+"TenneT": 6.13,
+"Amprion": -5.9,
+"TransnetBW": -0.76
+}
+},
+{
+"date": "2025-06-29",
+"generation_gw": {
+"50Hertz": 15.2,
+"TenneT": 16.2,
+"Amprion": 10.11,
+"TransnetBW": 4.31
+},
+"load_gw": {
+"50Hertz": 10.46,
+"TenneT": 12.82,
+"Amprion": 15.29,
+"TransnetBW": 4.78
+},
+"balance_gw": {
+"50Hertz": 4.74,
+"TenneT": 3.38,
+"Amprion": -5.18,
+"TransnetBW": -0.47
+}
+},
+{
+"date": "2025-06-30",
+"generation_gw": {
+"50Hertz": 15.23,
+"TenneT": 13.01,
+"Amprion": 15.35,
+"TransnetBW": 5.16
+},
+"load_gw": {
+"50Hertz": 11.06,
+"TenneT": 15.66,
+"Amprion": 18.9,
+"TransnetBW": 6.67
+},
+"balance_gw": {
+"50Hertz": 4.17,
+"TenneT": -2.65,
+"Amprion": -3.55,
+"TransnetBW": -1.51
+}
+},
+{
+"date": "2025-07-01",
+"generation_gw": {
+"50Hertz": 14.44,
+"TenneT": 15.91,
+"Amprion": 15.92,
+"TransnetBW": 4.66
+},
+"load_gw": {
+"50Hertz": 10.78,
+"TenneT": 16.18,
+"Amprion": 20.47,
+"TransnetBW": 7.02
+},
+"balance_gw": {
+"50Hertz": 3.66,
+"TenneT": -0.27,
+"Amprion": -4.55,
+"TransnetBW": -2.36
+}
+},
+{
+"date": "2025-07-02",
+"generation_gw": {
+"50Hertz": 15.24,
+"TenneT": 16.11,
+"Amprion": 15.99,
+"TransnetBW": 4.63
+},
+"load_gw": {
+"50Hertz": 11.72,
+"TenneT": 16.47,
+"Amprion": 20.45,
+"TransnetBW": 6.98
+},
+"balance_gw": {
+"50Hertz": 3.52,
+"TenneT": -0.36,
+"Amprion": -4.46,
+"TransnetBW": -2.35
+}
+},
+{
+"date": "2025-07-03",
+"generation_gw": {
+"50Hertz": 16.89,
+"TenneT": 17.54,
+"Amprion": 13.42,
+"TransnetBW": 4.41
+},
+"load_gw": {
+"50Hertz": 12.47,
+"TenneT": 16.64,
+"Amprion": 19.65,
+"TransnetBW": 6.97
+},
+"balance_gw": {
+"50Hertz": 4.42,
+"TenneT": 0.9,
+"Amprion": -6.23,
+"TransnetBW": -2.56
+}
+},
+{
+"date": "2025-07-04",
+"generation_gw": {
+"50Hertz": 14.44,
+"TenneT": 15.46,
+"Amprion": 14.19,
+"TransnetBW": 4.35
+},
+"load_gw": {
+"50Hertz": 11.4,
+"TenneT": 15.68,
+"Amprion": 19.15,
+"TransnetBW": 6.44
+},
+"balance_gw": {
+"50Hertz": 3.04,
+"TenneT": -0.22,
+"Amprion": -4.96,
+"TransnetBW": -2.09
+}
+},
+{
+"date": "2025-07-05",
+"generation_gw": {
+"50Hertz": 13.49,
+"TenneT": 18.79,
+"Amprion": 11.77,
+"TransnetBW": 4.55
+},
+"load_gw": {
+"50Hertz": 10.26,
+"TenneT": 13.56,
+"Amprion": 16.27,
+"TransnetBW": 5.13
+},
+"balance_gw": {
+"50Hertz": 3.23,
+"TenneT": 5.23,
+"Amprion": -4.5,
+"TransnetBW": -0.58
+}
+},
+{
+"date": "2025-07-06",
+"generation_gw": {
+"50Hertz": 13.37,
+"TenneT": 13.71,
+"Amprion": 10.39,
+"TransnetBW": 3.54
+},
+"load_gw": {
+"50Hertz": 9.53,
+"TenneT": 12.73,
+"Amprion": 15.89,
+"TransnetBW": 4.74
+},
+"balance_gw": {
+"50Hertz": 3.84,
+"TenneT": 0.98,
+"Amprion": -5.5,
+"TransnetBW": -1.2
+}
+},
+{
+"date": "2025-07-07",
+"generation_gw": {
+"50Hertz": 13.77,
+"TenneT": 14.25,
+"Amprion": 13.66,
+"TransnetBW": 3.93
+},
+"load_gw": {
+"50Hertz": 11.18,
+"TenneT": 15.81,
+"Amprion": 19.56,
+"TransnetBW": 6.44
+},
+"balance_gw": {
+"50Hertz": 2.59,
+"TenneT": -1.56,
+"Amprion": -5.9,
+"TransnetBW": -2.51
+}
+},
+{
+"date": "2025-07-08",
+"generation_gw": {
+"50Hertz": 15.03,
+"TenneT": 17.84,
+"Amprion": 12.88,
+"TransnetBW": 3.73
+},
+"load_gw": {
+"50Hertz": 11.03,
+"TenneT": 16.2,
+"Amprion": 19.24,
+"TransnetBW": 6.56
+},
+"balance_gw": {
+"50Hertz": 4.0,
+"TenneT": 1.64,
+"Amprion": -6.36,
+"TransnetBW": -2.83
+}
+},
+{
+"date": "2025-07-09",
+"generation_gw": {
+"50Hertz": 15.23,
+"TenneT": 15.07,
+"Amprion": 12.91,
+"TransnetBW": 4.1
+},
+"load_gw": {
+"50Hertz": 11.07,
+"TenneT": 15.73,
+"Amprion": 19.09,
+"TransnetBW": 6.47
+},
+"balance_gw": {
+"50Hertz": 4.16,
+"TenneT": -0.66,
+"Amprion": -6.18,
+"TransnetBW": -2.37
+}
+},
+{
+"date": "2025-07-10",
+"generation_gw": {
+"50Hertz": 14.68,
+"TenneT": 12.46,
+"Amprion": 13.25,
+"TransnetBW": 4.71
+},
+"load_gw": {
+"50Hertz": 10.83,
+"TenneT": 15.63,
+"Amprion": 18.87,
+"TransnetBW": 6.28
+},
+"balance_gw": {
+"50Hertz": 3.85,
+"TenneT": -3.17,
+"Amprion": -5.62,
+"TransnetBW": -1.57
+}
+},
+{
+"date": "2025-07-11",
+"generation_gw": {
+"50Hertz": 16.13,
+"TenneT": 13.16,
+"Amprion": 12.4,
+"TransnetBW": 4.63
+},
+"load_gw": {
+"50Hertz": 11.56,
+"TenneT": 15.39,
+"Amprion": 18.97,
+"TransnetBW": 6.25
+},
+"balance_gw": {
+"50Hertz": 4.57,
+"TenneT": -2.23,
+"Amprion": -6.57,
+"TransnetBW": -1.62
+}
+},
+{
+"date": "2025-07-12",
+"generation_gw": {
+"50Hertz": 11.54,
+"TenneT": 13.04,
+"Amprion": 9.98,
+"TransnetBW": 3.92
+},
+"load_gw": {
+"50Hertz": 10.43,
+"TenneT": 13.34,
+"Amprion": 16.1,
+"TransnetBW": 4.97
+},
+"balance_gw": {
+"50Hertz": 1.11,
+"TenneT": -0.3,
+"Amprion": -6.12,
+"TransnetBW": -1.05
+}
+},
+{
+"date": "2025-07-13",
+"generation_gw": {
+"50Hertz": 11.17,
+"TenneT": 11.26,
+"Amprion": 9.7,
+"TransnetBW": 4.37
+},
+"load_gw": {
+"50Hertz": 9.45,
+"TenneT": 12.34,
+"Amprion": 15.27,
+"TransnetBW": 4.56
+},
+"balance_gw": {
+"50Hertz": 1.72,
+"TenneT": -1.08,
+"Amprion": -5.57,
+"TransnetBW": -0.19
+}
+},
+{
+"date": "2025-07-14",
+"generation_gw": {
+"50Hertz": 13.58,
+"TenneT": 10.65,
+"Amprion": 13.17,
+"TransnetBW": 4.76
+},
+"load_gw": {
+"50Hertz": 10.19,
+"TenneT": 15.46,
+"Amprion": 18.71,
+"TransnetBW": 6.58
+},
+"balance_gw": {
+"50Hertz": 3.39,
+"TenneT": -4.81,
+"Amprion": -5.54,
+"TransnetBW": -1.82
+}
+},
+{
+"date": "2025-07-15",
+"generation_gw": {
+"50Hertz": 13.07,
+"TenneT": 13.43,
+"Amprion": 14.24,
+"TransnetBW": 4.17
+},
+"load_gw": {
+"50Hertz": 10.65,
+"TenneT": 15.74,
+"Amprion": 18.29,
+"TransnetBW": 6.57
+},
+"balance_gw": {
+"50Hertz": 2.42,
+"TenneT": -2.31,
+"Amprion": -4.05,
+"TransnetBW": -2.4
+}
+},
+{
+"date": "2025-07-16",
+"generation_gw": {
+"50Hertz": 14.67,
+"TenneT": 11.9,
+"Amprion": 15.47,
+"TransnetBW": 4.53
+},
+"load_gw": {
+"50Hertz": 11.12,
+"TenneT": 15.56,
+"Amprion": 19.08,
+"TransnetBW": 6.64
+},
+"balance_gw": {
+"50Hertz": 3.55,
+"TenneT": -3.66,
+"Amprion": -3.61,
+"TransnetBW": -2.11
+}
+},
+{
+"date": "2025-07-17",
+"generation_gw": {
+"50Hertz": 15.13,
+"TenneT": 15.89,
+"Amprion": 14.44,
+"TransnetBW": 4.77
+},
+"load_gw": {
+"50Hertz": 11.09,
+"TenneT": 15.74,
+"Amprion": 18.63,
+"TransnetBW": 6.38
+},
+"balance_gw": {
+"50Hertz": 4.04,
+"TenneT": 0.15,
+"Amprion": -4.19,
+"TransnetBW": -1.61
+}
+},
+{
+"date": "2025-07-18",
+"generation_gw": {
+"50Hertz": 12.31,
+"TenneT": 10.75,
+"Amprion": 15.0,
+"TransnetBW": 5.8
+},
+"load_gw": {
+"50Hertz": 10.37,
+"TenneT": 15.1,
+"Amprion": 17.94,
+"TransnetBW": 6.17
+},
+"balance_gw": {
+"50Hertz": 1.94,
+"TenneT": -4.35,
+"Amprion": -2.94,
+"TransnetBW": -0.37
+}
+},
+{
+"date": "2025-07-19",
+"generation_gw": {
+"50Hertz": 11.6,
+"TenneT": 14.07,
+"Amprion": 12.55,
+"TransnetBW": 4.33
+},
+"load_gw": {
+"50Hertz": 9.1,
+"TenneT": 12.91,
+"Amprion": 16.03,
+"TransnetBW": 5.14
+},
+"balance_gw": {
+"50Hertz": 2.5,
+"TenneT": 1.16,
+"Amprion": -3.48,
+"TransnetBW": -0.81
+}
+},
+{
+"date": "2025-07-20",
+"generation_gw": {
+"50Hertz": 12.1,
+"TenneT": 14.69,
+"Amprion": 10.06,
+"TransnetBW": 4.25
+},
+"load_gw": {
+"50Hertz": 9.08,
+"TenneT": 12.33,
+"Amprion": 15.01,
+"TransnetBW": 4.7
+},
+"balance_gw": {
+"50Hertz": 3.02,
+"TenneT": 2.36,
+"Amprion": -4.95,
+"TransnetBW": -0.45
+}
+},
+{
+"date": "2025-07-21",
+"generation_gw": {
+"50Hertz": 12.1,
+"TenneT": 10.21,
+"Amprion": 14.65,
+"TransnetBW": 4.79
+},
+"load_gw": {
+"50Hertz": 11.39,
+"TenneT": 15.55,
+"Amprion": 18.45,
+"TransnetBW": 6.57
+},
+"balance_gw": {
+"50Hertz": 0.71,
+"TenneT": -5.34,
+"Amprion": -3.8,
+"TransnetBW": -1.78
+}
+},
+{
+"date": "2025-07-22",
+"generation_gw": {
+"50Hertz": 15.4,
+"TenneT": 14.4,
+"Amprion": 14.16,
+"TransnetBW": 4.65
+},
+"load_gw": {
+"50Hertz": 11.28,
+"TenneT": 15.54,
+"Amprion": 18.45,
+"TransnetBW": 6.66
+},
+"balance_gw": {
+"50Hertz": 4.12,
+"TenneT": -1.14,
+"Amprion": -4.29,
+"TransnetBW": -2.01
+}
+},
+{
+"date": "2025-07-23",
+"generation_gw": {
+"50Hertz": 17.04,
+"TenneT": 20.97,
+"Amprion": 13.48,
+"TransnetBW": 4.58
+},
+"load_gw": {
+"50Hertz": 11.47,
+"TenneT": 15.78,
+"Amprion": 18.48,
+"TransnetBW": 6.54
+},
+"balance_gw": {
+"50Hertz": 5.57,
+"TenneT": 5.19,
+"Amprion": -5.0,
+"TransnetBW": -1.96
+}
+},
+{
+"date": "2025-07-24",
+"generation_gw": {
+"50Hertz": 12.35,
+"TenneT": 11.78,
+"Amprion": 14.92,
+"TransnetBW": 4.44
+},
+"load_gw": {
+"50Hertz": 10.97,
+"TenneT": 15.69,
+"Amprion": 18.6,
+"TransnetBW": 6.59
+},
+"balance_gw": {
+"50Hertz": 1.38,
+"TenneT": -3.91,
+"Amprion": -3.68,
+"TransnetBW": -2.15
+}
+},
+{
+"date": "2025-07-25",
+"generation_gw": {
+"50Hertz": 12.1,
+"TenneT": 12.76,
+"Amprion": 13.14,
+"TransnetBW": 4.52
+},
+"load_gw": {
+"50Hertz": 11.0,
+"TenneT": 15.2,
+"Amprion": 18.13,
+"TransnetBW": 6.46
+},
+"balance_gw": {
+"50Hertz": 1.1,
+"TenneT": -2.44,
+"Amprion": -4.99,
+"TransnetBW": -1.94
+}
+},
+{
+"date": "2025-07-26",
+"generation_gw": {
+"50Hertz": 10.38,
+"TenneT": 10.66,
+"Amprion": 11.31,
+"TransnetBW": 4.06
+},
+"load_gw": {
+"50Hertz": 9.44,
+"TenneT": 13.01,
+"Amprion": 15.77,
+"TransnetBW": 5.18
+},
+"balance_gw": {
+"50Hertz": 0.94,
+"TenneT": -2.35,
+"Amprion": -4.46,
+"TransnetBW": -1.12
+}
+},
+{
+"date": "2025-07-27",
+"generation_gw": {
+"50Hertz": 10.17,
+"TenneT": 10.97,
+"Amprion": 8.84,
+"TransnetBW": 3.37
+},
+"load_gw": {
+"50Hertz": 8.58,
+"TenneT": 12.38,
+"Amprion": 14.82,
+"TransnetBW": 4.74
+},
+"balance_gw": {
+"50Hertz": 1.59,
+"TenneT": -1.41,
+"Amprion": -5.98,
+"TransnetBW": -1.37
+}
+},
+{
+"date": "2025-07-28",
+"generation_gw": {
+"50Hertz": 14.05,
+"TenneT": 14.28,
+"Amprion": 10.37,
+"TransnetBW": 3.59
+},
+"load_gw": {
+"50Hertz": 11.0,
+"TenneT": 15.17,
+"Amprion": 17.63,
+"TransnetBW": 6.55
+},
+"balance_gw": {
+"50Hertz": 3.05,
+"TenneT": -0.89,
+"Amprion": -7.26,
+"TransnetBW": -2.96
+}
+},
+{
+"date": "2025-07-29",
+"generation_gw": {
+"50Hertz": 16.17,
+"TenneT": 18.44,
+"Amprion": 9.48,
+"TransnetBW": 4.17
+},
+"load_gw": {
+"50Hertz": 11.74,
+"TenneT": 15.39,
+"Amprion": 18.33,
+"TransnetBW": 6.57
+},
+"balance_gw": {
+"50Hertz": 4.43,
+"TenneT": 3.05,
+"Amprion": -8.85,
+"TransnetBW": -2.4
+}
+},
+{
+"date": "2025-07-30",
+"generation_gw": {
+"50Hertz": 12.48,
+"TenneT": 20.9,
+"Amprion": 10.63,
+"TransnetBW": 3.64
+},
+"load_gw": {
+"50Hertz": 10.8,
+"TenneT": 15.81,
+"Amprion": 18.16,
+"TransnetBW": 6.63
+},
+"balance_gw": {
+"50Hertz": 1.68,
+"TenneT": 5.09,
+"Amprion": -7.53,
+"TransnetBW": -2.99
+}
+},
+{
+"date": "2025-07-31",
+"generation_gw": {
+"50Hertz": 12.97,
+"TenneT": 18.73,
+"Amprion": 11.01,
+"TransnetBW": 4.21
+},
+"load_gw": {
+"50Hertz": 10.8,
+"TenneT": 15.47,
+"Amprion": 18.5,
+"TransnetBW": 6.38
+},
+"balance_gw": {
+"50Hertz": 2.17,
+"TenneT": 3.26,
+"Amprion": -7.49,
+"TransnetBW": -2.17
+}
+},
+{
+"date": "2025-08-01",
+"generation_gw": {
+"50Hertz": 11.98,
+"TenneT": 13.09,
+"Amprion": 10.65,
+"TransnetBW": 4.29
+},
+"load_gw": {
+"50Hertz": 10.3,
+"TenneT": 14.72,
+"Amprion": 18.23,
+"TransnetBW": 6.25
+},
+"balance_gw": {
+"50Hertz": 1.68,
+"TenneT": -1.63,
+"Amprion": -7.58,
+"TransnetBW": -1.96
+}
+},
+{
+"date": "2025-08-02",
+"generation_gw": {
+"50Hertz": 11.43,
+"TenneT": 15.72,
+"Amprion": 8.99,
+"TransnetBW": 3.44
+},
+"load_gw": {
+"50Hertz": 9.03,
+"TenneT": 12.83,
+"Amprion": 15.63,
+"TransnetBW": 5.02
+},
+"balance_gw": {
+"50Hertz": 2.4,
+"TenneT": 2.89,
+"Amprion": -6.64,
+"TransnetBW": -1.58
+}
+},
+{
+"date": "2025-08-03",
+"generation_gw": {
+"50Hertz": 10.65,
+"TenneT": 16.93,
+"Amprion": 8.99,
+"TransnetBW": 3.4
+},
+"load_gw": {
+"50Hertz": 9.03,
+"TenneT": 12.23,
+"Amprion": 14.61,
+"TransnetBW": 4.52
+},
+"balance_gw": {
+"50Hertz": 1.62,
+"TenneT": 4.7,
+"Amprion": -5.62,
+"TransnetBW": -1.12
+}
+},
+{
+"date": "2025-08-04",
+"generation_gw": {
+"50Hertz": 13.43,
+"TenneT": 17.77,
+"Amprion": 10.91,
+"TransnetBW": 3.82
+},
+"load_gw": {
+"50Hertz": 10.64,
+"TenneT": 15.06,
+"Amprion": 17.58,
+"TransnetBW": 6.14
+},
+"balance_gw": {
+"50Hertz": 2.79,
+"TenneT": 2.71,
+"Amprion": -6.67,
+"TransnetBW": -2.32
+}
+},
+{
+"date": "2025-08-05",
+"generation_gw": {
+"50Hertz": 12.88,
+"TenneT": 22.2,
+"Amprion": 11.17,
+"TransnetBW": 4.15
+},
+"load_gw": {
+"50Hertz": 12.03,
+"TenneT": 15.4,
+"Amprion": 17.46,
+"TransnetBW": 6.2
+},
+"balance_gw": {
+"50Hertz": 0.85,
+"TenneT": 6.8,
+"Amprion": -6.29,
+"TransnetBW": -2.05
+}
+},
+{
+"date": "2025-08-06",
+"generation_gw": {
+"50Hertz": 14.26,
+"TenneT": 18.53,
+"Amprion": 9.56,
+"TransnetBW": 4.78
+},
+"load_gw": {
+"50Hertz": 11.77,
+"TenneT": 14.75,
+"Amprion": 17.9,
+"TransnetBW": 5.96
+},
+"balance_gw": {
+"50Hertz": 2.49,
+"TenneT": 3.78,
+"Amprion": -8.34,
+"TransnetBW": -1.18
+}
+},
+{
+"date": "2025-08-07",
+"generation_gw": {
+"50Hertz": 10.84,
+"TenneT": 15.11,
+"Amprion": 10.94,
+"TransnetBW": 4.59
+},
+"load_gw": {
+"50Hertz": 10.59,
+"TenneT": 14.8,
+"Amprion": 18.42,
+"TransnetBW": 5.82
+},
+"balance_gw": {
+"50Hertz": 0.25,
+"TenneT": 0.31,
+"Amprion": -7.48,
+"TransnetBW": -1.23
+}
+},
+{
+"date": "2025-08-08",
+"generation_gw": {
+"50Hertz": 11.43,
+"TenneT": 15.04,
+"Amprion": 11.47,
+"TransnetBW": 4.37
+},
+"load_gw": {
+"50Hertz": 10.58,
+"TenneT": 14.53,
+"Amprion": 18.13,
+"TransnetBW": 5.83
+},
+"balance_gw": {
+"50Hertz": 0.85,
+"TenneT": 0.51,
+"Amprion": -6.66,
+"TransnetBW": -1.46
+}
+},
+{
+"date": "2025-08-09",
+"generation_gw": {
+"50Hertz": 10.39,
+"TenneT": 13.5,
+"Amprion": 10.57,
+"TransnetBW": 4.16
+},
+"load_gw": {
+"50Hertz": 9.19,
+"TenneT": 12.75,
+"Amprion": 15.54,
+"TransnetBW": 4.73
+},
+"balance_gw": {
+"50Hertz": 1.2,
+"TenneT": 0.75,
+"Amprion": -4.97,
+"TransnetBW": -0.57
+}
+},
+{
+"date": "2025-08-10",
+"generation_gw": {
+"50Hertz": 12.64,
+"TenneT": 14.27,
+"Amprion": 9.75,
+"TransnetBW": 4.23
+},
+"load_gw": {
+"50Hertz": 9.03,
+"TenneT": 11.85,
+"Amprion": 14.43,
+"TransnetBW": 4.37
+},
+"balance_gw": {
+"50Hertz": 3.61,
+"TenneT": 2.42,
+"Amprion": -4.68,
+"TransnetBW": -0.14
+}
+},
+{
+"date": "2025-08-11",
+"generation_gw": {
+"50Hertz": 11.56,
+"TenneT": 12.65,
+"Amprion": 13.43,
+"TransnetBW": 4.95
+},
+"load_gw": {
+"50Hertz": 10.0,
+"TenneT": 14.44,
+"Amprion": 17.51,
+"TransnetBW": 5.65
+},
+"balance_gw": {
+"50Hertz": 1.56,
+"TenneT": -1.79,
+"Amprion": -4.08,
+"TransnetBW": -0.7
+}
+},
+{
+"date": "2025-08-12",
+"generation_gw": {
+"50Hertz": 12.03,
+"TenneT": 14.4,
+"Amprion": 15.08,
+"TransnetBW": 5.19
+},
+"load_gw": {
+"50Hertz": 10.29,
+"TenneT": 14.93,
+"Amprion": 18.57,
+"TransnetBW": 5.91
+},
+"balance_gw": {
+"50Hertz": 1.74,
+"TenneT": -0.53,
+"Amprion": -3.49,
+"TransnetBW": -0.72
+}
+},
+{
+"date": "2025-08-13",
+"generation_gw": {
+"50Hertz": 13.4,
+"TenneT": 14.92,
+"Amprion": 13.89,
+"TransnetBW": 5.12
+},
+"load_gw": {
+"50Hertz": 11.0,
+"TenneT": 15.27,
+"Amprion": 19.09,
+"TransnetBW": 6.04
+},
+"balance_gw": {
+"50Hertz": 2.4,
+"TenneT": -0.35,
+"Amprion": -5.2,
+"TransnetBW": -0.92
+}
+},
+{
+"date": "2025-08-14",
+"generation_gw": {
+"50Hertz": 12.48,
+"TenneT": 13.66,
+"Amprion": 14.24,
+"TransnetBW": 5.04
+},
+"load_gw": {
+"50Hertz": 11.14,
+"TenneT": 15.57,
+"Amprion": 19.78,
+"TransnetBW": 6.01
+},
+"balance_gw": {
+"50Hertz": 1.34,
+"TenneT": -1.91,
+"Amprion": -5.54,
+"TransnetBW": -0.97
+}
+},
+{
+"date": "2025-08-15",
+"generation_gw": {
+"50Hertz": 13.23,
+"TenneT": 14.64,
+"Amprion": 12.6,
+"TransnetBW": 4.23
+},
+"load_gw": {
+"50Hertz": 11.39,
+"TenneT": 14.65,
+"Amprion": 18.63,
+"TransnetBW": 5.98
+},
+"balance_gw": {
+"50Hertz": 1.84,
+"TenneT": -0.01,
+"Amprion": -6.03,
+"TransnetBW": -1.75
+}
+},
+{
+"date": "2025-08-16",
+"generation_gw": {
+"50Hertz": 12.53,
+"TenneT": 17.03,
+"Amprion": 9.16,
+"TransnetBW": 3.72
+},
+"load_gw": {
+"50Hertz": 10.29,
+"TenneT": 13.37,
+"Amprion": 16.38,
+"TransnetBW": 4.79
+},
+"balance_gw": {
+"50Hertz": 2.24,
+"TenneT": 3.66,
+"Amprion": -7.22,
+"TransnetBW": -1.07
+}
+},
+{
+"date": "2025-08-17",
+"generation_gw": {
+"50Hertz": 10.9,
+"TenneT": 13.14,
+"Amprion": 9.78,
+"TransnetBW": 3.63
+},
+"load_gw": {
+"50Hertz": 8.78,
+"TenneT": 12.07,
+"Amprion": 15.04,
+"TransnetBW": 4.23
+},
+"balance_gw": {
+"50Hertz": 2.12,
+"TenneT": 1.07,
+"Amprion": -5.26,
+"TransnetBW": -0.6
+}
+},
+{
+"date": "2025-08-18",
+"generation_gw": {
+"50Hertz": 11.97,
+"TenneT": 12.65,
+"Amprion": 14.77,
+"TransnetBW": 4.55
+},
+"load_gw": {
+"50Hertz": 10.05,
+"TenneT": 14.51,
+"Amprion": 18.29,
+"TransnetBW": 5.42
+},
+"balance_gw": {
+"50Hertz": 1.92,
+"TenneT": -1.86,
+"Amprion": -3.52,
+"TransnetBW": -0.87
+}
+},
+{
+"date": "2025-08-19",
+"generation_gw": {
+"50Hertz": 12.9,
+"TenneT": 13.29,
+"Amprion": 14.23,
+"TransnetBW": 4.84
+},
+"load_gw": {
+"50Hertz": 10.63,
+"TenneT": 14.96,
+"Amprion": 18.8,
+"TransnetBW": 5.73
+},
+"balance_gw": {
+"50Hertz": 2.27,
+"TenneT": -1.67,
+"Amprion": -4.57,
+"TransnetBW": -0.89
+}
+},
+{
+"date": "2025-08-20",
+"generation_gw": {
+"50Hertz": 13.06,
+"TenneT": 14.0,
+"Amprion": 13.62,
+"TransnetBW": 3.79
+},
+"load_gw": {
+"50Hertz": 10.74,
+"TenneT": 15.27,
+"Amprion": 19.01,
+"TransnetBW": 6.0
+},
+"balance_gw": {
+"50Hertz": 2.32,
+"TenneT": -1.27,
+"Amprion": -5.39,
+"TransnetBW": -2.21
+}
+},
+{
+"date": "2025-08-21",
+"generation_gw": {
+"50Hertz": 13.17,
+"TenneT": 15.48,
+"Amprion": 14.39,
+"TransnetBW": 3.84
+},
+"load_gw": {
+"50Hertz": 10.74,
+"TenneT": 15.56,
+"Amprion": 18.92,
+"TransnetBW": 6.13
+},
+"balance_gw": {
+"50Hertz": 2.43,
+"TenneT": -0.08,
+"Amprion": -4.53,
+"TransnetBW": -2.29
+}
+},
+{
+"date": "2025-08-22",
+"generation_gw": {
+"50Hertz": 14.01,
+"TenneT": 17.52,
+"Amprion": 10.85,
+"TransnetBW": 3.99
+},
+"load_gw": {
+"50Hertz": 11.48,
+"TenneT": 15.1,
+"Amprion": 18.59,
+"TransnetBW": 5.6
+},
+"balance_gw": {
+"50Hertz": 2.53,
+"TenneT": 2.42,
+"Amprion": -7.74,
+"TransnetBW": -1.61
+}
+},
+{
+"date": "2025-08-23",
+"generation_gw": {
+"50Hertz": 14.24,
+"TenneT": 16.35,
+"Amprion": 8.46,
+"TransnetBW": 3.38
+},
+"load_gw": {
+"50Hertz": 10.01,
+"TenneT": 12.91,
+"Amprion": 16.35,
+"TransnetBW": 4.56
+},
+"balance_gw": {
+"50Hertz": 4.23,
+"TenneT": 3.44,
+"Amprion": -7.89,
+"TransnetBW": -1.18
+}
+},
+{
+"date": "2025-08-24",
+"generation_gw": {
+"50Hertz": 12.14,
+"TenneT": 12.59,
+"Amprion": 9.15,
+"TransnetBW": 3.79
+},
+"load_gw": {
+"50Hertz": 9.44,
+"TenneT": 12.0,
+"Amprion": 14.75,
+"TransnetBW": 4.11
+},
+"balance_gw": {
+"50Hertz": 2.7,
+"TenneT": 0.59,
+"Amprion": -5.6,
+"TransnetBW": -0.32
+}
+},
+{
+"date": "2025-08-25",
+"generation_gw": {
+"50Hertz": 12.62,
+"TenneT": 12.19,
+"Amprion": 12.57,
+"TransnetBW": 4.62
+},
+"load_gw": {
+"50Hertz": 10.82,
+"TenneT": 14.6,
+"Amprion": 18.1,
+"TransnetBW": 5.66
+},
+"balance_gw": {
+"50Hertz": 1.8,
+"TenneT": -2.41,
+"Amprion": -5.53,
+"TransnetBW": -1.04
+}
+},
+{
+"date": "2025-08-26",
+"generation_gw": {
+"50Hertz": 12.15,
+"TenneT": 12.57,
+"Amprion": 15.47,
+"TransnetBW": 5.22
+},
+"load_gw": {
+"50Hertz": 10.29,
+"TenneT": 14.99,
+"Amprion": 18.83,
+"TransnetBW": 6.02
+},
+"balance_gw": {
+"50Hertz": 1.86,
+"TenneT": -2.42,
+"Amprion": -3.36,
+"TransnetBW": -0.8
+}
+},
+{
+"date": "2025-08-27",
+"generation_gw": {
+"50Hertz": 13.05,
+"TenneT": 14.32,
+"Amprion": 14.2,
+"TransnetBW": 5.04
+},
+"load_gw": {
+"50Hertz": 10.73,
+"TenneT": 15.39,
+"Amprion": 19.28,
+"TransnetBW": 6.41
+},
+"balance_gw": {
+"50Hertz": 2.32,
+"TenneT": -1.07,
+"Amprion": -5.08,
+"TransnetBW": -1.37
+}
+},
+{
+"date": "2025-08-28",
+"generation_gw": {
+"50Hertz": 9.69,
+"TenneT": 10.63,
+"Amprion": 14.82,
+"TransnetBW": 4.18
+},
+"load_gw": {
+"50Hertz": 10.96,
+"TenneT": 15.73,
+"Amprion": 19.68,
+"TransnetBW": 6.44
+},
+"balance_gw": {
+"50Hertz": -1.27,
+"TenneT": -5.1,
+"Amprion": -4.86,
+"TransnetBW": -2.26
+}
+},
+{
+"date": "2025-08-29",
+"generation_gw": {
+"50Hertz": 8.72,
+"TenneT": 14.37,
+"Amprion": 15.16,
+"TransnetBW": 4.86
+},
+"load_gw": {
+"50Hertz": 10.53,
+"TenneT": 15.18,
+"Amprion": 18.75,
+"TransnetBW": 5.98
+},
+"balance_gw": {
+"50Hertz": -1.81,
+"TenneT": -0.81,
+"Amprion": -3.59,
+"TransnetBW": -1.12
+}
+},
+{
+"date": "2025-08-30",
+"generation_gw": {
+"50Hertz": 10.36,
+"TenneT": 13.93,
+"Amprion": 11.26,
+"TransnetBW": 3.84
+},
+"load_gw": {
+"50Hertz": 9.1,
+"TenneT": 12.72,
+"Amprion": 16.17,
+"TransnetBW": 4.83
+},
+"balance_gw": {
+"50Hertz": 1.26,
+"TenneT": 1.21,
+"Amprion": -4.91,
+"TransnetBW": -0.99
+}
+},
+{
+"date": "2025-08-31",
+"generation_gw": {
+"50Hertz": 10.41,
+"TenneT": 15.47,
+"Amprion": 10.04,
+"TransnetBW": 4.15
+},
+"load_gw": {
+"50Hertz": 8.83,
+"TenneT": 12.07,
+"Amprion": 15.06,
+"TransnetBW": 4.43
+},
+"balance_gw": {
+"50Hertz": 1.58,
+"TenneT": 3.4,
+"Amprion": -5.02,
+"TransnetBW": -0.28
+}
+},
+{
+"date": "2025-09-01",
+"generation_gw": {
+"50Hertz": 13.34,
+"TenneT": 11.61,
+"Amprion": 13.17,
+"TransnetBW": 4.29
+},
+"load_gw": {
+"50Hertz": 11.41,
+"TenneT": 15.3,
+"Amprion": 18.37,
+"TransnetBW": 6.26
+},
+"balance_gw": {
+"50Hertz": 1.93,
+"TenneT": -3.69,
+"Amprion": -5.2,
+"TransnetBW": -1.97
+}
+},
+{
+"date": "2025-09-02",
+"generation_gw": {
+"50Hertz": 9.73,
+"TenneT": 13.2,
+"Amprion": 15.25,
+"TransnetBW": 4.98
+},
+"load_gw": {
+"50Hertz": 10.99,
+"TenneT": 15.5,
+"Amprion": 19.26,
+"TransnetBW": 6.27
+},
+"balance_gw": {
+"50Hertz": -1.26,
+"TenneT": -2.3,
+"Amprion": -4.01,
+"TransnetBW": -1.29
+}
+},
+{
+"date": "2025-09-03",
+"generation_gw": {
+"50Hertz": 14.12,
+"TenneT": 21.47,
+"Amprion": 14.61,
+"TransnetBW": 4.85
+},
+"load_gw": {
+"50Hertz": 11.33,
+"TenneT": 15.86,
+"Amprion": 19.74,
+"TransnetBW": 6.36
+},
+"balance_gw": {
+"50Hertz": 2.79,
+"TenneT": 5.61,
+"Amprion": -5.13,
+"TransnetBW": -1.51
+}
+},
+{
+"date": "2025-09-04",
+"generation_gw": {
+"50Hertz": 13.66,
+"TenneT": 18.27,
+"Amprion": 13.04,
+"TransnetBW": 4.57
+},
+"load_gw": {
+"50Hertz": 11.38,
+"TenneT": 15.83,
+"Amprion": 19.46,
+"TransnetBW": 6.5
+},
+"balance_gw": {
+"50Hertz": 2.28,
+"TenneT": 2.44,
+"Amprion": -6.42,
+"TransnetBW": -1.93
+}
+},
+{
+"date": "2025-09-05",
+"generation_gw": {
+"50Hertz": 13.1,
+"TenneT": 13.19,
+"Amprion": 13.64,
+"TransnetBW": 4.7
+},
+"load_gw": {
+"50Hertz": 11.06,
+"TenneT": 15.35,
+"Amprion": 18.83,
+"TransnetBW": 6.24
+},
+"balance_gw": {
+"50Hertz": 2.04,
+"TenneT": -2.16,
+"Amprion": -5.19,
+"TransnetBW": -1.54
+}
+},
+{
+"date": "2025-09-06",
+"generation_gw": {
+"50Hertz": 11.78,
+"TenneT": 11.2,
+"Amprion": 11.66,
+"TransnetBW": 5.1
+},
+"load_gw": {
+"50Hertz": 9.12,
+"TenneT": 12.68,
+"Amprion": 15.76,
+"TransnetBW": 4.8
+},
+"balance_gw": {
+"50Hertz": 2.66,
+"TenneT": -1.48,
+"Amprion": -4.1,
+"TransnetBW": 0.3
+}
+},
+{
+"date": "2025-09-07",
+"generation_gw": {
+"50Hertz": 10.39,
+"TenneT": 18.47,
+"Amprion": 11.46,
+"TransnetBW": 4.01
+},
+"load_gw": {
+"50Hertz": 8.54,
+"TenneT": 12.03,
+"Amprion": 14.85,
+"TransnetBW": 4.48
+},
+"balance_gw": {
+"50Hertz": 1.85,
+"TenneT": 6.44,
+"Amprion": -3.39,
+"TransnetBW": -0.47
+}
+},
+{
+"date": "2025-09-08",
+"generation_gw": {
+"50Hertz": 13.35,
+"TenneT": 15.9,
+"Amprion": 13.11,
+"TransnetBW": 4.2
+},
+"load_gw": {
+"50Hertz": 10.66,
+"TenneT": 15.17,
+"Amprion": 19.39,
+"TransnetBW": 6.42
+},
+"balance_gw": {
+"50Hertz": 2.69,
+"TenneT": 0.73,
+"Amprion": -6.28,
+"TransnetBW": -2.22
+}
+},
+{
+"date": "2025-09-09",
+"generation_gw": {
+"50Hertz": 13.03,
+"TenneT": 10.75,
+"Amprion": 14.94,
+"TransnetBW": 4.55
+},
+"load_gw": {
+"50Hertz": 11.22,
+"TenneT": 15.66,
+"Amprion": 19.86,
+"TransnetBW": 6.67
+},
+"balance_gw": {
+"50Hertz": 1.81,
+"TenneT": -4.91,
+"Amprion": -4.92,
+"TransnetBW": -2.12
+}
+},
+{
+"date": "2025-09-10",
+"generation_gw": {
+"50Hertz": 12.29,
+"TenneT": 9.51,
+"Amprion": 15.44,
+"TransnetBW": 4.57
+},
+"load_gw": {
+"50Hertz": 11.91,
+"TenneT": 15.92,
+"Amprion": 19.04,
+"TransnetBW": 6.59
+},
+"balance_gw": {
+"50Hertz": 0.38,
+"TenneT": -6.41,
+"Amprion": -3.6,
+"TransnetBW": -2.02
+}
+},
+{
+"date": "2025-09-11",
+"generation_gw": {
+"50Hertz": 13.72,
+"TenneT": 18.74,
+"Amprion": 15.41,
+"TransnetBW": 4.12
+},
+"load_gw": {
+"50Hertz": 11.29,
+"TenneT": 16.06,
+"Amprion": 18.95,
+"TransnetBW": 6.49
+},
+"balance_gw": {
+"50Hertz": 2.43,
+"TenneT": 2.68,
+"Amprion": -3.54,
+"TransnetBW": -2.37
+}
+},
+{
+"date": "2025-09-12",
+"generation_gw": {
+"50Hertz": 13.55,
+"TenneT": 21.03,
+"Amprion": 13.44,
+"TransnetBW": 3.97
+},
+"load_gw": {
+"50Hertz": 11.3,
+"TenneT": 15.71,
+"Amprion": 18.75,
+"TransnetBW": 6.32
+},
+"balance_gw": {
+"50Hertz": 2.25,
+"TenneT": 5.32,
+"Amprion": -5.31,
+"TransnetBW": -2.35
+}
+},
+{
+"date": "2025-09-13",
+"generation_gw": {
+"50Hertz": 12.06,
+"TenneT": 18.88,
+"Amprion": 10.9,
+"TransnetBW": 3.65
+},
+"load_gw": {
+"50Hertz": 9.84,
+"TenneT": 13.2,
+"Amprion": 16.23,
+"TransnetBW": 5.04
+},
+"balance_gw": {
+"50Hertz": 2.22,
+"TenneT": 5.68,
+"Amprion": -5.33,
+"TransnetBW": -1.39
+}
+},
+{
+"date": "2025-09-14",
+"generation_gw": {
+"50Hertz": 11.27,
+"TenneT": 13.81,
+"Amprion": 10.31,
+"TransnetBW": 3.82
+},
+"load_gw": {
+"50Hertz": 8.96,
+"TenneT": 12.24,
+"Amprion": 15.09,
+"TransnetBW": 4.73
+},
+"balance_gw": {
+"50Hertz": 2.31,
+"TenneT": 1.57,
+"Amprion": -4.78,
+"TransnetBW": -0.91
+}
+},
+{
+"date": "2025-09-15",
+"generation_gw": {
+"50Hertz": 14.71,
+"TenneT": 25.4,
+"Amprion": 14.68,
+"TransnetBW": 4.97
+},
+"load_gw": {
+"50Hertz": 11.45,
+"TenneT": 15.91,
+"Amprion": 18.94,
+"TransnetBW": 6.58
+},
+"balance_gw": {
+"50Hertz": 3.26,
+"TenneT": 9.49,
+"Amprion": -4.26,
+"TransnetBW": -1.61
+}
+},
+{
+"date": "2025-09-16",
+"generation_gw": {
+"50Hertz": 18.66,
+"TenneT": 24.67,
+"Amprion": 13.53,
+"TransnetBW": 4.43
+},
+"load_gw": {
+"50Hertz": 12.04,
+"TenneT": 16.21,
+"Amprion": 19.43,
+"TransnetBW": 6.7
+},
+"balance_gw": {
+"50Hertz": 6.62,
+"TenneT": 8.46,
+"Amprion": -5.9,
+"TransnetBW": -2.27
+}
+},
+{
+"date": "2025-09-17",
+"generation_gw": {
+"50Hertz": 15.96,
+"TenneT": 21.4,
+"Amprion": 12.15,
+"TransnetBW": 4.64
+},
+"load_gw": {
+"50Hertz": 12.15,
+"TenneT": 16.19,
+"Amprion": 19.29,
+"TransnetBW": 6.59
+},
+"balance_gw": {
+"50Hertz": 3.81,
+"TenneT": 5.21,
+"Amprion": -7.14,
+"TransnetBW": -1.95
+}
+},
+{
+"date": "2025-09-18",
+"generation_gw": {
+"50Hertz": 14.24,
+"TenneT": 23.64,
+"Amprion": 12.85,
+"TransnetBW": 4.4
+},
+"load_gw": {
+"50Hertz": 12.47,
+"TenneT": 16.18,
+"Amprion": 19.15,
+"TransnetBW": 6.47
+},
+"balance_gw": {
+"50Hertz": 1.77,
+"TenneT": 7.46,
+"Amprion": -6.3,
+"TransnetBW": -2.07
+}
+},
+{
+"date": "2025-09-19",
+"generation_gw": {
+"50Hertz": 13.54,
+"TenneT": 18.42,
+"Amprion": 12.93,
+"TransnetBW": 4.33
+},
+"load_gw": {
+"50Hertz": 11.9,
+"TenneT": 15.35,
+"Amprion": 19.04,
+"TransnetBW": 6.32
+},
+"balance_gw": {
+"50Hertz": 1.64,
+"TenneT": 3.07,
+"Amprion": -6.11,
+"TransnetBW": -1.99
+}
+},
+{
+"date": "2025-09-20",
+"generation_gw": {
+"50Hertz": 13.73,
+"TenneT": 17.93,
+"Amprion": 10.69,
+"TransnetBW": 3.75
+},
+"load_gw": {
+"50Hertz": 9.77,
+"TenneT": 13.16,
+"Amprion": 16.14,
+"TransnetBW": 5.1
+},
+"balance_gw": {
+"50Hertz": 3.96,
+"TenneT": 4.77,
+"Amprion": -5.45,
+"TransnetBW": -1.35
+}
+},
+{
+"date": "2025-09-21",
+"generation_gw": {
+"50Hertz": 13.02,
+"TenneT": 20.03,
+"Amprion": 8.9,
+"TransnetBW": 3.58
+},
+"load_gw": {
+"50Hertz": 10.18,
+"TenneT": 12.79,
+"Amprion": 15.41,
+"TransnetBW": 4.99
+},
+"balance_gw": {
+"50Hertz": 2.84,
+"TenneT": 7.24,
+"Amprion": -6.51,
+"TransnetBW": -1.41
+}
+},
+{
+"date": "2025-09-22",
+"generation_gw": {
+"50Hertz": 13.03,
+"TenneT": 15.39,
+"Amprion": 13.01,
+"TransnetBW": 3.83
+},
+"load_gw": {
+"50Hertz": 11.86,
+"TenneT": 15.92,
+"Amprion": 18.69,
+"TransnetBW": 6.76
+},
+"balance_gw": {
+"50Hertz": 1.17,
+"TenneT": -0.53,
+"Amprion": -5.68,
+"TransnetBW": -2.93
+}
+},
+{
+"date": "2025-09-23",
+"generation_gw": {
+"50Hertz": 15.2,
+"TenneT": 13.45,
+"Amprion": 16.31,
+"TransnetBW": 4.13
+},
+"load_gw": {
+"50Hertz": 11.05,
+"TenneT": 15.85,
+"Amprion": 19.23,
+"TransnetBW": 7.11
+},
+"balance_gw": {
+"50Hertz": 4.15,
+"TenneT": -2.4,
+"Amprion": -2.92,
+"TransnetBW": -2.98
+}
+},
+{
+"date": "2025-09-24",
+"generation_gw": {
+"50Hertz": 19.9,
+"TenneT": 18.92,
+"Amprion": 13.75,
+"TransnetBW": 3.09
+},
+"load_gw": {
+"50Hertz": 11.3,
+"TenneT": 16.43,
+"Amprion": 19.53,
+"TransnetBW": 7.38
+},
+"balance_gw": {
+"50Hertz": 8.6,
+"TenneT": 2.49,
+"Amprion": -5.78,
+"TransnetBW": -4.29
+}
+},
+{
+"date": "2025-09-25",
+"generation_gw": {
+"50Hertz": 20.37,
+"TenneT": 21.64,
+"Amprion": 11.55,
+"TransnetBW": 3.36
+},
+"load_gw": {
+"50Hertz": 12.7,
+"TenneT": 16.77,
+"Amprion": 20.16,
+"TransnetBW": 7.36
+},
+"balance_gw": {
+"50Hertz": 7.67,
+"TenneT": 4.87,
+"Amprion": -8.61,
+"TransnetBW": -4.0
+}
+},
+{
+"date": "2025-09-26",
+"generation_gw": {
+"50Hertz": 18.3,
+"TenneT": 18.81,
+"Amprion": 10.96,
+"TransnetBW": 3.48
+},
+"load_gw": {
+"50Hertz": 13.07,
+"TenneT": 16.38,
+"Amprion": 19.8,
+"TransnetBW": 6.97
+},
+"balance_gw": {
+"50Hertz": 5.23,
+"TenneT": 2.43,
+"Amprion": -8.84,
+"TransnetBW": -3.49
+}
+},
+{
+"date": "2025-09-27",
+"generation_gw": {
+"50Hertz": 15.46,
+"TenneT": 12.18,
+"Amprion": 8.42,
+"TransnetBW": 2.94
+},
+"load_gw": {
+"50Hertz": 10.87,
+"TenneT": 13.93,
+"Amprion": 16.32,
+"TransnetBW": 5.48
+},
+"balance_gw": {
+"50Hertz": 4.59,
+"TenneT": -1.75,
+"Amprion": -7.9,
+"TransnetBW": -2.54
+}
+},
+{
+"date": "2025-09-28",
+"generation_gw": {
+"50Hertz": 14.25,
+"TenneT": 10.68,
+"Amprion": 9.0,
+"TransnetBW": 3.18
+},
+"load_gw": {
+"50Hertz": 9.7,
+"TenneT": 12.75,
+"Amprion": 15.66,
+"TransnetBW": 4.93
+},
+"balance_gw": {
+"50Hertz": 4.55,
+"TenneT": -2.07,
+"Amprion": -6.66,
+"TransnetBW": -1.75
+}
+},
+{
+"date": "2025-09-29",
+"generation_gw": {
+"50Hertz": 16.18,
+"TenneT": 12.09,
+"Amprion": 13.15,
+"TransnetBW": 4.5
+},
+"load_gw": {
+"50Hertz": 11.68,
+"TenneT": 15.8,
+"Amprion": 19.14,
+"TransnetBW": 6.59
+},
+"balance_gw": {
+"50Hertz": 4.5,
+"TenneT": -3.71,
+"Amprion": -5.99,
+"TransnetBW": -2.09
+}
+},
+{
+"date": "2025-09-30",
+"generation_gw": {
+"50Hertz": 15.69,
+"TenneT": 12.33,
+"Amprion": 14.35,
+"TransnetBW": 4.42
+},
+"load_gw": {
+"50Hertz": 11.31,
+"TenneT": 16.28,
+"Amprion": 19.76,
+"TransnetBW": 6.92
+},
+"balance_gw": {
+"50Hertz": 4.38,
+"TenneT": -3.95,
+"Amprion": -5.41,
+"TransnetBW": -2.5
+}
+},
+{
+"date": "2025-10-01",
+"generation_gw": {
+"50Hertz": 13.17,
+"TenneT": 15.95,
+"Amprion": 15.79,
+"TransnetBW": 5.02
+},
+"load_gw": {
+"50Hertz": 11.3,
+"TenneT": 15.98,
+"Amprion": 19.48,
+"TransnetBW": 6.87
+},
+"balance_gw": {
+"50Hertz": 1.87,
+"TenneT": -0.03,
+"Amprion": -3.69,
+"TransnetBW": -1.85
+}
+},
+{
+"date": "2025-10-02",
+"generation_gw": {
+"50Hertz": 13.15,
+"TenneT": 16.86,
+"Amprion": 15.27,
+"TransnetBW": 4.98
+},
+"load_gw": {
+"50Hertz": 11.14,
+"TenneT": 15.93,
+"Amprion": 19.64,
+"TransnetBW": 6.59
+},
+"balance_gw": {
+"50Hertz": 2.01,
+"TenneT": 0.93,
+"Amprion": -4.37,
+"TransnetBW": -1.61
+}
+},
+{
+"date": "2025-10-03",
+"generation_gw": {
+"50Hertz": 12.33,
+"TenneT": 21.81,
+"Amprion": 11.19,
+"TransnetBW": 3.83
+},
+"load_gw": {
+"50Hertz": 9.8,
+"TenneT": 13.43,
+"Amprion": 17.16,
+"TransnetBW": 5.28
+},
+"balance_gw": {
+"50Hertz": 2.53,
+"TenneT": 8.38,
+"Amprion": -5.97,
+"TransnetBW": -1.45
+}
+},
+{
+"date": "2025-10-04",
+"generation_gw": {
+"50Hertz": 17.16,
+"TenneT": 22.44,
+"Amprion": 12.66,
+"TransnetBW": 3.54
+},
+"load_gw": {
+"50Hertz": 11.4,
+"TenneT": 14.14,
+"Amprion": 17.82,
+"TransnetBW": 5.37
+},
+"balance_gw": {
+"50Hertz": 5.76,
+"TenneT": 8.3,
+"Amprion": -5.16,
+"TransnetBW": -1.83
+}
+},
+{
+"date": "2025-10-05",
+"generation_gw": {
+"50Hertz": 18.39,
+"TenneT": 22.93,
+"Amprion": 12.13,
+"TransnetBW": 3.62
+},
+"load_gw": {
+"50Hertz": 11.01,
+"TenneT": 13.77,
+"Amprion": 17.09,
+"TransnetBW": 5.21
+},
+"balance_gw": {
+"50Hertz": 7.38,
+"TenneT": 9.16,
+"Amprion": -4.96,
+"TransnetBW": -1.59
+}
+},
+{
+"date": "2025-10-06",
+"generation_gw": {
+"50Hertz": 19.74,
+"TenneT": 17.87,
+"Amprion": 14.75,
+"TransnetBW": 4.41
+},
+"load_gw": {
+"50Hertz": 12.57,
+"TenneT": 16.88,
+"Amprion": 20.47,
+"TransnetBW": 7.06
+},
+"balance_gw": {
+"50Hertz": 7.17,
+"TenneT": 0.99,
+"Amprion": -5.72,
+"TransnetBW": -2.65
+}
+},
+{
+"date": "2025-10-07",
+"generation_gw": {
+"50Hertz": 13.02,
+"TenneT": 12.9,
+"Amprion": 15.0,
+"TransnetBW": 4.36
+},
+"load_gw": {
+"50Hertz": 11.02,
+"TenneT": 16.9,
+"Amprion": 20.84,
+"TransnetBW": 7.09
+},
+"balance_gw": {
+"50Hertz": 2.0,
+"TenneT": -4.0,
+"Amprion": -5.84,
+"TransnetBW": -2.73
+}
+},
+{
+"date": "2025-10-08",
+"generation_gw": {
+"50Hertz": 13.67,
+"TenneT": 13.44,
+"Amprion": 15.13,
+"TransnetBW": 4.93
+},
+"load_gw": {
+"50Hertz": 11.54,
+"TenneT": 16.7,
+"Amprion": 20.49,
+"TransnetBW": 6.88
+},
+"balance_gw": {
+"50Hertz": 2.13,
+"TenneT": -3.26,
+"Amprion": -5.36,
+"TransnetBW": -1.95
+}
+},
+{
+"date": "2025-10-09",
+"generation_gw": {
+"50Hertz": 16.08,
+"TenneT": 16.5,
+"Amprion": 15.36,
+"TransnetBW": 3.95
+},
+"load_gw": {
+"50Hertz": 12.36,
+"TenneT": 16.9,
+"Amprion": 20.62,
+"TransnetBW": 7.0
+},
+"balance_gw": {
+"50Hertz": 3.72,
+"TenneT": -0.4,
+"Amprion": -5.26,
+"TransnetBW": -3.05
+}
+},
+{
+"date": "2025-10-10",
+"generation_gw": {
+"50Hertz": 20.09,
+"TenneT": 17.37,
+"Amprion": 12.46,
+"TransnetBW": 4.13
+},
+"load_gw": {
+"50Hertz": 13.76,
+"TenneT": 16.79,
+"Amprion": 20.25,
+"TransnetBW": 6.9
+},
+"balance_gw": {
+"50Hertz": 6.33,
+"TenneT": 0.58,
+"Amprion": -7.79,
+"TransnetBW": -2.77
+}
+},
+{
+"date": "2025-10-11",
+"generation_gw": {
+"50Hertz": 17.52,
+"TenneT": 12.53,
+"Amprion": 9.96,
+"TransnetBW": 3.77
+},
+"load_gw": {
+"50Hertz": 11.88,
+"TenneT": 14.48,
+"Amprion": 17.41,
+"TransnetBW": 5.39
+},
+"balance_gw": {
+"50Hertz": 5.64,
+"TenneT": -1.95,
+"Amprion": -7.45,
+"TransnetBW": -1.62
+}
+},
+{
+"date": "2025-10-12",
+"generation_gw": {
+"50Hertz": 14.77,
+"TenneT": 11.92,
+"Amprion": 10.7,
+"TransnetBW": 3.19
+},
+"load_gw": {
+"50Hertz": 10.6,
+"TenneT": 13.51,
+"Amprion": 16.07,
+"TransnetBW": 5.01
+},
+"balance_gw": {
+"50Hertz": 4.17,
+"TenneT": -1.59,
+"Amprion": -5.37,
+"TransnetBW": -1.82
+}
+},
+{
+"date": "2025-10-13",
+"generation_gw": {
+"50Hertz": 14.81,
+"TenneT": 10.65,
+"Amprion": 14.74,
+"TransnetBW": 4.36
+},
+"load_gw": {
+"50Hertz": 11.51,
+"TenneT": 16.37,
+"Amprion": 19.97,
+"TransnetBW": 6.85
+},
+"balance_gw": {
+"50Hertz": 3.3,
+"TenneT": -5.72,
+"Amprion": -5.23,
+"TransnetBW": -2.49
+}
+},
+{
+"date": "2025-10-14",
+"generation_gw": {
+"50Hertz": 14.73,
+"TenneT": 14.61,
+"Amprion": 15.54,
+"TransnetBW": 5.06
+},
+"load_gw": {
+"50Hertz": 11.81,
+"TenneT": 16.48,
+"Amprion": 20.49,
+"TransnetBW": 6.93
+},
+"balance_gw": {
+"50Hertz": 2.92,
+"TenneT": -1.87,
+"Amprion": -4.95,
+"TransnetBW": -1.87
+}
+},
+{
+"date": "2025-10-15",
+"generation_gw": {
+"50Hertz": 14.71,
+"TenneT": 13.63,
+"Amprion": 15.42,
+"TransnetBW": 4.81
+},
+"load_gw": {
+"50Hertz": 12.18,
+"TenneT": 16.79,
+"Amprion": 20.63,
+"TransnetBW": 6.98
+},
+"balance_gw": {
+"50Hertz": 2.53,
+"TenneT": -3.16,
+"Amprion": -5.21,
+"TransnetBW": -2.17
+}
+},
+{
+"date": "2025-10-16",
+"generation_gw": {
+"50Hertz": 16.6,
+"TenneT": 17.1,
+"Amprion": 14.49,
+"TransnetBW": 4.47
+},
+"load_gw": {
+"50Hertz": 12.59,
+"TenneT": 17.23,
+"Amprion": 20.78,
+"TransnetBW": 7.0
+},
+"balance_gw": {
+"50Hertz": 4.01,
+"TenneT": -0.13,
+"Amprion": -6.29,
+"TransnetBW": -2.53
+}
+},
+{
+"date": "2025-10-17",
+"generation_gw": {
+"50Hertz": 18.2,
+"TenneT": 15.97,
+"Amprion": 14.41,
+"TransnetBW": 4.35
+},
+"load_gw": {
+"50Hertz": 12.64,
+"TenneT": 16.85,
+"Amprion": 20.51,
+"TransnetBW": 6.93
+},
+"balance_gw": {
+"50Hertz": 5.56,
+"TenneT": -0.88,
+"Amprion": -6.1,
+"TransnetBW": -2.58
+}
+},
+{
+"date": "2025-10-18",
+"generation_gw": {
+"50Hertz": 16.07,
+"TenneT": 12.12,
+"Amprion": 12.64,
+"TransnetBW": 3.73
+},
+"load_gw": {
+"50Hertz": 11.05,
+"TenneT": 14.0,
+"Amprion": 17.55,
+"TransnetBW": 5.56
+},
+"balance_gw": {
+"50Hertz": 5.02,
+"TenneT": -1.88,
+"Amprion": -4.91,
+"TransnetBW": -1.83
+}
+},
+{
+"date": "2025-10-19",
+"generation_gw": {
+"50Hertz": 14.58,
+"TenneT": 18.76,
+"Amprion": 10.29,
+"TransnetBW": 2.98
+},
+"load_gw": {
+"50Hertz": 10.42,
+"TenneT": 13.79,
+"Amprion": 16.59,
+"TransnetBW": 5.24
+},
+"balance_gw": {
+"50Hertz": 4.16,
+"TenneT": 4.97,
+"Amprion": -6.3,
+"TransnetBW": -2.26
+}
+},
+{
+"date": "2025-10-20",
+"generation_gw": {
+"50Hertz": 18.26,
+"TenneT": 19.76,
+"Amprion": 14.16,
+"TransnetBW": 3.55
+},
+"load_gw": {
+"50Hertz": 13.48,
+"TenneT": 17.31,
+"Amprion": 20.21,
+"TransnetBW": 7.13
+},
+"balance_gw": {
+"50Hertz": 4.78,
+"TenneT": 2.45,
+"Amprion": -6.05,
+"TransnetBW": -3.58
+}
+},
+{
+"date": "2025-10-21",
+"generation_gw": {
+"50Hertz": 18.77,
+"TenneT": 22.61,
+"Amprion": 14.55,
+"TransnetBW": 4.2
+},
+"load_gw": {
+"50Hertz": 13.43,
+"TenneT": 17.42,
+"Amprion": 20.65,
+"TransnetBW": 7.21
+},
+"balance_gw": {
+"50Hertz": 5.34,
+"TenneT": 5.19,
+"Amprion": -6.1,
+"TransnetBW": -3.01
+}
+},
+{
+"date": "2025-10-22",
+"generation_gw": {
+"50Hertz": 15.18,
+"TenneT": 16.82,
+"Amprion": 15.48,
+"TransnetBW": 4.4
+},
+"load_gw": {
+"50Hertz": 12.2,
+"TenneT": 17.15,
+"Amprion": 20.67,
+"TransnetBW": 7.28
+},
+"balance_gw": {
+"50Hertz": 2.98,
+"TenneT": -0.33,
+"Amprion": -5.19,
+"TransnetBW": -2.88
+}
+},
+{
+"date": "2025-10-23",
+"generation_gw": {
+"50Hertz": 18.32,
+"TenneT": 19.87,
+"Amprion": 16.86,
+"TransnetBW": 4.3
+},
+"load_gw": {
+"50Hertz": 13.14,
+"TenneT": 17.55,
+"Amprion": 20.45,
+"TransnetBW": 7.36
+},
+"balance_gw": {
+"50Hertz": 5.18,
+"TenneT": 2.32,
+"Amprion": -3.59,
+"TransnetBW": -3.06
+}
+},
+{
+"date": "2025-10-24",
+"generation_gw": {
+"50Hertz": 19.32,
+"TenneT": 26.51,
+"Amprion": 15.66,
+"TransnetBW": 4.54
+},
+"load_gw": {
+"50Hertz": 13.59,
+"TenneT": 17.32,
+"Amprion": 20.43,
+"TransnetBW": 7.24
+},
+"balance_gw": {
+"50Hertz": 5.73,
+"TenneT": 9.19,
+"Amprion": -4.77,
+"TransnetBW": -2.7
+}
+},
+{
+"date": "2025-10-25",
+"generation_gw": {
+"50Hertz": 17.99,
+"TenneT": 25.4,
+"Amprion": 13.26,
+"TransnetBW": 3.71
+},
+"load_gw": {
+"50Hertz": 12.46,
+"TenneT": 15.32,
+"Amprion": 18.1,
+"TransnetBW": 5.91
+},
+"balance_gw": {
+"50Hertz": 5.53,
+"TenneT": 10.08,
+"Amprion": -4.84,
+"TransnetBW": -2.2
+}
+},
+{
+"date": "2025-10-26",
+"generation_gw": {
+"50Hertz": 20.16,
+"TenneT": 26.25,
+"Amprion": 14.26,
+"TransnetBW": 3.73
+},
+"load_gw": {
+"50Hertz": 12.21,
+"TenneT": 15.19,
+"Amprion": 17.75,
+"TransnetBW": 5.68
+},
+"balance_gw": {
+"50Hertz": 7.95,
+"TenneT": 11.06,
+"Amprion": -3.49,
+"TransnetBW": -1.95
+}
+},
+{
+"date": "2025-10-27",
+"generation_gw": {
+"50Hertz": 19.4,
+"TenneT": 22.79,
+"Amprion": 15.7,
+"TransnetBW": 4.26
+},
+"load_gw": {
+"50Hertz": 13.52,
+"TenneT": 17.87,
+"Amprion": 20.84,
+"TransnetBW": 7.42
+},
+"balance_gw": {
+"50Hertz": 5.88,
+"TenneT": 4.92,
+"Amprion": -5.14,
+"TransnetBW": -3.16
+}
+},
+{
+"date": "2025-10-28",
+"generation_gw": {
+"50Hertz": 20.49,
+"TenneT": 24.24,
+"Amprion": 15.14,
+"TransnetBW": 4.33
+},
+"load_gw": {
+"50Hertz": 13.79,
+"TenneT": 18.0,
+"Amprion": 21.09,
+"TransnetBW": 7.37
+},
+"balance_gw": {
+"50Hertz": 6.7,
+"TenneT": 6.24,
+"Amprion": -5.95,
+"TransnetBW": -3.04
+}
+},
+{
+"date": "2025-10-29",
+"generation_gw": {
+"50Hertz": 18.69,
+"TenneT": 22.06,
+"Amprion": 13.18,
+"TransnetBW": 4.31
+},
+"load_gw": {
+"50Hertz": 13.51,
+"TenneT": 17.57,
+"Amprion": 20.85,
+"TransnetBW": 7.11
+},
+"balance_gw": {
+"50Hertz": 5.18,
+"TenneT": 4.49,
+"Amprion": -7.67,
+"TransnetBW": -2.8
+}
+},
+{
+"date": "2025-10-30",
+"generation_gw": {
+"50Hertz": 21.68,
+"TenneT": 21.24,
+"Amprion": 13.66,
+"TransnetBW": 4.77
+},
+"load_gw": {
+"50Hertz": 13.16,
+"TenneT": 17.3,
+"Amprion": 20.74,
+"TransnetBW": 7.06
+},
+"balance_gw": {
+"50Hertz": 8.52,
+"TenneT": 3.94,
+"Amprion": -7.08,
+"TransnetBW": -2.29
+}
+},
+{
+"date": "2025-10-31",
+"generation_gw": {
+"50Hertz": 15.17,
+"TenneT": 16.74,
+"Amprion": 13.0,
+"TransnetBW": 4.37
+},
+"load_gw": {
+"50Hertz": 10.82,
+"TenneT": 15.8,
+"Amprion": 20.48,
+"TransnetBW": 6.85
+},
+"balance_gw": {
+"50Hertz": 4.35,
+"TenneT": 0.94,
+"Amprion": -7.48,
+"TransnetBW": -2.48
+}
+},
+{
+"date": "2025-11-01",
+"generation_gw": {
+"50Hertz": 13.79,
+"TenneT": 20.02,
+"Amprion": 10.77,
+"TransnetBW": 3.11
+},
+"load_gw": {
+"50Hertz": 11.09,
+"TenneT": 14.39,
+"Amprion": 17.23,
+"TransnetBW": 5.39
+},
+"balance_gw": {
+"50Hertz": 2.7,
+"TenneT": 5.63,
+"Amprion": -6.46,
+"TransnetBW": -2.28
+}
+},
+{
+"date": "2025-11-02",
+"generation_gw": {
+"50Hertz": 11.85,
+"TenneT": 14.47,
+"Amprion": 10.72,
+"TransnetBW": 3.06
+},
+"load_gw": {
+"50Hertz": 10.17,
+"TenneT": 13.9,
+"Amprion": 16.86,
+"TransnetBW": 5.37
+},
+"balance_gw": {
+"50Hertz": 1.68,
+"TenneT": 0.57,
+"Amprion": -6.14,
+"TransnetBW": -2.31
+}
+},
+{
+"date": "2025-11-03",
+"generation_gw": {
+"50Hertz": 16.81,
+"TenneT": 21.17,
+"Amprion": 13.58,
+"TransnetBW": 4.31
+},
+"load_gw": {
+"50Hertz": 12.45,
+"TenneT": 17.22,
+"Amprion": 20.81,
+"TransnetBW": 7.11
+},
+"balance_gw": {
+"50Hertz": 4.36,
+"TenneT": 3.95,
+"Amprion": -7.23,
+"TransnetBW": -2.8
+}
+},
+{
+"date": "2025-11-04",
+"generation_gw": {
+"50Hertz": 17.02,
+"TenneT": 21.15,
+"Amprion": 13.92,
+"TransnetBW": 4.47
+},
+"load_gw": {
+"50Hertz": 13.22,
+"TenneT": 17.41,
+"Amprion": 20.87,
+"TransnetBW": 7.22
+},
+"balance_gw": {
+"50Hertz": 3.8,
+"TenneT": 3.74,
+"Amprion": -6.95,
+"TransnetBW": -2.75
+}
+},
+{
+"date": "2025-11-05",
+"generation_gw": {
+"50Hertz": 17.05,
+"TenneT": 18.77,
+"Amprion": 15.56,
+"TransnetBW": 4.24
+},
+"load_gw": {
+"50Hertz": 12.62,
+"TenneT": 17.37,
+"Amprion": 21.33,
+"TransnetBW": 7.27
+},
+"balance_gw": {
+"50Hertz": 4.43,
+"TenneT": 1.4,
+"Amprion": -5.77,
+"TransnetBW": -3.03
+}
+},
+{
+"date": "2025-11-06",
+"generation_gw": {
+"50Hertz": 18.61,
+"TenneT": 13.1,
+"Amprion": 17.4,
+"TransnetBW": 4.03
+},
+"load_gw": {
+"50Hertz": 12.52,
+"TenneT": 17.39,
+"Amprion": 21.64,
+"TransnetBW": 7.29
+},
+"balance_gw": {
+"50Hertz": 6.09,
+"TenneT": -4.29,
+"Amprion": -4.24,
+"TransnetBW": -3.26
+}
+},
+{
+"date": "2025-11-07",
+"generation_gw": {
+"50Hertz": 17.36,
+"TenneT": 10.1,
+"Amprion": 17.44,
+"TransnetBW": 3.95
+},
+"load_gw": {
+"50Hertz": 12.47,
+"TenneT": 17.38,
+"Amprion": 21.52,
+"TransnetBW": 7.38
+},
+"balance_gw": {
+"50Hertz": 4.89,
+"TenneT": -7.28,
+"Amprion": -4.08,
+"TransnetBW": -3.43
+}
+},
+{
+"date": "2025-11-08",
+"generation_gw": {
+"50Hertz": 14.47,
+"TenneT": 8.41,
+"Amprion": 15.92,
+"TransnetBW": 3.63
+},
+"load_gw": {
+"50Hertz": 10.79,
+"TenneT": 15.31,
+"Amprion": 18.62,
+"TransnetBW": 6.09
+},
+"balance_gw": {
+"50Hertz": 3.68,
+"TenneT": -6.9,
+"Amprion": -2.7,
+"TransnetBW": -2.46
+}
+},
+{
+"date": "2025-11-09",
+"generation_gw": {
+"50Hertz": 13.7,
+"TenneT": 8.51,
+"Amprion": 14.38,
+"TransnetBW": 3.47
+},
+"load_gw": {
+"50Hertz": 10.28,
+"TenneT": 14.38,
+"Amprion": 17.36,
+"TransnetBW": 5.59
+},
+"balance_gw": {
+"50Hertz": 3.42,
+"TenneT": -5.87,
+"Amprion": -2.98,
+"TransnetBW": -2.12
+}
+},
+{
+"date": "2025-11-10",
+"generation_gw": {
+"50Hertz": 14.66,
+"TenneT": 13.98,
+"Amprion": 16.43,
+"TransnetBW": 4.25
+},
+"load_gw": {
+"50Hertz": 11.91,
+"TenneT": 17.41,
+"Amprion": 21.0,
+"TransnetBW": 7.22
+},
+"balance_gw": {
+"50Hertz": 2.75,
+"TenneT": -3.43,
+"Amprion": -4.57,
+"TransnetBW": -2.97
+}
+},
+{
+"date": "2025-11-11",
+"generation_gw": {
+"50Hertz": 16.05,
+"TenneT": 18.6,
+"Amprion": 16.02,
+"TransnetBW": 3.76
+},
+"load_gw": {
+"50Hertz": 12.29,
+"TenneT": 17.95,
+"Amprion": 21.61,
+"TransnetBW": 7.31
+},
+"balance_gw": {
+"50Hertz": 3.76,
+"TenneT": 0.65,
+"Amprion": -5.59,
+"TransnetBW": -3.55
+}
+},
+{
+"date": "2025-11-12",
+"generation_gw": {
+"50Hertz": 16.95,
+"TenneT": 21.35,
+"Amprion": 15.1,
+"TransnetBW": 4.36
+},
+"load_gw": {
+"50Hertz": 12.94,
+"TenneT": 18.11,
+"Amprion": 21.32,
+"TransnetBW": 7.45
+},
+"balance_gw": {
+"50Hertz": 4.01,
+"TenneT": 3.24,
+"Amprion": -6.22,
+"TransnetBW": -3.09
+}
+},
+{
+"date": "2025-11-13",
+"generation_gw": {
+"50Hertz": 19.71,
+"TenneT": 20.98,
+"Amprion": 14.84,
+"TransnetBW": 4.35
+},
+"load_gw": {
+"50Hertz": 13.65,
+"TenneT": 18.05,
+"Amprion": 21.58,
+"TransnetBW": 7.32
+},
+"balance_gw": {
+"50Hertz": 6.06,
+"TenneT": 2.93,
+"Amprion": -6.74,
+"TransnetBW": -2.97
+}
+},
+{
+"date": "2025-11-14",
+"generation_gw": {
+"50Hertz": 15.53,
+"TenneT": 15.39,
+"Amprion": 16.4,
+"TransnetBW": 4.49
+},
+"load_gw": {
+"50Hertz": 12.32,
+"TenneT": 17.41,
+"Amprion": 21.07,
+"TransnetBW": 7.15
+},
+"balance_gw": {
+"50Hertz": 3.21,
+"TenneT": -2.02,
+"Amprion": -4.67,
+"TransnetBW": -2.66
+}
+},
+{
+"date": "2025-11-15",
+"generation_gw": {
+"50Hertz": 16.74,
+"TenneT": 20.19,
+"Amprion": 11.84,
+"TransnetBW": 2.94
+},
+"load_gw": {
+"50Hertz": 11.59,
+"TenneT": 15.5,
+"Amprion": 18.48,
+"TransnetBW": 5.8
+},
+"balance_gw": {
+"50Hertz": 5.15,
+"TenneT": 4.69,
+"Amprion": -6.64,
+"TransnetBW": -2.86
+}
+},
+{
+"date": "2025-11-16",
+"generation_gw": {
+"50Hertz": 15.19,
+"TenneT": 13.42,
+"Amprion": 10.89,
+"TransnetBW": 2.75
+},
+"load_gw": {
+"50Hertz": 10.73,
+"TenneT": 14.17,
+"Amprion": 17.56,
+"TransnetBW": 5.48
+},
+"balance_gw": {
+"50Hertz": 4.46,
+"TenneT": -0.75,
+"Amprion": -6.67,
+"TransnetBW": -2.73
+}
+},
+{
+"date": "2025-11-17",
+"generation_gw": {
+"50Hertz": 18.73,
+"TenneT": 18.87,
+"Amprion": 16.74,
+"TransnetBW": 3.64
+},
+"load_gw": {
+"50Hertz": 13.66,
+"TenneT": 18.19,
+"Amprion": 21.85,
+"TransnetBW": 7.57
+},
+"balance_gw": {
+"50Hertz": 5.07,
+"TenneT": 0.68,
+"Amprion": -5.11,
+"TransnetBW": -3.93
+}
+},
+{
+"date": "2025-11-18",
+"generation_gw": {
+"50Hertz": 23.32,
+"TenneT": 18.31,
+"Amprion": 16.87,
+"TransnetBW": 4.16
+},
+"load_gw": {
+"50Hertz": 14.41,
+"TenneT": 18.74,
+"Amprion": 22.49,
+"TransnetBW": 7.93
+},
+"balance_gw": {
+"50Hertz": 8.91,
+"TenneT": -0.43,
+"Amprion": -5.62,
+"TransnetBW": -3.77
+}
+},
+{
+"date": "2025-11-19",
+"generation_gw": {
+"50Hertz": 20.65,
+"TenneT": 16.31,
+"Amprion": 18.84,
+"TransnetBW": 4.12
+},
+"load_gw": {
+"50Hertz": 13.35,
+"TenneT": 18.73,
+"Amprion": 22.92,
+"TransnetBW": 7.91
+},
+"balance_gw": {
+"50Hertz": 7.3,
+"TenneT": -2.42,
+"Amprion": -4.08,
+"TransnetBW": -3.79
+}
+},
+{
+"date": "2025-11-20",
+"generation_gw": {
+"50Hertz": 20.21,
+"TenneT": 15.37,
+"Amprion": 17.81,
+"TransnetBW": 4.51
+},
+"load_gw": {
+"50Hertz": 13.46,
+"TenneT": 18.88,
+"Amprion": 22.92,
+"TransnetBW": 8.06
+},
+"balance_gw": {
+"50Hertz": 6.75,
+"TenneT": -3.51,
+"Amprion": -5.11,
+"TransnetBW": -3.55
+}
+},
+{
+"date": "2025-11-21",
+"generation_gw": {
+"50Hertz": 18.85,
+"TenneT": 13.52,
+"Amprion": 18.64,
+"TransnetBW": 4.77
+},
+"load_gw": {
+"50Hertz": 13.38,
+"TenneT": 18.6,
+"Amprion": 22.36,
+"TransnetBW": 8.01
+},
+"balance_gw": {
+"50Hertz": 5.47,
+"TenneT": -5.08,
+"Amprion": -3.72,
+"TransnetBW": -3.24
+}
+},
+{
+"date": "2025-11-22",
+"generation_gw": {
+"50Hertz": 15.34,
+"TenneT": 20.8,
+"Amprion": 13.05,
+"TransnetBW": 3.77
+},
+"load_gw": {
+"50Hertz": 11.96,
+"TenneT": 16.77,
+"Amprion": 20.51,
+"TransnetBW": 6.9
+},
+"balance_gw": {
+"50Hertz": 3.38,
+"TenneT": 4.03,
+"Amprion": -7.46,
+"TransnetBW": -3.13
+}
+},
+{
+"date": "2025-11-23",
+"generation_gw": {
+"50Hertz": 17.1,
+"TenneT": 22.72,
+"Amprion": 13.24,
+"TransnetBW": 3.98
+},
+"load_gw": {
+"50Hertz": 12.32,
+"TenneT": 16.29,
+"Amprion": 19.69,
+"TransnetBW": 6.52
+},
+"balance_gw": {
+"50Hertz": 4.78,
+"TenneT": 6.43,
+"Amprion": -6.45,
+"TransnetBW": -2.54
+}
+},
+{
+"date": "2025-11-24",
+"generation_gw": {
+"50Hertz": 17.76,
+"TenneT": 17.54,
+"Amprion": 17.84,
+"TransnetBW": 4.48
+},
+"load_gw": {
+"50Hertz": 13.43,
+"TenneT": 19.15,
+"Amprion": 22.91,
+"TransnetBW": 8.06
+},
+"balance_gw": {
+"50Hertz": 4.33,
+"TenneT": -1.61,
+"Amprion": -5.07,
+"TransnetBW": -3.58
+}
+},
+{
+"date": "2025-11-25",
+"generation_gw": {
+"50Hertz": 15.32,
+"TenneT": 14.13,
+"Amprion": 17.96,
+"TransnetBW": 5.09
+},
+"load_gw": {
+"50Hertz": 12.35,
+"TenneT": 19.08,
+"Amprion": 22.66,
+"TransnetBW": 8.22
+},
+"balance_gw": {
+"50Hertz": 2.97,
+"TenneT": -4.95,
+"Amprion": -4.7,
+"TransnetBW": -3.13
+}
+},
+{
+"date": "2025-11-26",
+"generation_gw": {
+"50Hertz": 17.94,
+"TenneT": 12.62,
+"Amprion": 17.42,
+"TransnetBW": 4.98
+},
+"load_gw": {
+"50Hertz": 12.92,
+"TenneT": 19.04,
+"Amprion": 22.98,
+"TransnetBW": 8.26
+},
+"balance_gw": {
+"50Hertz": 5.02,
+"TenneT": -6.42,
+"Amprion": -5.56,
+"TransnetBW": -3.28
+}
+},
+{
+"date": "2025-11-27",
+"generation_gw": {
+"50Hertz": 18.84,
+"TenneT": 23.94,
+"Amprion": 14.83,
+"TransnetBW": 4.83
+},
+"load_gw": {
+"50Hertz": 14.01,
+"TenneT": 19.9,
+"Amprion": 23.47,
+"TransnetBW": 8.17
+},
+"balance_gw": {
+"50Hertz": 4.83,
+"TenneT": 4.04,
+"Amprion": -8.64,
+"TransnetBW": -3.34
+}
+},
+{
+"date": "2025-11-28",
+"generation_gw": {
+"50Hertz": 18.07,
+"TenneT": 22.8,
+"Amprion": 14.54,
+"TransnetBW": 5.05
+},
+"load_gw": {
+"50Hertz": 14.02,
+"TenneT": 19.1,
+"Amprion": 22.61,
+"TransnetBW": 7.96
+},
+"balance_gw": {
+"50Hertz": 4.05,
+"TenneT": 3.7,
+"Amprion": -8.07,
+"TransnetBW": -2.91
+}
+},
+{
+"date": "2025-11-29",
+"generation_gw": {
+"50Hertz": 14.12,
+"TenneT": 18.76,
+"Amprion": 13.14,
+"TransnetBW": 3.9
+},
+"load_gw": {
+"50Hertz": 11.86,
+"TenneT": 16.24,
+"Amprion": 19.18,
+"TransnetBW": 6.35
+},
+"balance_gw": {
+"50Hertz": 2.26,
+"TenneT": 2.52,
+"Amprion": -6.04,
+"TransnetBW": -2.45
+}
+},
+{
+"date": "2025-11-30",
+"generation_gw": {
+"50Hertz": 14.88,
+"TenneT": 21.51,
+"Amprion": 13.12,
+"TransnetBW": 3.44
+},
+"load_gw": {
+"50Hertz": 12.02,
+"TenneT": 15.55,
+"Amprion": 18.28,
+"TransnetBW": 6.06
+},
+"balance_gw": {
+"50Hertz": 2.86,
+"TenneT": 5.96,
+"Amprion": -5.16,
+"TransnetBW": -2.62
+}
+},
+{
+"date": "2025-12-01",
+"generation_gw": {
+"50Hertz": 17.05,
+"TenneT": 22.52,
+"Amprion": 15.17,
+"TransnetBW": 4.31
+},
+"load_gw": {
+"50Hertz": 13.95,
+"TenneT": 18.93,
+"Amprion": 22.64,
+"TransnetBW": 7.78
+},
+"balance_gw": {
+"50Hertz": 3.1,
+"TenneT": 3.59,
+"Amprion": -7.47,
+"TransnetBW": -3.47
+}
+},
+{
+"date": "2025-12-02",
+"generation_gw": {
+"50Hertz": 18.81,
+"TenneT": 19.95,
+"Amprion": 16.28,
+"TransnetBW": 4.84
+},
+"load_gw": {
+"50Hertz": 14.47,
+"TenneT": 19.26,
+"Amprion": 23.58,
+"TransnetBW": 8.01
+},
+"balance_gw": {
+"50Hertz": 4.34,
+"TenneT": 0.69,
+"Amprion": -7.3,
+"TransnetBW": -3.17
+}
+},
+{
+"date": "2025-12-03",
+"generation_gw": {
+"50Hertz": 15.8,
+"TenneT": 12.21,
+"Amprion": 17.43,
+"TransnetBW": 4.79
+},
+"load_gw": {
+"50Hertz": 13.27,
+"TenneT": 18.97,
+"Amprion": 23.56,
+"TransnetBW": 8.16
+},
+"balance_gw": {
+"50Hertz": 2.53,
+"TenneT": -6.76,
+"Amprion": -6.13,
+"TransnetBW": -3.37
+}
+},
+{
+"date": "2025-12-04",
+"generation_gw": {
+"50Hertz": 16.8,
+"TenneT": 13.45,
+"Amprion": 17.85,
+"TransnetBW": 4.7
+},
+"load_gw": {
+"50Hertz": 13.4,
+"TenneT": 19.31,
+"Amprion": 23.51,
+"TransnetBW": 8.18
+},
+"balance_gw": {
+"50Hertz": 3.4,
+"TenneT": -5.86,
+"Amprion": -5.66,
+"TransnetBW": -3.48
+}
+},
+{
+"date": "2025-12-05",
+"generation_gw": {
+"50Hertz": 16.1,
+"TenneT": 12.78,
+"Amprion": 17.29,
+"TransnetBW": 3.95
+},
+"load_gw": {
+"50Hertz": 13.09,
+"TenneT": 18.72,
+"Amprion": 22.94,
+"TransnetBW": 7.96
+},
+"balance_gw": {
+"50Hertz": 3.01,
+"TenneT": -5.94,
+"Amprion": -5.65,
+"TransnetBW": -4.01
+}
+},
+{
+"date": "2025-12-06",
+"generation_gw": {
+"50Hertz": 16.42,
+"TenneT": 20.75,
+"Amprion": 12.96,
+"TransnetBW": 2.94
+},
+"load_gw": {
+"50Hertz": 11.99,
+"TenneT": 16.53,
+"Amprion": 19.89,
+"TransnetBW": 6.56
+},
+"balance_gw": {
+"50Hertz": 4.43,
+"TenneT": 4.22,
+"Amprion": -6.93,
+"TransnetBW": -3.62
+}
+},
+{
+"date": "2025-12-07",
+"generation_gw": {
+"50Hertz": 16.42,
+"TenneT": 17.81,
+"Amprion": 11.58,
+"TransnetBW": 2.27
+},
+"load_gw": {
+"50Hertz": 11.15,
+"TenneT": 15.11,
+"Amprion": 17.41,
+"TransnetBW": 5.92
+},
+"balance_gw": {
+"50Hertz": 5.27,
+"TenneT": 2.7,
+"Amprion": -5.83,
+"TransnetBW": -3.65
+}
+},
+{
+"date": "2025-12-08",
+"generation_gw": {
+"50Hertz": 20.27,
+"TenneT": 23.62,
+"Amprion": 14.08,
+"TransnetBW": 3.67
+},
+"load_gw": {
+"50Hertz": 14.35,
+"TenneT": 18.46,
+"Amprion": 21.35,
+"TransnetBW": 7.58
+},
+"balance_gw": {
+"50Hertz": 5.92,
+"TenneT": 5.16,
+"Amprion": -7.27,
+"TransnetBW": -3.91
+}
+},
+{
+"date": "2025-12-09",
+"generation_gw": {
+"50Hertz": 16.04,
+"TenneT": 20.67,
+"Amprion": 13.86,
+"TransnetBW": 3.32
+},
+"load_gw": {
+"50Hertz": 13.04,
+"TenneT": 18.12,
+"Amprion": 22.45,
+"TransnetBW": 7.58
+},
+"balance_gw": {
+"50Hertz": 3.0,
+"TenneT": 2.55,
+"Amprion": -8.59,
+"TransnetBW": -4.26
+}
+},
+{
+"date": "2025-12-10",
+"generation_gw": {
+"50Hertz": 17.74,
+"TenneT": 23.2,
+"Amprion": 14.37,
+"TransnetBW": 4.13
+},
+"load_gw": {
+"50Hertz": 13.97,
+"TenneT": 18.61,
+"Amprion": 22.42,
+"TransnetBW": 7.78
+},
+"balance_gw": {
+"50Hertz": 3.77,
+"TenneT": 4.59,
+"Amprion": -8.05,
+"TransnetBW": -3.65
+}
+},
+{
+"date": "2025-12-11",
+"generation_gw": {
+"50Hertz": 20.34,
+"TenneT": 21.56,
+"Amprion": 13.94,
+"TransnetBW": 3.63
+},
+"load_gw": {
+"50Hertz": 14.55,
+"TenneT": 18.69,
+"Amprion": 22.6,
+"TransnetBW": 7.69
+},
+"balance_gw": {
+"50Hertz": 5.79,
+"TenneT": 2.87,
+"Amprion": -8.66,
+"TransnetBW": -4.06
+}
+},
+{
+"date": "2025-12-12",
+"generation_gw": {
+"50Hertz": 14.98,
+"TenneT": 13.21,
+"Amprion": 16.56,
+"TransnetBW": 4.33
+},
+"load_gw": {
+"50Hertz": 12.93,
+"TenneT": 17.72,
+"Amprion": 21.77,
+"TransnetBW": 7.43
+},
+"balance_gw": {
+"50Hertz": 2.05,
+"TenneT": -4.51,
+"Amprion": -5.21,
+"TransnetBW": -3.1
+}
+},
+{
+"date": "2025-12-13",
+"generation_gw": {
+"50Hertz": 15.63,
+"TenneT": 15.78,
+"Amprion": 11.95,
+"TransnetBW": 3.47
+},
+"load_gw": {
+"50Hertz": 11.93,
+"TenneT": 15.89,
+"Amprion": 20.14,
+"TransnetBW": 6.34
+},
+"balance_gw": {
+"50Hertz": 3.7,
+"TenneT": -0.11,
+"Amprion": -8.19,
+"TransnetBW": -2.87
+}
+},
+{
+"date": "2025-12-14",
+"generation_gw": {
+"50Hertz": 17.03,
+"TenneT": 20.39,
+"Amprion": 9.02,
+"TransnetBW": 3.02
+},
+"load_gw": {
+"50Hertz": 12.42,
+"TenneT": 15.53,
+"Amprion": 19.17,
+"TransnetBW": 5.96
+},
+"balance_gw": {
+"50Hertz": 4.61,
+"TenneT": 4.86,
+"Amprion": -10.15,
+"TransnetBW": -2.94
+}
+},
+{
+"date": "2025-12-15",
+"generation_gw": {
+"50Hertz": 17.43,
+"TenneT": 19.06,
+"Amprion": 15.63,
+"TransnetBW": 4.32
+},
+"load_gw": {
+"50Hertz": 13.29,
+"TenneT": 18.5,
+"Amprion": 22.34,
+"TransnetBW": 7.63
+},
+"balance_gw": {
+"50Hertz": 4.14,
+"TenneT": 0.56,
+"Amprion": -6.71,
+"TransnetBW": -3.31
+}
+},
+{
+"date": "2025-12-16",
+"generation_gw": {
+"50Hertz": 17.29,
+"TenneT": 16.35,
+"Amprion": 16.89,
+"TransnetBW": 5.04
+},
+"load_gw": {
+"50Hertz": 12.87,
+"TenneT": 18.41,
+"Amprion": 22.1,
+"TransnetBW": 7.96
+},
+"balance_gw": {
+"50Hertz": 4.42,
+"TenneT": -2.06,
+"Amprion": -5.21,
+"TransnetBW": -2.92
+}
+},
+{
+"date": "2025-12-17",
+"generation_gw": {
+"50Hertz": 17.75,
+"TenneT": 14.22,
+"Amprion": 16.86,
+"TransnetBW": 5.29
+},
+"load_gw": {
+"50Hertz": 12.7,
+"TenneT": 18.09,
+"Amprion": 22.13,
+"TransnetBW": 7.74
+},
+"balance_gw": {
+"50Hertz": 5.05,
+"TenneT": -3.87,
+"Amprion": -5.27,
+"TransnetBW": -2.45
+}
+},
+{
+"date": "2025-12-18",
+"generation_gw": {
+"50Hertz": 17.38,
+"TenneT": 23.5,
+"Amprion": 14.44,
+"TransnetBW": 3.86
+},
+"load_gw": {
+"50Hertz": 13.14,
+"TenneT": 18.03,
+"Amprion": 21.83,
+"TransnetBW": 7.31
+},
+"balance_gw": {
+"50Hertz": 4.24,
+"TenneT": 5.47,
+"Amprion": -7.39,
+"TransnetBW": -3.45
+}
+},
+{
+"date": "2025-12-19",
+"generation_gw": {
+"50Hertz": 18.04,
+"TenneT": 20.98,
+"Amprion": 13.24,
+"TransnetBW": 3.33
+},
+"load_gw": {
+"50Hertz": 13.13,
+"TenneT": 17.35,
+"Amprion": 20.88,
+"TransnetBW": 6.94
+},
+"balance_gw": {
+"50Hertz": 4.91,
+"TenneT": 3.63,
+"Amprion": -7.64,
+"TransnetBW": -3.61
+}
+},
+{
+"date": "2025-12-20",
+"generation_gw": {
+"50Hertz": 12.11,
+"TenneT": 13.37,
+"Amprion": 13.83,
+"TransnetBW": 3.19
+},
+"load_gw": {
+"50Hertz": 10.58,
+"TenneT": 14.89,
+"Amprion": 18.69,
+"TransnetBW": 5.7
+},
+"balance_gw": {
+"50Hertz": 1.53,
+"TenneT": -1.52,
+"Amprion": -4.86,
+"TransnetBW": -2.51
+}
+},
+{
+"date": "2025-12-21",
+"generation_gw": {
+"50Hertz": 13.16,
+"TenneT": 18.42,
+"Amprion": 11.98,
+"TransnetBW": 3.18
+},
+"load_gw": {
+"50Hertz": 10.25,
+"TenneT": 14.53,
+"Amprion": 17.65,
+"TransnetBW": 5.56
+},
+"balance_gw": {
+"50Hertz": 2.91,
+"TenneT": 3.89,
+"Amprion": -5.67,
+"TransnetBW": -2.38
+}
+},
+{
+"date": "2025-12-22",
+"generation_gw": {
+"50Hertz": 16.64,
+"TenneT": 22.34,
+"Amprion": 12.72,
+"TransnetBW": 3.17
+},
+"load_gw": {
+"50Hertz": 12.48,
+"TenneT": 16.78,
+"Amprion": 19.63,
+"TransnetBW": 6.51
+},
+"balance_gw": {
+"50Hertz": 4.16,
+"TenneT": 5.56,
+"Amprion": -6.91,
+"TransnetBW": -3.34
+}
+},
+{
+"date": "2025-12-23",
+"generation_gw": {
+"50Hertz": 19.19,
+"TenneT": 24.18,
+"Amprion": 13.31,
+"TransnetBW": 2.82
+},
+"load_gw": {
+"50Hertz": 12.66,
+"TenneT": 16.97,
+"Amprion": 19.6,
+"TransnetBW": 6.52
+},
+"balance_gw": {
+"50Hertz": 6.53,
+"TenneT": 7.21,
+"Amprion": -6.29,
+"TransnetBW": -3.7
+}
+},
+{
+"date": "2025-12-24",
+"generation_gw": {
+"50Hertz": 16.59,
+"TenneT": 22.44,
+"Amprion": 14.17,
+"TransnetBW": 2.99
+},
+"load_gw": {
+"50Hertz": 11.13,
+"TenneT": 15.38,
+"Amprion": 18.37,
+"TransnetBW": 6.01
+},
+"balance_gw": {
+"50Hertz": 5.46,
+"TenneT": 7.06,
+"Amprion": -4.2,
+"TransnetBW": -3.02
+}
+},
+{
+"date": "2025-12-25",
+"generation_gw": {
+"50Hertz": 13.18,
+"TenneT": 17.32,
+"Amprion": 13.82,
+"TransnetBW": 3.33
+},
+"load_gw": {
+"50Hertz": 10.25,
+"TenneT": 14.47,
+"Amprion": 17.79,
+"TransnetBW": 5.59
+},
+"balance_gw": {
+"50Hertz": 2.93,
+"TenneT": 2.85,
+"Amprion": -3.97,
+"TransnetBW": -2.26
+}
+},
+{
+"date": "2025-12-26",
+"generation_gw": {
+"50Hertz": 13.24,
+"TenneT": 10.65,
+"Amprion": 13.88,
+"TransnetBW": 3.62
+},
+"load_gw": {
+"50Hertz": 10.5,
+"TenneT": 14.47,
+"Amprion": 17.59,
+"TransnetBW": 5.58
+},
+"balance_gw": {
+"50Hertz": 2.74,
+"TenneT": -3.82,
+"Amprion": -3.71,
+"TransnetBW": -1.96
+}
+},
+{
+"date": "2025-12-27",
+"generation_gw": {
+"50Hertz": 16.93,
+"TenneT": 16.25,
+"Amprion": 10.31,
+"TransnetBW": 2.95
+},
+"load_gw": {
+"50Hertz": 11.97,
+"TenneT": 15.26,
+"Amprion": 18.55,
+"TransnetBW": 5.82
+},
+"balance_gw": {
+"50Hertz": 4.96,
+"TenneT": 0.99,
+"Amprion": -8.24,
+"TransnetBW": -2.87
+}
+},
+{
+"date": "2025-12-28",
+"generation_gw": {
+"50Hertz": 17.46,
+"TenneT": 11.3,
+"Amprion": 9.92,
+"TransnetBW": 3.59
+},
+"load_gw": {
+"50Hertz": 11.66,
+"TenneT": 14.8,
+"Amprion": 17.85,
+"TransnetBW": 5.66
+},
+"balance_gw": {
+"50Hertz": 5.8,
+"TenneT": -3.5,
+"Amprion": -7.93,
+"TransnetBW": -2.07
+}
+},
+{
+"date": "2025-12-29",
+"generation_gw": {
+"50Hertz": 19.33,
+"TenneT": 21.03,
+"Amprion": 11.41,
+"TransnetBW": 3.42
+},
+"load_gw": {
+"50Hertz": 12.52,
+"TenneT": 16.42,
+"Amprion": 19.75,
+"TransnetBW": 6.27
+},
+"balance_gw": {
+"50Hertz": 6.81,
+"TenneT": 4.61,
+"Amprion": -8.34,
+"TransnetBW": -2.85
+}
+},
+{
+"date": "2025-12-30",
+"generation_gw": {
+"50Hertz": 21.39,
+"TenneT": 16.75,
+"Amprion": 10.92,
+"TransnetBW": 3.19
+},
+"load_gw": {
+"50Hertz": 13.03,
+"TenneT": 16.15,
+"Amprion": 19.17,
+"TransnetBW": 6.24
+},
+"balance_gw": {
+"50Hertz": 8.36,
+"TenneT": 0.6,
+"Amprion": -8.25,
+"TransnetBW": -3.05
+}
+},
+{
+"date": "2025-12-31",
+"generation_gw": {
+"50Hertz": 18.64,
+"TenneT": 23.87,
+"Amprion": 12.48,
+"TransnetBW": 4.27
+},
+"load_gw": {
+"50Hertz": 11.2,
+"TenneT": 15.81,
+"Amprion": 19.16,
+"TransnetBW": 6.14
+},
+"balance_gw": {
+"50Hertz": 7.44,
+"TenneT": 8.06,
+"Amprion": -6.68,
+"TransnetBW": -1.87
+}
+},
+{
+"date": "2026-01-01",
+"generation_gw": {
+"50Hertz": 19.95,
+"TenneT": 26.45,
+"Amprion": 14.51,
+"TransnetBW": 5.9
+},
+"load_gw": {
+"50Hertz": 10.33,
+"TenneT": 14.8,
+"Amprion": 17.84,
+"TransnetBW": 5.79
+},
+"balance_gw": {
+"50Hertz": 9.62,
+"TenneT": 11.65,
+"Amprion": -3.33,
+"TransnetBW": 0.11
+}
+},
+{
+"date": "2026-01-02",
+"generation_gw": {
+"50Hertz": 22.76,
+"TenneT": 23.2,
+"Amprion": 15.74,
+"TransnetBW": 6.25
+},
+"load_gw": {
+"50Hertz": 12.27,
+"TenneT": 16.42,
+"Amprion": 20.25,
+"TransnetBW": 6.42
+},
+"balance_gw": {
+"50Hertz": 10.49,
+"TenneT": 6.78,
+"Amprion": -4.51,
+"TransnetBW": -0.17
+}
+},
+{
+"date": "2026-01-03",
+"generation_gw": {
+"50Hertz": 21.4,
+"TenneT": 19.61,
+"Amprion": 14.25,
+"TransnetBW": 4.01
+},
+"load_gw": {
+"50Hertz": 12.69,
+"TenneT": 16.15,
+"Amprion": 19.97,
+"TransnetBW": 6.32
+},
+"balance_gw": {
+"50Hertz": 8.71,
+"TenneT": 3.46,
+"Amprion": -5.72,
+"TransnetBW": -2.31
+}
+},
+{
+"date": "2026-01-04",
+"generation_gw": {
+"50Hertz": 20.4,
+"TenneT": 15.05,
+"Amprion": 15.14,
+"TransnetBW": 3.49
+},
+"load_gw": {
+"50Hertz": 12.39,
+"TenneT": 15.36,
+"Amprion": 19.22,
+"TransnetBW": 6.1
+},
+"balance_gw": {
+"50Hertz": 8.01,
+"TenneT": -0.31,
+"Amprion": -4.08,
+"TransnetBW": -2.61
+}
+},
+{
+"date": "2026-01-05",
+"generation_gw": {
+"50Hertz": 17.94,
+"TenneT": 15.32,
+"Amprion": 18.75,
+"TransnetBW": 5.39
+},
+"load_gw": {
+"50Hertz": 12.81,
+"TenneT": 17.74,
+"Amprion": 23.12,
+"TransnetBW": 6.87
+},
+"balance_gw": {
+"50Hertz": 5.13,
+"TenneT": -2.42,
+"Amprion": -4.37,
+"TransnetBW": -1.48
+}
+},
+{
+"date": "2026-01-06",
+"generation_gw": {
+"50Hertz": 16.75,
+"TenneT": 15.19,
+"Amprion": 18.22,
+"TransnetBW": 5.27
+},
+"load_gw": {
+"50Hertz": 12.91,
+"TenneT": 18.0,
+"Amprion": 24.03,
+"TransnetBW": 6.81
+},
+"balance_gw": {
+"50Hertz": 3.84,
+"TenneT": -2.81,
+"Amprion": -5.81,
+"TransnetBW": -1.54
+}
+},
+{
+"date": "2026-01-07",
+"generation_gw": {
+"50Hertz": 20.06,
+"TenneT": 26.07,
+"Amprion": 18.95,
+"TransnetBW": 5.91
+},
+"load_gw": {
+"50Hertz": 14.57,
+"TenneT": 19.71,
+"Amprion": 25.08,
+"TransnetBW": 8.22
+},
+"balance_gw": {
+"50Hertz": 5.49,
+"TenneT": 6.36,
+"Amprion": -6.13,
+"TransnetBW": -2.31
+}
+},
+{
+"date": "2026-01-08",
+"generation_gw": {
+"50Hertz": 20.02,
+"TenneT": 15.3,
+"Amprion": 19.68,
+"TransnetBW": 5.83
+},
+"load_gw": {
+"50Hertz": 14.9,
+"TenneT": 19.71,
+"Amprion": 24.68,
+"TransnetBW": 8.25
+},
+"balance_gw": {
+"50Hertz": 5.12,
+"TenneT": -4.41,
+"Amprion": -5.0,
+"TransnetBW": -2.42
+}
+},
+{
+"date": "2026-01-09",
+"generation_gw": {
+"50Hertz": 21.37,
+"TenneT": 26.66,
+"Amprion": 16.08,
+"TransnetBW": 5.56
+},
+"load_gw": {
+"50Hertz": 15.5,
+"TenneT": 19.44,
+"Amprion": 23.72,
+"TransnetBW": 7.79
+},
+"balance_gw": {
+"50Hertz": 5.87,
+"TenneT": 7.22,
+"Amprion": -7.64,
+"TransnetBW": -2.23
+}
+},
+{
+"date": "2026-01-10",
+"generation_gw": {
+"50Hertz": 19.45,
+"TenneT": 18.95,
+"Amprion": 15.3,
+"TransnetBW": 4.38
+},
+"load_gw": {
+"50Hertz": 13.98,
+"TenneT": 17.26,
+"Amprion": 21.45,
+"TransnetBW": 6.78
+},
+"balance_gw": {
+"50Hertz": 5.47,
+"TenneT": 1.69,
+"Amprion": -6.15,
+"TransnetBW": -2.4
+}
+},
+{
+"date": "2026-01-11",
+"generation_gw": {
+"50Hertz": 21.19,
+"TenneT": 12.36,
+"Amprion": 14.26,
+"TransnetBW": 3.04
+},
+"load_gw": {
+"50Hertz": 13.55,
+"TenneT": 16.93,
+"Amprion": 20.84,
+"TransnetBW": 6.63
+},
+"balance_gw": {
+"50Hertz": 7.64,
+"TenneT": -4.57,
+"Amprion": -6.58,
+"TransnetBW": -3.59
+}
+},
+{
+"date": "2026-01-12",
+"generation_gw": {
+"50Hertz": 17.48,
+"TenneT": 19.49,
+"Amprion": 19.11,
+"TransnetBW": 6.33
+},
+"load_gw": {
+"50Hertz": 14.2,
+"TenneT": 20.16,
+"Amprion": 24.03,
+"TransnetBW": 8.26
+},
+"balance_gw": {
+"50Hertz": 3.28,
+"TenneT": -0.67,
+"Amprion": -4.92,
+"TransnetBW": -1.93
+}
+},
+{
+"date": "2026-01-13",
+"generation_gw": {
+"50Hertz": 17.21,
+"TenneT": 19.56,
+"Amprion": 18.7,
+"TransnetBW": 5.7
+},
+"load_gw": {
+"50Hertz": 13.7,
+"TenneT": 19.34,
+"Amprion": 23.33,
+"TransnetBW": 7.99
+},
+"balance_gw": {
+"50Hertz": 3.51,
+"TenneT": 0.22,
+"Amprion": -4.63,
+"TransnetBW": -2.29
+}
+},
+{
+"date": "2026-01-14",
+"generation_gw": {
+"50Hertz": 21.25,
+"TenneT": 17.32,
+"Amprion": 17.53,
+"TransnetBW": 5.54
+},
+"load_gw": {
+"50Hertz": 14.49,
+"TenneT": 19.19,
+"Amprion": 23.02,
+"TransnetBW": 7.99
+},
+"balance_gw": {
+"50Hertz": 6.76,
+"TenneT": -1.87,
+"Amprion": -5.49,
+"TransnetBW": -2.45
+}
+},
+{
+"date": "2026-01-15",
+"generation_gw": {
+"50Hertz": 18.55,
+"TenneT": 19.79,
+"Amprion": 16.59,
+"TransnetBW": 5.45
+},
+"load_gw": {
+"50Hertz": 13.57,
+"TenneT": 18.98,
+"Amprion": 23.15,
+"TransnetBW": 7.75
+},
+"balance_gw": {
+"50Hertz": 4.98,
+"TenneT": 0.81,
+"Amprion": -6.56,
+"TransnetBW": -2.3
+}
+},
+{
+"date": "2026-01-16",
+"generation_gw": {
+"50Hertz": 20.44,
+"TenneT": 19.7,
+"Amprion": 16.66,
+"TransnetBW": 6.34
+},
+"load_gw": {
+"50Hertz": 14.21,
+"TenneT": 18.23,
+"Amprion": 22.66,
+"TransnetBW": 7.69
+},
+"balance_gw": {
+"50Hertz": 6.23,
+"TenneT": 1.47,
+"Amprion": -6.0,
+"TransnetBW": -1.35
+}
+},
+{
+"date": "2026-01-17",
+"generation_gw": {
+"50Hertz": 18.37,
+"TenneT": 14.61,
+"Amprion": 16.19,
+"TransnetBW": 4.15
+},
+"load_gw": {
+"50Hertz": 12.47,
+"TenneT": 16.22,
+"Amprion": 20.05,
+"TransnetBW": 6.56
+},
+"balance_gw": {
+"50Hertz": 5.9,
+"TenneT": -1.61,
+"Amprion": -3.86,
+"TransnetBW": -2.41
+}
+},
+{
+"date": "2026-01-18",
+"generation_gw": {
+"50Hertz": 21.34,
+"TenneT": 16.01,
+"Amprion": 13.55,
+"TransnetBW": 4.08
+},
+"load_gw": {
+"50Hertz": 12.44,
+"TenneT": 15.53,
+"Amprion": 19.8,
+"TransnetBW": 6.36
+},
+"balance_gw": {
+"50Hertz": 8.9,
+"TenneT": 0.48,
+"Amprion": -6.25,
+"TransnetBW": -2.28
+}
+},
+{
+"date": "2026-01-19",
+"generation_gw": {
+"50Hertz": 24.01,
+"TenneT": 16.77,
+"Amprion": 16.31,
+"TransnetBW": 4.88
+},
+"load_gw": {
+"50Hertz": 14.62,
+"TenneT": 18.58,
+"Amprion": 24.07,
+"TransnetBW": 8.12
+},
+"balance_gw": {
+"50Hertz": 9.39,
+"TenneT": -1.81,
+"Amprion": -7.76,
+"TransnetBW": -3.24
+}
+},
+{
+"date": "2026-01-20",
+"generation_gw": {
+"50Hertz": 20.4,
+"TenneT": 15.69,
+"Amprion": 17.59,
+"TransnetBW": 5.14
+},
+"load_gw": {
+"50Hertz": 13.7,
+"TenneT": 18.99,
+"Amprion": 24.6,
+"TransnetBW": 8.38
+},
+"balance_gw": {
+"50Hertz": 6.7,
+"TenneT": -3.3,
+"Amprion": -7.01,
+"TransnetBW": -3.24
+}
+},
+{
+"date": "2026-01-21",
+"generation_gw": {
+"50Hertz": 18.7,
+"TenneT": 20.87,
+"Amprion": 18.26,
+"TransnetBW": 5.71
+},
+"load_gw": {
+"50Hertz": 14.04,
+"TenneT": 19.48,
+"Amprion": 24.75,
+"TransnetBW": 8.41
+},
+"balance_gw": {
+"50Hertz": 4.66,
+"TenneT": 1.39,
+"Amprion": -6.49,
+"TransnetBW": -2.7
+}
+},
+{
+"date": "2026-01-22",
+"generation_gw": {
+"50Hertz": 20.41,
+"TenneT": 23.67,
+"Amprion": 18.41,
+"TransnetBW": 4.81
+},
+"load_gw": {
+"50Hertz": 15.61,
+"TenneT": 20.4,
+"Amprion": 24.43,
+"TransnetBW": 8.43
+},
+"balance_gw": {
+"50Hertz": 4.8,
+"TenneT": 3.27,
+"Amprion": -6.02,
+"TransnetBW": -3.62
+}
+},
+{
+"date": "2026-01-23",
+"generation_gw": {
+"50Hertz": 20.04,
+"TenneT": 25.4,
+"Amprion": 17.28,
+"TransnetBW": 4.88
+},
+"load_gw": {
+"50Hertz": 15.61,
+"TenneT": 20.08,
+"Amprion": 23.44,
+"TransnetBW": 8.23
+},
+"balance_gw": {
+"50Hertz": 4.43,
+"TenneT": 5.32,
+"Amprion": -6.16,
+"TransnetBW": -3.35
+}
+},
+{
+"date": "2026-01-24",
+"generation_gw": {
+"50Hertz": 16.96,
+"TenneT": 21.31,
+"Amprion": 15.68,
+"TransnetBW": 3.98
+},
+"load_gw": {
+"50Hertz": 13.43,
+"TenneT": 17.67,
+"Amprion": 20.42,
+"TransnetBW": 6.86
+},
+"balance_gw": {
+"50Hertz": 3.53,
+"TenneT": 3.64,
+"Amprion": -4.74,
+"TransnetBW": -2.88
+}
+},
+{
+"date": "2026-01-25",
+"generation_gw": {
+"50Hertz": 17.96,
+"TenneT": 19.6,
+"Amprion": 15.09,
+"TransnetBW": 3.46
+},
+"load_gw": {
+"50Hertz": 13.12,
+"TenneT": 16.83,
+"Amprion": 19.95,
+"TransnetBW": 6.49
+},
+"balance_gw": {
+"50Hertz": 4.84,
+"TenneT": 2.77,
+"Amprion": -4.86,
+"TransnetBW": -3.03
+}
+},
+{
+"date": "2026-01-26",
+"generation_gw": {
+"50Hertz": 18.37,
+"TenneT": 20.43,
+"Amprion": 19.41,
+"TransnetBW": 5.19
+},
+"load_gw": {
+"50Hertz": 15.27,
+"TenneT": 19.68,
+"Amprion": 23.75,
+"TransnetBW": 8.15
+},
+"balance_gw": {
+"50Hertz": 3.1,
+"TenneT": 0.75,
+"Amprion": -4.34,
+"TransnetBW": -2.96
+}
+},
+{
+"date": "2026-01-27",
+"generation_gw": {
+"50Hertz": 16.7,
+"TenneT": 21.37,
+"Amprion": 18.73,
+"TransnetBW": 5.37
+},
+"load_gw": {
+"50Hertz": 14.7,
+"TenneT": 19.46,
+"Amprion": 24.02,
+"TransnetBW": 8.17
+},
+"balance_gw": {
+"50Hertz": 2.0,
+"TenneT": 1.91,
+"Amprion": -5.29,
+"TransnetBW": -2.8
+}
+},
+{
+"date": "2026-01-28",
+"generation_gw": {
+"50Hertz": 19.22,
+"TenneT": 24.88,
+"Amprion": 18.0,
+"TransnetBW": 5.78
+},
+"load_gw": {
+"50Hertz": 15.33,
+"TenneT": 19.67,
+"Amprion": 24.09,
+"TransnetBW": 8.24
+},
+"balance_gw": {
+"50Hertz": 3.89,
+"TenneT": 5.21,
+"Amprion": -6.09,
+"TransnetBW": -2.46
+}
+},
+{
+"date": "2026-01-29",
+"generation_gw": {
+"50Hertz": 19.79,
+"TenneT": 22.51,
+"Amprion": 17.89,
+"TransnetBW": 5.44
+},
+"load_gw": {
+"50Hertz": 15.68,
+"TenneT": 20.08,
+"Amprion": 25.1,
+"TransnetBW": 8.3
+},
+"balance_gw": {
+"50Hertz": 4.11,
+"TenneT": 2.43,
+"Amprion": -7.21,
+"TransnetBW": -2.86
+}
+},
+{
+"date": "2026-01-30",
+"generation_gw": {
+"50Hertz": 19.28,
+"TenneT": 23.83,
+"Amprion": 16.85,
+"TransnetBW": 5.2
+},
+"load_gw": {
+"50Hertz": 15.43,
+"TenneT": 19.67,
+"Amprion": 23.77,
+"TransnetBW": 8.09
+},
+"balance_gw": {
+"50Hertz": 3.85,
+"TenneT": 4.16,
+"Amprion": -6.92,
+"TransnetBW": -2.89
+}
+},
+{
+"date": "2026-01-31",
+"generation_gw": {
+"50Hertz": 18.58,
+"TenneT": 24.09,
+"Amprion": 15.01,
+"TransnetBW": 4.63
+},
+"load_gw": {
+"50Hertz": 14.09,
+"TenneT": 17.21,
+"Amprion": 20.56,
+"TransnetBW": 6.64
+},
+"balance_gw": {
+"50Hertz": 4.49,
+"TenneT": 6.88,
+"Amprion": -5.55,
+"TransnetBW": -2.01
+}
+},
+{
+"date": "2026-02-01",
+"generation_gw": {
+"50Hertz": 18.14,
+"TenneT": 21.9,
+"Amprion": 14.61,
+"TransnetBW": 4.12
+},
+"load_gw": {
+"50Hertz": 14.04,
+"TenneT": 16.45,
+"Amprion": 19.24,
+"TransnetBW": 6.2
+},
+"balance_gw": {
+"50Hertz": 4.1,
+"TenneT": 5.45,
+"Amprion": -4.63,
+"TransnetBW": -2.08
+}
+},
+{
+"date": "2026-02-02",
+"generation_gw": {
+"50Hertz": 19.16,
+"TenneT": 26.61,
+"Amprion": 18.68,
+"TransnetBW": 5.74
+},
+"load_gw": {
+"50Hertz": 15.81,
+"TenneT": 19.95,
+"Amprion": 22.72,
+"TransnetBW": 8.06
+},
+"balance_gw": {
+"50Hertz": 3.35,
+"TenneT": 6.66,
+"Amprion": -4.04,
+"TransnetBW": -2.32
+}
+},
+{
+"date": "2026-02-03",
+"generation_gw": {
+"50Hertz": 22.17,
+"TenneT": 29.08,
+"Amprion": 16.34,
+"TransnetBW": 5.4
+},
+"load_gw": {
+"50Hertz": 15.93,
+"TenneT": 20.67,
+"Amprion": 24.2,
+"TransnetBW": 8.38
+},
+"balance_gw": {
+"50Hertz": 6.24,
+"TenneT": 8.41,
+"Amprion": -7.86,
+"TransnetBW": -2.98
+}
+},
+{
+"date": "2026-02-04",
+"generation_gw": {
+"50Hertz": 20.54,
+"TenneT": 23.55,
+"Amprion": 17.49,
+"TransnetBW": 5.66
+},
+"load_gw": {
+"50Hertz": 15.51,
+"TenneT": 20.42,
+"Amprion": 23.56,
+"TransnetBW": 8.35
+},
+"balance_gw": {
+"50Hertz": 5.03,
+"TenneT": 3.13,
+"Amprion": -6.07,
+"TransnetBW": -2.69
+}
+},
+{
+"date": "2026-02-05",
+"generation_gw": {
+"50Hertz": 18.04,
+"TenneT": 21.43,
+"Amprion": 18.34,
+"TransnetBW": 5.8
+},
+"load_gw": {
+"50Hertz": 15.51,
+"TenneT": 20.3,
+"Amprion": 23.85,
+"TransnetBW": 8.05
+},
+"balance_gw": {
+"50Hertz": 2.53,
+"TenneT": 1.13,
+"Amprion": -5.51,
+"TransnetBW": -2.25
+}
+},
+{
+"date": "2026-02-06",
+"generation_gw": {
+"50Hertz": 16.4,
+"TenneT": 17.05,
+"Amprion": 17.84,
+"TransnetBW": 5.57
+},
+"load_gw": {
+"50Hertz": 14.59,
+"TenneT": 19.35,
+"Amprion": 23.58,
+"TransnetBW": 7.88
+},
+"balance_gw": {
+"50Hertz": 1.81,
+"TenneT": -2.3,
+"Amprion": -5.74,
+"TransnetBW": -2.31
+}
+},
+{
+"date": "2026-02-07",
+"generation_gw": {
+"50Hertz": 15.23,
+"TenneT": 15.58,
+"Amprion": 15.99,
+"TransnetBW": 4.28
+},
+"load_gw": {
+"50Hertz": 12.92,
+"TenneT": 16.51,
+"Amprion": 20.21,
+"TransnetBW": 6.24
+},
+"balance_gw": {
+"50Hertz": 2.31,
+"TenneT": -0.93,
+"Amprion": -4.22,
+"TransnetBW": -1.96
+}
+},
+{
+"date": "2026-02-08",
+"generation_gw": {
+"50Hertz": 15.34,
+"TenneT": 18.89,
+"Amprion": 13.31,
+"TransnetBW": 4.06
+},
+"load_gw": {
+"50Hertz": 12.56,
+"TenneT": 15.51,
+"Amprion": 19.57,
+"TransnetBW": 5.98
+},
+"balance_gw": {
+"50Hertz": 2.78,
+"TenneT": 3.38,
+"Amprion": -6.26,
+"TransnetBW": -1.92
+}
+},
+{
+"date": "2026-02-09",
+"generation_gw": {
+"50Hertz": 15.66,
+"TenneT": 16.7,
+"Amprion": 19.51,
+"TransnetBW": 5.14
+},
+"load_gw": {
+"50Hertz": 13.36,
+"TenneT": 18.67,
+"Amprion": 22.68,
+"TransnetBW": 7.83
+},
+"balance_gw": {
+"50Hertz": 2.3,
+"TenneT": -1.97,
+"Amprion": -3.17,
+"TransnetBW": -2.69
+}
+},
+{
+"date": "2026-02-10",
+"generation_gw": {
+"50Hertz": 18.51,
+"TenneT": 18.42,
+"Amprion": 20.01,
+"TransnetBW": 5.24
+},
+"load_gw": {
+"50Hertz": 13.17,
+"TenneT": 18.55,
+"Amprion": 23.38,
+"TransnetBW": 8.0
+},
+"balance_gw": {
+"50Hertz": 5.34,
+"TenneT": -0.13,
+"Amprion": -3.37,
+"TransnetBW": -2.76
+}
+},
+{
+"date": "2026-02-11",
+"generation_gw": {
+"50Hertz": 17.97,
+"TenneT": 19.15,
+"Amprion": 19.98,
+"TransnetBW": 5.67
+},
+"load_gw": {
+"50Hertz": 13.32,
+"TenneT": 18.66,
+"Amprion": 23.43,
+"TransnetBW": 7.89
+},
+"balance_gw": {
+"50Hertz": 4.65,
+"TenneT": 0.49,
+"Amprion": -3.45,
+"TransnetBW": -2.22
+}
+},
+{
+"date": "2026-02-12",
+"generation_gw": {
+"50Hertz": 20.39,
+"TenneT": 22.28,
+"Amprion": 19.04,
+"TransnetBW": 4.93
+},
+"load_gw": {
+"50Hertz": 14.35,
+"TenneT": 18.92,
+"Amprion": 22.96,
+"TransnetBW": 7.83
+},
+"balance_gw": {
+"50Hertz": 6.04,
+"TenneT": 3.36,
+"Amprion": -3.92,
+"TransnetBW": -2.9
+}
+},
+{
+"date": "2026-02-13",
+"generation_gw": {
+"50Hertz": 18.43,
+"TenneT": 19.31,
+"Amprion": 18.54,
+"TransnetBW": 4.96
+},
+"load_gw": {
+"50Hertz": 14.14,
+"TenneT": 18.32,
+"Amprion": 22.64,
+"TransnetBW": 7.5
+},
+"balance_gw": {
+"50Hertz": 4.29,
+"TenneT": 0.99,
+"Amprion": -4.1,
+"TransnetBW": -2.54
+}
+},
+{
+"date": "2026-02-14",
+"generation_gw": {
+"50Hertz": 16.81,
+"TenneT": 13.59,
+"Amprion": 18.08,
+"TransnetBW": 4.67
+},
+"load_gw": {
+"50Hertz": 12.18,
+"TenneT": 16.12,
+"Amprion": 20.9,
+"TransnetBW": 6.44
+},
+"balance_gw": {
+"50Hertz": 4.63,
+"TenneT": -2.53,
+"Amprion": -2.82,
+"TransnetBW": -1.77
+}
+},
+{
+"date": "2026-02-15",
+"generation_gw": {
+"50Hertz": 17.19,
+"TenneT": 19.51,
+"Amprion": 13.68,
+"TransnetBW": 3.77
+},
+"load_gw": {
+"50Hertz": 11.35,
+"TenneT": 15.7,
+"Amprion": 19.72,
+"TransnetBW": 6.11
+},
+"balance_gw": {
+"50Hertz": 5.84,
+"TenneT": 3.81,
+"Amprion": -6.04,
+"TransnetBW": -2.34
+}
+},
+{
+"date": "2026-02-16",
+"generation_gw": {
+"50Hertz": 21.42,
+"TenneT": 19.85,
+"Amprion": 18.12,
+"TransnetBW": 5.28
+},
+"load_gw": {
+"50Hertz": 15.38,
+"TenneT": 19.09,
+"Amprion": 22.27,
+"TransnetBW": 7.6
+},
+"balance_gw": {
+"50Hertz": 6.04,
+"TenneT": 0.76,
+"Amprion": -4.15,
+"TransnetBW": -2.32
+}
+},
+{
+"date": "2026-02-17",
+"generation_gw": {
+"50Hertz": 17.71,
+"TenneT": 16.4,
+"Amprion": 22.45,
+"TransnetBW": 5.79
+},
+"load_gw": {
+"50Hertz": 13.66,
+"TenneT": 18.94,
+"Amprion": 22.85,
+"TransnetBW": 7.83
+},
+"balance_gw": {
+"50Hertz": 4.05,
+"TenneT": -2.54,
+"Amprion": -0.4,
+"TransnetBW": -2.04
+}
+},
+{
+"date": "2026-02-18",
+"generation_gw": {
+"50Hertz": 17.49,
+"TenneT": 16.66,
+"Amprion": 20.69,
+"TransnetBW": 5.28
+},
+"load_gw": {
+"50Hertz": 13.65,
+"TenneT": 18.83,
+"Amprion": 23.33,
+"TransnetBW": 8.06
+},
+"balance_gw": {
+"50Hertz": 3.84,
+"TenneT": -2.17,
+"Amprion": -2.64,
+"TransnetBW": -2.78
+}
+},
+{
+"date": "2026-02-19",
+"generation_gw": {
+"50Hertz": 20.13,
+"TenneT": 25.52,
+"Amprion": 20.22,
+"TransnetBW": 4.35
+},
+"load_gw": {
+"50Hertz": 13.62,
+"TenneT": 19.8,
+"Amprion": 24.08,
+"TransnetBW": 8.1
+},
+"balance_gw": {
+"50Hertz": 6.51,
+"TenneT": 5.72,
+"Amprion": -3.86,
+"TransnetBW": -3.75
+}
+},
+{
+"date": "2026-02-20",
+"generation_gw": {
+"50Hertz": 21.91,
+"TenneT": 25.53,
+"Amprion": 15.83,
+"TransnetBW": 4.12
+},
+"load_gw": {
+"50Hertz": 14.31,
+"TenneT": 19.15,
+"Amprion": 23.76,
+"TransnetBW": 8.0
+},
+"balance_gw": {
+"50Hertz": 7.6,
+"TenneT": 6.38,
+"Amprion": -7.93,
+"TransnetBW": -3.88
+}
+},
+{
+"date": "2026-02-21",
+"generation_gw": {
+"50Hertz": 20.74,
+"TenneT": 24.11,
+"Amprion": 13.27,
+"TransnetBW": 3.8
+},
+"load_gw": {
+"50Hertz": 13.6,
+"TenneT": 16.42,
+"Amprion": 19.93,
+"TransnetBW": 6.68
+},
+"balance_gw": {
+"50Hertz": 7.14,
+"TenneT": 7.69,
+"Amprion": -6.66,
+"TransnetBW": -2.88
+}
+},
+{
+"date": "2026-02-22",
+"generation_gw": {
+"50Hertz": 16.71,
+"TenneT": 24.45,
+"Amprion": 14.04,
+"TransnetBW": 3.79
+},
+"load_gw": {
+"50Hertz": 11.41,
+"TenneT": 15.03,
+"Amprion": 18.02,
+"TransnetBW": 5.88
+},
+"balance_gw": {
+"50Hertz": 5.3,
+"TenneT": 9.42,
+"Amprion": -3.98,
+"TransnetBW": -2.09
+}
+},
+{
+"date": "2026-02-23",
+"generation_gw": {
+"50Hertz": 20.64,
+"TenneT": 26.72,
+"Amprion": 15.25,
+"TransnetBW": 4.27
+},
+"load_gw": {
+"50Hertz": 13.49,
+"TenneT": 18.07,
+"Amprion": 21.9,
+"TransnetBW": 7.52
+},
+"balance_gw": {
+"50Hertz": 7.15,
+"TenneT": 8.65,
+"Amprion": -6.65,
+"TransnetBW": -3.25
+}
+},
+{
+"date": "2026-02-24",
+"generation_gw": {
+"50Hertz": 17.51,
+"TenneT": 14.34,
+"Amprion": 16.65,
+"TransnetBW": 5.19
+},
+"load_gw": {
+"50Hertz": 12.33,
+"TenneT": 17.51,
+"Amprion": 22.51,
+"TransnetBW": 7.61
+},
+"balance_gw": {
+"50Hertz": 5.18,
+"TenneT": -3.17,
+"Amprion": -5.86,
+"TransnetBW": -2.42
+}
+},
+{
+"date": "2026-02-25",
+"generation_gw": {
+"50Hertz": 18.01,
+"TenneT": 17.5,
+"Amprion": 15.9,
+"TransnetBW": 4.39
+},
+"load_gw": {
+"50Hertz": 12.53,
+"TenneT": 17.36,
+"Amprion": 21.8,
+"TransnetBW": 7.34
+},
+"balance_gw": {
+"50Hertz": 5.48,
+"TenneT": 0.14,
+"Amprion": -5.9,
+"TransnetBW": -2.95
+}
+},
+{
+"date": "2026-02-26",
+"generation_gw": {
+"50Hertz": 19.9,
+"TenneT": 21.92,
+"Amprion": 14.25,
+"TransnetBW": 3.97
+},
+"load_gw": {
+"50Hertz": 13.62,
+"TenneT": 17.48,
+"Amprion": 21.54,
+"TransnetBW": 7.18
+},
+"balance_gw": {
+"50Hertz": 6.28,
+"TenneT": 4.44,
+"Amprion": -7.29,
+"TransnetBW": -3.21
+}
+},
+{
+"date": "2026-02-27",
+"generation_gw": {
+"50Hertz": 19.41,
+"TenneT": 22.26,
+"Amprion": 14.31,
+"TransnetBW": 4.34
+},
+"load_gw": {
+"50Hertz": 12.67,
+"TenneT": 16.33,
+"Amprion": 21.19,
+"TransnetBW": 6.92
+},
+"balance_gw": {
+"50Hertz": 6.74,
+"TenneT": 5.93,
+"Amprion": -6.88,
+"TransnetBW": -2.58
+}
+},
+{
+"date": "2026-02-28",
+"generation_gw": {
+"50Hertz": 16.68,
+"TenneT": 22.69,
+"Amprion": 13.17,
+"TransnetBW": 3.4
+},
+"load_gw": {
+"50Hertz": 10.85,
+"TenneT": 14.17,
+"Amprion": 18.57,
+"TransnetBW": 5.78
+},
+"balance_gw": {
+"50Hertz": 5.83,
+"TenneT": 8.52,
+"Amprion": -5.4,
+"TransnetBW": -2.38
+}
+},
+{
+"date": "2026-03-01",
+"generation_gw": {
+"50Hertz": 16.25,
+"TenneT": 19.65,
+"Amprion": 10.97,
+"TransnetBW": 3.28
+},
+"load_gw": {
+"50Hertz": 11.28,
+"TenneT": 13.76,
+"Amprion": 17.36,
+"TransnetBW": 5.38
+},
+"balance_gw": {
+"50Hertz": 4.97,
+"TenneT": 5.89,
+"Amprion": -6.39,
+"TransnetBW": -2.1
+}
+},
+{
+"date": "2026-03-02",
+"generation_gw": {
+"50Hertz": 17.24,
+"TenneT": 20.29,
+"Amprion": 14.46,
+"TransnetBW": 4.41
+},
+"load_gw": {
+"50Hertz": 11.88,
+"TenneT": 16.32,
+"Amprion": 20.89,
+"TransnetBW": 7.0
+},
+"balance_gw": {
+"50Hertz": 5.36,
+"TenneT": 3.97,
+"Amprion": -6.43,
+"TransnetBW": -2.59
+}
+},
+{
+"date": "2026-03-03",
+"generation_gw": {
+"50Hertz": 16.31,
+"TenneT": 16.55,
+"Amprion": 15.29,
+"TransnetBW": 4.98
+},
+"load_gw": {
+"50Hertz": 11.9,
+"TenneT": 16.5,
+"Amprion": 20.8,
+"TransnetBW": 7.26
+},
+"balance_gw": {
+"50Hertz": 4.41,
+"TenneT": 0.05,
+"Amprion": -5.51,
+"TransnetBW": -2.28
+}
+},
+{
+"date": "2026-03-04",
+"generation_gw": {
+"50Hertz": 16.77,
+"TenneT": 13.63,
+"Amprion": 15.44,
+"TransnetBW": 5.16
+},
+"load_gw": {
+"50Hertz": 12.45,
+"TenneT": 16.65,
+"Amprion": 21.14,
+"TransnetBW": 7.19
+},
+"balance_gw": {
+"50Hertz": 4.32,
+"TenneT": -3.02,
+"Amprion": -5.7,
+"TransnetBW": -2.03
+}
+},
+{
+"date": "2026-03-05",
+"generation_gw": {
+"50Hertz": 17.45,
+"TenneT": 17.83,
+"Amprion": 15.57,
+"TransnetBW": 5.36
+},
+"load_gw": {
+"50Hertz": 12.08,
+"TenneT": 16.55,
+"Amprion": 20.65,
+"TransnetBW": 7.11
+},
+"balance_gw": {
+"50Hertz": 5.37,
+"TenneT": 1.28,
+"Amprion": -5.08,
+"TransnetBW": -1.75
+}
+},
+{
+"date": "2026-03-06",
+"generation_gw": {
+"50Hertz": 17.57,
+"TenneT": 14.43,
+"Amprion": 15.19,
+"TransnetBW": 5.4
+},
+"load_gw": {
+"50Hertz": 12.03,
+"TenneT": 16.02,
+"Amprion": 20.85,
+"TransnetBW": 6.99
+},
+"balance_gw": {
+"50Hertz": 5.54,
+"TenneT": -1.59,
+"Amprion": -5.66,
+"TransnetBW": -1.59
+}
+},
+{
+"date": "2026-03-07",
+"generation_gw": {
+"50Hertz": 15.04,
+"TenneT": 11.24,
+"Amprion": 13.32,
+"TransnetBW": 5.28
+},
+"load_gw": {
+"50Hertz": 10.47,
+"TenneT": 13.62,
+"Amprion": 17.59,
+"TransnetBW": 5.59
+},
+"balance_gw": {
+"50Hertz": 4.57,
+"TenneT": -2.38,
+"Amprion": -4.27,
+"TransnetBW": -0.31
+}
+},
+{
+"date": "2026-03-08",
+"generation_gw": {
+"50Hertz": 15.78,
+"TenneT": 12.11,
+"Amprion": 12.15,
+"TransnetBW": 4.79
+},
+"load_gw": {
+"50Hertz": 10.46,
+"TenneT": 12.96,
+"Amprion": 16.64,
+"TransnetBW": 5.16
+},
+"balance_gw": {
+"50Hertz": 5.32,
+"TenneT": -0.85,
+"Amprion": -4.49,
+"TransnetBW": -0.37
+}
+},
+{
+"date": "2026-03-09",
+"generation_gw": {
+"50Hertz": 17.4,
+"TenneT": 11.78,
+"Amprion": 14.6,
+"TransnetBW": 4.84
+},
+"load_gw": {
+"50Hertz": 12.19,
+"TenneT": 16.02,
+"Amprion": 20.18,
+"TransnetBW": 6.9
+},
+"balance_gw": {
+"50Hertz": 5.21,
+"TenneT": -4.24,
+"Amprion": -5.58,
+"TransnetBW": -2.06
+}
+},
+{
+"date": "2026-03-10",
+"generation_gw": {
+"50Hertz": 16.03,
+"TenneT": 12.77,
+"Amprion": 15.62,
+"TransnetBW": 5.14
+},
+"load_gw": {
+"50Hertz": 11.81,
+"TenneT": 16.3,
+"Amprion": 20.46,
+"TransnetBW": 6.96
+},
+"balance_gw": {
+"50Hertz": 4.22,
+"TenneT": -3.53,
+"Amprion": -4.84,
+"TransnetBW": -1.82
+}
+},
+{
+"date": "2026-03-11",
+"generation_gw": {
+"50Hertz": 19.16,
+"TenneT": 22.91,
+"Amprion": 13.86,
+"TransnetBW": 4.35
+},
+"load_gw": {
+"50Hertz": 12.47,
+"TenneT": 17.28,
+"Amprion": 21.55,
+"TransnetBW": 7.19
+},
+"balance_gw": {
+"50Hertz": 6.69,
+"TenneT": 5.63,
+"Amprion": -7.69,
+"TransnetBW": -2.84
+}
+},
+{
+"date": "2026-03-12",
+"generation_gw": {
+"50Hertz": 16.96,
+"TenneT": 23.82,
+"Amprion": 13.65,
+"TransnetBW": 4.57
+},
+"load_gw": {
+"50Hertz": 12.98,
+"TenneT": 17.19,
+"Amprion": 21.51,
+"TransnetBW": 7.06
+},
+"balance_gw": {
+"50Hertz": 3.98,
+"TenneT": 6.63,
+"Amprion": -7.86,
+"TransnetBW": -2.49
+}
+},
+{
+"date": "2026-03-13",
+"generation_gw": {
+"50Hertz": 19.68,
+"TenneT": 23.07,
+"Amprion": 13.8,
+"TransnetBW": 5.14
+},
+"load_gw": {
+"50Hertz": 12.55,
+"TenneT": 16.99,
+"Amprion": 21.48,
+"TransnetBW": 6.98
+},
+"balance_gw": {
+"50Hertz": 7.13,
+"TenneT": 6.08,
+"Amprion": -7.68,
+"TransnetBW": -1.84
+}
+},
+{
+"date": "2026-03-14",
+"generation_gw": {
+"50Hertz": 15.58,
+"TenneT": 10.04,
+"Amprion": 13.63,
+"TransnetBW": 4.41
+},
+"load_gw": {
+"50Hertz": 10.93,
+"TenneT": 14.72,
+"Amprion": 18.78,
+"TransnetBW": 5.99
+},
+"balance_gw": {
+"50Hertz": 4.65,
+"TenneT": -4.68,
+"Amprion": -5.15,
+"TransnetBW": -1.58
+}
+},
+{
+"date": "2026-03-15",
+"generation_gw": {
+"50Hertz": 12.11,
+"TenneT": 13.34,
+"Amprion": 12.83,
+"TransnetBW": 3.33
+},
+"load_gw": {
+"50Hertz": 10.38,
+"TenneT": 14.17,
+"Amprion": 17.79,
+"TransnetBW": 5.62
+},
+"balance_gw": {
+"50Hertz": 1.73,
+"TenneT": -0.83,
+"Amprion": -4.96,
+"TransnetBW": -2.29
+}
+},
+{
+"date": "2026-03-16",
+"generation_gw": {
+"50Hertz": 18.85,
+"TenneT": 21.44,
+"Amprion": 15.63,
+"TransnetBW": 4.33
+},
+"load_gw": {
+"50Hertz": 13.0,
+"TenneT": 17.5,
+"Amprion": 21.08,
+"TransnetBW": 7.45
+},
+"balance_gw": {
+"50Hertz": 5.85,
+"TenneT": 3.94,
+"Amprion": -5.45,
+"TransnetBW": -3.12
+}
+},
+{
+"date": "2026-03-17",
+"generation_gw": {
+"50Hertz": 17.63,
+"TenneT": 16.1,
+"Amprion": 13.47,
+"TransnetBW": 4.37
+},
+"load_gw": {
+"50Hertz": 12.08,
+"TenneT": 17.69,
+"Amprion": 21.18,
+"TransnetBW": 7.4
+},
+"balance_gw": {
+"50Hertz": 5.55,
+"TenneT": -1.59,
+"Amprion": -7.71,
+"TransnetBW": -3.03
+}
+},
+{
+"date": "2026-03-18",
+"generation_gw": {
+"50Hertz": 17.07,
+"TenneT": 19.0,
+"Amprion": 16.49,
+"TransnetBW": 6.0
+},
+"load_gw": {
+"50Hertz": 11.85,
+"TenneT": 16.73,
+"Amprion": 20.6,
+"TransnetBW": 7.14
+},
+"balance_gw": {
+"50Hertz": 5.22,
+"TenneT": 2.27,
+"Amprion": -4.11,
+"TransnetBW": -1.14
+}
+},
+{
+"date": "2026-03-19",
+"generation_gw": {
+"50Hertz": 14.96,
+"TenneT": 14.36,
+"Amprion": 15.74,
+"TransnetBW": 6.09
+},
+"load_gw": {
+"50Hertz": 11.72,
+"TenneT": 16.32,
+"Amprion": 20.34,
+"TransnetBW": 6.91
+},
+"balance_gw": {
+"50Hertz": 3.24,
+"TenneT": -1.96,
+"Amprion": -4.6,
+"TransnetBW": -0.82
+}
+},
+{
+"date": "2026-03-20",
+"generation_gw": {
+"50Hertz": 15.46,
+"TenneT": 12.91,
+"Amprion": 15.18,
+"TransnetBW": 5.7
+},
+"load_gw": {
+"50Hertz": 11.94,
+"TenneT": 16.05,
+"Amprion": 20.21,
+"TransnetBW": 6.75
+},
+"balance_gw": {
+"50Hertz": 3.52,
+"TenneT": -3.14,
+"Amprion": -5.03,
+"TransnetBW": -1.05
+}
+},
+{
+"date": "2026-03-21",
+"generation_gw": {
+"50Hertz": 16.44,
+"TenneT": 10.59,
+"Amprion": 14.27,
+"TransnetBW": 4.72
+},
+"load_gw": {
+"50Hertz": 10.9,
+"TenneT": 14.39,
+"Amprion": 17.6,
+"TransnetBW": 5.63
+},
+"balance_gw": {
+"50Hertz": 5.54,
+"TenneT": -3.8,
+"Amprion": -3.33,
+"TransnetBW": -0.91
+}
+},
+{
+"date": "2026-03-22",
+"generation_gw": {
+"50Hertz": 16.69,
+"TenneT": 14.29,
+"Amprion": 13.91,
+"TransnetBW": 4.82
+},
+"load_gw": {
+"50Hertz": 10.03,
+"TenneT": 12.9,
+"Amprion": 16.64,
+"TransnetBW": 5.13
+},
+"balance_gw": {
+"50Hertz": 6.66,
+"TenneT": 1.39,
+"Amprion": -2.73,
+"TransnetBW": -0.31
+}
+},
+{
+"date": "2026-03-23",
+"generation_gw": {
+"50Hertz": 16.72,
+"TenneT": 12.19,
+"Amprion": 14.38,
+"TransnetBW": 5.05
+},
+"load_gw": {
+"50Hertz": 11.69,
+"TenneT": 15.94,
+"Amprion": 19.9,
+"TransnetBW": 6.99
+},
+"balance_gw": {
+"50Hertz": 5.03,
+"TenneT": -3.75,
+"Amprion": -5.52,
+"TransnetBW": -1.94
+}
+},
+{
+"date": "2026-03-24",
+"generation_gw": {
+"50Hertz": 16.62,
+"TenneT": 23.07,
+"Amprion": 14.72,
+"TransnetBW": 5.22
+},
+"load_gw": {
+"50Hertz": 12.62,
+"TenneT": 16.95,
+"Amprion": 20.26,
+"TransnetBW": 7.04
+},
+"balance_gw": {
+"50Hertz": 4.0,
+"TenneT": 6.12,
+"Amprion": -5.54,
+"TransnetBW": -1.82
+}
+},
+{
+"date": "2026-03-25",
+"generation_gw": {
+"50Hertz": 20.27,
+"TenneT": 26.77,
+"Amprion": 13.62,
+"TransnetBW": 5.39
+},
+"load_gw": {
+"50Hertz": 14.19,
+"TenneT": 17.73,
+"Amprion": 21.66,
+"TransnetBW": 7.51
+},
+"balance_gw": {
+"50Hertz": 6.08,
+"TenneT": 9.04,
+"Amprion": -8.04,
+"TransnetBW": -2.12
+}
+},
+{
+"date": "2026-03-26",
+"generation_gw": {
+"50Hertz": 18.92,
+"TenneT": 23.89,
+"Amprion": 14.23,
+"TransnetBW": 4.83
+},
+"load_gw": {
+"50Hertz": 13.94,
+"TenneT": 17.71,
+"Amprion": 21.48,
+"TransnetBW": 7.58
+},
+"balance_gw": {
+"50Hertz": 4.98,
+"TenneT": 6.18,
+"Amprion": -7.25,
+"TransnetBW": -2.75
+}
+},
+{
+"date": "2026-03-27",
+"generation_gw": {
+"50Hertz": 16.39,
+"TenneT": 19.72,
+"Amprion": 14.29,
+"TransnetBW": 4.78
+},
+"load_gw": {
+"50Hertz": 12.61,
+"TenneT": 16.72,
+"Amprion": 21.19,
+"TransnetBW": 7.34
+},
+"balance_gw": {
+"50Hertz": 3.78,
+"TenneT": 3.0,
+"Amprion": -6.9,
+"TransnetBW": -2.56
+}
+},
+{
+"date": "2026-03-28",
+"generation_gw": {
+"50Hertz": 16.29,
+"TenneT": 17.17,
+"Amprion": 13.08,
+"TransnetBW": 3.82
+},
+"load_gw": {
+"50Hertz": 11.39,
+"TenneT": 14.62,
+"Amprion": 19.42,
+"TransnetBW": 6.2
+},
+"balance_gw": {
+"50Hertz": 4.9,
+"TenneT": 2.55,
+"Amprion": -6.34,
+"TransnetBW": -2.38
+}
+},
+{
+"date": "2026-03-29",
+"generation_gw": {
+"50Hertz": 13.63,
+"TenneT": 17.88,
+"Amprion": 11.79,
+"TransnetBW": 4.24
+},
+"load_gw": {
+"50Hertz": 10.13,
+"TenneT": 13.32,
+"Amprion": 17.09,
+"TransnetBW": 5.39
+},
+"balance_gw": {
+"50Hertz": 3.5,
+"TenneT": 4.56,
+"Amprion": -5.3,
+"TransnetBW": -1.15
+}
+},
+{
+"date": "2026-03-30",
+"generation_gw": {
+"50Hertz": 16.67,
+"TenneT": 24.17,
+"Amprion": 15.04,
+"TransnetBW": 6.82
+},
+"load_gw": {
+"50Hertz": 12.9,
+"TenneT": 17.25,
+"Amprion": 21.1,
+"TransnetBW": 7.51
+},
+"balance_gw": {
+"50Hertz": 3.77,
+"TenneT": 6.92,
+"Amprion": -6.06,
+"TransnetBW": -0.69
+}
+},
+{
+"date": "2026-03-31",
+"generation_gw": {
+"50Hertz": 18.16,
+"TenneT": 20.5,
+"Amprion": 15.58,
+"TransnetBW": 5.62
+},
+"load_gw": {
+"50Hertz": 12.61,
+"TenneT": 17.18,
+"Amprion": 21.28,
+"TransnetBW": 7.53
+},
+"balance_gw": {
+"50Hertz": 5.55,
+"TenneT": 3.32,
+"Amprion": -5.7,
+"TransnetBW": -1.91
+}
+},
+{
+"date": "2026-04-01",
+"generation_gw": {
+"50Hertz": 14.78,
+"TenneT": 12.13,
+"Amprion": 16.23,
+"TransnetBW": 5.38
+},
+"load_gw": {
+"50Hertz": 12.32,
+"TenneT": 15.22,
+"Amprion": 21.39,
+"TransnetBW": 7.79
+},
+"balance_gw": {
+"50Hertz": 2.46,
+"TenneT": -3.09,
+"Amprion": -5.16,
+"TransnetBW": -2.41
+}
+},
+{
+"date": "2026-04-02",
+"generation_gw": {
+"50Hertz": 16.42,
+"TenneT": 16.22,
+"Amprion": 14.58,
+"TransnetBW": 6.11
+},
+"load_gw": {
+"50Hertz": 12.11,
+"TenneT": 14.93,
+"Amprion": 21.82,
+"TransnetBW": 7.26
+},
+"balance_gw": {
+"50Hertz": 4.31,
+"TenneT": 1.29,
+"Amprion": -7.24,
+"TransnetBW": -1.15
+}
+},
+{
+"date": "2026-04-03",
+"generation_gw": {
+"50Hertz": 13.95,
+"TenneT": 19.34,
+"Amprion": 11.24,
+"TransnetBW": 4.58
+},
+"load_gw": {
+"50Hertz": 10.29,
+"TenneT": 12.82,
+"Amprion": 17.67,
+"TransnetBW": 5.62
+},
+"balance_gw": {
+"50Hertz": 3.66,
+"TenneT": 6.52,
+"Amprion": -6.43,
+"TransnetBW": -1.04
+}
+},
+{
+"date": "2026-04-04",
+"generation_gw": {
+"50Hertz": 17.57,
+"TenneT": 21.3,
+"Amprion": 10.81,
+"TransnetBW": 4.02
+},
+"load_gw": {
+"50Hertz": 10.47,
+"TenneT": 13.29,
+"Amprion": 17.36,
+"TransnetBW": 5.64
+},
+"balance_gw": {
+"50Hertz": 7.1,
+"TenneT": 8.01,
+"Amprion": -6.55,
+"TransnetBW": -1.62
+}
+},
+{
+"date": "2026-04-05",
+"generation_gw": {
+"50Hertz": 15.1,
+"TenneT": 23.15,
+"Amprion": 11.27,
+"TransnetBW": 4.36
+},
+"load_gw": {
+"50Hertz": 10.12,
+"TenneT": 12.83,
+"Amprion": 16.25,
+"TransnetBW": 5.25
+},
+"balance_gw": {
+"50Hertz": 4.98,
+"TenneT": 10.32,
+"Amprion": -4.98,
+"TransnetBW": -0.89
+}
+},
+{
+"date": "2026-04-06",
+"generation_gw": {
+"50Hertz": 17.18,
+"TenneT": 18.63,
+"Amprion": 9.72,
+"TransnetBW": 4.22
+},
+"load_gw": {
+"50Hertz": 9.8,
+"TenneT": 11.91,
+"Amprion": 16.17,
+"TransnetBW": 5.23
+},
+"balance_gw": {
+"50Hertz": 7.38,
+"TenneT": 6.72,
+"Amprion": -6.45,
+"TransnetBW": -1.01
+}
+},
+{
+"date": "2026-04-07",
+"generation_gw": {
+"50Hertz": 17.52,
+"TenneT": 13.76,
+"Amprion": 13.35,
+"TransnetBW": 5.38
+},
+"load_gw": {
+"50Hertz": 11.81,
+"TenneT": 14.15,
+"Amprion": 19.65,
+"TransnetBW": 6.87
+},
+"balance_gw": {
+"50Hertz": 5.71,
+"TenneT": -0.39,
+"Amprion": -6.3,
+"TransnetBW": -1.49
+}
+},
+{
+"date": "2026-04-08",
+"generation_gw": {
+"50Hertz": 14.53,
+"TenneT": 18.4,
+"Amprion": 15.03,
+"TransnetBW": 5.65
+},
+"load_gw": {
+"50Hertz": 12.21,
+"TenneT": 14.67,
+"Amprion": 20.69,
+"TransnetBW": 7.01
+},
+"balance_gw": {
+"50Hertz": 2.32,
+"TenneT": 3.73,
+"Amprion": -5.66,
+"TransnetBW": -1.36
+}
+},
+{
+"date": "2026-04-09",
+"generation_gw": {
+"50Hertz": 15.31,
+"TenneT": 23.68,
+"Amprion": 14.19,
+"TransnetBW": 4.89
+},
+"load_gw": {
+"50Hertz": 12.41,
+"TenneT": 15.1,
+"Amprion": 20.77,
+"TransnetBW": 7.06
+},
+"balance_gw": {
+"50Hertz": 2.9,
+"TenneT": 8.58,
+"Amprion": -6.58,
+"TransnetBW": -2.17
+}
+},
+{
+"date": "2026-04-10",
+"generation_gw": {
+"50Hertz": 14.86,
+"TenneT": 17.29,
+"Amprion": 14.52,
+"TransnetBW": 4.1
+},
+"load_gw": {
+"50Hertz": 12.69,
+"TenneT": 15.26,
+"Amprion": 19.86,
+"TransnetBW": 7.15
+},
+"balance_gw": {
+"50Hertz": 2.17,
+"TenneT": 2.03,
+"Amprion": -5.34,
+"TransnetBW": -3.05
+}
+},
+{
+"date": "2026-04-11",
+"generation_gw": {
+"50Hertz": 14.03,
+"TenneT": 21.13,
+"Amprion": 13.32,
+"TransnetBW": 4.29
+},
+"load_gw": {
+"50Hertz": 10.91,
+"TenneT": 12.95,
+"Amprion": 17.74,
+"TransnetBW": 5.8
+},
+"balance_gw": {
+"50Hertz": 3.12,
+"TenneT": 8.18,
+"Amprion": -4.42,
+"TransnetBW": -1.51
+}
+},
+{
+"date": "2026-04-12",
+"generation_gw": {
+"50Hertz": 12.93,
+"TenneT": 11.49,
+"Amprion": 9.28,
+"TransnetBW": 2.64
+},
+"load_gw": {
+"50Hertz": 10.68,
+"TenneT": 12.09,
+"Amprion": 16.36,
+"TransnetBW": 5.55
+},
+"balance_gw": {
+"50Hertz": 2.25,
+"TenneT": -0.6,
+"Amprion": -7.08,
+"TransnetBW": -2.91
+}
+},
+{
+"date": "2026-04-13",
+"generation_gw": {
+"50Hertz": 15.6,
+"TenneT": 11.44,
+"Amprion": 13.55,
+"TransnetBW": 3.72
+},
+"load_gw": {
+"50Hertz": 12.49,
+"TenneT": 15.78,
+"Amprion": 21.12,
+"TransnetBW": 7.55
+},
+"balance_gw": {
+"50Hertz": 3.11,
+"TenneT": -4.34,
+"Amprion": -7.57,
+"TransnetBW": -3.83
+}
+},
+{
+"date": "2026-04-14",
+"generation_gw": {
+"50Hertz": 15.85,
+"TenneT": 12.2,
+"Amprion": 14.69,
+"TransnetBW": 3.49
+},
+"load_gw": {
+"50Hertz": 12.62,
+"TenneT": 16.02,
+"Amprion": 20.28,
+"TransnetBW": 7.69
+},
+"balance_gw": {
+"50Hertz": 3.23,
+"TenneT": -3.82,
+"Amprion": -5.59,
+"TransnetBW": -4.2
+}
+},
+{
+"date": "2026-04-15",
+"generation_gw": {
+"50Hertz": 16.39,
+"TenneT": 13.11,
+"Amprion": 14.4,
+"TransnetBW": 3.83
+},
+"load_gw": {
+"50Hertz": 12.5,
+"TenneT": 15.53,
+"Amprion": 19.7,
+"TransnetBW": 7.52
+},
+"balance_gw": {
+"50Hertz": 3.89,
+"TenneT": -2.42,
+"Amprion": -5.3,
+"TransnetBW": -3.69
+}
+},
+{
+"date": "2026-04-16",
+"generation_gw": {
+"50Hertz": 14.92,
+"TenneT": 13.67,
+"Amprion": 13.36,
+"TransnetBW": 4.72
+},
+"load_gw": {
+"50Hertz": 12.26,
+"TenneT": 15.38,
+"Amprion": 20.01,
+"TransnetBW": 7.31
+},
+"balance_gw": {
+"50Hertz": 2.66,
+"TenneT": -1.71,
+"Amprion": -6.65,
+"TransnetBW": -2.59
+}
+},
+{
+"date": "2026-04-17",
+"generation_gw": {
+"50Hertz": 14.7,
+"TenneT": 13.66,
+"Amprion": 13.42,
+"TransnetBW": 4.69
+},
+"load_gw": {
+"50Hertz": 11.87,
+"TenneT": 15.36,
+"Amprion": 19.78,
+"TransnetBW": 6.92
+},
+"balance_gw": {
+"50Hertz": 2.83,
+"TenneT": -1.7,
+"Amprion": -6.36,
+"TransnetBW": -2.23
+}
+},
+{
+"date": "2026-04-18",
+"generation_gw": {
+"50Hertz": 12.46,
+"TenneT": 12.12,
+"Amprion": 10.75,
+"TransnetBW": 4.17
+},
+"load_gw": {
+"50Hertz": 10.51,
+"TenneT": 13.08,
+"Amprion": 17.73,
+"TransnetBW": 5.58
+},
+"balance_gw": {
+"50Hertz": 1.95,
+"TenneT": -0.96,
+"Amprion": -6.98,
+"TransnetBW": -1.41
+}
+},
+{
+"date": "2026-04-19",
+"generation_gw": {
+"50Hertz": 13.26,
+"TenneT": 13.79,
+"Amprion": 11.34,
+"TransnetBW": 3.75
+},
+"load_gw": {
+"50Hertz": 9.61,
+"TenneT": 12.43,
+"Amprion": 16.63,
+"TransnetBW": 5.22
+},
+"balance_gw": {
+"50Hertz": 3.65,
+"TenneT": 1.36,
+"Amprion": -5.29,
+"TransnetBW": -1.47
+}
+},
+{
+"date": "2026-04-20",
+"generation_gw": {
+"50Hertz": 18.27,
+"TenneT": 19.62,
+"Amprion": 12.46,
+"TransnetBW": 4.62
+},
+"load_gw": {
+"50Hertz": 11.06,
+"TenneT": 15.65,
+"Amprion": 20.16,
+"TransnetBW": 6.87
+},
+"balance_gw": {
+"50Hertz": 7.21,
+"TenneT": 3.97,
+"Amprion": -7.7,
+"TransnetBW": -2.25
+}
+},
+{
+"date": "2026-04-21",
+"generation_gw": {
+"50Hertz": 17.94,
+"TenneT": 16.89,
+"Amprion": 13.2,
+"TransnetBW": 4.26
+},
+"load_gw": {
+"50Hertz": 11.62,
+"TenneT": 15.45,
+"Amprion": 20.6,
+"TransnetBW": 7.28
+},
+"balance_gw": {
+"50Hertz": 6.32,
+"TenneT": 1.44,
+"Amprion": -7.4,
+"TransnetBW": -3.02
+}
+},
+{
+"date": "2026-04-22",
+"generation_gw": {
+"50Hertz": 17.44,
+"TenneT": 15.16,
+"Amprion": 13.83,
+"TransnetBW": 5.94
+},
+"load_gw": {
+"50Hertz": 11.87,
+"TenneT": 15.14,
+"Amprion": 19.87,
+"TransnetBW": 7.29
+},
+"balance_gw": {
+"50Hertz": 5.57,
+"TenneT": 0.02,
+"Amprion": -6.04,
+"TransnetBW": -1.35
+}
+},
+{
+"date": "2026-04-23",
+"generation_gw": {
+"50Hertz": 18.69,
+"TenneT": 20.43,
+"Amprion": 11.83,
+"TransnetBW": 5.07
+},
+"load_gw": {
+"50Hertz": 10.88,
+"TenneT": 15.18,
+"Amprion": 20.13,
+"TransnetBW": 7.17
+},
+"balance_gw": {
+"50Hertz": 7.81,
+"TenneT": 5.25,
+"Amprion": -8.3,
+"TransnetBW": -2.1
+}
+},
+{
+"date": "2026-04-24",
+"generation_gw": {
+"50Hertz": 16.51,
+"TenneT": 22.24,
+"Amprion": 10.81,
+"TransnetBW": 5.11
+},
+"load_gw": {
+"50Hertz": 11.3,
+"TenneT": 15.29,
+"Amprion": 19.47,
+"TransnetBW": 6.96
+},
+"balance_gw": {
+"50Hertz": 5.21,
+"TenneT": 6.95,
+"Amprion": -8.66,
+"TransnetBW": -1.85
+}
+},
+{
+"date": "2026-04-25",
+"generation_gw": {
+"50Hertz": 18.05,
+"TenneT": 20.15,
+"Amprion": 9.2,
+"TransnetBW": 4.43
+},
+"load_gw": {
+"50Hertz": 8.91,
+"TenneT": 12.93,
+"Amprion": 16.78,
+"TransnetBW": 5.73
+},
+"balance_gw": {
+"50Hertz": 9.14,
+"TenneT": 7.22,
+"Amprion": -7.58,
+"TransnetBW": -1.3
+}
+},
+{
+"date": "2026-04-26",
+"generation_gw": {
+"50Hertz": 13.35,
+"TenneT": 12.86,
+"Amprion": 9.7,
+"TransnetBW": 4.49
+},
+"load_gw": {
+"50Hertz": 9.6,
+"TenneT": 11.64,
+"Amprion": 15.22,
+"TransnetBW": 5.2
+},
+"balance_gw": {
+"50Hertz": 3.75,
+"TenneT": 1.22,
+"Amprion": -5.52,
+"TransnetBW": -0.71
+}
+},
+{
+"date": "2026-04-27",
+"generation_gw": {
+"50Hertz": 15.41,
+"TenneT": 13.18,
+"Amprion": 11.84,
+"TransnetBW": 4.75
+},
+"load_gw": {
+"50Hertz": 11.77,
+"TenneT": 14.96,
+"Amprion": 18.52,
+"TransnetBW": 6.79
+},
+"balance_gw": {
+"50Hertz": 3.64,
+"TenneT": -1.78,
+"Amprion": -6.68,
+"TransnetBW": -2.04
+}
+},
+{
+"date": "2026-04-28",
+"generation_gw": {
+"50Hertz": 17.63,
+"TenneT": 19.69,
+"Amprion": 14.09,
+"TransnetBW": 4.73
+},
+"load_gw": {
+"50Hertz": 10.81,
+"TenneT": 15.05,
+"Amprion": 19.64,
+"TransnetBW": 7.19
+},
+"balance_gw": {
+"50Hertz": 6.82,
+"TenneT": 4.64,
+"Amprion": -5.55,
+"TransnetBW": -2.46
+}
+},
+{
+"date": "2026-04-29",
+"generation_gw": {
+"50Hertz": 16.9,
+"TenneT": 17.52,
+"Amprion": 14.53,
+"TransnetBW": 5.67
+},
+"load_gw": {
+"50Hertz": 11.15,
+"TenneT": 14.73,
+"Amprion": 19.76,
+"TransnetBW": 7.07
+},
+"balance_gw": {
+"50Hertz": 5.75,
+"TenneT": 2.79,
+"Amprion": -5.23,
+"TransnetBW": -1.4
+}
+},
+{
+"date": "2026-04-30",
+"generation_gw": {
+"50Hertz": 14.05,
+"TenneT": 17.24,
+"Amprion": 15.47,
+"TransnetBW": 5.96
+},
+"load_gw": {
+"50Hertz": 11.16,
+"TenneT": 14.77,
+"Amprion": 19.7,
+"TransnetBW": 6.73
+},
+"balance_gw": {
+"50Hertz": 2.89,
+"TenneT": 2.47,
+"Amprion": -4.23,
+"TransnetBW": -0.77
+}
+},
+{
+"date": "2026-05-01",
+"generation_gw": {
+"50Hertz": 10.84,
+"TenneT": 16.35,
+"Amprion": 11.77,
+"TransnetBW": 5.32
+},
+"load_gw": {
+"50Hertz": 9.3,
+"TenneT": 11.18,
+"Amprion": 15.69,
+"TransnetBW": 5.12
+},
+"balance_gw": {
+"50Hertz": 1.54,
+"TenneT": 5.17,
+"Amprion": -3.92,
+"TransnetBW": 0.2
+}
+},
+{
+"date": "2026-05-02",
+"generation_gw": {
+"50Hertz": 13.65,
+"TenneT": 17.17,
+"Amprion": 9.67,
+"TransnetBW": 4.62
+},
+"load_gw": {
+"50Hertz": 9.27,
+"TenneT": 11.41,
+"Amprion": 16.13,
+"TransnetBW": 5.17
+},
+"balance_gw": {
+"50Hertz": 4.38,
+"TenneT": 5.76,
+"Amprion": -6.46,
+"TransnetBW": -0.55
+}
+},
+{
+"date": "2026-05-03",
+"generation_gw": {
+"50Hertz": 13.93,
+"TenneT": 13.59,
+"Amprion": 10.44,
+"TransnetBW": 3.98
+},
+"load_gw": {
+"50Hertz": 9.27,
+"TenneT": 11.31,
+"Amprion": 15.59,
+"TransnetBW": 5.02
+},
+"balance_gw": {
+"50Hertz": 4.66,
+"TenneT": 2.28,
+"Amprion": -5.15,
+"TransnetBW": -1.04
+}
+},
+{
+"date": "2026-05-04",
+"generation_gw": {
+"50Hertz": 14.95,
+"TenneT": 13.58,
+"Amprion": 11.88,
+"TransnetBW": 3.96
+},
+"load_gw": {
+"50Hertz": 11.28,
+"TenneT": 15.29,
+"Amprion": 19.42,
+"TransnetBW": 6.8
+},
+"balance_gw": {
+"50Hertz": 3.67,
+"TenneT": -1.71,
+"Amprion": -7.54,
+"TransnetBW": -2.84
+}
+},
+{
+"date": "2026-05-05",
+"generation_gw": {
+"50Hertz": 12.7,
+"TenneT": 12.32,
+"Amprion": 11.21,
+"TransnetBW": 3.94
+},
+"load_gw": {
+"50Hertz": 11.81,
+"TenneT": 16.02,
+"Amprion": 19.51,
+"TransnetBW": 7.14
+},
+"balance_gw": {
+"50Hertz": 0.89,
+"TenneT": -3.7,
+"Amprion": -8.3,
+"TransnetBW": -3.2
+}
+},
+{
+"date": "2026-05-06",
+"generation_gw": {
+"50Hertz": 15.3,
+"TenneT": 17.17,
+"Amprion": 12.04,
+"TransnetBW": 3.96
+},
+"load_gw": {
+"50Hertz": 11.92,
+"TenneT": 15.97,
+"Amprion": 20.12,
+"TransnetBW": 7.26
+},
+"balance_gw": {
+"50Hertz": 3.38,
+"TenneT": 1.2,
+"Amprion": -8.08,
+"TransnetBW": -3.3
+}
+},
+{
+"date": "2026-05-07",
+"generation_gw": {
+"50Hertz": 13.93,
+"TenneT": 12.8,
+"Amprion": 13.27,
+"TransnetBW": 4.09
+},
+"load_gw": {
+"50Hertz": 12.02,
+"TenneT": 15.84,
+"Amprion": 19.92,
+"TransnetBW": 7.3
+},
+"balance_gw": {
+"50Hertz": 1.91,
+"TenneT": -3.04,
+"Amprion": -6.65,
+"TransnetBW": -3.21
+}
+},
+{
+"date": "2026-05-08",
+"generation_gw": {
+"50Hertz": 13.12,
+"TenneT": 14.63,
+"Amprion": 13.84,
+"TransnetBW": 4.83
+},
+"load_gw": {
+"50Hertz": 11.84,
+"TenneT": 14.91,
+"Amprion": 19.12,
+"TransnetBW": 7.0
+},
+"balance_gw": {
+"50Hertz": 1.28,
+"TenneT": -0.28,
+"Amprion": -5.28,
+"TransnetBW": -2.17
+}
+},
+{
+"date": "2026-05-09",
+"generation_gw": {
+"50Hertz": 12.61,
+"TenneT": 13.3,
+"Amprion": 11.35,
+"TransnetBW": 4.86
+},
+"load_gw": {
+"50Hertz": 10.23,
+"TenneT": 12.34,
+"Amprion": 16.32,
+"TransnetBW": 5.59
+},
+"balance_gw": {
+"50Hertz": 2.38,
+"TenneT": 0.96,
+"Amprion": -4.97,
+"TransnetBW": -0.73
+}
+},
+{
+"date": "2026-05-10",
+"generation_gw": {
+"50Hertz": 12.07,
+"TenneT": 14.56,
+"Amprion": 10.02,
+"TransnetBW": 4.12
+},
+"load_gw": {
+"50Hertz": 9.68,
+"TenneT": 11.52,
+"Amprion": 15.42,
+"TransnetBW": 5.23
+},
+"balance_gw": {
+"50Hertz": 2.39,
+"TenneT": 3.04,
+"Amprion": -5.4,
+"TransnetBW": -1.11
+}
+},
+{
+"date": "2026-05-11",
+"generation_gw": {
+"50Hertz": 15.8,
+"TenneT": 16.55,
+"Amprion": 12.34,
+"TransnetBW": 4.57
+},
+"load_gw": {
+"50Hertz": 11.7,
+"TenneT": 15.28,
+"Amprion": 19.44,
+"TransnetBW": 7.01
+},
+"balance_gw": {
+"50Hertz": 4.1,
+"TenneT": 1.27,
+"Amprion": -7.1,
+"TransnetBW": -2.44
+}
+},
+{
+"date": "2026-05-12",
+"generation_gw": {
+"50Hertz": 16.84,
+"TenneT": 21.61,
+"Amprion": 14.98,
+"TransnetBW": 5.51
+},
+"load_gw": {
+"50Hertz": 10.95,
+"TenneT": 14.85,
+"Amprion": 19.91,
+"TransnetBW": 7.14
+},
+"balance_gw": {
+"50Hertz": 5.89,
+"TenneT": 6.76,
+"Amprion": -4.93,
+"TransnetBW": -1.63
+}
+},
+{
+"date": "2026-05-13",
+"generation_gw": {
+"50Hertz": 17.03,
+"TenneT": 16.78,
+"Amprion": 14.41,
+"TransnetBW": 5.59
+},
+"load_gw": {
+"50Hertz": 10.99,
+"TenneT": 14.52,
+"Amprion": 19.17,
+"TransnetBW": 7.16
+},
+"balance_gw": {
+"50Hertz": 6.04,
+"TenneT": 2.26,
+"Amprion": -4.76,
+"TransnetBW": -1.57
+}
+},
+{
+"date": "2026-05-14",
+"generation_gw": {
+"50Hertz": 14.49,
+"TenneT": 14.39,
+"Amprion": 11.49,
+"TransnetBW": 5.07
+},
+"load_gw": {
+"50Hertz": 9.36,
+"TenneT": 11.98,
+"Amprion": 16.47,
+"TransnetBW": 5.4
+},
+"balance_gw": {
+"50Hertz": 5.13,
+"TenneT": 2.41,
+"Amprion": -4.98,
+"TransnetBW": -0.33
+}
+},
+{
+"date": "2026-05-15",
+"generation_gw": {
+"50Hertz": 12.1,
+"TenneT": 18.6,
+"Amprion": 11.66,
+"TransnetBW": 4.57
+},
+"load_gw": {
+"50Hertz": 10.35,
+"TenneT": 13.3,
+"Amprion": 16.85,
+"TransnetBW": 5.95
+},
+"balance_gw": {
+"50Hertz": 1.75,
+"TenneT": 5.3,
+"Amprion": -5.19,
+"TransnetBW": -1.38
+}
+},
+{
+"date": "2026-05-16",
+"generation_gw": {
+"50Hertz": 13.97,
+"TenneT": 21.25,
+"Amprion": 10.51,
+"TransnetBW": 4.49
+},
+"load_gw": {
+"50Hertz": 9.75,
+"TenneT": 11.92,
+"Amprion": 16.0,
+"TransnetBW": 5.4
+},
+"balance_gw": {
+"50Hertz": 4.22,
+"TenneT": 9.33,
+"Amprion": -5.49,
+"TransnetBW": -0.91
+}
+},
+{
+"date": "2026-05-17",
+"generation_gw": {
+"50Hertz": 13.05,
+"TenneT": 14.7,
+"Amprion": 10.42,
+"TransnetBW": 4.86
+},
+"load_gw": {
+"50Hertz": 9.45,
+"TenneT": 11.1,
+"Amprion": 15.91,
+"TransnetBW": 5.02
+},
+"balance_gw": {
+"50Hertz": 3.6,
+"TenneT": 3.6,
+"Amprion": -5.49,
+"TransnetBW": -0.16
+}
+},
+{
+"date": "2026-05-18",
+"generation_gw": {
+"50Hertz": 15.52,
+"TenneT": 13.12,
+"Amprion": 12.34,
+"TransnetBW": 4.95
+},
+"load_gw": {
+"50Hertz": 11.03,
+"TenneT": 14.89,
+"Amprion": 18.29,
+"TransnetBW": 6.93
+},
+"balance_gw": {
+"50Hertz": 4.49,
+"TenneT": -1.77,
+"Amprion": -5.95,
+"TransnetBW": -1.98
+}
+},
+{
+"date": "2026-05-19",
+"generation_gw": {
+"50Hertz": 14.53,
+"TenneT": 13.86,
+"Amprion": 12.86,
+"TransnetBW": 5.4
+},
+"load_gw": {
+"50Hertz": 11.36,
+"TenneT": 14.65,
+"Amprion": 19.08,
+"TransnetBW": 7.03
+},
+"balance_gw": {
+"50Hertz": 3.17,
+"TenneT": -0.79,
+"Amprion": -6.22,
+"TransnetBW": -1.63
+}
+},
+{
+"date": "2026-05-20",
+"generation_gw": {
+"50Hertz": 13.79,
+"TenneT": 16.97,
+"Amprion": 13.6,
+"TransnetBW": 5.23
+},
+"load_gw": {
+"50Hertz": 11.62,
+"TenneT": 15.59,
+"Amprion": 19.95,
+"TransnetBW": 7.25
+},
+"balance_gw": {
+"50Hertz": 2.17,
+"TenneT": 1.38,
+"Amprion": -6.35,
+"TransnetBW": -2.02
+}
+},
+{
+"date": "2026-05-21",
+"generation_gw": {
+"50Hertz": 14.9,
+"TenneT": 14.09,
+"Amprion": 13.01,
+"TransnetBW": 5.54
+},
+"load_gw": {
+"50Hertz": 11.69,
+"TenneT": 15.25,
+"Amprion": 19.35,
+"TransnetBW": 6.98
+},
+"balance_gw": {
+"50Hertz": 3.21,
+"TenneT": -1.16,
+"Amprion": -6.34,
+"TransnetBW": -1.44
+}
+},
+{
+"date": "2026-05-22",
+"generation_gw": {
+"50Hertz": 12.87,
+"TenneT": 12.78,
+"Amprion": 13.1,
+"TransnetBW": 5.75
+},
+"load_gw": {
+"50Hertz": 11.45,
+"TenneT": 14.49,
+"Amprion": 18.51,
+"TransnetBW": 6.68
+},
+"balance_gw": {
+"50Hertz": 1.42,
+"TenneT": -1.71,
+"Amprion": -5.41,
+"TransnetBW": -0.93
+}
+},
+{
+"date": "2026-05-23",
+"generation_gw": {
+"50Hertz": 11.52,
+"TenneT": 14.46,
+"Amprion": 10.5,
+"TransnetBW": 5.31
+},
+"load_gw": {
+"50Hertz": 9.89,
+"TenneT": 12.16,
+"Amprion": 16.37,
+"TransnetBW": 5.39
+},
+"balance_gw": {
+"50Hertz": 1.63,
+"TenneT": 2.3,
+"Amprion": -5.87,
+"TransnetBW": -0.08
+}
+},
+{
+"date": "2026-05-24",
+"generation_gw": {
+"50Hertz": 11.82,
+"TenneT": 12.35,
+"Amprion": 8.89,
+"TransnetBW": 5.01
+},
+"load_gw": {
+"50Hertz": 8.91,
+"TenneT": 10.98,
+"Amprion": 15.0,
+"TransnetBW": 4.93
+},
+"balance_gw": {
+"50Hertz": 2.91,
+"TenneT": 1.37,
+"Amprion": -6.11,
+"TransnetBW": 0.08
+}
+},
+{
+"date": "2026-05-25",
+"generation_gw": {
+"50Hertz": 12.56,
+"TenneT": 13.25,
+"Amprion": 10.39,
+"TransnetBW": 5.11
+},
+"load_gw": {
+"50Hertz": 8.72,
+"TenneT": 11.53,
+"Amprion": 15.18,
+"TransnetBW": 4.98
+},
+"balance_gw": {
+"50Hertz": 3.84,
+"TenneT": 1.72,
+"Amprion": -4.79,
+"TransnetBW": 0.13
+}
+},
+{
+"date": "2026-05-26",
+"generation_gw": {
+"50Hertz": 14.93,
+"TenneT": 16.71,
+"Amprion": 11.1,
+"TransnetBW": 4.97
+},
+"load_gw": {
+"50Hertz": 10.64,
+"TenneT": 14.92,
+"Amprion": 18.43,
+"TransnetBW": 6.86
+},
+"balance_gw": {
+"50Hertz": 4.29,
+"TenneT": 1.79,
+"Amprion": -7.33,
+"TransnetBW": -1.89
+}
+},
+{
+"date": "2026-05-27",
+"generation_gw": {
+"50Hertz": 16.74,
+"TenneT": 18.34,
+"Amprion": 11.46,
+"TransnetBW": 4.77
+},
+"load_gw": {
+"50Hertz": 10.83,
+"TenneT": 15.45,
+"Amprion": 19.16,
+"TransnetBW": 7.2
+},
+"balance_gw": {
+"50Hertz": 5.91,
+"TenneT": 2.89,
+"Amprion": -7.7,
+"TransnetBW": -2.43
+}
+},
+{
+"date": "2026-05-28",
+"generation_gw": {
+"50Hertz": 13.7,
+"TenneT": 14.43,
+"Amprion": 12.51,
+"TransnetBW": 5.27
+},
+"load_gw": {
+"50Hertz": 10.91,
+"TenneT": 14.77,
+"Amprion": 18.84,
+"TransnetBW": 6.98
+},
+"balance_gw": {
+"50Hertz": 2.79,
+"TenneT": -0.34,
+"Amprion": -6.33,
+"TransnetBW": -1.71
+}
+},
+{
+"date": "2026-05-29",
+"generation_gw": {
+"50Hertz": 12.77,
+"TenneT": 17.17,
+"Amprion": 13.15,
+"TransnetBW": 5.17
+},
+"load_gw": {
+"50Hertz": 11.0,
+"TenneT": 15.2,
+"Amprion": 19.09,
+"TransnetBW": 6.69
+},
+"balance_gw": {
+"50Hertz": 1.77,
+"TenneT": 1.97,
+"Amprion": -5.94,
+"TransnetBW": -1.52
+}
+},
+{
+"date": "2026-05-30",
+"generation_gw": {
+"50Hertz": 14.76,
+"TenneT": 14.89,
+"Amprion": 10.67,
+"TransnetBW": 4.75
+},
+"load_gw": {
+"50Hertz": 9.38,
+"TenneT": 12.82,
+"Amprion": 16.69,
+"TransnetBW": 5.43
+},
+"balance_gw": {
+"50Hertz": 5.38,
+"TenneT": 2.07,
+"Amprion": -6.02,
+"TransnetBW": -0.68
+}
+},
+{
+"date": "2026-05-31",
+"generation_gw": {
+"50Hertz": 10.04,
+"TenneT": 10.56,
+"Amprion": 11.45,
+"TransnetBW": 3.96
+},
+"load_gw": {
+"50Hertz": 9.39,
+"TenneT": 12.15,
+"Amprion": 15.31,
+"TransnetBW": 5.13
+},
+"balance_gw": {
+"50Hertz": 0.65,
+"TenneT": -1.59,
+"Amprion": -3.86,
+"TransnetBW": -1.17
+}
+},
+{
+"date": "2026-06-01",
+"generation_gw": {
+"50Hertz": 11.89,
+"TenneT": 12.73,
+"Amprion": 12.96,
+"TransnetBW": 4.95
+},
+"load_gw": {
+"50Hertz": 10.79,
+"TenneT": 14.83,
+"Amprion": 18.73,
+"TransnetBW": 6.75
+},
+"balance_gw": {
+"50Hertz": 1.1,
+"TenneT": -2.1,
+"Amprion": -5.77,
+"TransnetBW": -1.8
+}
+},
+{
+"date": "2026-06-02",
+"generation_gw": {
+"50Hertz": 13.66,
+"TenneT": 16.5,
+"Amprion": 13.37,
+"TransnetBW": 4.24
+},
+"load_gw": {
+"50Hertz": 11.0,
+"TenneT": 15.32,
+"Amprion": 20.45,
+"TransnetBW": 7.11
+},
+"balance_gw": {
+"50Hertz": 2.66,
+"TenneT": 1.18,
+"Amprion": -7.08,
+"TransnetBW": -2.87
+}
+},
+{
+"date": "2026-06-03",
+"generation_gw": {
+"50Hertz": 13.31,
+"TenneT": 18.02,
+"Amprion": 14.55,
+"TransnetBW": 4.63
+},
+"load_gw": {
+"50Hertz": 10.97,
+"TenneT": 14.87,
+"Amprion": 20.12,
+"TransnetBW": 6.84
+},
+"balance_gw": {
+"50Hertz": 2.34,
+"TenneT": 3.15,
+"Amprion": -5.57,
+"TransnetBW": -2.21
+}
+},
+{
+"date": "2026-06-04",
+"generation_gw": {
+"50Hertz": 13.94,
+"TenneT": 22.77,
+"Amprion": 12.36,
+"TransnetBW": 4.16
+},
+"load_gw": {
+"50Hertz": 11.07,
+"TenneT": 13.43,
+"Amprion": 17.44,
+"TransnetBW": 5.53
+},
+"balance_gw": {
+"50Hertz": 2.87,
+"TenneT": 9.34,
+"Amprion": -5.08,
+"TransnetBW": -1.37
+}
+},
+{
+"date": "2026-06-05",
+"generation_gw": {
+"50Hertz": 12.39,
+"TenneT": 17.92,
+"Amprion": 11.77,
+"TransnetBW": 4.62
+},
+"load_gw": {
+"50Hertz": 10.77,
+"TenneT": 14.16,
+"Amprion": 17.43,
+"TransnetBW": 5.88
+},
+"balance_gw": {
+"50Hertz": 1.62,
+"TenneT": 3.76,
+"Amprion": -5.66,
+"TransnetBW": -1.26
+}
+},
+{
+"date": "2026-06-06",
+"generation_gw": {
+"50Hertz": 10.14,
+"TenneT": 12.53,
+"Amprion": 10.31,
+"TransnetBW": 4.59
+},
+"load_gw": {
+"50Hertz": 9.5,
+"TenneT": 12.14,
+"Amprion": 16.39,
+"TransnetBW": 5.36
+},
+"balance_gw": {
+"50Hertz": 0.64,
+"TenneT": 0.39,
+"Amprion": -6.08,
+"TransnetBW": -0.77
+}
+},
+{
+"date": "2026-06-07",
+"generation_gw": {
+"50Hertz": 11.16,
+"TenneT": 17.92,
+"Amprion": 10.05,
+"TransnetBW": 4.65
+},
+"load_gw": {
+"50Hertz": 9.01,
+"TenneT": 11.62,
+"Amprion": 15.46,
+"TransnetBW": 5.11
+},
+"balance_gw": {
+"50Hertz": 2.15,
+"TenneT": 6.3,
+"Amprion": -5.41,
+"TransnetBW": -0.46
+}
+},
+{
+"date": "2026-06-08",
+"generation_gw": {
+"50Hertz": 12.56,
+"TenneT": 15.23,
+"Amprion": 12.9,
+"TransnetBW": 4.42
+},
+"load_gw": {
+"50Hertz": 10.83,
+"TenneT": 15.02,
+"Amprion": 19.25,
+"TransnetBW": 6.91
+},
+"balance_gw": {
+"50Hertz": 1.73,
+"TenneT": 0.21,
+"Amprion": -6.35,
+"TransnetBW": -2.49
+}
+},
+{
+"date": "2026-06-09",
+"generation_gw": {
+"50Hertz": 15.54,
+"TenneT": 19.38,
+"Amprion": 12.59,
+"TransnetBW": 4.17
+},
+"load_gw": {
+"50Hertz": 10.73,
+"TenneT": 15.87,
+"Amprion": 19.88,
+"TransnetBW": 7.36
+},
+"balance_gw": {
+"50Hertz": 4.81,
+"TenneT": 3.51,
+"Amprion": -7.29,
+"TransnetBW": -3.19
+}
+},
+{
+"date": "2026-06-10",
+"generation_gw": {
+"50Hertz": 13.9,
+"TenneT": 16.53,
+"Amprion": 12.22,
+"TransnetBW": 3.88
+},
+"load_gw": {
+"50Hertz": 10.69,
+"TenneT": 15.79,
+"Amprion": 19.98,
+"TransnetBW": 7.34
+},
+"balance_gw": {
+"50Hertz": 3.21,
+"TenneT": 0.74,
+"Amprion": -7.76,
+"TransnetBW": -3.46
+}
+},
+{
+"date": "2026-06-11",
+"generation_gw": {
+"50Hertz": 13.35,
+"TenneT": 13.34,
+"Amprion": 13.1,
+"TransnetBW": 4.92
+},
+"load_gw": {
+"50Hertz": 10.86,
+"TenneT": 15.05,
+"Amprion": 17.88,
+"TransnetBW": 7.0
+},
+"balance_gw": {
+"50Hertz": 2.49,
+"TenneT": -1.71,
+"Amprion": -4.78,
+"TransnetBW": -2.08
+}
+},
+{
+"date": "2026-06-12",
+"generation_gw": {
+"50Hertz": 12.84,
+"TenneT": 17.02,
+"Amprion": 13.19,
+"TransnetBW": 4.44
+},
+"load_gw": {
+"50Hertz": 10.74,
+"TenneT": 16.3,
+"Amprion": 19.84,
+"TransnetBW": 7.23
+},
+"balance_gw": {
+"50Hertz": 2.1,
+"TenneT": 0.72,
+"Amprion": -6.65,
+"TransnetBW": -2.79
+}
+},
+{
+"date": "2026-06-13",
+"generation_gw": {
+"50Hertz": 13.2,
+"TenneT": 23.0,
+"Amprion": 12.41,
+"TransnetBW": 5.81
+},
+"load_gw": {
+"50Hertz": 9.41,
+"TenneT": 12.9,
+"Amprion": 16.23,
+"TransnetBW": 5.67
+},
+"balance_gw": {
+"50Hertz": 3.79,
+"TenneT": 10.1,
+"Amprion": -3.82,
+"TransnetBW": 0.14
+}
+},
+{
+"date": "2026-06-14",
+"generation_gw": {
+"50Hertz": 15.94,
+"TenneT": 22.13,
+"Amprion": 10.57,
+"TransnetBW": 4.66
+},
+"load_gw": {
+"50Hertz": 8.75,
+"TenneT": 11.56,
+"Amprion": 15.34,
+"TransnetBW": 5.1
+},
+"balance_gw": {
+"50Hertz": 7.19,
+"TenneT": 10.57,
+"Amprion": -4.77,
+"TransnetBW": -0.44
+}
+},
+{
+"date": "2026-06-15",
+"generation_gw": {
+"50Hertz": 18.22,
+"TenneT": 23.2,
+"Amprion": 11.92,
+"TransnetBW": 5.16
+},
+"load_gw": {
+"50Hertz": 10.6,
+"TenneT": 15.09,
+"Amprion": 18.71,
+"TransnetBW": 6.8
+},
+"balance_gw": {
+"50Hertz": 7.62,
+"TenneT": 8.11,
+"Amprion": -6.79,
+"TransnetBW": -1.64
+}
+},
+{
+"date": "2026-06-16",
+"generation_gw": {
+"50Hertz": 14.58,
+"TenneT": 11.81,
+"Amprion": 12.58,
+"TransnetBW": 4.07
+},
+"load_gw": {
+"50Hertz": 10.57,
+"TenneT": 15.41,
+"Amprion": 19.52,
+"TransnetBW": 7.37
+},
+"balance_gw": {
+"50Hertz": 4.01,
+"TenneT": -3.6,
+"Amprion": -6.94,
+"TransnetBW": -3.3
+}
+},
+{
+"date": "2026-06-17",
+"generation_gw": {
+"50Hertz": 12.66,
+"TenneT": 14.36,
+"Amprion": 11.65,
+"TransnetBW": 5.53
+},
+"load_gw": {
+"50Hertz": 11.19,
+"TenneT": 16.05,
+"Amprion": 18.86,
+"TransnetBW": 7.37
+},
+"balance_gw": {
+"50Hertz": 1.47,
+"TenneT": -1.69,
+"Amprion": -7.21,
+"TransnetBW": -1.84
+}
+},
+{
+"date": "2026-06-18",
+"generation_gw": {
+"50Hertz": 12.55,
+"TenneT": 14.05,
+"Amprion": 13.41,
+"TransnetBW": 5.88
+},
+"load_gw": {
+"50Hertz": 11.65,
+"TenneT": 15.8,
+"Amprion": 18.99,
+"TransnetBW": 7.39
+},
+"balance_gw": {
+"50Hertz": 0.9,
+"TenneT": -1.75,
+"Amprion": -5.58,
+"TransnetBW": -1.51
+}
+},
+{
+"date": "2026-06-19",
+"generation_gw": {
+"50Hertz": 12.54,
+"TenneT": 15.52,
+"Amprion": 13.34,
+"TransnetBW": 5.63
+},
+"load_gw": {
+"50Hertz": 11.48,
+"TenneT": 16.06,
+"Amprion": 18.75,
+"TransnetBW": 7.44
+},
+"balance_gw": {
+"50Hertz": 1.06,
+"TenneT": -0.54,
+"Amprion": -5.41,
+"TransnetBW": -1.81
+}
+},
+{
+"date": "2026-06-20",
+"generation_gw": {
+"50Hertz": 10.76,
+"TenneT": 16.41,
+"Amprion": 12.78,
+"TransnetBW": 5.5
+},
+"load_gw": {
+"50Hertz": 9.97,
+"TenneT": 13.47,
+"Amprion": 16.67,
+"TransnetBW": 6.03
+},
+"balance_gw": {
+"50Hertz": 0.79,
+"TenneT": 2.94,
+"Amprion": -3.89,
+"TransnetBW": -0.53
+}
+},
+{
+"date": "2026-06-21",
+"generation_gw": {
+"50Hertz": 11.9,
+"TenneT": 12.87,
+"Amprion": 11.14,
+"TransnetBW": 5.16
+},
+"load_gw": {
+"50Hertz": 9.66,
+"TenneT": 12.63,
+"Amprion": 15.77,
+"TransnetBW": 5.61
+},
+"balance_gw": {
+"50Hertz": 2.24,
+"TenneT": 0.24,
+"Amprion": -4.63,
+"TransnetBW": -0.45
+}
+}
+]
+}
