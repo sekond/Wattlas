@@ -38,6 +38,18 @@ live site; not yet tagged.
   (NUTS-1). Panel 3 shows output, not available-capacity (RTE OAuth deferred).
 
 ### Changed
+- **Unified site navigation (single source of truth).** Every page now shares one
+  injected navigation (`frontend/nav.js`), replacing the inconsistent hand-authored
+  per-page menus. Desktop shows a persistent left sidebar; under 900px it becomes a
+  sticky horizontal scroll-nav (active pill auto-scrolled into view). The eight views
+  are **nested under Dashboard**, and on the dashboard the menu is a **scroll-spy** —
+  clicking smooth-scrolls to that view's section and scrolling the page highlights the
+  section you're in, so moving through the dashboard moves through the menu. Off the
+  dashboard the same items open each view's full standalone page. The two map stories
+  are an amber-accented group. All nav markup, CSS, and active-state logic live in
+  `nav.js` alone; the duplicated nav chrome was removed from `dash/dash.css`. The
+  design-handoff bundle for this round is archived under
+  `design-archive/unified_nav_handoff/`.
 - The drill-down map pages adopt the **dashboard's left-sidebar layout** on desktop
   (mobile keeps a top scroll-nav); both new views are linked from the dashboard and
   cross-linked with each other.

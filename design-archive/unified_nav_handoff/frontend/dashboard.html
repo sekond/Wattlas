@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — European electricity, explained</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .wrap { max-width: 1180px; }
+    h1 { font-size: 26px; }
+    .hero-sub { color: var(--muted); font-size: 14px; margin: 0 0 18px; max-width: 72ch; }
+  </style>
+</head>
+<body>
+  <div class="shell"><main class="main">
+  <div class="wrap">
+
+    <h1>European electricity, explained</h1>
+    <p class="hero-sub">Eight ways to read Europe's power markets — what a day costs, what generates it, how countries pull apart, how clean it is, and how it shifts over years. Pick a zone and a window; every panel that can, follows along. Open data from ENTSO-E and the German TSOs, pre-computed and static.</p>
+
+    <div class="bar">
+      <div><label for="zone">Zone</label><select id="zone"></select></div>
+      <div><label>Window</label>
+        <span class="seg" id="winSeg">
+          <button data-days="30">30d</button>
+          <button data-days="90">90d</button>
+          <button data-days="180">6mo</button>
+          <button data-days="9999" class="active">All</button>
+        </span>
+      </div>
+      <div class="meta" id="periodNote" style="margin-left:auto;"></div>
+    </div>
+
+    <nav class="jumpnav" id="jumpnav">
+      <a href="#pulse">Pulse</a>
+      <a href="#spread">Spread</a>
+      <a href="#mix">Mix</a>
+      <a href="#mismatch">Mismatch</a>
+      <a href="#divergence">Divergence</a>
+      <a href="#carbon">Carbon</a>
+      <a href="#curtailment">Curtailment</a>
+      <a href="#history">History</a>
+    </nav>
+
+    <!-- 1 · PULSE -->
+    <section class="block" id="pulse">
+      <div class="block-head"><h2>Pulse <span class="lede">— the daily rhythm</span><button class="info" data-tip="pulse" aria-label="About Pulse">i</button></h2></div>
+      <p class="block-pitch">How the price of electricity rises and falls across the hours of an average day — a midday solar trough, an evening peak.</p>
+      <div class="block-body">
+        <div class="rail" id="railPulse"></div>
+        <div class="chartcol"><div class="chartwrap" id="boxPulse"><canvas id="cPulse"></canvas></div>
+          <p class="cap">Weekday (solid) vs weekend (dashed), €/MWh. Average over the whole period, local time. Source: ENTSO-E.</p></div>
+      </div>
+    </section>
+
+    <!-- 2 · SPREAD -->
+    <section class="block" id="spread">
+      <div class="block-head"><h2>Spread <span class="lede">— the daily gap</span><button class="info" data-tip="tb1" aria-label="About Spread">i</button></h2></div>
+      <p class="block-pitch">How wide is the gap each day between the cheapest and most expensive hour — and how often prices go negative. The swing batteries and demand-shifting live on.</p>
+      <div class="block-body">
+        <div class="rail" id="railSpread"></div>
+        <div class="chartcol"><div class="chartwrap" id="boxSpread"><canvas id="cSpread"></canvas></div>
+          <p class="cap">Daily TB1 = max − min hourly price; red bars had negative-price hours, amber is the widest day. Source: ENTSO-E.</p></div>
+      </div>
+    </section>
+
+    <!-- 3 · MIX -->
+    <section class="block" id="mix">
+      <div class="block-head"><h2>Mix <span class="lede">— what makes the power</span><button class="info" data-tip="mix" aria-label="About Mix">i</button></h2><a class="full-view" href="mix.html">Full view ↗</a></div>
+      <p class="block-pitch">What actually generates the electricity, fuel by fuel. France leans on flat nuclear; Germany rides volatile wind and solar with gas and coal filling the gaps.</p>
+      <div class="block-body">
+        <div class="rail" id="railMix"></div>
+        <div class="chartcol"><div class="chartwrap" id="boxMix"><canvas id="cMix"></canvas></div>
+          <div class="fuel-legend" id="legMix"></div>
+          <p class="cap">Stacked average generation by fuel, GW. Gaps render as breaks, never fabricated zeros. Source: ENTSO-E.</p></div>
+      </div>
+    </section>
+
+    <!-- 4 · MISMATCH -->
+    <section class="block" id="mismatch">
+      <div class="block-head"><h2>Mismatch <span class="lede">— residual load</span><button class="info" data-tip="residual" aria-label="About Mismatch">i</button></h2></div>
+      <p class="block-pitch">The demand left for conventional plants and batteries after wind and solar have done their bit. It dips midday and peaks in the evening — which is why prices peak then too.</p>
+      <div class="block-body">
+        <div class="rail" id="railMis"></div>
+        <div class="chartcol"><div class="chartwrap" id="boxMis"><canvas id="cMis"></canvas></div>
+          <p class="cap">Residual load = demand − wind − solar (GW); the shaded band is met by wind+solar. Can go negative. DE-LU, whole period. Source: ENTSO-E.</p></div>
+      </div>
+    </section>
+
+    <!-- 5 · DIVERGENCE -->
+    <section class="block" id="divergence">
+      <div class="block-head"><h2>Divergence <span class="lede">— geography</span><button class="info" data-tip="divergence" aria-label="About Divergence">i</button></h2><a class="full-view" href="divergence.html">Full view ↗</a></div>
+      <p class="block-pitch">How far neighbouring zones' prices drift — and why. When an interconnector fills up, the cheaper side can't rescue the dearer one and prices decouple.</p>
+      <div class="block-body">
+        <div class="rail" id="railDiv"></div>
+        <div class="chartcol">
+          <span class="seg" id="divSeg"><button data-m="prices" class="active">Prices by zone</button><button data-m="flows">Flow vs price gap</button></span>
+          <div class="chartwrap" id="boxDiv"><canvas id="cDiv"></canvas></div>
+          <p class="cap" id="capDiv"></p></div>
+      </div>
+    </section>
+
+    <!-- 6 · CARBON -->
+    <section class="block" id="carbon">
+      <div class="block-head"><h2>Carbon <span class="lede">— how clean each hour is</span><button class="info" data-tip="carbon" aria-label="About Carbon">i</button></h2></div>
+      <p class="block-pitch">Grid carbon intensity against renewable share: intensity falls as wind and solar rise, and France's nuclear reads far cleaner than coal-heavy hours.</p>
+      <div class="block-body">
+        <div class="rail" id="railCarbon"></div>
+        <div class="chartcol"><div class="chartwrap" id="boxCarbon"><canvas id="cCarbon"></canvas></div>
+          <p class="cap">Brown = carbon intensity (left), green = renewable % (right). Production-based, IPCC AR5 lifecycle factors.</p></div>
+      </div>
+    </section>
+
+    <!-- 7 · CURTAILMENT -->
+    <section class="block" id="curtailment">
+      <div class="block-head"><h2>Curtailment <span class="lede">— wasted clean power</span><button class="info" data-tip="curtail" aria-label="About Curtailment">i</button></h2><a class="full-view" href="curtailment.html">Full view ↗</a></div>
+      <p class="block-pitch">Wind and solar thrown away when the grid can't absorb or move it — the cost of Germany's north–south bottleneck. It spikes on stormy, negative-price days.</p>
+      <div class="block-body">
+        <div class="rail" id="railCurtail"></div>
+        <div class="chartcol"><div class="chartwrap" id="boxCurtail"><canvas id="cCurtail"></canvas></div>
+          <p class="cap" id="capCurtail">Green = curtailed renewable energy (MWh/day); red = negative-price hours that day. Germany. Source: netztransparenz.de.</p></div>
+      </div>
+    </section>
+
+    <!-- 8 · HISTORY -->
+    <section class="block" id="history">
+      <div class="block-head"><h2>History <span class="lede">— the long view</span><button class="info" data-tip="history" aria-label="About History">i</button></h2><a class="full-view" href="history.html">Full view ↗</a></div>
+      <p class="block-pitch">Years of daily spread at once. Drag across the multi-year chart to zoom; fold every year onto twelve months; read the year-on-year trend. DE-LU; not affected by the window control.</p>
+      <div class="block-body">
+        <div class="rail" id="railTime"></div>
+        <div class="chartcol">
+          <span class="seg" id="histSeg"><button data-m="multi" class="active">Multi-year</button><button data-m="season">Seasonal</button><button data-m="yearly">Year on year</button></span>
+          <div class="chartwrap" id="boxHist"><canvas id="cHist"></canvas></div>
+          <p class="cap" id="capHist">TB1 €/MWh. Drag to zoom, double-click to reset. Crosses the Oct-2025 resolution break (resampled to hourly). Source: ENTSO-E.</p></div>
+      </div>
+    </section>
+
+    <div id="status" class="loading">Loading data…</div>
+    <p class="cap" style="margin-top:28px;text-align:center;">Data: <a href="https://transparency.entsoe.eu" style="color:var(--muted);">ENTSO-E</a> + <a href="https://www.netztransparenz.de" style="color:var(--muted);">netztransparenz.de</a>. Pre-computed, static, no live backend.</p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+  <script src="util.js"></script>
+  <script src="fuels.js"></script>
+  <script>
+    const eur = (n) => "€" + Math.round(n);
+    const hh = (h) => String(h).padStart(2, "0") + ":00";
+    const gw1 = (n) => (Math.round(n * 10) / 10) + " GW";
+    const mwh = (n) => Math.round(n).toLocaleString() + " MWh";
+    const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const monthLabel = (m) => { const [y, mo] = m.split("-"); return MONTHS[+mo - 1] + " " + y.slice(2); };
+    const mean = (a) => { const v = a.filter(x => x != null); return v.length ? v.reduce((x, y) => x + y, 0) / v.length : null; };
+    const D = {}, charts = {};
+    let zone = "DE_LU", windowDays = 9999, divMode = "prices", histMode = "multi";
+
+    async function loadJSON(name) {
+      for (const path of ["../data/" + name, "data/" + name, "/data/" + name]) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) {}
+      }
+      return null;
+    }
+    function draw(boxId, canvasId, cfg) {
+      if (charts[canvasId]) { charts[canvasId].destroy(); delete charts[canvasId]; }
+      document.getElementById(boxId).innerHTML = `<canvas id="${canvasId}"></canvas>`;
+      charts[canvasId] = new Chart(document.getElementById(canvasId), cfg);
+      return charts[canvasId];
+    }
+    function noData(boxId, canvasId, msg) {
+      if (charts[canvasId]) { charts[canvasId].destroy(); delete charts[canvasId]; }
+      document.getElementById(boxId).innerHTML = `<div class="nodata">${msg}</div>`;
+    }
+    const baseOpts = (scales, extraPlugins = {}) => ({
+      responsive: true, maintainAspectRatio: false, animation: false,
+      interaction: { mode: "index", intersect: false },
+      plugins: Object.assign({ legend: { display: false } }, extraPlugins), scales,
+    });
+    const axX = (extra = {}) => Object.assign({ ticks: { color: "#888780", font: { size: 9 }, maxTicksLimit: 7 }, grid: { display: false } }, extra);
+    const axY = (extra = {}) => Object.assign({ ticks: { color: "#888780", font: { size: 9 } }, grid: { color: "rgba(0,0,0,0.05)" } }, extra);
+    const extreme = (arr, want) => { let idx = -1, v = want === "max" ? -Infinity : Infinity;
+      (arr || []).forEach((x, i) => { if (x == null) return; if ((want === "max" && x > v) || (want === "min" && x < v)) { v = x; idx = i; } }); return { idx, val: v }; };
+
+    function kpiTile({ label, val, cls = "", tip = "", head = false }) {
+      return `<div class="kpi ${head ? "headline" : ""}"><div class="label">${label}${tip ? ` <button class="info" data-tip="${tip}" aria-label="More on ${label}">i</button>` : ""}</div><div class="val ${cls}">${val}</div></div>`;
+    }
+    function renderKpis(id, items) { document.getElementById(id).innerHTML = items.map(kpiTile).join(""); }
+
+    const TIPS = {
+      pulse: "Each line is the average price at that hour across the period, weekday vs weekend. The midday dip is solar; the evening peak is when solar fades but demand stays high.",
+      tb1: "TB1 = the gap between a day's most and least expensive hour, on hourly-averaged prices. Since Germany's Oct-2025 switch to quarter-hourly settlement, true 15-minute spreads are wider — this is a conservative lower bound.",
+      arb: "Upper bound only — not achievable revenue. Assumes perfect next-day foresight, a 2-hour battery charging at the day's cheapest hours and discharging at the priciest, and zero round-trip losses. Real revenue is materially lower.",
+      mix: "Average generation by fuel type, stacked. A fuel is the same colour in every view. Missing reporting shows as a gap, never a fabricated zero. Bidding zones, not countries (DE-LU = Germany + Luxembourg).",
+      residual: "Residual load = demand − wind − solar: the demand left for conventional plants and batteries. It can go negative when renewables exceed demand. Shown for DE-LU.",
+      divergence: "Average monthly day-ahead price per bidding zone (selected zone highlighted in red), and the physical flow vs price gap on a German border. Where flow saturates capacity, prices can't converge.",
+      congestion: "Bars = net flow (+ = DE-LU exporting); line = price gap. Amber dots mark months with flow at/near capacity ≥20% of hours. Western borders (FR/NL/BE) use flow-based coupling and publish no capacity, so congestion can't be flagged there.",
+      carbon: CARBON_METHODOLOGY,
+      curtail: "Curtailed = clean energy thrown away when the grid can't absorb or move it. Source: netztransparenz.de redispatch (renewable down-regulation, MWh). German total, not zone-specific.",
+      history: "Daily TB1 across several years. Drag horizontally to zoom, scroll to zoom, double-click to reset. Shown for DE-LU.",
+      seasonal: "Every year's daily spread folded onto twelve months, then averaged — which months run wide regardless of year.",
+      yoy: "Average daily spread per calendar year, and the year-on-year change. The multi-year trend single-year views can't show.",
+    };
+    (function initTips() {
+      let pop = null, owner = null;
+      const close = () => { if (pop) { pop.remove(); pop = null; owner = null; } };
+      function open(btn) {
+        close(); const txt = TIPS[btn.dataset.tip]; if (!txt) return;
+        pop = document.createElement("div"); pop.className = "tip-pop"; pop.setAttribute("role", "tooltip"); pop.textContent = txt;
+        document.body.appendChild(pop);
+        const r = btn.getBoundingClientRect();
+        pop.style.top = (window.scrollY + r.bottom + 6) + "px";
+        pop.style.left = Math.max(8, Math.min(window.scrollX + r.left - 4, window.scrollX + window.innerWidth - pop.offsetWidth - 12)) + "px";
+        owner = btn;
+      }
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".info");
+        if (btn) { e.preventDefault(); e.stopPropagation(); owner === btn ? close() : open(btn); }
+        else if (!e.target.closest(".tip-pop")) close();
+      });
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+      window.addEventListener("scroll", close, { passive: true });
+    })();
+
+    function cutoff() {
+      const end = D.spread && D.spread.period_end;
+      if (!end || windowDays >= 9999) return null;
+      const d = new Date(end + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() - windowDays);
+      return d.toISOString().slice(0, 10);
+    }
+    const inWin = (iso, cut) => !cut || iso >= cut;
+    const has = (file, z) => D[file] && D[file].zones && D[file].zones[z];
+
+    // 1 · PULSE
+    function renderPulse() {
+      const z = has("pulse", zone) ? zone : "DE_LU";
+      const pu = D.pulse.zones[z];
+      if (!pu) { noData("boxPulse", "cPulse", "No price data for this zone."); document.getElementById("railPulse").innerHTML = ""; return; }
+      draw("boxPulse", "cPulse", { type: "line",
+        data: { labels: pu.hours.map(hh), datasets: [
+          { label: "Weekday", data: pu.weekday_mean, borderColor: "#185fa5", backgroundColor: "transparent", borderWidth: 2, pointRadius: 0, tension: 0.35, spanGaps: true },
+          { label: "Weekend", data: pu.weekend_mean, borderColor: "#b8860b", borderDash: [4,3], backgroundColor: "transparent", borderWidth: 1.5, pointRadius: 0, tension: 0.35, spanGaps: true } ] },
+        options: baseOpts({ x: axX({ ticks: { color: "#888780", font: { size: 9 }, maxTicksLimit: 8 } }), y: axY({ ticks: { color: "#888780", font: { size: 9 }, callback: eur } }) },
+          { tooltip: { callbacks: { title: (c) => hh(c[0].dataIndex), label: (c) => `${c.dataset.label}: ${eur(c.parsed.y)}/MWh` } } }) });
+      const peak = extreme(pu.all_mean, "max"), trough = extreme(pu.all_mean, "min");
+      renderKpis("railPulse", [
+        { label: "Priciest hour", val: peak.idx >= 0 ? `${hh(peak.idx)} · ${eur(peak.val)}` : "—", cls: "neg", head: true },
+        { label: "Cheapest hour", val: trough.idx >= 0 ? `${hh(trough.idx)} · ${eur(trough.val)}` : "—", cls: "pos" },
+        { label: "Peak − trough", val: (peak.idx >= 0 && trough.idx >= 0) ? eur(peak.val - trough.val) + "/MWh" : "—" },
+      ]);
+    }
+
+    // 2 · SPREAD
+    function renderSpread(cut) {
+      const z = has("spread", zone) ? zone : "DE_LU";
+      const sp = D.spread.zones[z];
+      const rows = sp ? sp.days.filter(d => inWin(d.date, cut)) : [];
+      let wi = -1, wv = -1; rows.forEach((r, i) => { if (r.tb1 > wv) { wv = r.tb1; wi = i; } });
+      draw("boxSpread", "cSpread", { type: "bar",
+        data: { labels: rows.map(r => fmtDate(r.date)), datasets: [{ data: rows.map(r => r.tb1),
+          backgroundColor: rows.map((r, i) => i === wi ? "#b8860b" : (r.negative_hours > 0 ? "#a32d2d" : "#185fa5")), borderWidth: 0 }] },
+        options: baseOpts({ x: axX({ ticks: { color: "#888780", font: { size: 9 }, maxTicksLimit: 6 } }), y: axY({ ticks: { color: "#888780", font: { size: 9 }, callback: eur } }) },
+          { tooltip: { callbacks: { title: (c) => fmtDate(rows[c[0].dataIndex].date) + (c[0].dataIndex === wi ? " · widest" : ""), label: (c) => `TB1 ${eur(c.parsed.y)}/MWh · ${rows[c.dataIndex].negative_hours}h negative` } } }) });
+      const avg = mean(rows.map(r => r.tb1));
+      const negTot = rows.reduce((a, r) => a + (r.negative_hours || 0), 0);
+      const arb = sp && sp.summary ? sp.summary.perfect_arbitrage_eur_per_mw : null;
+      renderKpis("railSpread", [
+        { label: "Avg daily spread", val: avg != null ? eur(avg) + "/MWh" : "—", head: true },
+        { label: "Widest day", val: wi >= 0 ? `${fmtDate(rows[wi].date).replace(/ \d{4}$/, "")} · ${eur(wv)}` : "—" },
+        { label: "Negative-price hours", val: negTot.toLocaleString() },
+        { label: "Arbitrage ceiling", val: arb != null ? "€" + Math.round(arb).toLocaleString() + "/MW·yr" : "—", tip: "arb" },
+      ]);
+    }
+
+    // 3 · MIX
+    function renderMix(cut) {
+      const z = has("mix", zone) ? zone : null;
+      if (!z) { noData("boxMix", "cMix", "No generation data for this zone."); document.getElementById("legMix").innerHTML = ""; document.getElementById("railMix").innerHTML = ""; return; }
+      const zd = D.mix.zones[z];
+      const idx = zd.days.map((d, i) => inWin(d, cut) ? i : -1).filter(i => i >= 0);
+      const fuels = orderFuels(Object.keys(zd.daily_gw));
+      draw("boxMix", "cMix", { type: "line",
+        data: { labels: idx.map(i => fmtDate(zd.days[i])), datasets: fuels.map(f => ({ label: f, data: idx.map(i => zd.daily_gw[f][i]),
+          backgroundColor: fuelColor(f) + "cc", borderWidth: 0, fill: true, pointRadius: 0, tension: 0.2 })) },
+        options: baseOpts({ x: axX({ stacked: true, ticks: { color: "#888780", font: { size: 9 }, maxTicksLimit: 6 } }), y: axY({ stacked: true, ticks: { color: "#888780", font: { size: 9 }, callback: (v) => v + " GW" } }) },
+          { tooltip: { itemSort: (a, b) => b.parsed.y - a.parsed.y, callbacks: { label: (c) => c.parsed.y == null ? null : `${c.dataset.label}: ${gw1(c.parsed.y)}` } } }) });
+      document.getElementById("legMix").innerHTML = fuels.map(f => `<span><span class="swatch" style="background:${fuelColor(f)}"></span>${f}</span>`).join("");
+      let ren = 0, tot = 0; const sums = {};
+      fuels.forEach(f => { const s = idx.reduce((a, i) => a + (zd.daily_gw[f][i] || 0), 0); sums[f] = s; tot += s; if (RENEWABLE_FUELS.has(f)) ren += s; });
+      const top = fuels.slice().sort((a, b) => sums[b] - sums[a])[0];
+      const ci = (D.carbon && has("carbon", z)) ? mean(D.carbon.zones[z].intensity_daily.filter((_, i) => inWin(D.carbon.zones[z].days[i], cut))) : null;
+      renderKpis("railMix", [
+        { label: "Renewable share", val: tot > 0 ? Math.round(100 * ren / tot) + "%" : "—", cls: "pos", head: true },
+        { label: "Top source", val: top || "—" },
+        { label: "Carbon intensity", val: ci != null ? Math.round(ci) + " gCO₂/kWh" : "—", tip: "carbon" },
+      ]);
+    }
+
+    // 4 · MISMATCH
+    function renderMis() {
+      const m = D.mis;
+      if (!m) { noData("boxMis", "cMis", "No data."); document.getElementById("railMis").innerHTML = ""; return; }
+      draw("boxMis", "cMis", { type: "line",
+        data: { labels: m.hours.map(hh), datasets: [
+          { label: "Total load", data: m.total_load_gw, borderColor: "#9b9a94", borderDash: [4,3], backgroundColor: "transparent", borderWidth: 1.2, pointRadius: 0, tension: 0.35, spanGaps: true },
+          { label: "Residual load", data: m.residual_load_gw, borderColor: "#185fa5", backgroundColor: "rgba(59,109,17,0.12)", fill: { target: 0 }, borderWidth: 2.2, pointRadius: 0, tension: 0.35, spanGaps: true } ] },
+        options: baseOpts({ x: axX({ ticks: { color: "#888780", font: { size: 9 }, maxTicksLimit: 8 } }), y: axY({ ticks: { color: "#888780", font: { size: 9 }, callback: (v) => v + " GW" } }) },
+          { tooltip: { callbacks: { title: (c) => hh(c[0].dataIndex), label: (c) => `${c.dataset.label}: ${Math.round(c.parsed.y)} GW` } } }) });
+      const pk = extreme(m.residual_load_gw, "max"), tr = extreme(m.residual_load_gw, "min");
+      let over = 0; for (let h = 0; h < 24; h++) { const t = m.total_load_gw[h], r = m.residual_load_gw[h]; if (t != null && r != null && t > 0 && (t - r) > 0.5 * t) over++; }
+      renderKpis("railMis", [
+        { label: "Residual peak", val: pk.idx >= 0 ? `${hh(pk.idx)} · ${Math.round(pk.val)} GW` : "—", cls: "neg", head: true },
+        { label: "Residual trough", val: tr.idx >= 0 ? `${hh(tr.idx)} · ${Math.round(tr.val)} GW` : "—", cls: "pos" },
+        { label: "Midday→evening swing", val: (pk.idx >= 0 && tr.idx >= 0) ? "+" + Math.round(pk.val - tr.val) + " GW" : "—" },
+        { label: "Hours wind+solar > 50%", val: over + " h" },
+      ]);
+    }
+
+    // 5 · DIVERGENCE (toggle: prices | flows)
+    function renderDiv(cut) {
+      const d = D.div;
+      // KPI band (same regardless of toggle)
+      const sp = d.de_fr_spread.filter(v => v != null); const avg = sp.length ? mean(sp) : null;
+      const wIdx = d.de_fr_spread.indexOf(Math.max(...d.de_fr_spread.filter(v => v != null)));
+      const de = d.series.DE_LU, coupl = {};
+      d.zones.filter(z => z !== "DE_LU").forEach(z => { const diffs = d.series[z].map((v, i) => (v == null || de[i] == null) ? null : Math.abs(v - de[i])).filter(v => v != null); coupl[z] = diffs.length ? mean(diffs) : Infinity; });
+      const sorted = Object.entries(coupl).sort((a, b) => a[1] - b[1]);
+      renderKpis("railDiv", [
+        { label: "Avg DE−FR spread", val: avg != null ? eur(avg) + "/MWh" : "—", head: true },
+        { label: "Widest month", val: wIdx >= 0 ? monthLabel(d.months[wIdx]) : "—" },
+        { label: "Most coupled to DE", val: sorted.length ? zoneName(sorted[0][0]) : "—", cls: "pos" },
+        { label: "Most divergent", val: sorted.length ? zoneName(sorted[sorted.length - 1][0]) : "—", cls: "neg" },
+      ]);
+      if (divMode === "prices") {
+        const monIdx = d.months.map((m, i) => (!cut || (m + "-28") >= cut) ? i : -1).filter(i => i >= 0);
+        draw("boxDiv", "cDiv", { type: "line",
+          data: { labels: monIdx.map(i => monthLabel(d.months[i])), datasets: d.zones.map(z => ({ label: zoneName(z), data: monIdx.map(j => d.series[z][j]),
+            borderColor: z === zone ? "#a32d2d" : "rgba(120,118,110,0.40)", borderWidth: z === zone ? 2.6 : 1, backgroundColor: "transparent", pointRadius: 0, tension: 0.3, spanGaps: true })) },
+          options: baseOpts({ x: axX(), y: axY({ ticks: { color: "#888780", font: { size: 9 }, callback: eur } }) },
+            { tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${eur(c.parsed.y)}/MWh` } } }) });
+        document.getElementById("capDiv").textContent = `Monthly mean price by zone, ${zoneName(zone)} highlighted${windowDays < 180 ? " · monthly resolution (coarser than the window)" : ""}. Source: ENTSO-E.`;
+      } else {
+        const f = D.flows;
+        if (!f || !f.borders || !f.borders.length) { noData("boxDiv", "cDiv", "No flow data."); return; }
+        const nb = (zone !== "DE_LU" && f.borders.includes(zone)) ? zone : (f.borders.includes("FR") ? "FR" : f.borders[0]);
+        const b = f.data[nb];
+        const di = {}; d.months.forEach((m, i) => { di[m] = i; });
+        const gap = f.months.map(m => { const i = di[m]; return (i == null || d.series.DE_LU[i] == null || d.series[nb][i] == null) ? null : Math.round((d.series.DE_LU[i] - d.series[nb][i]) * 10) / 10; });
+        const cong = (b.congestion_pct || []).map((p, i) => (p != null && p >= 20) ? i : -1).filter(i => i >= 0);
+        draw("boxDiv", "cDiv", {
+          data: { labels: f.months.map(monthLabel), datasets: [
+            { type: "bar", label: "Net flow", yAxisID: "yF", data: b.net_flow_mw, backgroundColor: b.net_flow_mw.map(v => v == null ? "#ccc" : (v >= 0 ? "rgba(24,95,165,0.55)" : "rgba(24,95,165,0.22)")), borderWidth: 0 },
+            { type: "line", label: "Price gap", yAxisID: "yP", data: gap, borderColor: "#a32d2d", backgroundColor: "transparent", borderWidth: 2, tension: 0.3, spanGaps: true,
+              pointBackgroundColor: f.months.map((_, i) => cong.includes(i) ? "#b8860b" : "#a32d2d"), pointRadius: f.months.map((_, i) => cong.includes(i) ? 4 : 0) } ] },
+          options: baseOpts({ x: axX(), yF: axY({ position: "left", ticks: { color: "#888780", font: { size: 9 }, callback: (v) => v + " MW" } }), yP: { position: "right", grid: { display: false }, ticks: { color: "#a32d2d", font: { size: 9 }, callback: eur } } },
+            { tooltip: { callbacks: { label: (c) => c.dataset.label === "Net flow" ? `Net flow: ${c.parsed.y == null ? "n/a" : Math.round(c.parsed.y) + " MW"}` : `DE-LU − ${zoneName(nb)}: ${c.parsed.y == null ? "n/a" : eur(c.parsed.y) + "/MWh"}` } } }) });
+        document.getElementById("capDiv").innerHTML = `DE-LU ↔ ${zoneName(nb)}. ` + (b.capacity_available
+          ? `Amber dots = congested months (flow at/near capacity). Source: ENTSO-E.`
+          : `No published capacity for this flow-based border, so congestion isn't flagged. Source: ENTSO-E.`);
+      }
+    }
+
+    // 6 · CARBON
+    function renderCarbon(cut) {
+      const z = has("carbon", zone) ? zone : (D.carbon ? D.carbon.zone_default : null);
+      if (!D.carbon || !z || !D.carbon.zones[z]) { noData("boxCarbon", "cCarbon", "No carbon data for this zone."); document.getElementById("railCarbon").innerHTML = ""; return; }
+      const zd = D.carbon.zones[z];
+      const idx = zd.days.map((d, i) => inWin(d, cut) ? i : -1).filter(i => i >= 0);
+      draw("boxCarbon", "cCarbon", { type: "line",
+        data: { labels: idx.map(i => fmtDate(zd.days[i])), datasets: [
+          { label: "Carbon", yAxisID: "y", data: idx.map(i => zd.intensity_daily[i]), borderColor: "#5a3a22", backgroundColor: "rgba(90,58,34,0.10)", fill: true, borderWidth: 2, pointRadius: 0, tension: 0.3, spanGaps: true },
+          { label: "Renewable %", yAxisID: "y2", data: idx.map(i => zd.renewable_share_daily[i]), borderColor: "#3b6d11", backgroundColor: "transparent", borderWidth: 1.5, pointRadius: 0, tension: 0.3, spanGaps: true } ] },
+        options: baseOpts({ x: axX({ ticks: { color: "#888780", font: { size: 9 }, maxTicksLimit: 6 } }),
+          y: axY({ position: "left", ticks: { color: "#5a3a22", font: { size: 9 } } }),
+          y2: { position: "right", min: 0, max: 100, grid: { display: false }, ticks: { color: "#3b6d11", font: { size: 9 }, callback: (v) => v + "%" } } },
+          { tooltip: { callbacks: { label: (c) => c.dataset.label === "Carbon" ? `${Math.round(c.parsed.y)} gCO₂/kWh` : `${Math.round(c.parsed.y)}% renewable` } } }) });
+      const prof = zd.intensity_profile || [];
+      const clean = extreme(prof, "min"), dirty = extreme(prof, "max");
+      const meanCI = mean(idx.map(i => zd.intensity_daily[i]));
+      renderKpis("railCarbon", [
+        { label: `Mean · ${zoneName(z)}`, val: meanCI != null ? Math.round(meanCI) + " gCO₂/kWh" : "—", head: true },
+        { label: "Cleanest hour", val: clean.idx >= 0 ? `${hh(clean.idx)} · ${Math.round(clean.val)}` : "—", cls: "pos" },
+        { label: "Dirtiest hour", val: dirty.idx >= 0 ? `${hh(dirty.idx)} · ${Math.round(dirty.val)}` : "—", cls: "neg" },
+      ]);
+    }
+
+    // 7 · CURTAILMENT
+    function renderCurtail(cut) {
+      const c = D.curtail;
+      if (!c || c.status === "unavailable" || !c.days || !c.days.length) {
+        noData("boxCurtail", "cCurtail", "Awaiting data source — needs netztransparenz credentials (see Curtailment full view).");
+        document.getElementById("capCurtail").textContent = "SMARD's JSON API doesn't expose curtailment; the netztransparenz WebAPI needs OAuth credentials.";
+        renderKpis("railCurtail", [{ label: "Status", val: "awaiting source", head: true }]);
+        return;
+      }
+      const days = c.days.filter(d => inWin(d.date, cut));
+      const neg = {}; if (D.spreadDE && D.spreadDE.days) D.spreadDE.days.forEach(d => { neg[d.date] = d.negative_hours; });
+      draw("boxCurtail", "cCurtail", {
+        data: { labels: days.map(d => d.date), datasets: [
+          { type: "bar", label: "Curtailed", yAxisID: "y", data: days.map(d => d.curtailed_mwh), backgroundColor: "#3b6d11", borderWidth: 0 },
+          { type: "line", label: "Neg hours", yAxisID: "y2", data: days.map(d => (d.date in neg ? neg[d.date] : null)), borderColor: "#a32d2d", backgroundColor: "transparent", borderWidth: 1.2, pointRadius: 0, tension: 0.3, spanGaps: true } ] },
+        options: baseOpts({ x: { type: "time", time: { unit: "month" }, ticks: { color: "#888780", font: { size: 9 }, maxTicksLimit: 7 }, grid: { display: false } },
+          y: axY({ position: "left", ticks: { color: "#3b6d11", font: { size: 9 }, callback: (v) => Math.round(v / 1000) + "k" } }),
+          y2: { position: "right", grid: { display: false }, ticks: { color: "#a32d2d", font: { size: 9 } } } },
+          { tooltip: { callbacks: { label: (ci) => ci.dataset.label === "Curtailed" ? `Curtailed: ${mwh(ci.parsed.y)}` : `${ci.parsed.y} neg-price hours` } } }) });
+      const tot = days.reduce((a, d) => a + (d.curtailed_mwh || 0), 0);
+      const peak = days.reduce((b, d) => d.curtailed_mwh > (b ? b.curtailed_mwh : -1) ? d : b, null);
+      renderKpis("railCurtail", [
+        { label: "Total curtailed", val: mwh(tot), head: true },
+        { label: "Days covered", val: days.length },
+        { label: "Peak day", val: peak ? `${fmtDate(peak.date).replace(/ \d{4}$/, "")} · ${mwh(peak.curtailed_mwh)}` : "—" },
+      ]);
+    }
+
+    // 8 · HISTORY (toggle: multi | season | yearly)
+    let histChart = null;
+    function renderHistory() {
+      const H = D.hist;
+      if (!H) { noData("boxHist", "cHist", "No history data."); document.getElementById("railTime").innerHTML = ""; return; }
+      const widest = H.yearly.reduce((b, y) => y.avg_tb1 > (b ? b.avg_tb1 : -1) ? y : b, null);
+      const totNeg = H.yearly.reduce((a, y) => a + (y.neg_hours || 0), 0);
+      renderKpis("railTime", [
+        { label: "Year-on-year change", val: H.yoy_tb1_change_pct != null ? (H.yoy_tb1_change_pct >= 0 ? "+" : "") + H.yoy_tb1_change_pct + "%" : "—", cls: H.yoy_tb1_change_pct != null ? (H.yoy_tb1_change_pct >= 0 ? "neg" : "pos") : "", tip: "yoy", head: true },
+        { label: "Years covered", val: H.years_covered.join(", ") },
+        { label: "Widest year", val: widest ? widest.year : "—" },
+        { label: "Negative hours (all)", val: totNeg.toLocaleString() },
+      ]);
+      const cap = document.getElementById("capHist");
+      if (histMode === "multi") {
+        const pts = H.days.map(d => ({ x: d.date, y: d.tb1 }));
+        histChart = draw("boxHist", "cHist", { type: "line",
+          data: { datasets: [{ data: pts, parsing: false, borderColor: "#185fa5", backgroundColor: "rgba(24,95,165,0.08)", fill: true, borderWidth: 1, pointRadius: 0, tension: 0 }] },
+          options: baseOpts({ x: { type: "time", time: { unit: "month" }, ticks: { color: "#888780", font: { size: 9 }, maxTicksLimit: 10 }, grid: { display: false } }, y: axY({ ticks: { color: "#888780", font: { size: 9 }, callback: eur } }) },
+            { tooltip: { callbacks: { title: (c) => fmtDate(c[0].raw.x), label: (c) => `TB1 ${eur(c.raw.y)}/MWh` } }, zoom: { zoom: { drag: { enabled: true }, wheel: { enabled: true }, mode: "x" } } }) });
+        cap.textContent = "TB1 €/MWh. Drag to zoom, scroll to zoom, double-click to reset. Crosses the Oct-2025 resolution break. Source: ENTSO-E.";
+      } else if (histMode === "season") {
+        const byM = {}; H.seasonal.forEach(s => { byM[s.month] = s.avg_tb1; });
+        draw("boxHist", "cHist", { type: "line",
+          data: { labels: MONTHS, datasets: [{ data: MONTHS.map((_, i) => byM[i + 1] ?? null), borderColor: "#b8860b", backgroundColor: "rgba(184,134,11,0.10)", fill: true, borderWidth: 2, pointRadius: 2, tension: 0.35, spanGaps: true }] },
+          options: baseOpts({ x: axX(), y: axY({ ticks: { color: "#888780", font: { size: 9 }, callback: eur } }) },
+            { tooltip: { callbacks: { label: (c) => `avg TB1 ${eur(c.parsed.y)}/MWh` } } }) });
+        cap.textContent = "Every year folded onto twelve months, averaged. Which months run wide. €/MWh.";
+      } else {
+        draw("boxHist", "cHist", { type: "bar",
+          data: { labels: H.yearly.map(y => y.year), datasets: [{ data: H.yearly.map(y => y.avg_tb1), backgroundColor: "#185fa5", borderWidth: 0 }] },
+          options: baseOpts({ x: axX(), y: axY({ ticks: { color: "#888780", font: { size: 9 }, callback: eur } }) },
+            { tooltip: { callbacks: { label: (c) => `avg TB1 ${eur(c.parsed.y)}/MWh · ${H.yearly[c.dataIndex].neg_hours} neg h` } } }) });
+        cap.textContent = "Average daily spread per calendar year. €/MWh.";
+      }
+    }
+
+    function renderAll() {
+      const cut = cutoff();
+      renderPulse(); renderSpread(cut); renderMix(cut); renderMis(); renderDiv(cut); renderCarbon(cut); renderCurtail(cut);
+      const lbl = windowDays >= 9999 ? "all data" : (windowDays >= 180 ? (windowDays / 30) + " months" : windowDays + " days");
+      document.getElementById("periodNote").textContent = `${fmtPeriod(D.spread.period_start, D.spread.period_end)} · showing ${lbl}`;
+    }
+
+    (async function main() {
+      const [spread, pulse, mix, carbon, div, flows, mis, hist, curtail, spreadDE] = await Promise.all([
+        loadJSON("spread_by_zone.json"), loadJSON("pulse_by_zone.json"), loadJSON("mix.json"), loadJSON("carbon.json"),
+        loadJSON("divergence.json"), loadJSON("flows.json"), loadJSON("mismatch.json"), loadJSON("spread_history.json"),
+        loadJSON("curtailment.json"), loadJSON("spread.json"),
+      ]);
+      Object.assign(D, { spread, pulse, mix, carbon, div, flows, mis, hist, curtail, spreadDE });
+      if (!spread) { document.getElementById("status").textContent = "Could not load data. Run the pipeline builders, then serve the folder."; return; }
+
+      const zones = spread.zones_available || ["DE_LU"];
+      const sel = document.getElementById("zone");
+      sel.innerHTML = zones.map(z => `<option value="${z}">${zoneName(z)}</option>`).join("");
+      sel.value = "DE_LU";
+      sel.addEventListener("change", () => { zone = sel.value; renderAll(); });
+      document.querySelectorAll("#winSeg button").forEach(b => b.addEventListener("click", () => {
+        document.querySelectorAll("#winSeg button").forEach(x => x.classList.remove("active"));
+        b.classList.add("active"); windowDays = +b.dataset.days; renderAll();
+      }));
+      document.querySelectorAll("#divSeg button").forEach(b => b.addEventListener("click", () => {
+        document.querySelectorAll("#divSeg button").forEach(x => x.classList.remove("active"));
+        b.classList.add("active"); divMode = b.dataset.m; renderDiv(cutoff());
+      }));
+      document.querySelectorAll("#histSeg button").forEach(b => b.addEventListener("click", () => {
+        document.querySelectorAll("#histSeg button").forEach(x => x.classList.remove("active"));
+        b.classList.add("active"); histMode = b.dataset.m; renderHistory();
+      }));
+
+      document.getElementById("status").style.display = "none";
+      renderAll();
+      renderHistory();  // window-independent
+
+      const links = [...document.querySelectorAll(".jumpnav a")];
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) links.forEach(l => l.classList.toggle("active", l.getAttribute("href") === "#" + e.target.id)); });
+      }, { rootMargin: "-25% 0px -65% 0px" });
+      document.querySelectorAll("section.block").forEach(s => obs.observe(s));
+    })();
+  </script>
+  <script src="nav.js"></script>
+  </main></div>
+</body>
+</html>

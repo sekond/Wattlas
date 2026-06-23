@@ -10,34 +10,10 @@
   <link rel="stylesheet" href="dash/dash.css?v=5" />
 </head>
 <body>
-  <!-- Mobile-only top bar (hidden on desktop via dash.css; sidebar takes over there) -->
-  <header class="topbar">
-    <div class="brand">Wattlas <small>European electricity, explained</small></div>
-    <nav class="topnav">
-      <a href="#pulse">Pulse</a><a href="#spread">Spread</a><a href="#mix">Mix</a><a href="#mismatch">Mismatch</a><a href="#divergence">Divergence</a><a href="#carbon">Carbon</a><a href="#curtailment">Curtailment</a><a href="#history">History</a><a href="wasted_wind.html">North–south grid&nbsp;↗</a><a href="fr_nuclear.html">France nuclear&nbsp;↗</a>
-    </nav>
-  </header>
-
+  <!-- Navigation (desktop sidebar + mobile scroll-nav) is injected by nav.js,
+       the single source of nav truth shared across every page. The dashboard's
+       own .ctrl bar is static on mobile (dash.css), so no sticky collision. -->
   <div class="shell">
-    <aside class="side">
-      <div class="brand">Wattlas <small>European electricity, explained</small></div>
-      <nav class="sidenav">
-        <a href="#pulse"><span class="n">1</span>Pulse</a>
-        <a href="#spread"><span class="n">2</span>Spread</a>
-        <a href="#mix"><span class="n">3</span>Mix</a>
-        <a href="#mismatch"><span class="n">4</span>Mismatch</a>
-        <a href="#divergence"><span class="n">5</span>Divergence</a>
-        <a href="#carbon"><span class="n">6</span>Carbon</a>
-        <a href="#curtailment"><span class="n">7</span>Curtailment</a>
-        <a href="#history"><span class="n">8</span>History</a>
-        <a href="wasted_wind.html"><span class="n">↗</span>North–south grid</a>
-        <a href="fr_nuclear.html"><span class="n">↗</span>France nuclear</a>
-      </nav>
-      <div class="foot">
-        Open data from <a href="https://transparency.entsoe.eu">ENTSO-E</a> and <a href="https://www.netztransparenz.de">netztransparenz.de</a>. Pre-computed and static — no live backend.
-      </div>
-    </aside>
-
     <main class="main">
       <div class="main-inner">
         <div class="ctrl">
@@ -168,5 +144,6 @@
   <script src="dash/dash-panels-a.js?v=5"></script>
   <script src="dash/dash-panels-b.js?v=5"></script>
   <script src="dash/dash-boot.js?v=5"></script>
+  <script src="nav.js"></script>
 </body>
 </html>
