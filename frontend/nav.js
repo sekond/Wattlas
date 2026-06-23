@@ -2,10 +2,11 @@
  * Injects the desktop sidebar (into the page's .shell) and the mobile
  * scroll-nav (at the top of <body>).
  *
- * Navigation model — context-aware "hybrid + nested":
+ * Navigation model — context-aware "hybrid", headered sections:
  *   • The eight analytical views are SECTIONS of the dashboard (ids #pulse …
  *     #history) AND each (except Carbon) also has a richer standalone page.
- *     In the sidebar they are nested under "Dashboard" to read as its sections.
+ *     The sidebar groups them under a "The Eight Views" header, with the two map
+ *     stories under a "Map Stories" header (Dashboard sits on top, ungrouped).
  *   • ON the dashboard the view links are in-page anchors and the menu acts as a
  *     SCROLL-SPY: clicking smooth-scrolls to a section, and scrolling the page
  *     highlights the section you're in (so "moving through the dashboard moves
@@ -47,13 +48,6 @@
     '.sidenav a:hover .sub{color:var(--muted)}' +
     '.sidenav a.active{color:var(--text);font-weight:600;background:var(--surface-2);border-left-color:var(--amber,#b8860b)}' +
     '.sidenav a.story .n{color:var(--amber,#b8860b);font-weight:700;font-size:9px;letter-spacing:.03em}' +
-    // Nested "Dashboard → its eight views" group: the parent reads as a heading,
-    // the views are indented under it with a hairline guide so the hierarchy is
-    // unmistakable (they are sections of the dashboard, not unrelated pages).
-    '.sidenav a.parent{font-weight:600;color:var(--text)}' +
-    '.sidenav .subnav{display:flex;flex-direction:column;gap:1px;margin:1px 0 6px 14px;' +
-      'padding-left:6px;border-left:1px solid var(--border)}' +
-    '.sidenav .subnav a{font-size:13px}' +
     '.side .foot{margin-top:auto;padding-top:20px;font-size:11px;color:var(--hint);line-height:1.6}' +
     '.main{padding:0 36px 80px;min-width:0}' +
     '.main-inner{max-width:1080px;margin:0 auto;padding-top:26px}' +
@@ -97,8 +91,8 @@
     { text: "History",     mark: "8", section: "history",     page: "history.html"     },
   ];
   var STORIES = [
-    { text: "Germany North - South Grid", mark: "DE", page: "wasted_wind.html" },
-    { text: "France Nuclear",             mark: "FR", page: "fr_nuclear.html"  },
+    { text: "Germany North-South Grid", mark: "DE", page: "wasted_wind.html" },
+    { text: "France Nuclear",           mark: "FR", page: "fr_nuclear.html"  },
   ];
 
   var here = (location.pathname.split("/").pop() || "").toLowerCase();
@@ -134,14 +128,13 @@
   var side = '<div class="brand">Wattlas <small>' + TAGLINE + "</small></div>";
   side += '<nav class="sidenav" aria-label="Site">';
   side += navLink({ href: onDash ? "#top" : DASH, text: "Dashboard", mark: "⌂",
-                    parent: true, home: true, page: DASH, active: false });
-  side += '<div class="subnav">';
+                    home: true, page: DASH, active: false });
+  side += '<div class="navgroup first">The Eight Views</div>';
   VIEWS.forEach(function (v) {
     side += navLink({ href: viewHref(v), text: v.text, mark: v.mark,
                       spy: v.section, page: v.page, active: pageActive(v.page) });
   });
-  side += "</div>";
-  side += '<div class="navgroup">Map stories</div>';
+  side += '<div class="navgroup">Map Stories</div>';
   STORIES.forEach(function (s) {
     side += navLink({ href: s.page, text: s.text, mark: s.mark, story: true,
                       page: s.page, active: pageActive(s.page) });
