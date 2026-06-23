@@ -51,7 +51,7 @@ CROSSWALK_PATH = PIPELINE_DIR / "de_kreis_nuts.json"
 BASEMAP_PATH = ROOT / "frontend" / "geo" / "landkreise.topo.json"
 
 SOURCE = "MaStR (Bundesnetzagentur)"
-TOP_N_PLANTS = 20
+TOP_N_PLANTS = 12   # per fuel (wind, solar)
 
 # Columns we read from the open-mastr *_extended tables (shared schema).
 _UNIT_COLS = [
@@ -139,22 +139,44 @@ def national_totals(units: pd.DataFrame) -> dict:
     return {field: round(float(g.get(fuel, 0.0))) for fuel, field in _FUEL_FIELD.items()}
 
 
-def top_plants(units: pd.DataFrame, n: int = TOP_N_PLANTS) -> list[dict]:
-    """The n largest individual units by MW (with coordinates), as map points.
-    Only wind/solar with valid coordinates qualify (so they can be plotted)."""
-    cand = units[units["fuel"].isin(_FUEL_FIELD) & units["lat"].notna() & units["lon"].notna()]
-    top = cand.sort_values("mw", ascending=False).head(n)
-    return [
-        {
-            "name": (str(r["name"]).strip() if pd.notna(r["name"]) else "—"),
-            "fuel": r["fuel"],
-            "mw": round(float(r["mw"]), 1),
-            "lat": round(float(r["lat"]), 4),
-            "lon": round(float(r["lon"]), 4),
-            "landkreis": (str(r["landkreis"]).strip() if pd.notna(r["landkreis"]) else None),
-        }
-        for _, r in top.iterrows()
-    ]
+# Plant points are clustered PER FUEL so the wind/solar toggle can swap them. MaStR
+# registers wind per turbine, so the largest individual units are offshore turbines
+# packed into one farm — plotting them is a blob. Aggregating on a coarse grid turns
+# each farm/park into one sized point.
+_PLANT_GROUPS = {"wind": ("Wind onshore", "Wind offshore"), "solar": ("Solar",)}
+_CLUSTER_GRID = 0.15   # ~10–17 km cells
+
+
+def top_clusters_by_fuel(units: pd.DataFrame, n: int = TOP_N_PLANTS,
+                         grid: float = _CLUSTER_GRID) -> dict[str, list[dict]]:
+    """Largest wind and solar installations as map points, per fuel. Units are grouped
+    into ~grid° cells (so an offshore farm's turbines collapse to one point), summed,
+    and the top n cells per fuel returned — sized by total MW, coloured by canonical
+    fuel, labelled by Landkreis (or 'Offshore' at sea) with the unit count."""
+    cand = units[units["lat"].notna() & units["lon"].notna()].copy()
+    out: dict[str, list[dict]] = {}
+    for metric, fuels in _PLANT_GROUPS.items():
+        sub = cand[cand["fuel"].isin(fuels)]
+        if sub.empty:
+            out[metric] = []
+            continue
+        cells = sub.assign(clat=(sub["lat"] / grid).round(), clon=(sub["lon"] / grid).round()) \
+                   .groupby(["clat", "clon"])
+        rows = []
+        for _, c in cells:
+            offshore = bool(c["kreis5"].isna().all())
+            lk = c["landkreis"].dropna()
+            rows.append({
+                "name": (str(lk.mode().iat[0]).strip() if not lk.empty else "Offshore"),
+                "fuel": ("Wind offshore" if offshore else "Wind onshore") if metric == "wind" else "Solar",
+                "mw": round(float(c["mw"].sum())),
+                "units": int(len(c)),
+                "lat": round(float(c["lat"].mean()), 3),
+                "lon": round(float(c["lon"].mean()), 3),
+            })
+        rows.sort(key=lambda r: -r["mw"])
+        out[metric] = rows[:n]
+    return out
 
 
 # --------------------------------------------------------------------------- #
@@ -202,7 +224,7 @@ def build(use_cache: bool = False) -> dict:
     units = _load_mastr_units(use_cache)
 
     landkreise = aggregate_by_landkreis(units, kreis_to_nuts, nuts_to_name)
-    plants = top_plants(units)
+    clusters = top_clusters_by_fuel(units)
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
     cap = {
@@ -211,7 +233,8 @@ def build(use_cache: bool = False) -> dict:
         "national_mw": national_totals(units),
         "landkreise": landkreise,
     }
-    top = {"generated_at": now, "source": SOURCE, "unit": "MW", "plants": plants}
+    top = {"generated_at": now, "source": SOURCE, "unit": "MW",
+           "wind": clusters["wind"], "solar": clusters["solar"]}
 
     DATA_DIR.mkdir(exist_ok=True)
     (DATA_DIR / "de_capacity_by_landkreis.json").write_text(
