@@ -7,7 +7,7 @@
   <!-- One responsive shell: a sidebar + long-scroll of panels on desktop; a top
        scroll-spy nav + the same vertical scroll on mobile (no bottom tab bar).
        Charts render lazily as panels scroll into view (dash-boot.js). -->
-  <link rel="stylesheet" href="dash/dash.css?v=5" />
+  <link rel="stylesheet" href="dash/dash.css?v=6" />
 </head>
 <body>
   <!-- Navigation (desktop sidebar + mobile scroll-nav) is injected by nav.js,
@@ -16,6 +16,29 @@
   <div class="shell">
     <main class="main">
       <div class="main-inner">
+
+        <!-- Landing framing + the two marquee map-story deep dives, surfaced up
+             front so first-time visitors meet the strongest material immediately
+             (they're also reachable from the sidebar's Map Stories group). -->
+        <header class="intro">
+          <h1>European electricity, explained</h1>
+          <p class="intro-sub">Open data on Europe's power markets — what a day of electricity costs, what generates it, how clean it is, and how neighbouring zones pull apart. The sharpest stories are structural and regional: start with the two deep dives, then scan the eight views below. Pre-computed and static; every figure carries its source.</p>
+        </header>
+
+        <section class="deepdives" aria-label="Deep dives">
+          <div class="dd-head">Deep dives <span class="dd-sub">— the two stories worth your time</span></div>
+          <div class="dd-grid">
+            <a class="dd-card" href="wasted_wind.html">
+              <span class="dd-badge">DE</span>
+              <span class="dd-body"><span class="dd-title">Germany North-South Grid <span class="dd-arrow">↗</span></span><span class="dd-hook">Wind piles up in the windy north while demand sits in the industrial south — so clean power gets curtailed and the grid pays to reroute it.</span></span>
+            </a>
+            <a class="dd-card" href="fr_nuclear.html">
+              <span class="dd-badge">FR</span>
+              <span class="dd-body"><span class="dd-title">France Nuclear <span class="dd-arrow">↗</span></span><span class="dd-hook">A centralised reactor fleet powers the country — and dips together for refuelling, maintenance, and, in heatwaves, warm rivers.</span></span>
+            </a>
+          </div>
+        </section>
+
         <div class="ctrl">
           <div class="ctrl-card">
             <div class="ctrl-row">
