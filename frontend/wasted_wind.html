@@ -203,9 +203,12 @@
   <script>
     // --- data-loading (kept separate from render, which lives in geo.js) --------
     // data/ JSON — same data-first path order the other views use.
-    async function loadJSON(name) {
+    async function loadJSON(name, bust) {
+      // `bust` defeats stale browser caches for files whose shape can change between
+      // deploys (e.g. de_top_plants.json went {plants:[…]} -> {wind:[…],solar:[…]}).
+      const q = bust ? "?t=" + Date.now() : "";
       for (const base of ["../data/", "data/", "/data/"]) {
-        try { const r = await fetch(base + name); if (r.ok) return r.json(); } catch (e) {}
+        try { const r = await fetch(base + name + q); if (r.ok) return r.json(); } catch (e) {}
       }
       return null;
     }
@@ -286,7 +289,7 @@
       GeoMap.points(map, list, {
         className: "plants", r: (d) => plantSize(d.mw),
         fill: (d) => fuelColor(d.fuel), stroke: "#faf9f5", strokeWidth: 0.7,
-        title: (d) => `${enName(d.name)} · ${fmtMW(d.mw)} MW · ${d.units} ${d.fuel.toLowerCase()} units`,
+        title: (d) => `${enName(d.name)} · ${fmtMW(d.mw)} MW` + (d.units ? ` · ${d.units} ${d.fuel.toLowerCase()} units` : ` · ${d.fuel}`),
       });
       const fuels = [...new Set(list.map((p) => p.fuel))];
       document.getElementById("plantLegend").innerHTML =
@@ -323,7 +326,7 @@
       const [topoData, cap, plants] = await Promise.all([
         loadGeo(),
         loadJSON("de_capacity_by_landkreis.json"),
-        loadJSON("de_top_plants.json"),
+        loadJSON("de_top_plants.json", true),   // bust: shape changed to per-fuel
       ]);
       if (!topoData || !cap) { host.innerHTML = '<div class="nodata">Map data unavailable.</div>'; return; }
 
@@ -342,8 +345,12 @@
         fill: "rgba(163,45,45,.14)", stroke: "#a32d2d", strokeWidth: 1.2,
         title: (d) => `${d.n} — demand centre (population proxy)`,
       });
-      // largest wind/solar clusters, kept per fuel so the toggle can swap them
-      plantsByFuel = { wind: (plants && plants.wind) || [], solar: (plants && plants.solar) || [] };
+      // largest wind/solar clusters, kept per fuel so the toggle can swap them.
+      // Tolerate the old {plants:[…]} shape (e.g. a stale cache) by splitting by fuel.
+      plantsByFuel = (plants && (plants.wind || plants.solar))
+        ? { wind: plants.wind || [], solar: plants.solar || [] }
+        : { wind: ((plants && plants.plants) || []).filter((p) => /Wind/.test(p.fuel || "")),
+            solar: ((plants && plants.plants) || []).filter((p) => p.fuel === "Solar") };
       const allMw = [...plantsByFuel.wind, ...plantsByFuel.solar].map((p) => p.mw);
       plantSize = d3.scaleSqrt().domain([0, Math.max(1, ...allMw)]).range([2.5, 9]);
       // (plotPlants() is called by setMetric so the points follow the wind/solar toggle)
