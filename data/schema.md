@@ -460,6 +460,38 @@ output dips spring/summer (maintenance, in low-demand months by design), yet
 imports do **not** fill the gap at monthly resolution. Heatwave river-cooling derations
 are event-scale (not monthly) — annotate, never fabricate. No alarmist framing.
 
+## `fr_costs.json` (v4 — France-nuclear Panel 4)
+
+Curated €/MWh cost comparison from `pipeline/build_fr_costs.py`. **NOT a live feed** —
+transcribed from published studies (Lazard, Cour des comptes, ANDRA/Cigéo, OECD-NEA,
+IRENA), committed static. The hidden-cost lens is applied **symmetrically** to every
+technology (waste & decommissioning, system & integration, implicit support) — never
+nuclear alone; nuclear's back-end is provisioned, not ignored. Each technology carries a
+**range** and **sources**; central values are illustrative.
+
+```json
+{
+  "generated_at": "2026-06-23T08:00:00Z",
+  "source": "Curated published estimates (not a live feed)",
+  "unit": "EUR/MWh",
+  "components": [ { "key": "plant", "label": "Plant (LCOE)", "color": "#4a78a6" }, … ],
+  "technologies": [
+    { "name": "Solar (utility)", "plant": 55, "waste": 1, "system": 18, "support": 3,
+      "sticker_range": [40, 65], "full_range": [60, 100],
+      "sources": ["Lazard LCOE+ 2024", "OECD-NEA system costs", "IRENA"] }
+    // 4 technologies: utility solar, onshore wind, existing fleet, new-build EPR2
+  ],
+  "takeaways": { "sticker": "…", "full": "…" },
+  "sources": ["Lazard LCOE+ 2024", "Cour des comptes (EPR/EPR2)", …]
+}
+```
+
+The frontend stacks the four components per technology; the **"sticker price"** toggle
+shows `plant` only, **"full system cost"** stacks all adders on every technology; the
+matching `takeaways` string is shown. `full_range` ⊇ the sum of components (validated in
+the builder). Copy block E and the per-technology sources/ranges are shown verbatim;
+framing is symmetric and non-advocacy.
+
 ### Frontend obligations
 - Render `perfect_arbitrage_eur_per_mw` only alongside a visible caveat that it is an unachievable upper bound (see CLAUDE.md landmine #7).
 - Treat `complete: false` days distinctly (e.g. muted) and never break if `days` has gaps.
