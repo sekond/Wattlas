@@ -106,13 +106,21 @@ not energy thrown away on purpose.
 
 ### France nuclear — the centralised mirror *(map view)*
 
-The matched twin of North–south grid. A map of the **13 metropolitan régions** shaded
-by hosted nuclear capacity with the ~18 sites (57 reactors, ~63 GW) as capacity-sized
-points; per-région net balance (RTE's éCO2mix *solde*) where nuclear-dense régions
-export and Île-de-France imports; and the seasonal nuclear **output** dip (spring/summer
-maintenance) against the generation mix. Honestly framed: France keeps exporting through
-the dip; heatwave river-cooling limits are the event-scale risk. *Germany can't ship its
-wind south; France can't always keep its nuclear cool.*
+The matched twin of North–south grid, in four panels. A map of the **13 metropolitan
+régions** shaded by hosted nuclear capacity with the ~18 sites (57 reactors, ~63 GW) as
+capacity-sized points; per-région net balance (RTE's éCO2mix *solde*) where nuclear-dense
+régions export and Île-de-France imports; and the seasonal nuclear **output** dip
+(spring/summer maintenance) against the generation mix. Honestly framed: France keeps
+exporting through the dip; heatwave river-cooling limits are the event-scale risk.
+*Germany can't ship its wind south; France can't always keep its nuclear cool.*
+
+A fourth panel asks **"what does the power really cost?"** — a symmetric, sourced €/MWh
+comparison of utility solar, onshore wind, France's amortised existing fleet, and
+new-build EPR2, with a **"sticker price ↔ full system cost"** toggle. Flip it and the
+hidden-cost adders (waste & decommissioning, system integration, implicit support) apply
+to *every* technology, reshuffling the ranking — the point being that it depends on what
+you count. Curated from published studies (not a live feed), each figure with a range and
+a citation; it takes no side.
 
 ## How it works
 
@@ -187,6 +195,7 @@ investment recommendations.
    python pipeline/build_regional_balance.py        # North–south grid: SMARD per-control-area balance
    python pipeline/build_mastr_capacity.py          # North–south grid: MaStR capacity (needs `pip install open-mastr`; large download)
    python pipeline/build_fr_nuclear_sites.py        # France nuclear: committed fleet -> data/fr_nuclear_sites.json
+   python pipeline/build_fr_costs.py                # France nuclear: curated €/MWh cost stack -> data/fr_costs.json
    python pipeline/build_fr_regional.py             # France nuclear: éCO2mix régional balance (ODRÉ)
    python pipeline/build_fr_nuclear_availability.py # France nuclear: monthly output mix (ODRÉ)
    ```
@@ -215,13 +224,14 @@ it's a manual run.
 - `pipeline/fuels.py` — canonical fuel taxonomy + CO₂ emission factors (single source of truth)
 - `pipeline/build_*.py` — fetch + compute + write scripts. ENTSO-E modules share `metrics.py`;
   each new source is **isolated**: `build_curtailment.py` (netztransparenz),
-  `build_regional_balance.py` (SMARD), `build_mastr_capacity.py` (MaStR), and the France
-  trio `build_fr_nuclear_sites.py` / `build_fr_regional.py` / `build_fr_nuclear_availability.py` (ODRÉ)
+  `build_regional_balance.py` (SMARD), `build_mastr_capacity.py` (MaStR), the France
+  `build_fr_nuclear_sites.py` / `build_fr_regional.py` / `build_fr_nuclear_availability.py` (ODRÉ),
+  and `build_fr_costs.py` (curated €/MWh cost stack, study-based)
 - `pipeline/de_fields.py`, `pipeline/fr_fields.py` — German→English / French→English translation
   layers (no foreign label reaches the UI); `pipeline/de_kreis_nuts.json` — the NUTS-3↔AGS crosswalk
 - `pipeline/test_*.py` — offline unit tests (`test_metrics`, `test_build`, `test_de_fields`,
   `test_mastr_capacity`, `test_regional_balance`, `test_fr_fields`, `test_fr_nuclear_sites`,
-  `test_fr_regional`, `test_fr_nuclear_availability`)
+  `test_fr_regional`, `test_fr_nuclear_availability`, `test_fr_costs`)
 - `data/*.json` — pre-aggregated, committed view data; `data/schema.md` — the pipeline↔frontend contract
 - `frontend/dashboard.html` — the landing dashboard; `frontend/{pulse,index(Spread),divergence,mix,mismatch,curtailment,history}.html` — standalone views
 - `frontend/wasted_wind.html` (North–south grid), `frontend/fr_nuclear.html` (France nuclear) — the
@@ -268,6 +278,11 @@ SMARD / éCO2mix aggregations, and the net-balance identities — all without ne
   national generation/consumption for the France nuclear view (open, no key). The
   optional available-capacity overlay would use the [RTE Data Portal](https://data.rte-france.com)
   (OAuth); without it Panel 3 shows output and degrades gracefully.
+- Cost comparison (France nuclear, Panel 4) — a curated €/MWh cost stack drawn from
+  published studies (Lazard *LCOE+* 2024, the Cour des comptes reports on the EPR/EPR2
+  programme, ANDRA/Cigéo waste-disposal estimates, OECD-NEA system-cost work, and IRENA
+  renewable-cost data). This is a hand-assembled, committed static table — **not a live
+  feed** — where every figure carries a range and a citation; the view takes no side.
 - Region boundaries: [Eurostat GISCO NUTS](https://ec.europa.eu/eurostat/web/gisco)
   (German Landkreise = NUTS-3; French régions = NUTS-1), pre-simplified and committed
   as TopoJSON. © EuroGeographics.
