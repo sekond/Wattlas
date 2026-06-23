@@ -1,8 +1,80 @@
 {
-"generated_at": "2026-06-23T06:25:05+00:00",
+"generated_at": "2026-06-23T18:44:37+00:00",
 "source": "MaStR (Bundesnetzagentur)",
 "unit": "MW",
 "wind": [
+{
+"name": "Nordfriesland",
+"fuel": "Wind onshore",
+"mw": 2618,
+"units": 881,
+"lat": 54.653,
+"lon": 8.982
+},
+{
+"name": "Dithmarschen",
+"fuel": "Wind onshore",
+"mw": 2383,
+"units": 838,
+"lat": 54.102,
+"lon": 9.004
+},
+{
+"name": "Uckermark",
+"fuel": "Wind onshore",
+"mw": 1772,
+"units": 679,
+"lat": 53.306,
+"lon": 13.974
+},
+{
+"name": "Paderborn",
+"fuel": "Wind onshore",
+"mw": 1417,
+"units": 512,
+"lat": 51.593,
+"lon": 8.745
+},
+{
+"name": "Emsland",
+"fuel": "Wind onshore",
+"mw": 1401,
+"units": 515,
+"lat": 52.81,
+"lon": 7.404
+},
+{
+"name": "Schleswig-Flensburg",
+"fuel": "Wind onshore",
+"mw": 1386,
+"units": 475,
+"lat": 54.651,
+"lon": 9.365
+},
+{
+"name": "Prignitz",
+"fuel": "Wind onshore",
+"mw": 1223,
+"units": 553,
+"lat": 53.154,
+"lon": 12.066
+},
+{
+"name": "Aurich",
+"fuel": "Wind onshore",
+"mw": 1102,
+"units": 631,
+"lat": 53.506,
+"lon": 7.342
+},
+{
+"name": "Diepholz",
+"fuel": "Wind onshore",
+"mw": 980,
+"units": 405,
+"lat": 52.739,
+"lon": 8.717
+},
 {
 "name": "Offshore",
 "fuel": "Wind offshore",
@@ -26,78 +98,6 @@
 "units": 116,
 "lat": 54.004,
 "lon": 6.471
-},
-{
-"name": "Offshore",
-"fuel": "Wind offshore",
-"mw": 732,
-"units": 137,
-"lat": 53.996,
-"lon": 6.57
-},
-{
-"name": "Höxter",
-"fuel": "Wind onshore",
-"mw": 710,
-"units": 239,
-"lat": 51.613,
-"lon": 8.852
-},
-{
-"name": "Offshore",
-"fuel": "Wind offshore",
-"mw": 603,
-"units": 88,
-"lat": 54.313,
-"lon": 5.854
-},
-{
-"name": "Offshore",
-"fuel": "Wind offshore",
-"mw": 577,
-"units": 50,
-"lat": 54.046,
-"lon": 6.156
-},
-{
-"name": "Offshore",
-"fuel": "Wind offshore",
-"mw": 485,
-"units": 81,
-"lat": 54.791,
-"lon": 14.101
-},
-{
-"name": "Dithmarschen",
-"fuel": "Wind onshore",
-"mw": 480,
-"units": 178,
-"lat": 53.975,
-"lon": 8.979
-},
-{
-"name": "Dithmarschen",
-"fuel": "Wind onshore",
-"mw": 471,
-"units": 152,
-"lat": 54.175,
-"lon": 8.991
-},
-{
-"name": "Schleswig-Flensburg",
-"fuel": "Wind onshore",
-"mw": 446,
-"units": 138,
-"lat": 54.75,
-"lon": 9.133
-},
-{
-"name": "Offshore",
-"fuel": "Wind offshore",
-"mw": 431,
-"units": 57,
-"lat": 54.031,
-"lon": 7.034
 }
 ],
 "solar": [
