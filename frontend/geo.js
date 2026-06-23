@@ -23,11 +23,17 @@ const GeoMap = (function () {
   // Returns a handle: { svg, projection, path, features, recolor(fillFor) }.
   function choropleth(host, opts) {
     const { topo, object = "landkreise", width = 360, height = 460,
-            ariaLabel = "Map", className = "lk", projection: projOpt } = opts;
+            ariaLabel = "Map", className = "lk", projection: projOpt, fitPoints } = opts;
     const fc = topojson.feature(topo, topo.objects[object]);
+    // Fit to the basemap, optionally extended to include extra [lon,lat] points so they
+    // aren't clipped — e.g. offshore wind sites that sit beyond the land boundary.
+    const fitGeom = (fitPoints && fitPoints.length)
+      ? { type: "FeatureCollection", features: [...fc.features,
+          { type: "Feature", geometry: { type: "MultiPoint", coordinates: fitPoints } }] }
+      : fc;
     // Default projection is Mercator (fine for Germany); a caller can pass a fitted-on
     // demand projection instance (e.g. d3.geoConicConformal for France) via opts.projection.
-    const projection = (projOpt || d3.geoMercator()).fitSize([width, height], fc);
+    const projection = (projOpt || d3.geoMercator()).fitSize([width, height], fitGeom);
     const path = d3.geoPath(projection);
 
     host.innerHTML = "";
