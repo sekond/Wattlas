@@ -100,8 +100,17 @@ diptych punchline, and copy block B. *(🧑 RTE OAuth credentials if the unavail
 feed is used.)*
 **Gate:** summer dip visible; gap-fillers reconcile to demand; no alarmist framing.
 
-### Step 7 — Integrate, polish, lock in
-Execute **Prompt 7**: English-only / rounding / caveat pass; optional dashboard panel;
+### Step 7 — Panel 4: what does the power really cost?
+Execute **Prompt 7**: `pipeline/build_fr_costs.py` writes a curated, sourced cost dataset
+(plant + back-end + system + support, each with a range) → `data/fr_costs.json`; render
+the stacked €/MWh bar with the **sticker price ↔ full system cost** toggle, a dynamic
+takeaway, visible source citations, and copy block E. Symmetric — every technology gets
+the hidden-cost adders — and study-based, not a live feed.
+**Gate:** the toggle works; every figure shows a source and a range; framing is
+symmetric/non-advocacy; stays static.
+
+### Step 8 — Integrate, polish, lock in
+Execute **Prompt 8**: English-only / rounding / caveat pass; optional dashboard panel;
 add the new builders to `.github/workflows/refresh-data.yml` (degrade gracefully if a
 source is missing); confirm offline tests pass and the page opens statically.
 **Gate:** definition of done in `SLICE_FR_NUCLEAR.md` §11 met.

@@ -1,0 +1,124 @@
+{
+"generated_at": "2026-06-23T04:59:21+00:00",
+"source": "Curated published estimates (not a live feed)",
+"unit": "EUR/MWh",
+"note": "Illustrative central values; ranges are wide and assumption-dependent. The hidden-cost lens is applied symmetrically to every technology; nuclear's back-end is provisioned, not ignored. Takes no side.",
+"components": [
+{
+"key": "plant",
+"label": "Plant (LCOE)",
+"color": "#4a78a6",
+"note": "levelised plant-level cost (the headline 'sticker price')"
+},
+{
+"key": "waste",
+"label": "Waste & decommissioning",
+"color": "#c08a2e",
+"note": "back-end; large in total but small per MWh, and provisioned — not ignored"
+},
+{
+"key": "system",
+"label": "System & integration",
+"color": "#4aa6a0",
+"note": "firming, grid, balancing, storage; rises with variable-renewable share"
+},
+{
+"key": "support",
+"label": "Implicit support",
+"color": "#9a7fb0",
+"note": "historic feed-in tariffs / implicit public support"
+}
+],
+"technologies": [
+{
+"name": "Solar (utility)",
+"plant": 55,
+"waste": 1,
+"system": 18,
+"support": 3,
+"sticker_range": [
+40,
+65
+],
+"full_range": [
+60,
+100
+],
+"sources": [
+"Lazard LCOE+ 2024",
+"OECD-NEA system costs",
+"IRENA"
+]
+},
+{
+"name": "Wind (onshore)",
+"plant": 50,
+"waste": 1,
+"system": 16,
+"support": 3,
+"sticker_range": [
+40,
+75
+],
+"full_range": [
+55,
+95
+],
+"sources": [
+"Lazard LCOE+ 2024",
+"OECD-NEA system costs",
+"IRENA"
+]
+},
+{
+"name": "Nuclear — existing fleet",
+"plant": 50,
+"waste": 5,
+"system": 1,
+"support": 3,
+"sticker_range": [
+45,
+60
+],
+"full_range": [
+50,
+70
+],
+"sources": [
+"Cour des comptes",
+"ANDRA / Cigéo"
+]
+},
+{
+"name": "Nuclear — new build (EPR2)",
+"plant": 110,
+"waste": 6,
+"system": 1,
+"support": 4,
+"sticker_range": [
+90,
+150
+],
+"full_range": [
+100,
+190
+],
+"sources": [
+"Cour des comptes (EPR/EPR2)",
+"OECD-NEA",
+"ANDRA / Cigéo"
+]
+}
+],
+"takeaways": {
+"sticker": "Sticker price: wind and solar beat new nuclear roughly two-to-one — and match France's amortised existing fleet.",
+"full": "Full cost: France's amortised fleet looks cheapest, renewables' system costs narrow their lead, and new nuclear stays priciest. The ranking depends on what you count."
+},
+"sources": [
+"Lazard LCOE+ 2024",
+"Cour des comptes (EPR/EPR2)",
+"ANDRA / Cigéo",
+"OECD-NEA system costs",
+"IRENA"
+]
+}

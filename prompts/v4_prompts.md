@@ -156,7 +156,33 @@ no French label reaches the frontend; every displayed number is rounded.
 
 ---
 
-## Prompt 7 — Integrate, polish, lock in
+## Prompt 7 — Panel 4: cost comparison (curated, study-based)
+
+> **Goal:** the "what does the power really cost?" section — a symmetric, sourced cost
+> stack with a sticker-price ↔ full-system-cost toggle.
+> **Inputs:** published estimates — Lazard LCOE+ 2024, Cour des comptes (EPR/EPR2),
+> ANDRA / Cigéo, OECD-NEA system costs, IRENA. No live feed.
+> **Build:**
+> 1. `pipeline/build_fr_costs.py` transcribes per-technology figures (utility solar,
+>    onshore wind, existing FR fleet, new-build EPR2) into components — plant, back-end
+>    (waste + decommissioning), system & integration, implicit support — each with a
+>    **range and a source** → `data/fr_costs.json` (shape in §5); update `schema.md`.
+> 2. Render Panel 4: a stacked €/MWh bar per technology with a **toggle** — "sticker
+>    price" shows plant only; "full system cost" stacks all adders on every technology —
+>    a takeaway that updates with the toggle, visible citations, and copy block E.
+> **Domain landmines:** symmetric or it's advocacy — the hidden-cost lens applies to all
+> technologies, never nuclear alone. Nuclear back-end is large in total but small per MWh
+> and is *provisioned* (critique adequacy, don't say "ignored"). Renewables' system costs
+> rise with share. Show ranges; note source lean (Lazard = US new-build; NEA = Nuclear
+> Energy Agency). Curated estimates — never present as "the truth".
+> **Output:** `pipeline/build_fr_costs.py`, `data/fr_costs.json`, schema update, Panel 4.
+> **Success criteria:** (1) toggle switches plant-only ↔ full stack for all techs and the
+> takeaway updates; (2) every figure shows a source + range; (3) existing vs new nuclear
+> distinct; (4) framing symmetric/non-advocacy; (5) stays static (curated JSON).
+
+---
+
+## Prompt 8 — Integrate, polish, lock in
 
 > **Goal:** make the slice production-clean and keep it fresh automatically.
 > **Inputs:** the three panels; `.github/workflows/refresh-data.yml`; the test suite.
