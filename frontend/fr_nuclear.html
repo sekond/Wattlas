@@ -159,6 +159,24 @@
           <p class="cap" style="margin-top:10px;">"Available capacity" is how much of the fleet could run; "output" is how much actually did. Dips come from planned maintenance and refuelling (concentrated in the lower-demand months), unplanned outages, and — in heatwaves — environmental limits on how much warm water reactors may return to rivers, which forces output down. These are operational and environmental constraints, not safety failures. <span id="mixSrc"></span></p>
         </div>
 
+        <!-- Panel 4 — what does the power really cost? (curated, study-based). -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">4 · What does the power really cost?</div>
+            <div class="seg" role="group" aria-label="Cost basis">
+              <button id="btnSticker" class="active" type="button">Sticker price</button>
+              <button id="btnFull" type="button">Full system cost</button>
+            </div>
+          </div>
+          <p class="block-pitch">The ranking depends on what you count. Plant-level "sticker price" is one number; add the costs usually left out — waste &amp; decommissioning, the system cost of running a grid on variable renewables, and implicit support — applied symmetrically to <em>every</em> technology, and the order shifts.</p>
+          <div class="legend" id="costLegend" style="margin-bottom:6px;"></div>
+          <div id="costWrap" class="chartbox" style="height:260px;"><canvas id="costChart"></canvas></div>
+          <div id="costTake" style="font-size:13px;color:var(--text);background:var(--surface-2);border-radius:var(--radius-sm);padding:10px 12px;margin-top:12px;"></div>
+          <p class="cap" id="costRanges" style="margin-top:10px;"></p>
+          <!-- copy block E — verbatim, symmetric, non-advocacy -->
+          <p class="cap" style="margin-top:6px;">Plant-level cost is only the sticker price. This view adds the costs headline figures leave out — waste &amp; decommissioning, the system cost of running a grid on variable renewables, and implicit public support — applied to every technology, not just one. Nuclear's waste and decommissioning are large in total (the Cigéo repository ≈ €33–37&nbsp;bn) but small per MWh, and they are <em>provisioned</em> and already in France's official cost figures; the real question is whether the provisions are adequate. Renewables' system costs rise as their share grows. Figures are illustrative central values from published studies (Lazard, Cour des comptes, ANDRA, OECD-NEA, IRENA), each with a wide, assumption-dependent range — curated estimates, not a live feed. It takes no side; the point is that the ranking depends on what you count.</p>
+        </div>
+
       </div>
     </main>
   </div>
@@ -334,6 +352,52 @@
       const lo = m.reduce((a, b) => (b.nuclear_gw < a.nuclear_gw ? b : a));
       document.getElementById("mixSrc").textContent =
         `Monthly average, ${data.period_start} to ${data.period_end}, ${data.source}. Nuclear output bottoms near ${lo.nuclear_gw} GW in ${lo.month}; France stayed a net exporter every month (demand sits below total generation). "Available capacity" needs the RTE feed (pending) — shown here is output.`;
+    })();
+
+    // --- Panel 4: cost comparison (curated, study-based) -------------------------
+    (async function buildPanel4() {
+      const data = await loadJSON("fr_costs.json");
+      const wrap = document.getElementById("costWrap");
+      if (!data || !data.technologies || !data.technologies.length) {
+        wrap.innerHTML = '<div class="nodata">Cost data unavailable.</div>'; return;
+      }
+      const techs = data.technologies, comps = data.components;
+      const datasets = comps.map((c) => ({
+        label: c.label, data: techs.map((t) => t[c.key]), backgroundColor: c.color, stack: "c", borderRadius: 2,
+      }));
+      const chart = new Chart(document.getElementById("costChart"), {
+        type: "bar",
+        data: { labels: techs.map((t) => t.name), datasets },
+        options: {
+          indexAxis: "y", responsive: true, maintainAspectRatio: false, animation: { duration: 400 },
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: {
+              label: (c) => `${c.dataset.label}: €${c.raw}/MWh`,
+              afterBody: (items) => { const t = techs[items[0].dataIndex];
+                return [`Full-cost range €${t.full_range[0]}–${t.full_range[1]}/MWh`, "Sources: " + t.sources.join(", ")]; },
+            } } },
+          scales: {
+            x: { stacked: true, title: { display: true, text: "€/MWh", font: { size: 11 } }, grid: { color: "rgba(0,0,0,.06)" }, ticks: { font: { size: 10 } } },
+            y: { stacked: true, grid: { display: false }, ticks: { font: { size: 11 } } },
+          },
+        },
+      });
+      document.getElementById("costLegend").innerHTML =
+        comps.map((c) => `<span><span class="swatch" style="background:${c.color}"></span>${c.label}</span>`).join("");
+      document.getElementById("costRanges").textContent =
+        "Full-cost ranges (€/MWh): " + techs.map((t) => `${t.name.replace("Nuclear — ", "")} ${t.full_range[0]}–${t.full_range[1]}`).join(" · ") +
+        ". Each technology shows a range, not a point. Sources: " + data.sources.join(" · ") + ".";
+
+      function setMode(full) {
+        document.getElementById("btnSticker").classList.toggle("active", !full);
+        document.getElementById("btnFull").classList.toggle("active", full);
+        for (let i = 1; i < datasets.length; i++) chart.setDatasetVisibility(i, full);  // hide adders in sticker mode
+        chart.update();
+        document.getElementById("costTake").textContent = full ? data.takeaways.full : data.takeaways.sticker;
+      }
+      document.getElementById("btnSticker").onclick = () => setMode(false);
+      document.getElementById("btnFull").onclick = () => setMode(true);
+      setMode(false);
     })();
   </script>
 </body>
