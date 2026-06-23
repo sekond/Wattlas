@@ -243,6 +243,7 @@
 
     let metric = "wind", map = null, scale = null;
     let capByNuts = {}, national = {};
+    let plantsByFuel = { wind: [], solar: [] }, plantSize = null;
 
     function valueFor(props) {
       const r = capByNuts[props.NUTS_ID];
@@ -276,14 +277,30 @@
         `<span class="bar"><span style="width:${Math.round(r.v / max * 100)}%;background:${col}"></span></span>` +
         `<span class="v">${fmtMW(r.v)}</span></div>`).join("");
     }
+    // Plant clusters are metric-aware: re-draw on every toggle so the wind view shows
+    // wind farms/clusters (offshore + onshore) and the solar view shows solar parks.
+    function plotPlants() {
+      if (!map) return;
+      map.svg.selectAll("g.plants").remove();
+      const list = plantsByFuel[metric] || [];
+      GeoMap.points(map, list, {
+        className: "plants", r: (d) => plantSize(d.mw),
+        fill: (d) => fuelColor(d.fuel), stroke: "#faf9f5", strokeWidth: 0.7,
+        title: (d) => `${enName(d.name)} · ${fmtMW(d.mw)} MW · ${d.units} ${d.fuel.toLowerCase()} units`,
+      });
+      const fuels = [...new Set(list.map((p) => p.fuel))];
+      document.getElementById("plantLegend").innerHTML =
+        fuels.map((f) => `<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${fuelColor(f)};margin-right:4px;vertical-align:middle"></span>${f}`).join(" ") +
+        ` <span class="meta">— largest ${metric} clusters</span>`;
+    }
     function setMetric(m) {
       metric = m;
       document.getElementById("btnWind").classList.toggle("active", m === "wind");
       document.getElementById("btnSolar").classList.toggle("active", m === "solar");
       document.getElementById("pitch").textContent = m === "wind"
-        ? "Installed wind capacity by Landkreis (MaStR). Capacity clusters in the windy north and northeast; demand sits in the southern and western cities."
-        : "Installed solar capacity by Landkreis (MaStR). Solar leans south and east — Bayern dominates — a different map from the wind it shares one price with.";
-      buildScale(); paint(); renderLegend(); renderTop();
+        ? "Installed wind capacity by Landkreis (MaStR), with the largest wind clusters and major demand centres. Capacity clusters in the windy north and northeast; demand sits in the southern and western cities."
+        : "Installed solar capacity by Landkreis (MaStR), with the largest solar parks. Solar leans south and east — Bayern dominates — a different map from the wind it shares one price with.";
+      buildScale(); paint(); renderLegend(); renderTop(); plotPlants();
     }
     document.getElementById("btnWind").onclick = () => setMetric("wind");
     document.getElementById("btnSolar").onclick = () => setMetric("solar");
@@ -325,16 +342,11 @@
         fill: "rgba(163,45,45,.14)", stroke: "#a32d2d", strokeWidth: 1.2,
         title: (d) => `${d.n} — demand centre (population proxy)`,
       });
-      const plantList = (plants && plants.plants) || [];
-      const psize = d3.scaleSqrt().domain([0, d3.max(plantList, (p) => p.mw) || 1]).range([2, 8]);
-      GeoMap.points(map, plantList, {
-        className: "plants", r: (d) => psize(d.mw),
-        fill: (d) => fuelColor(d.fuel), stroke: "#faf9f5", strokeWidth: 0.7,
-        title: (d) => `${d.name} · ${d.fuel} · ${Math.round(d.mw)} MW · ${d.landkreis ? enName(d.landkreis) : "—"}`,
-      });
-      const plantFuels = [...new Set(plantList.map((p) => p.fuel))];
-      document.getElementById("plantLegend").innerHTML = plantFuels.map((f) =>
-        `<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${fuelColor(f)};margin-right:4px;vertical-align:middle"></span>${f} (top 20)`).join(" ");
+      // largest wind/solar clusters, kept per fuel so the toggle can swap them
+      plantsByFuel = { wind: (plants && plants.wind) || [], solar: (plants && plants.solar) || [] };
+      const allMw = [...plantsByFuel.wind, ...plantsByFuel.solar].map((p) => p.mw);
+      plantSize = d3.scaleSqrt().domain([0, Math.max(1, ...allMw)]).range([2.5, 9]);
+      // (plotPlants() is called by setMetric so the points follow the wind/solar toggle)
 
       document.getElementById("capSrc").textContent =
         `Installed net nominal capacity from the Marktstammdatenregister (© Bundesnetzagentur), operating units only. Offshore wind (${GW(national.wind_offshore_mw)}) sits in the Exclusive Economic Zone, so it appears in the totals but not on the Landkreis map. Eisenach is shown as no-data (its plants are registered under Wartburgkreis since the 2021 merger).`;

@@ -12,14 +12,14 @@ from build_mastr_capacity import (
     aggregate_by_landkreis,
     national_totals,
     normalise_units,
-    top_plants,
+    top_clusters_by_fuel,
 )
 
 # Small inline fixture in the raw open-mastr *_extended shape (German values).
 _FIXTURE = pd.DataFrame([
     # name, Energietraeger, Lage, status, Nettonennleistung(kW), AGS, Landkreis, Bundesland, Kuestenentfernung, lat, lon
-    ["WEA A", "Wind", None, "In Betrieb", 3000, "01060017", "Segeberg", "Schleswig-Holstein", None, 54.0, 10.3],
-    ["WEA B", "Wind", None, "In Betrieb", 2000, "01060020", "Segeberg", "Schleswig-Holstein", None, 54.1, 10.2],
+    ["WEA A", "Wind", None, "In Betrieb", 3000, "01060017", "Segeberg", "Schleswig-Holstein", None, 54.0, 10.30],
+    ["WEA B", "Wind", None, "In Betrieb", 2000, "01060020", "Segeberg", "Schleswig-Holstein", None, 54.03, 10.32],
     ["Offshore X", "Wind", None, "In Betrieb", 15000, None, None, "Ausschließliche Wirtschaftszone", 35, 54.5, 6.5],
     ["Solarpark Z", "Solare Strahlungsenergie", None, "In Betrieb", 845000, "09162000", "München", "Bayern", None, 48.1, 11.6],
     ["Planned wind", "Wind", None, "In Planung", 5000, "01060099", "Segeberg", "Schleswig-Holstein", None, 54.2, 10.1],
@@ -83,13 +83,19 @@ def test_offshore_and_biomass_excluded_from_landkreise():
                           "wind_offshore_mw", "solar_mw"} for r in rows)
 
 
-def test_top_plants_ordered_by_mw_with_coords():
-    plants = top_plants(_units(), n=20)
-    # Only wind/solar with coordinates; biggest first.
-    assert [p["name"] for p in plants] == ["Solarpark Z", "Offshore X", "WEA A", "WEA B"]
-    assert plants[0]["fuel"] == "Solar" and plants[0]["mw"] == 845.0
-    assert plants[1]["fuel"] == "Wind offshore"
-    assert plants[0]["landkreis"] == "München"
+def test_clusters_by_fuel_grouped_and_split():
+    cl = top_clusters_by_fuel(_units(), n=12)
+    assert set(cl) == {"wind", "solar"}
+    # wind: WEA A + WEA B fall in one cell -> one Segeberg cluster (5 MW, 2 units);
+    # the offshore turbine is its own cell. Sorted by MW desc.
+    wind = cl["wind"]
+    assert [w["name"] for w in wind] == ["Offshore", "Segeberg"]
+    assert wind[0]["fuel"] == "Wind offshore" and wind[0]["units"] == 1
+    seg = wind[1]
+    assert seg["mw"] == 5 and seg["units"] == 2 and seg["fuel"] == "Wind onshore"
+    # solar: one München park; biomass is not a Panel-1 fuel and is excluded
+    assert [s["name"] for s in cl["solar"]] == ["München"]
+    assert cl["solar"][0]["mw"] == 845 and cl["solar"][0]["fuel"] == "Solar"
 
 
 def test_national_totals_include_offshore():
@@ -104,7 +110,7 @@ def test_empty_safe():
     u = normalise_units(empty)
     assert u.empty
     assert aggregate_by_landkreis(u, _KREIS_TO_NUTS, _NUTS_TO_NAME) == []
-    assert top_plants(u) == []
+    assert top_clusters_by_fuel(u) == {"wind": [], "solar": []}
     assert national_totals(u) == {"wind_onshore_mw": 0, "wind_offshore_mw": 0, "solar_mw": 0}
 
 
