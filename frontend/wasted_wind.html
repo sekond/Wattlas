@@ -333,8 +333,13 @@
       national = cap.national_mw || {};
       cap.landkreise.forEach((r) => { capByNuts[r.nuts_id] = r; });
 
+      // include plant sites (esp. offshore wind in the North Sea, beyond the coast) and
+      // demand cities in the map's fit so they aren't clipped at the edges.
+      const fitPoints = [...((plants && plants.wind) || []), ...((plants && plants.solar) || []),
+                         ...((plants && plants.plants) || [])]
+        .map((p) => [p.lon, p.lat]).concat(CITIES.map((c) => [c.lon, c.lat]));
       map = GeoMap.choropleth(host, {
-        topo: topoData, object: "landkreise", width: 360, height: 460,
+        topo: topoData, object: "landkreise", width: 360, height: 460, fitPoints,
         ariaLabel: "Choropleth of Germany by Landkreis shaded by installed wind or solar capacity, with the largest plants and demand centres.",
       });
 
