@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wattlas — What does the power really cost? (mockup)</title>
+<style>
+  body{margin:0;background:#faf9f5;color:#2b2a27;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+  .ww-wrap{max-width:840px;margin:0 auto;padding:24px 18px 56px}
+  .ww-frame{background:#faf9f5;color:#2b2a27;border:0.5px solid rgba(0,0,0,.18);border-radius:14px;overflow:hidden}
+  .ww-page{padding:16px 18px 20px}
+  .ww-bc{font-size:12px;color:#888780;margin-bottom:10px}
+  .ww-card{background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:12px;padding:15px 17px}
+  .ww-ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;gap:10px;flex-wrap:wrap}
+  .ww-ct{font-size:15px;font-weight:500}
+  .ww-pitch{font-size:12px;color:#5f5e5a;margin:6px 0 12px;max-width:84ch}
+  .ww-seg{display:inline-flex;border:0.5px solid rgba(0,0,0,.18);border-radius:8px;overflow:hidden}
+  .ww-seg button{font:inherit;font-size:12px;padding:6px 13px;border:none;background:#fff;color:#2b2a27;cursor:pointer}
+  .ww-seg button.on{background:#2b2a27;color:#faf9f5}
+  .ww-sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}
+  .ww-leg{display:flex;gap:14px;font-size:11px;color:#5f5e5a;margin:2px 0 6px;flex-wrap:wrap}
+  .ww-take{font-size:13px;color:#2b2a27;background:#f1efe8;border-radius:8px;padding:10px 12px;margin:12px 0 0}
+  .ww-cap{font-size:11px;color:#888780;margin:9px 0 0;max-width:84ch}
+</style>
+</head>
+<body>
+<div class="ww-wrap">
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Mockup of a Wattlas section comparing the cost of solar, wind and nuclear electricity with a toggle between plant-level sticker price and full system cost; flipping to full cost adds waste, decommissioning, system-integration and implicit-support costs and reshuffles the ranking. Figures are illustrative central values from cited studies.</h2>
+<div class="ww-frame">
+  <div class="ww-page">
+    <div class="ww-bc">Wattlas · France nuclear · section 4</div>
+    <div class="ww-card">
+      <div class="ww-ch">
+        <div class="ww-ct">4 · What does the power really cost?</div>
+        <div class="ww-seg"><button id="ww-s1" class="on">Sticker price</button><button id="ww-s2">Full system cost</button></div>
+      </div>
+      <div class="ww-pitch">Plant-level cost is only the sticker price. Flip the toggle to add the costs that headline figures leave out — waste &amp; decommissioning, the system cost of running a grid on variable renewables, and implicit public support — applied to every technology, not just one.</div>
+      <div class="ww-leg">
+        <span><span class="ww-sw" style="background:#4a78a6"></span>Plant (LCOE)</span>
+        <span><span class="ww-sw" style="background:#c08a2e"></span>Waste &amp; decommissioning</span>
+        <span><span class="ww-sw" style="background:#4aa6a0"></span>System &amp; integration</span>
+        <span><span class="ww-sw" style="background:#9a7fb0"></span>Implicit support</span>
+      </div>
+      <div style="position:relative;height:260px"><canvas id="ww-cost" role="img" aria-label="Stacked cost per megawatt hour by technology. Sticker price: solar 55, wind 50, existing nuclear 50, new nuclear 110 euros. Full system cost adds waste, system and support, raising solar to about 77, wind 70, existing nuclear 59, new nuclear 121. Illustrative.">Cost per MWh by technology; toggling to full system cost reshuffles the ranking.</canvas></div>
+      <div class="ww-take" id="ww-take">Sticker price: wind and solar beat new nuclear roughly two-to-one — and match France's amortised existing fleet.</div>
+      <div class="ww-cap">Illustrative central values (€/MWh). Real ranges are wide and assumption-dependent: solar full-cost ≈ 60–100, wind ≈ 55–95, existing FR fleet ≈ 50–70, new nuclear ≈ 100–190 (swings most with cost of capital). System costs rise with renewable share; back-end costs are large in total (Cigéo ≈ €33–37bn) but small per MWh spread over decades, and are provisioned, not ignored. Sources: Lazard LCOE+ 2024 · Cour des comptes (EPR) · ANDRA / Cigéo · OECD-NEA system costs · IRENA. Not a live feed — curated published estimates; takes no side.</div>
+    </div>
+  </div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){
+const labels=["Solar (utility)","Wind (onshore)","Nuclear — existing fleet","Nuclear — new build (EPR2)"];
+const ds=[
+ {label:"Plant (LCOE)",data:[55,50,50,110],backgroundColor:"#4a78a6",stack:"c"},
+ {label:"Waste & decommissioning",data:[1,1,5,6],backgroundColor:"#c08a2e",stack:"c"},
+ {label:"System & integration",data:[18,16,1,1],backgroundColor:"#4aa6a0",stack:"c"},
+ {label:"Implicit support",data:[3,3,3,4],backgroundColor:"#9a7fb0",stack:"c"}];
+const chart=new Chart(document.getElementById("ww-cost"),{type:"bar",data:{labels:labels,datasets:ds},options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,animation:{duration:450},plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.dataset.label+": €"+c.raw+"/MWh";}}}},scales:{x:{stacked:true,title:{display:true,text:"€/MWh",font:{size:11}},grid:{color:"rgba(0,0,0,.06)"},ticks:{font:{size:10}}},y:{stacked:true,grid:{display:false},ticks:{font:{size:11}}}}}});
+function setMode(full){
+  document.getElementById("ww-s1").classList.toggle("on",!full);
+  document.getElementById("ww-s2").classList.toggle("on",full);
+  chart.data.datasets[1].hidden=!full; chart.data.datasets[2].hidden=!full; chart.data.datasets[3].hidden=!full;
+  chart.update();
+  document.getElementById("ww-take").textContent= full
+   ? "Full cost: France's amortised fleet looks cheapest, renewables' system costs narrow their lead, and new nuclear stays priciest. The ranking depends on what you count."
+   : "Sticker price: wind and solar beat new nuclear roughly two-to-one — and match France's amortised existing fleet.";
+}
+document.getElementById("ww-s1").onclick=function(){setMode(false);};
+document.getElementById("ww-s2").onclick=function(){setMode(true);};
+setMode(false);
+})();
+</script>
+</body>
+</html>

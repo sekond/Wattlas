@@ -31,7 +31,7 @@ Three beats:
 
 ---
 
-## 2. The three panels
+## 2. The panels (three core + a cost section)
 
 ### Panel 1 — The nuclear map (where the power is made)
 
@@ -94,6 +94,47 @@ the mirror of Germany's wind volatility.
   reconciles (output + imports + gas + hydro ≈ demand on dip days).
 - The summer-maintenance and any heatwave deration periods are visible and annotated.
 - Copy block B (availability methodology) present; no alarmist framing.
+
+---
+
+### Panel 4 — What does the power really cost?
+
+**Shows:** that the cost ranking depends on what you count — a toggle from plant-level
+"sticker price" to "full system cost", applied symmetrically to every technology.
+
+- A stacked €/MWh bar per technology — utility solar, onshore wind, France's existing
+  (amortised) fleet, and new-build nuclear (EPR2) — with components: plant LCOE, waste &
+  decommissioning, system & integration, and implicit/historic support.
+- A **toggle**: "sticker price" shows plant LCOE only; "full system cost" stacks the
+  usually-omitted adders on *every* technology. A one-line takeaway updates with it.
+- Every figure carries a **visible source and a range**; the section states it is curated
+  published estimates, not a live feed.
+
+**Insight:** on sticker price wind and solar beat new nuclear roughly two-to-one and
+match the existing fleet; add full system + back-end costs and the order shifts — the
+amortised fleet looks cheapest, renewables' system costs narrow their lead, new build
+stays priciest. No single number settles it.
+
+**Why symmetric (credibility requirement):** the hidden-cost lens applies to *all*
+technologies, never nuclear alone. Nuclear's back-end (waste, decommissioning) is large
+in total (Cigéo ≈ €33–37bn) but small per MWh because it is spread over decades — and it
+is *provisioned* (EDF ≈ €26bn) and already inside the Cour des comptes LCOE, so the
+defensible critique is provision *adequacy*, not "ignored" costs. Renewables carry
+system-integration costs (firming, grid, balancing, storage) that rise with penetration,
+plus historic feed-in-tariff support. Show both, with ranges; note source lean (Lazard =
+US new-build; OECD-NEA = the Nuclear Energy Agency).
+
+**Data:** curated from published studies — Lazard LCOE+ 2024, Cour des comptes (EPR/EPR2),
+ANDRA / Cigéo, OECD-NEA system costs, IRENA — transcribed into a small committed JSON
+(`data/fr_costs.json`) by `pipeline/build_fr_costs.py`, each figure with a source and a
+range. **This is the one section not derived from a live feed.**
+
+**Acceptance criteria:**
+- The toggle switches plant-only ↔ full-stack for every technology; the takeaway updates.
+- Every number has a visible citation; each technology shows a range, not just a point.
+- Existing-fleet vs new-build nuclear are distinct bars (legacy is much cheaper than EPR2).
+- Framing is symmetric and non-advocacy; the "depends what you count" caveat is present.
+- Stays static (committed JSON); no live feed implied.
 
 ---
 
@@ -177,6 +218,28 @@ source is unavailable.
 
 ---
 
+Curated cost dataset (Panel 4 — **not a live feed**):
+
+```jsonc
+// data/fr_costs.json — curated published estimates, transcribed with sources + ranges
+{
+  "generated_at": "ISO-8601",
+  "unit": "EUR/MWh",
+  "note": "Illustrative central values with ranges; methodology-dependent and contested.",
+  "components": ["plant", "back_end", "system", "support"],
+  "technologies": [
+    { "name": "Solar (utility)", "plant": 55, "back_end": 1, "system": 18, "support": 3,
+      "range_full": [60, 100], "sources": ["Lazard LCOE+ 2024", "OECD-NEA", "IRENA"] },
+    { "name": "Wind (onshore)", "plant": 50, "back_end": 1, "system": 16, "support": 3,
+      "range_full": [55, 95], "sources": ["Lazard LCOE+ 2024", "OECD-NEA"] },
+    { "name": "Nuclear — existing fleet", "plant": 50, "back_end": 5, "system": 1, "support": 3,
+      "range_full": [50, 70], "sources": ["Cour des comptes", "ANDRA / Cigéo"] },
+    { "name": "Nuclear — new build (EPR2)", "plant": 110, "back_end": 6, "system": 1, "support": 4,
+      "range_full": [100, 190], "sources": ["Cour des comptes (EPR2)", "ANDRA / Cigéo", "Lazard LCOE+ 2024"] }
+  ]
+}
+```
+
 ## 6. New frontend dependencies & assets
 
 - **Reuses D3-geo + `frontend/geo.js`** from the Germany slice (no new library if that
@@ -216,6 +279,20 @@ source is unavailable.
 > (production-based; French fields translated once in `fr_fields.py`). Nuclear site
 > locations are public. Counts (reactors, capacity) and endpoints change — verify
 > during the build.
+
+---
+
+**Block E — the cost comparison (Panel 4):**
+> Plant-level cost is only the sticker price. This view adds the costs headline figures
+> leave out — waste &amp; decommissioning, the system cost of running a grid on variable
+> renewables, and implicit public support — applied to every technology, not just one.
+> Nuclear's waste and decommissioning are large in total (the Cigéo repository ≈ €33–37bn)
+> but small per MWh, and they are *provisioned* and already in France's official cost
+> figures; the real question is whether the provisions are adequate. Renewables' system
+> costs rise as their share grows. Figures are illustrative central values from published
+> studies (Lazard, Cour des comptes, ANDRA, OECD-NEA, IRENA), each with a wide,
+> assumption-dependent range — curated estimates, not a live feed. It takes no side; the
+> point is that the ranking depends on what you count.
 
 ---
 
@@ -265,7 +342,11 @@ source is unavailable.
    `fr_nuclear_availability.json`; Panel 3 (availability/output + gap-fillers) + the
    diptych punchline + copy block B. *(🧑 RTE OAuth credentials if the unavailability
    feed is used.)*
-7. **Integrate & polish.** English-only / rounding / caveat pass; optional dashboard
+7. **Panel 4 — true cost.** `build_fr_costs.py` writes a curated, sourced cost dataset
+   (plant + back-end + system + support, with ranges) → `fr_costs.json`; render the
+   stacked €/MWh bar with the sticker ↔ full-cost toggle, dynamic takeaway, visible
+   sources, and copy block E. Symmetric; study-based, not a feed.
+8. **Integrate & polish.** English-only / rounding / caveat pass; optional dashboard
    panel; add builders to `refresh-data.yml`; confirm offline tests and static open.
 
 ---
