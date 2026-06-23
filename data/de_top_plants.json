@@ -1,167 +1,201 @@
 {
-"generated_at": "2026-06-22T12:16:13+00:00",
+"generated_at": "2026-06-23T06:25:05+00:00",
 "source": "MaStR (Bundesnetzagentur)",
 "unit": "MW",
-"plants": [
+"wind": [
 {
-"name": "Solarpark Alttrebbin",
-"fuel": "Solar",
-"mw": 144.0,
-"lat": 52.6937,
-"lon": 14.2391,
-"landkreis": "Märkisch-Oderland"
+"name": "Offshore",
+"fuel": "Wind offshore",
+"mw": 758,
+"units": 133,
+"lat": 54.456,
+"lon": 7.677
 },
 {
-"name": "Solarpark Gottesgabe",
-"fuel": "Solar",
-"mw": 144.0,
-"lat": 52.6394,
-"lon": 14.1894,
-"landkreis": "Märkisch-Oderland"
+"name": "Offshore",
+"fuel": "Wind offshore",
+"mw": 751,
+"units": 112,
+"lat": 54.463,
+"lon": 6.325
 },
 {
-"name": "SILUX Solarpark 1 GmbH ＆ Co. KG",
-"fuel": "Solar",
-"mw": 111.2,
-"lat": 51.1727,
-"lon": 12.4024,
-"landkreis": "Leipzig"
+"name": "Offshore",
+"fuel": "Wind offshore",
+"mw": 732,
+"units": 116,
+"lat": 54.004,
+"lon": 6.471
 },
 {
-"name": "SILUX Solarpark 4 GmbH ＆ Co. KG",
-"fuel": "Solar",
-"mw": 99.9,
-"lat": 51.1607,
-"lon": 12.4138,
-"landkreis": "Leipzig"
+"name": "Offshore",
+"fuel": "Wind offshore",
+"mw": 732,
+"units": 137,
+"lat": 53.996,
+"lon": 6.57
 },
 {
-"name": "PVA Klüden",
-"fuel": "Solar",
-"mw": 80.1,
-"lat": 52.4179,
-"lon": 11.3926,
-"landkreis": "Börde"
+"name": "Höxter",
+"fuel": "Wind onshore",
+"mw": 710,
+"units": 239,
+"lat": 51.613,
+"lon": 8.852
 },
 {
-"name": "PVA Langenenslingen",
-"fuel": "Solar",
-"mw": 74.8,
-"lat": 48.1196,
-"lon": 9.3562,
-"landkreis": "Biberach"
+"name": "Offshore",
+"fuel": "Wind offshore",
+"mw": 603,
+"units": 88,
+"lat": 54.313,
+"lon": 5.854
 },
 {
-"name": "SILUX Solarpark 2 GmbH ＆ Co. KG",
-"fuel": "Solar",
-"mw": 74.8,
-"lat": 51.1766,
-"lon": 12.4133,
-"landkreis": "Leipzig"
+"name": "Offshore",
+"fuel": "Wind offshore",
+"mw": 577,
+"units": 50,
+"lat": 54.046,
+"lon": 6.156
 },
 {
-"name": "Friedland Rosdorf (Anlagenteil Friedland)",
-"fuel": "Solar",
-"mw": 74.3,
-"lat": 51.4187,
-"lon": 9.8425,
-"landkreis": "Göttingen"
+"name": "Offshore",
+"fuel": "Wind offshore",
+"mw": 485,
+"units": 81,
+"lat": 54.791,
+"lon": 14.101
 },
 {
-"name": "PVA Frankenförde Nord 1",
-"fuel": "Solar",
-"mw": 72.9,
-"lat": 52.119,
-"lon": 13.056,
-"landkreis": "Teltow-Fläming"
+"name": "Dithmarschen",
+"fuel": "Wind onshore",
+"mw": 480,
+"units": 178,
+"lat": 53.975,
+"lon": 8.979
 },
 {
-"name": "PV Bartow Ost 2",
-"fuel": "Solar",
-"mw": 70.4,
-"lat": 53.8204,
-"lon": 13.3653,
-"landkreis": "Mecklenburgische Seenplatte"
+"name": "Dithmarschen",
+"fuel": "Wind onshore",
+"mw": 471,
+"units": 152,
+"lat": 54.175,
+"lon": 8.991
 },
 {
-"name": "PV Bartow Ost 1",
-"fuel": "Solar",
-"mw": 70.4,
-"lat": 53.8188,
-"lon": 13.354,
-"landkreis": "Mecklenburgische Seenplatte"
+"name": "Schleswig-Flensburg",
+"fuel": "Wind onshore",
+"mw": 446,
+"units": 138,
+"lat": 54.75,
+"lon": 9.133
 },
 {
-"name": "Friesen Elektra PV Sande I",
+"name": "Offshore",
+"fuel": "Wind offshore",
+"mw": 431,
+"units": 57,
+"lat": 54.031,
+"lon": 7.034
+}
+],
+"solar": [
+{
+"name": "Leipzig",
 "fuel": "Solar",
-"mw": 68.4,
-"lat": 53.5075,
-"lon": 7.9857,
-"landkreis": "Friesland"
+"mw": 519,
+"units": 140,
+"lat": 51.156,
+"lon": 12.469
 },
 {
-"name": "TG_Trafo 105",
+"name": "Märkisch-Oderland",
 "fuel": "Solar",
-"mw": 68.3,
-"lat": 53.5711,
-"lon": 11.6987,
-"landkreis": "Ludwigslust-Parchim"
+"mw": 498,
+"units": 77,
+"lat": 52.649,
+"lon": 14.245
 },
 {
-"name": "PV Amerdingen",
+"name": "Deggendorf",
 "fuel": "Solar",
-"mw": 67.3,
-"lat": 48.7322,
-"lon": 10.5068,
-"landkreis": "Donau-Ries"
+"mw": 302,
+"units": 509,
+"lat": 48.763,
+"lon": 12.899
 },
 {
-"name": "Gaarz 2.1",
+"name": "Vorpommern-Greifswald",
 "fuel": "Solar",
-"mw": 67.2,
-"lat": 53.4121,
-"lon": 12.2438,
-"landkreis": "Ludwigslust-Parchim"
+"mw": 287,
+"units": 41,
+"lat": 53.859,
+"lon": 13.338
 },
 {
-"name": "PVA-Ketzin",
+"name": "Neuburg-Schrobenhausen",
 "fuel": "Solar",
-"mw": 65.5,
-"lat": 52.5323,
-"lon": 12.8418,
-"landkreis": "Havelland"
+"mw": 284,
+"units": 235,
+"lat": 48.593,
+"lon": 11.252
 },
 {
-"name": "TG_Trafo 104",
+"name": "Uckermark",
 "fuel": "Solar",
-"mw": 64.7,
-"lat": 53.5711,
-"lon": 11.6987,
-"landkreis": "Ludwigslust-Parchim"
+"mw": 237,
+"units": 36,
+"lat": 53.235,
+"lon": 13.666
 },
 {
-"name": "PV Bartow West",
+"name": "Prignitz",
 "fuel": "Solar",
-"mw": 64.4,
-"lat": 53.8164,
-"lon": 13.3247,
-"landkreis": "Mecklenburgische Seenplatte"
+"mw": 232,
+"units": 52,
+"lat": 53.255,
+"lon": 12.286
 },
 {
-"name": "SP Görlsdorf I",
+"name": "Elbe-Elster",
 "fuel": "Solar",
-"mw": 63.0,
-"lat": 52.53,
-"lon": 14.2876,
-"landkreis": "Märkisch-Oderland"
+"mw": 218,
+"units": 75,
+"lat": 51.591,
+"lon": 13.755
 },
 {
-"name": "PV Darstadt",
+"name": "Dahme-Spreewald",
 "fuel": "Solar",
-"mw": 60.0,
-"lat": 49.682,
-"lon": 9.9896,
-"landkreis": "Würzburg"
+"mw": 198,
+"units": 57,
+"lat": 51.906,
+"lon": 13.786
+},
+{
+"name": "Mansfeld-Südharz",
+"fuel": "Solar",
+"mw": 192,
+"units": 150,
+"lat": 51.595,
+"lon": 11.521
+},
+{
+"name": "Ludwigslust-Parchim",
+"fuel": "Solar",
+"mw": 189,
+"units": 71,
+"lat": 53.406,
+"lon": 11.832
+},
+{
+"name": "Rendsburg-Eckernförde",
+"fuel": "Solar",
+"mw": 184,
+"units": 103,
+"lat": 54.151,
+"lon": 9.904
 }
 ]
 }
