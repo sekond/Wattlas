@@ -145,14 +145,39 @@ def national_totals(units: pd.DataFrame) -> dict:
 # each farm/park into one sized point.
 _PLANT_GROUPS = {"wind": ("Wind onshore", "Wind offshore"), "solar": ("Solar",)}
 _CLUSTER_GRID = 0.15   # ~10–17 km cells
+# How many of the n wind points are reserved for offshore farms. Onshore wind is ~7×
+# offshore nationally (≈70 GW vs ≈10 GW), so the map should be onshore-dominated — but
+# offshore would otherwise either swamp the list (dense grid cells, see below) or vanish
+# (coarse Landkreis sums dwarf any single farm). Reserving a small offshore slice keeps
+# both visible in roughly the real proportion.
+_WIND_OFFSHORE_SLOTS = 3
+
+
+def _cluster_row(c: pd.DataFrame, name: str, fuel: str) -> dict:
+    return {
+        "name": name,
+        "fuel": fuel,
+        "mw": round(float(c["mw"].sum())),
+        "units": int(len(c)),
+        "lat": round(float(c["lat"].mean()), 3),
+        "lon": round(float(c["lon"].mean()), 3),
+    }
 
 
 def top_clusters_by_fuel(units: pd.DataFrame, n: int = TOP_N_PLANTS,
                          grid: float = _CLUSTER_GRID) -> dict[str, list[dict]]:
-    """Largest wind and solar installations as map points, per fuel. Units are grouped
-    into ~grid° cells (so an offshore farm's turbines collapse to one point), summed,
-    and the top n cells per fuel returned — sized by total MW, coloured by canonical
-    fuel, labelled by Landkreis (or 'Offshore' at sea) with the unit count."""
+    """Largest wind and solar installations as map points, per fuel.
+
+    The aggregation unit differs on purpose, because density does. OFFSHORE wind packs
+    many 15 MW turbines into a tight area, so a single ~grid° cell already collapses a
+    whole farm to one big point. ONSHORE wind is spread thin — a windy district's
+    turbines scatter across many cells, so grid-cell sums badly under-represent it and
+    the top-by-MW list ends up almost entirely offshore (the bug this fixes). We
+    therefore group onshore wind by *Landkreis* (the northern wind Kreise are 2000+ MW
+    each, matching their real dominance) and offshore wind by farm-cell, then keep a few
+    offshore slots so both stay on the map. Solar's largest sites are genuine single
+    parks, so solar stays grid-celled. Points are sized by total MW, coloured by
+    canonical fuel, labelled by Landkreis (or 'Offshore' at sea) with the unit count."""
     cand = units[units["lat"].notna() & units["lon"].notna()].copy()
     out: dict[str, list[dict]] = {}
     for metric, fuels in _PLANT_GROUPS.items():
@@ -160,20 +185,35 @@ def top_clusters_by_fuel(units: pd.DataFrame, n: int = TOP_N_PLANTS,
         if sub.empty:
             out[metric] = []
             continue
-        cells = sub.assign(clat=(sub["lat"] / grid).round(), clon=(sub["lon"] / grid).round()) \
-                   .groupby(["clat", "clon"])
-        rows = []
-        for _, c in cells:
-            offshore = bool(c["kreis5"].isna().all())
-            lk = c["landkreis"].dropna()
-            rows.append({
-                "name": (str(lk.mode().iat[0]).strip() if not lk.empty else "Offshore"),
-                "fuel": ("Wind offshore" if offshore else "Wind onshore") if metric == "wind" else "Solar",
-                "mw": round(float(c["mw"].sum())),
-                "units": int(len(c)),
-                "lat": round(float(c["lat"].mean()), 3),
-                "lon": round(float(c["lon"].mean()), 3),
-            })
+
+        if metric == "wind":
+            onshore = sub[sub["kreis5"].notna()]
+            offshore = sub[sub["kreis5"].isna()]
+            # onshore: one cluster per Landkreis (its true concentration is regional)
+            on_rows = []
+            for _, c in onshore.groupby("kreis5"):
+                lk = c["landkreis"].dropna()
+                name = str(lk.mode().iat[0]).strip() if not lk.empty else "Onshore"
+                on_rows.append(_cluster_row(c, name, "Wind onshore"))
+            on_rows.sort(key=lambda r: -r["mw"])
+            # offshore: one cluster per farm-cell
+            off_rows = []
+            og = offshore.assign(clat=(offshore["lat"] / grid).round(),
+                                 clon=(offshore["lon"] / grid).round())
+            for _, c in og.groupby(["clat", "clon"]):
+                off_rows.append(_cluster_row(c, "Offshore", "Wind offshore"))
+            off_rows.sort(key=lambda r: -r["mw"])
+            n_off = min(_WIND_OFFSHORE_SLOTS, len(off_rows))
+            rows = on_rows[:n - n_off] + off_rows[:n_off]
+        else:
+            cells = sub.assign(clat=(sub["lat"] / grid).round(), clon=(sub["lon"] / grid).round()) \
+                       .groupby(["clat", "clon"])
+            rows = []
+            for _, c in cells:
+                lk = c["landkreis"].dropna()
+                name = str(lk.mode().iat[0]).strip() if not lk.empty else "Solar park"
+                rows.append(_cluster_row(c, name, "Solar"))
+
         rows.sort(key=lambda r: -r["mw"])
         out[metric] = rows[:n]
     return out
