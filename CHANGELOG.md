@@ -35,9 +35,33 @@ live site; not yet tagged.
 - New isolated pipeline: `fr_fields.py` (French→English), `build_fr_nuclear_sites.py`,
   `build_fr_regional.py`, `build_fr_nuclear_availability.py`; source **ODRÉ éCO2mix**
   régional + national (open, no key). Reuses `geo.js`; committed régions TopoJSON
-  (NUTS-1). Panel 3 shows output, not available-capacity (RTE OAuth deferred).
+  (NUTS-1).
+- **Nuclear available capacity wired (RTE OAuth).** Panel 3 now layers the nuclear
+  **available-capacity** ceiling (the "could-run vs did-run" distinction) over output:
+  `build_fr_nuclear_availability.py` authenticates to the **RTE Data Portal** (OAuth2
+  client-credentials, `RTE_CLIENT_ID`/`RTE_CLIENT_SECRET`), pulls the **Unavailability
+  Additional Information v6** feed, and computes monthly `available_gw` = installed −
+  mean declared unavailability (time-weighted, Europe/Paris; the feed omits fully-available
+  units, so we subtract outages from the installed fleet rather than summing reported
+  availability). Labelled a declared **upper bound**, never actual generation. The
+  frontend draws it as a dashed line above the nuclear bar. **Degrades cleanly** to
+  output-only (`available_gw: null`) when the credentials are absent or the app isn't
+  subscribed to that API — no fabricated series. Stdlib-only (`urllib`); offline unit
+  tests cover the OAuth-free pure aggregation.
 
 ### Changed
+- **Unified site navigation (single source of truth).** Every page now shares one
+  injected navigation (`frontend/nav.js`), replacing the inconsistent hand-authored
+  per-page menus. Desktop shows a persistent left sidebar; under 900px it becomes a
+  sticky horizontal scroll-nav (active pill auto-scrolled into view). The eight views
+  are **nested under Dashboard**, and on the dashboard the menu is a **scroll-spy** —
+  clicking smooth-scrolls to that view's section and scrolling the page highlights the
+  section you're in, so moving through the dashboard moves through the menu. Off the
+  dashboard the same items open each view's full standalone page. The two map stories
+  are an amber-accented group. All nav markup, CSS, and active-state logic live in
+  `nav.js` alone; the duplicated nav chrome was removed from `dash/dash.css`. The
+  design-handoff bundle for this round is archived under
+  `design-archive/unified_nav_handoff/`.
 - The drill-down map pages adopt the **dashboard's left-sidebar layout** on desktop
   (mobile keeps a top scroll-nav); both new views are linked from the dashboard and
   cross-linked with each other.

@@ -434,24 +434,28 @@ negative = net **importer** (Île-de-France most negative). Join to the basemap 
 ## `fr_nuclear_availability.json` (v4 — France-nuclear Panel 3)
 
 Monthly national generation mix + demand from **éCO2mix national via ODRÉ**
-(`pipeline/build_fr_nuclear_availability.py`, isolated). Shows the nuclear **output** dip
-(spring/summer maintenance) — **not available capacity**, which needs the RTE OAuth
-unavailability feed; `available_gw` is null until then (see memory `rte-oauth-pending`).
-Values GW.
+(`pipeline/build_fr_nuclear_availability.py`, isolated). `nuclear_gw` is **output** (how
+much the fleet generated). `available_gw` is the nuclear **available capacity** (how much
+it *could* generate) — a declared **upper bound** on producible power, never actual
+generation. It is computed as installed nuclear capacity − mean declared unavailability
+from the **RTE Data Portal "Unavailability Additional Information" v6** feed (OAuth2;
+`RTE_CLIENT_ID`/`RTE_CLIENT_SECRET`), time-weighted per calendar month in Europe/Paris.
+When those credentials are absent or the app isn't subscribed to that API, `available_gw`
+is **null** and the view degrades to output only (see memory `rte-oauth-pending`). Values GW.
 
 ```json
 {
   "generated_at": "2026-06-22T13:00:00Z",
-  "source": "RTE éCO2mix national via ODRÉ (Opendatasoft)",
+  "source": "RTE éCO2mix national via ODRÉ (output) + RTE Data Portal Unavailability Additional Information v6 (available capacity, OAuth2)",
   "unit": "GW",
   "installed_nuclear_gw": 63.0,
-  "available_note": "available_gw is null: needs RTE OAuth; degraded to output.",
+  "available_note": "available_gw = installed nuclear − mean declared unavailability (RTE OAuth feed); a declared upper-bound, not actual generation. Null when credentials/subscription absent (degraded to output).",
   "period_start": "2024-02", "period_end": "2026-01",
   "months": [
     { "month": "2025-05", "nuclear_gw": 34.3, "hydro_gw": 7.5, "gas_gw": 0.4,
       "wind_gw": 4.6, "solar_gw": 4.9, "other_gw": 1.0, "demand_gw": 41.9,
-      "net_export_gw": 10.0, "available_gw": null }
-    // ~24 months, chronological
+      "net_export_gw": 10.0, "available_gw": 48.7 }
+    // available_gw is null when the RTE OAuth feed is unavailable. ~24 months, chronological.
   ]
 }
 ```

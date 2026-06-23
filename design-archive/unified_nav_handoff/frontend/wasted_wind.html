@@ -206,7 +206,7 @@
     }
     function renderTop() {
       const rows = map.features.map((f) => ({ name: f.properties.NAME_LATN, v: valueFor(f.properties) || 0 }))
-        .sort((a, b) => b.v - a.v).slice(0, 15);
+        .sort((a, b) => b.v - a.v).slice(0, 6);
       const max = rows[0].v || 1, col = RAMPS[metric][4];
       document.getElementById("topTitle").textContent = `Top ${metric} districts (MW)`;
       document.getElementById("topList").innerHTML = rows.map((r) =>
@@ -224,18 +224,6 @@
         className: "plants", r: (d) => plantSize(d.mw),
         fill: (d) => fuelColor(d.fuel), stroke: "#faf9f5", strokeWidth: 0.7,
         title: (d) => `${enName(d.name)} · ${fmtMW(d.mw)} MW` + (d.units ? ` · ${d.units} ${d.fuel.toLowerCase()} units` : ` · ${d.fuel}`),
-        html: (d) => {
-          // Wind onshore is clustered per Landkreis (a district's whole fleet); offshore
-          // and solar are spatial clusters. Word the card to match what the dot is.
-          const offshore = d.fuel === "Wind offshore";
-          const solar = d.fuel === "Solar";
-          const kind = offshore ? "Offshore wind farm"
-                     : solar ? "Solar park cluster" : "Onshore wind — district fleet";
-          const unitWord = solar ? "installations" : "turbines";
-          return `<b>${enName(d.name)}</b><br><span class="gt-sub">${kind}</span><br>` +
-                 `${fmtMW(d.mw)} MW installed` +
-                 (d.units ? ` · ${d.units.toLocaleString()} ${unitWord}` : "");
-        },
       });
       const fuels = [...new Set(list.map((p) => p.fuel))];
       document.getElementById("plantLegend").innerHTML =
