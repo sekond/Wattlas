@@ -14,6 +14,39 @@
 // nicer option and not worth the extra parameters at this scale.
 
 const GeoMap = (function () {
+  // ---- shared floating tooltip ------------------------------------------- //
+  // A single styled div (re-used by every map) that hovers just above a dot on
+  // mouseenter and shows caller-supplied HTML. Kept here so both views get an
+  // identical, instant tooltip instead of the browser's slow native <title>.
+  let _tip = null;
+  function _tipEl() {
+    if (_tip) return _tip;
+    const style = document.createElement("style");
+    style.textContent =
+      ".geo-tip{position:fixed;z-index:9999;pointer-events:none;opacity:0;" +
+      "transform:translate(-50%,-100%);transition:opacity .12s ease;" +
+      "background:#2b2a33;color:#faf9f5;font:12px/1.45 system-ui,-apple-system,sans-serif;" +
+      "padding:7px 10px;border-radius:7px;max-width:240px;white-space:normal;" +
+      "box-shadow:0 4px 14px rgba(0,0,0,.28);}" +
+      ".geo-tip::after{content:'';position:absolute;left:50%;top:100%;" +
+      "transform:translateX(-50%);border:5px solid transparent;border-top-color:#2b2a33;}" +
+      ".geo-tip b{color:#fff;}" +
+      ".geo-tip .gt-sub{opacity:.72;font-size:11px;}";
+    document.head.appendChild(style);
+    _tip = document.createElement("div");
+    _tip.className = "geo-tip";
+    document.body.appendChild(_tip);
+    return _tip;
+  }
+  function _showTip(html, x, y) {
+    const t = _tipEl();
+    t.innerHTML = html;
+    t.style.left = x + "px";
+    t.style.top = (y - 9) + "px";   // sit just above the dot; arrow points down to it
+    t.style.opacity = "1";
+  }
+  function _hideTip() { if (_tip) _tip.style.opacity = "0"; }
+
   // Draw a choropleth of the Landkreise into `host`.
   //   host      : a DOM element to render into
   //   topo      : parsed TopoJSON (the committed basemap)
@@ -63,6 +96,10 @@ const GeoMap = (function () {
   // Render-only; the page supplies colour / size / hover-title accessors. `r`,
   // `fill` and `stroke` may each be a constant or a per-item function. Returns the
   // <g> so the caller can clear/replace it (e.g. on metric toggle).
+  //
+  // Hover: `title(d)` sets the native <title> (kept for accessibility / fallback).
+  // If `html(d)` is also given, the dot gets the rich floating tooltip above — an
+  // instant styled card with the installation's context (capacity, units, type).
   function points(map, items, opts) {
     const o = opts || {};
     const asFn = (v) => (typeof v === "function" ? v : () => v);
@@ -77,6 +114,15 @@ const GeoMap = (function () {
       .attr("cy", (d) => map.projection([d.lon, d.lat])[1])
       .attr("r", r).attr("fill", fill).attr("stroke", stroke).attr("stroke-width", strokeWidth);
     sel.append("title").text(title);
+    if (o.html) {
+      const htmlFn = o.html;
+      sel.style("cursor", "pointer")
+        .on("mouseenter", function (ev, d) {
+          const box = this.getBoundingClientRect();
+          _showTip(htmlFn(d), box.left + box.width / 2, box.top);
+        })
+        .on("mouseleave", _hideTip);
+    }
     return g;
   }
 
