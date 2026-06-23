@@ -1,9 +1,9 @@
 {
-"generated_at": "2026-06-23T09:09:08+00:00",
+"generated_at": "2026-06-23T18:36:54+00:00",
 "source": "RTE éCO2mix national via ODRÉ (Opendatasoft)",
 "unit": "GW",
 "installed_nuclear_gw": 63.0,
-"available_note": "available_gw is null: 'available capacity' needs the RTE OAuth unavailability feed; degraded to output (éCO2mix).",
+"available_note": "available_gw is null: 'available capacity' needs the RTE OAuth unavailability feed (RTE_CLIENT_ID/_SECRET); degraded to output (éCO2mix).",
 "period_start": "2024-02",
 "period_end": "2026-01",
 "months": [

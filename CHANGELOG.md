@@ -35,7 +35,19 @@ live site; not yet tagged.
 - New isolated pipeline: `fr_fields.py` (French→English), `build_fr_nuclear_sites.py`,
   `build_fr_regional.py`, `build_fr_nuclear_availability.py`; source **ODRÉ éCO2mix**
   régional + national (open, no key). Reuses `geo.js`; committed régions TopoJSON
-  (NUTS-1). Panel 3 shows output, not available-capacity (RTE OAuth deferred).
+  (NUTS-1).
+- **Nuclear available capacity wired (RTE OAuth).** Panel 3 now layers the nuclear
+  **available-capacity** ceiling (the "could-run vs did-run" distinction) over output:
+  `build_fr_nuclear_availability.py` authenticates to the **RTE Data Portal** (OAuth2
+  client-credentials, `RTE_CLIENT_ID`/`RTE_CLIENT_SECRET`), pulls the **Unavailability
+  Additional Information v6** feed, and computes monthly `available_gw` = installed −
+  mean declared unavailability (time-weighted, Europe/Paris; the feed omits fully-available
+  units, so we subtract outages from the installed fleet rather than summing reported
+  availability). Labelled a declared **upper bound**, never actual generation. The
+  frontend draws it as a dashed line above the nuclear bar. **Degrades cleanly** to
+  output-only (`available_gw: null`) when the credentials are absent or the app isn't
+  subscribed to that API — no fabricated series. Stdlib-only (`urllib`); offline unit
+  tests cover the OAuth-free pure aggregation.
 
 ### Changed
 - **Unified site navigation (single source of truth).** Every page now shares one
