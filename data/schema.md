@@ -325,24 +325,26 @@ values rounded.
 
 ## `de_top_plants.json` (v3 — Wasted-wind Panel 1)
 
-The 20 largest individual wind/solar units (by MW) with coordinates, plotted as map
-points. Coordinates are public for utility-scale units (≥30 kW).
+The largest wind and solar installations as map points, **per fuel** so the choropleth's
+wind/solar toggle can swap them. MaStR registers wind per turbine, so units are grouped
+into ~0.15° cells (an offshore farm's turbines collapse to one point) and the top 12 cells
+per fuel are kept — sized by total MW, coloured by canonical fuel.
 
 ```json
 {
-  "generated_at": "2026-06-22T08:00:00Z",
+  "generated_at": "2026-06-23T08:00:00Z",
   "source": "MaStR (Bundesnetzagentur)",
   "unit": "MW",
-  "plants": [
-    { "name": "…", "fuel": "Wind offshore", "mw": 0.0,
-      "lat": 0.0, "lon": 0.0, "landkreis": "…" }
-    // 20 entries, largest first
-  ]
+  "wind":  [ { "name": "Offshore", "fuel": "Wind offshore", "mw": 758, "units": 133, "lat": 54.456, "lon": 7.677 } ],
+  "solar": [ { "name": "Leipzig",  "fuel": "Solar",         "mw": 519, "units": 140, "lat": 51.156, "lon": 12.469 } ]
+  // 12 clusters per fuel, largest first
 }
 ```
 
-`fuel` is a canonical fuel (use `frontend/fuels.js` colours). `landkreis` may be
-`null` for offshore units at sea.
+`fuel` is a canonical fuel (use `frontend/fuels.js` colours: offshore wind is darker than
+onshore). `name` is the Landkreis (or `"Offshore"` at sea); `units` is how many MaStR
+units the cluster aggregates. The frontend plots `wind` on the wind view and `solar` on
+the solar view, re-drawing on toggle.
 
 ## `de_regional_balance.json` (v3 — Wasted-wind Panel 2, NEW SOURCE: SMARD)
 
