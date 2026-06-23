@@ -248,6 +248,9 @@
         className: "sites", r: (d) => sscale(d.capacity_mw),
         fill: fuelColor("Nuclear"), stroke: "#4f4d56", strokeWidth: 0.8,
         title: (d) => `${d.name} · ${d.reactors} reactors · ${fmtMW(d.capacity_mw)} MW · ${d.water}`,
+        html: (d) => `<b>${d.name}</b><br><span class="gt-sub">Nuclear power station</span><br>` +
+                 `${d.reactors} reactor${d.reactors > 1 ? "s" : ""} · ${fmtMW(d.capacity_mw)} MW<br>` +
+                 `<span class="gt-sub">Cooling: ${d.water}</span>`,
       });
 
       // ramp legend
@@ -259,7 +262,7 @@
         '<span class="b"><span class="sw" style="background:#e3e1d8"></span>no nuclear</span>';
 
       // top sites bar list
-      const top = sites.slice(0, 7);   // already sorted by capacity desc
+      const top = sites.slice(0, 15);   // already sorted by capacity desc
       const maxCap = top[0].capacity_mw;
       document.getElementById("topList").innerHTML = top.map((s) =>
         `<div class="toprow"><span class="nm" title="${s.name}">${s.name}</span>` +
