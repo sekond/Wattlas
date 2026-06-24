@@ -56,6 +56,10 @@ jobs:
           python pipeline/build_flows.py
           python pipeline/build_zone_views.py        # reads the zone-price cache from build_divergence
           python pipeline/build_history.py --years 3
+          # Nordic price-zones slice (v5): day-ahead prices for the 12 Nordic bidding
+          # zones (ENTSO-E). Isolated builder; non-fatal so a Nordic fetch hiccup
+          # can't break the core refresh.
+          python pipeline/build_nordic_zones.py || echo "Nordic zones build skipped/failed — continuing"
           # New external sources (isolated): never let one fail the whole refresh.
           python pipeline/build_curtailment.py --years 2 || echo "curtailment build skipped/failed — continuing"
           # Wasted-wind Panel 2: per-control-area net balance from SMARD (open, no key).
@@ -66,6 +70,11 @@ jobs:
           python pipeline/build_fr_costs.py || echo "FR costs build skipped/failed — continuing"
           python pipeline/build_fr_regional.py || echo "FR régional (éCO2mix) build skipped/failed — continuing"
           python pipeline/build_fr_nuclear_availability.py || echo "FR availability (éCO2mix) build skipped/failed — continuing"
+          # UK regional slice (v6): NESO Carbon Intensity (regional consumption-based carbon)
+          # + NESO Constraint Breakdown (Scottish wind constraint payments). Open APIs (no
+          # key), isolated, non-fatal — a UK source hiccup must not break the refresh.
+          python pipeline/build_uk_regional_carbon.py || echo "UK regional carbon (NESO) build skipped/failed — continuing"
+          python pipeline/build_uk_constraints.py || echo "UK constraints (NESO) build skipped/failed — continuing"
 
       - name: Build MaStR capacity (weekly — heavy bulk download)
         run: |
