@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Storage</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .upper-note { background: #fff7e0; border: 0.5px solid #e7cf86; border-left: 3px solid var(--amber);
+      border-radius: var(--radius-sm); padding: 9px 13px; font-size: 12px; color: #6b520a; margin: 0 0 14px; }
+    .upper-note strong { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <main class="main">
+      <div class="main-inner">
+
+        <h1>Storage: the batteries that live off the spread</h1>
+        <p class="sub">Grid-scale batteries and pumped hydro charge when power is cheap and discharge when it's dear — soaking up the daily price swing the Spread view measures. Here's how that arbitrage works, how fast storage is arriving, and the honest limits. The optimistic counterpart to Dunkelflaute.</p>
+        <p class="cap" style="margin:-8px 0 22px; color:var(--muted); font-size:12px;">A transparent toy battery (1 MW / 2 MWh, 85% round-trip) run over real ENTSO-E day-ahead prices, plus a curated capacity series. The captured figure assumes perfect foresight — an upper bound. Pre-computed and static.</p>
+
+        <div id="kpis" class="kpis"></div>
+
+        <!-- Panel 1 — a day in the life of a battery. -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">1 · A day in the life of a battery</div>
+            <div class="meta">avg day-ahead price + charge/discharge</div>
+          </div>
+          <p class="block-pitch">The average day-ahead price (line) dips at midday when solar floods the grid and peaks in the evening. A 2-hour battery charges in the cheapest hours (bars below zero) and discharges into the evening peak (bars above) — buy low, sell high.</p>
+          <div class="upper-note"><strong>Upper bound.</strong> The captured spread assumes perfect foresight and an 85% round-trip efficiency — the same caveat as the Spread view's arbitrage figure. Real revenue is lower: round-trip losses, cycling wear, and more storage flattening the very spread it feeds on.</div>
+          <div class="legend" id="batLegend" style="margin-bottom:6px;"></div>
+          <div id="batWrap" class="chartbox" style="height:250px;"><canvas id="batChart"></canvas></div>
+          <p class="cap" id="batSrc"></p>
+        </div>
+
+        <!-- Panel 2 — where storage is being built. -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">2 · Where storage is being built</div>
+            <div class="meta">installed grid-scale battery power · GW</div>
+          </div>
+          <p class="block-pitch">Installed grid-scale battery power has grown roughly tenfold in a few years, led by Great Britain and Germany — the supply-side answer to renewable volatility. Power (GW) is what the market reports track; energy (GWh) differs by each project's duration.</p>
+          <div class="legend" id="capLegend" style="margin-bottom:6px;"></div>
+          <div id="capWrap" class="chartbox" style="height:230px;"><canvas id="capChart"></canvas></div>
+          <p class="cap" id="capSrc"></p>
+        </div>
+
+        <!-- Panel 3 — storage vs the spread. -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">3 · Storage vs the spread</div>
+            <div class="meta">monthly 2-hour spread (TB2) · €/MWh</div>
+          </div>
+          <p class="block-pitch">A battery earns off the gap between the cheapest and dearest hours — the Spread view's TB2. The wider that daily spread, the better the arbitrage case. But the relationship isn't a free lunch: round-trip losses, cycling wear and <em>cannibalisation</em> — more storage flattening the spread as it enters — all pull real revenue below the line.</p>
+          <div class="legend" id="spreadLegend" style="margin-bottom:6px;"></div>
+          <div id="spreadWrap" class="chartbox" style="height:230px;"><canvas id="spreadChart"></canvas></div>
+          <!-- copy block A — verbatim, the upper-bound caveat -->
+          <p class="cap" id="blockA">A battery earns by charging when power is cheap and discharging when it's dear. The figure here assumes perfect foresight and a stated round-trip efficiency, so it's an <strong>upper bound</strong> on what a real battery captures — the same caveat as the Spread view's arbitrage number. Round-trip losses, cycling wear, and the fact that more storage flattens the very spread it feeds on all pull real revenue below this line.</p>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script>
+    async function loadJSON(name) {
+      for (const base of ["../data/", "data/", "/data/"]) {
+        try { const r = await fetch(base + name); if (r.ok) return r.json(); } catch (e) {}
+      }
+      return null;
+    }
+    const COUNTRY_COLOR = { GB: "#185fa5", DE: "#4aa6a0", IT: "#d98c3f", "Rest of Europe": "#bdbbb3" };
+    const COUNTRY_LABEL = { GB: "Great Britain", DE: "Germany", IT: "Italy", "Rest of Europe": "Rest of Europe" };
+    const CHARGE = "#3a7ca5", DISCHARGE = "#6fa8c7", PRICE = "#a32d2d";
+    const eur = (v) => "€" + Math.round(v);
+
+    (async function main() {
+      const d = await loadJSON("storage.json");
+      if (!d) { document.getElementById("batWrap").innerHTML = '<div class="nodata">Storage data unavailable.</div>'; return; }
+
+      // KPIs
+      const eu2025 = (d.eu_energy_gwh || []).find((x) => x.year === 2025);
+      const cap = d.capacity || [];
+      const tot = (yr) => cap.filter((c) => c.year === yr).reduce((s, c) => s + c.power_gw, 0);
+      const growth = tot(2021) ? Math.round(tot(2026) / tot(2021)) : null;
+      document.getElementById("kpis").innerHTML = [
+        { label: "Captured / cycle", val: eur(d.day.captured_eur), sub: "upper bound" },
+        { label: "Round-trip", val: Math.round(d.battery.round_trip * 100) + "%" },
+        { label: "EU storage (2025)", val: eu2025 ? "~" + eu2025.gwh + " GWh" : "—" },
+        { label: "Growth since 2021", val: growth ? "~" + growth + "×" : "—" },
+      ].map((i) => `<div class="kpi"><div class="label">${i.label}${i.sub ? ` <span style="color:var(--hint)">(${i.sub})</span>` : ""}</div><div class="val" style="font-size:${(i.val + "").length > 7 ? "18px" : "24px"}">${i.val}</div></div>`).join("");
+
+      // Panel 1: battery day — price line + charge/discharge bars.
+      const day = d.day;
+      const batt = day.hours.map((h, i) => (day.charge_mw[i] || 0) + (day.discharge_mw[i] || 0));
+      new Chart(document.getElementById("batChart"), {
+        data: { labels: day.hours.map((h) => (h < 10 ? "0" + h : "" + h)), datasets: [
+          { type: "bar", label: "Battery (MW)", data: batt, yAxisID: "y", order: 2,
+            backgroundColor: batt.map((v) => (v < 0 ? CHARGE : DISCHARGE)), borderRadius: 2 },
+          { type: "line", label: "Price (€/MWh)", data: day.price, yAxisID: "y1", order: 1,
+            borderColor: PRICE, backgroundColor: PRICE, borderWidth: 2, tension: 0.35, pointRadius: 0 },
+        ] },
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          interaction: { mode: "index", intersect: false },
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => c.dataset.label.startsWith("Price")
+              ? `Price: ${eur(c.parsed.y)}/MWh` : `${c.parsed.y < 0 ? "Charge" : c.parsed.y > 0 ? "Discharge" : "Idle"}: ${c.parsed.y} MW` } } },
+          scales: {
+            y: { position: "left", title: { display: true, text: "charge − / discharge + (MW)", font: { size: 10 } },
+              grid: { color: "rgba(0,0,0,.06)" }, ticks: { font: { size: 10 } }, suggestedMin: -1.2, suggestedMax: 1.2 },
+            y1: { position: "right", title: { display: true, text: "€/MWh", font: { size: 11 } },
+              grid: { drawOnChartArea: false }, ticks: { font: { size: 10 } }, beginAtZero: true },
+            x: { grid: { display: false }, ticks: { font: { size: 9 }, maxTicksLimit: 12 } },
+          },
+        },
+      });
+      document.getElementById("batLegend").innerHTML =
+        `<span><span class="swatch" style="background:${CHARGE}"></span>Charge (cheap hours)</span>` +
+        `<span><span class="swatch" style="background:${DISCHARGE}"></span>Discharge (peak hours)</span>` +
+        `<span><span class="swatch" style="background:${PRICE};border-radius:50%"></span>Day-ahead price</span>`;
+      document.getElementById("batSrc").textContent =
+        `Average day-ahead price by hour, ${d.spread.period_start} to ${d.spread.period_end} (ENTSO-E, ${d.zone}). ` +
+        `The ${d.battery.power_mw} MW / ${d.battery.power_mw * d.battery.duration_h} MWh battery captures ${eur(day.captured_eur)} on this average day — an upper bound (perfect foresight, ${Math.round(d.battery.round_trip * 100)}% round-trip).`;
+
+      // Panel 2: capacity stacked by country.
+      const years = [...new Set(cap.map((c) => c.year))].sort();
+      const countries = ["GB", "DE", "IT", "Rest of Europe"];
+      new Chart(document.getElementById("capChart"), {
+        type: "bar",
+        data: { labels: years, datasets: countries.map((c) => ({
+          label: COUNTRY_LABEL[c], stack: "s", backgroundColor: COUNTRY_COLOR[c], borderRadius: 2,
+          data: years.map((y) => { const r = cap.find((x) => x.country === c && x.year === y); return r ? r.power_gw : 0; }),
+        })) },
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.parsed.y} GW` } } },
+          scales: {
+            x: { stacked: true, grid: { display: false }, ticks: { font: { size: 11 } } },
+            y: { stacked: true, title: { display: true, text: "GW (power)", font: { size: 11 } },
+              grid: { color: "rgba(0,0,0,.06)" }, ticks: { font: { size: 10 } } },
+          },
+        },
+      });
+      document.getElementById("capLegend").innerHTML = countries
+        .map((c) => `<span><span class="swatch" style="background:${COUNTRY_COLOR[c]}"></span>${COUNTRY_LABEL[c]}</span>`).join("");
+      document.getElementById("capSrc").textContent = d.capacity_note;
+
+      // Panel 3: monthly spread (TB2) the battery arbitrages.
+      const m = d.spread.monthly_tb2 || [];
+      const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const mlabel = (ym) => { const [y, mm] = ym.split("-"); return MON[+mm - 1] + " " + y.slice(2); };
+      new Chart(document.getElementById("spreadChart"), {
+        type: "line",
+        data: { labels: m.map((x) => mlabel(x.month)), datasets: [
+          { label: "Monthly mean TB2 (€/MWh)", data: m.map((x) => x.mean_tb2),
+            borderColor: "#b8860b", backgroundColor: "rgba(184,134,11,.10)", borderWidth: 2, tension: 0.3, pointRadius: 2, fill: true },
+        ] },
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `TB2: ${eur(c.parsed.y)}/MWh` } } },
+          scales: {
+            y: { title: { display: true, text: "€/MWh", font: { size: 11 } }, grid: { color: "rgba(0,0,0,.06)" }, ticks: { font: { size: 10 } }, beginAtZero: true },
+            x: { grid: { display: false }, ticks: { font: { size: 9 }, maxRotation: 0, autoSkip: true } },
+          },
+        },
+      });
+      document.getElementById("spreadLegend").innerHTML =
+        `<span><span class="swatch" style="background:#b8860b"></span>Monthly 2-hour spread (TB2)</span>` +
+        `<span style="color:var(--hint)">mean ${eur(d.spread.mean_tb2_eur_mwh)}/MWh · a battery captures ≈ ${Math.round(d.battery.round_trip * 100)}% of it, minus losses</span>`;
+    })();
+  </script>
+  <script src="nav.js"></script>
+</body>
+</html>

@@ -95,6 +95,9 @@
     { text: "France Nuclear",           mark: "FR", page: "fr_nuclear.html"   },
     { text: "Nordic Price Zones",       mark: "NZ", page: "nordic_zones.html" },
     { text: "UK Regional Carbon",       mark: "UK", page: "uk_regional.html"  },
+    { text: "Dunkelflaute",             mark: "DF", page: "dunkelflaute.html" },
+    { text: "Storage",                  mark: "ST", page: "storage.html"      },
+    { text: "Iberian Blackout",         mark: "IB", page: "iberian_blackout.html" },
   ];
 
   var here = (location.pathname.split("/").pop() || "").toLowerCase();
@@ -136,7 +139,7 @@
     side += navLink({ href: viewHref(v), text: v.text, mark: v.mark,
                       spy: v.section, page: v.page, active: pageActive(v.page) });
   });
-  side += '<div class="navgroup">Map Stories</div>';
+  side += '<div class="navgroup">Deep dives</div>';
   STORIES.forEach(function (s) {
     side += navLink({ href: s.page, text: s.text, mark: s.mark, story: true,
                       page: s.page, active: pageActive(s.page) });

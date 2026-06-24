@@ -602,6 +602,108 @@ volume MWh→**GWh**; **Great Britain**. NESO revises these figures over time.
 `"status": "unavailable"` and an empty `months` array; the frontend renders an
 "awaiting source" state and never fabricates data.
 
+## `storage.json` (v9 — Storage slice)
+
+A transparent battery-arbitrage model over real day-ahead prices + a curated storage-
+capacity series, from `pipeline/build_storage.py` (**pure** — reads committed `pulse.json`
++ `spread.json`, no network). Powers `storage.html`.
+
+```json
+{
+  "generated_at": "…", "zone": "DE_LU",
+  "currency": "EUR", "unit_power": "MW (power)", "unit_energy": "MWh (energy)",
+  "battery": { "power_mw": 1, "duration_h": 2, "round_trip": 0.85, "foresight": "perfect (upper bound)" },
+  "note": "Captured-arbitrage figures are an UPPER BOUND (perfect foresight, 85% round-trip) …",
+  "day": {
+    "hours": [0, "…", 23], "price": [93.2, "…"],          // avg 24h price profile (pulse.json)
+    "charge_mw": [0, "…", -1, "…"],                        // −power in the cheapest `duration_h` hours
+    "discharge_mw": [0, "…", 0.85, "…"],                  // +power×round_trip in the dearest hours
+    "charge_hours": [12, 13], "discharge_hours": [19, 20],
+    "captured_eur": 134.0                                 // € per cycle for THIS battery, UPPER BOUND
+  },
+  "spread": {
+    "mean_tb2_eur_mwh": 117.3,                            // mean daily 2-hour spread (spread.json TB2)
+    "period_start": "2025-06-23", "period_end": "2026-06-22",
+    "monthly_tb2": [ { "month": "2025-06", "mean_tb2": 0 } ]
+  },
+  "capacity": [ { "country": "GB", "year": 2025, "power_gw": 5.9 } ],   // curated, approximate, GW power
+  "capacity_note": "Curated from published market reports … operational grid-scale POWER (GW) …",
+  "eu_energy_gwh": [ { "year": 2025, "gwh": 77 } ]        // cumulative EU battery energy (sourced)
+}
+```
+
+**Upper bound (landmine #7):** `captured_eur` and `mean_tb2_eur_mwh` assume perfect
+foresight + a stated round-trip — never present them as achievable revenue (the frontend
+carries copy block A). **MW vs MWh** are distinct and labelled (`unit_power`/`unit_energy`).
+The **capacity** series is **curated/approximate** (aggregates only, GW power; energy
+differs by duration) — not a live registry pull. Cannibalisation (more storage flattens
+the spread) is noted, never implied linear.
+
+## `dunkelflaute.json` (v7 — Dunkelflaute slice)
+
+Low-renewable spell detection for DE-LU, from `pipeline/build_dunkelflaute.py` (reuses
+the ENTSO-E generation/load/price pipeline). Powers `dunkelflaute.html`.
+
+```json
+{
+  "generated_at": "…", "zone": "DE_LU",
+  "threshold_pct": 10, "min_spell_hours": 24, "roll_window_h": 24,
+  "unit": "GW (generation/imports), EUR/MWh (price)",
+  "note": "Detected where the 24h rolling mean of the wind+solar share of demand stays below the threshold … threshold is a defined, adjustable choice … net imports = load − generation.",
+  "period_start": "2025-06-23", "period_end": "2026-06-22",
+  "worst_event": {
+    "start": "…", "end": "…", "spell_start": "…", "spell_end": "…",
+    "hours": ["ISO", "…"],
+    "wind": [0.1, "…"], "solar": [], "gas": [], "coal": [], "nuclear": [], "hydro": [], "biomass": [],
+    "imports": [2.1, "…"],            // net imports (GW); can be negative (exporting)
+    "price": [178.5, "…"], "demand": [],
+    "min_vre_pct": 1.5, "peak_price": 178.5
+  },
+  "spells": [ { "start": "…", "hours": 52, "min_vre_pct": 1.5 } ],
+  "monthly": [ { "month": "2025-11", "low_hours": 73 } ],      // raw hours below threshold per month
+  "summary": { "spell_count": 1, "spell_hours_year": 52, "longest_spell_h": 52,
+               "low_vre_hours_year": 510, "threshold_pct": 10 },
+  "mix": { "dunkelflaute": { "wind": 4.7, "coal": 41.0, "gas": 31.0, "net_import_pct": 17.1 },
+           "normal": { "…": 0 } }                              // % of generation + net-import %
+}
+```
+
+The **threshold is a stated, adjustable choice** (landmine in the spec), not a law —
+surfaced in the UI. Generation values are **GW** (MW/1000); price **EUR/MWh**. Net
+imports close the demand balance (`load − generation`, positive = importing), never
+double-counted. Gaps stay `null`. Framing is the engineering reality, not anti-renewable
+(copy block A).
+
+## `iberian_blackout.json` (v8 — Iberian blackout slice, HISTORICAL — no daily refresh)
+
+The fixed ES/PT load window around **28 April 2025** + sourced restoration milestones,
+from `pipeline/build_iberian_blackout.py` (a one-off historical pull). Powers
+`iberian_blackout.html`. **Sober, factual; no asserted cause.**
+
+```json
+{
+  "generated_at": "…", "event_date": "2025-04-28", "zones": ["ES", "PT"],
+  "tz": "Europe/Madrid (CEST)", "resolution": "hourly",
+  "note": "… Spain's metered load is largely missing through the outage (reporting went down) — shown as a gap; Portugal's load fell to near zero … does not assert a cause.",
+  "sources": [ { "label": "ENTSO-E …", "url": "https://www.entsoe.eu/…" } ],
+  "timeline": [ { "t": "ISO (CEST)", "es_load_gw": 24.9, "pt_load_gw": 0.09 } ],   // gaps stay null
+  "milestones": [ { "t": "2025-04-28T12:33:00", "label": "Grid collapse — …" } ],   // sourced, CEST
+  "official": { "report": "ENTSO-E Expert Panel — Final Report …", "published": "2026-03-20",
+                "conclusion": "… a combination of many interacting factors … not a single cause or technology",
+                "quote": "The problem is not renewable energy, but voltage control …",
+                "report_url": "https://www.entsoe.eu/news/2026/03/20/…" },
+  "summary": { "pre_event_load_gw": { "ES": 27.5, "PT": 5.9 },
+               "trough_load_gw": { "ES": null, "PT": 0.09 },
+               "official_loss": "Spain lost ~60% of generation — a sudden ~15 GW drop", "restoration": "…" }
+}
+```
+
+**Cause is CITED, never asserted** (landmine): the `official` block links the ENTSO-E
+final report and carries the non-blame quote; there is **no** top-level Wattlas cause
+field. Figures around the outage are **provisional/revised** — labelled. Times **CEST**
+(Madrid). Spain's load gap renders as a gap, Portugal's collapse as recorded. Not in the
+daily refresh — a fixed historical window.
+
 ### Frontend obligations
 - Render `perfect_arbitrage_eur_per_mw` only alongside a visible caveat that it is an unachievable upper bound (see CLAUDE.md landmine #7).
 - Treat `complete: false` days distinctly (e.g. muted) and never break if `days` has gaps.
