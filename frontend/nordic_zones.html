@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Nordic price zones</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Page-scoped map styling (the zone map is unique to this view). */
+    .map-host { width: 100%; max-width: 380px; margin: 0 auto; }
+    /* Default zone fill = the "no data / awaiting prices" state, kept visually
+       distinct from a real shaded value (an acceptance criterion of Panel 1). */
+    .zone { fill: #e3e1d8; stroke: var(--bg); stroke-width: 0.6; }
+    .zone:hover { stroke: var(--text); stroke-width: 1.1; }
+    .zlabel { font-size: 10px; font-weight: 600; fill: var(--muted); pointer-events: none;
+      paint-order: stroke; stroke: var(--bg); stroke-width: 2.4px; }
+    /* Honest caveat that the zone geometry is approximate (not administrative). */
+    .approx-note { background: #fff7e0; border: 0.5px solid #e7cf86; border-left: 3px solid var(--amber);
+      border-radius: var(--radius-sm); padding: 9px 13px; font-size: 12px; color: #6b520a; margin: 0 0 14px; }
+    .approx-note strong { font-weight: 600; }
+    .ramp-legend { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: 11px; color: var(--muted); margin-top: 10px; align-items: center; }
+    .ramp-legend .sw { width: 13px; height: 11px; border-radius: 2px; display: inline-block; }
+    /* Panel 3 — one-zone vs many-zones comparison. */
+    .cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 4px 0 12px; }
+    .cmp > div { border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12.5px; }
+    .cmp-de { background: #f5efe9; } .cmp-no { background: #e7f1ef; }
+    .cmp-h { font-weight: 600; margin-bottom: 4px; }
+    .cmp-de .cmp-h { color: #7a3d12; } .cmp-no .cmp-h { color: #0f6e56; }
+    .cmp-b { color: var(--muted); }
+    .cmp-link { display: inline-block; margin-top: 8px; font-size: 12px; color: var(--amber); text-decoration: none; }
+    .cmp-link:hover { text-decoration: underline; }
+    @media (max-width: 620px) { .cmp { grid-template-columns: 1fr; } }
+
+    /* Site navigation (sidebar + mobile scroll-nav) is shared — see nav.js. */
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <main class="main">
+      <div class="main-inner">
+
+        <h1>The Nordics already split the price zone Germany debates</h1>
+        <p class="sub">Sweden, Norway, Denmark and Finland run not one electricity price but twelve — a cheap, hydro-rich north and a demand-heavy, continent-connected south. This view shows what living with split bidding zones looks like, and what it teaches the German single-zone question. The third of three takes on one congested-grid problem, alongside the German and French map stories.</p>
+
+        <p class="cap" style="margin:-8px 0 22px; color:var(--muted); font-size:12px;">Zone prices come from ENTSO-E day-ahead data (the same source the rest of the site runs on), one wholesale price per bidding zone. The zone map is <em>approximate</em>: bidding zones are not administrative regions, so the boundaries are built from county groupings. Pre-computed and static — no live backend.</p>
+
+        <div id="kpis" class="kpis"></div>
+
+        <!-- Panel 1 — the zone map (price shading wired in Step 3). -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">1 · The map of zones</div>
+            <div class="meta">avg day-ahead price · €/MWh</div>
+          </div>
+          <p class="block-pitch">Average day-ahead price by bidding zone. The hydro-rich north (NO4, SE1, SE2) clears cheap; the demand-heavy, interconnected south (SE4, DK1/DK2) clears dear. The split lets the price say <em>where</em> the grid is tight — the signal a single zone averages away.</p>
+          <div class="approx-note"><strong>Schematic boundaries.</strong> Nordic bidding zones group regions by where the transmission grid constrains flows — they are not administrative regions, so these boundaries (built from county groupings) are approximate.</div>
+          <div class="row2">
+            <div>
+              <div id="map" class="map-host"><div class="nodata">Loading zone map…</div></div>
+            </div>
+            <div>
+              <div class="meta" style="margin-bottom:6px;">Zones</div>
+              <div id="zoneList" class="meta" style="color:var(--muted);">Awaiting zone prices (Step 2).</div>
+              <div class="ramp-legend" id="rampLegend"></div>
+            </div>
+          </div>
+          <p class="cap" id="mapSrc" style="margin-top:14px;">Shell preview — the zones render from the committed boundary asset; price shading is wired in a later step. Source: ENTSO-E day-ahead prices per bidding zone; boundaries derived from Eurostat GISCO NUTS regions grouped into zones (approximate).</p>
+        </div>
+
+        <!-- Panel 2 — within-country price divergence over time. -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">2 · How far prices diverge</div>
+            <div class="seg" role="group" aria-label="Country">
+              <button id="divSE" class="active" type="button">Sweden</button>
+              <button id="divNO" type="button">Norway</button>
+              <button id="divDK" type="button">Denmark</button>
+            </div>
+          </div>
+          <p class="block-pitch">Within one country, the far-north and far-south zones are a single market with two prices. They converge when the whole system is tight — a deep-winter cold snap lifts every zone together — and pull apart when the north is awash in cheap hydro. The gap is widest in spring snowmelt and the shoulder seasons, while the south stays coupled to the pricier continent: the localised signal a single zone would average away.</p>
+          <div class="legend" id="divLegend" style="margin-bottom:6px;"></div>
+          <div id="divWrap" class="chartbox" style="height:250px;"><canvas id="divChart"></canvas></div>
+          <p class="cap" id="divSrc">Monthly mean day-ahead price (ENTSO-E); the shaded band is the gap between the two zones. Nordic divergence is hydro/reservoir-driven — wet springs widen it, tight winters compress it — not congestion alone. Denmark's two zones (west/east) barely diverge by comparison.</p>
+        </div>
+
+        <!-- Panel 3 — the lesson for Germany. Copy blocks A/B verbatim; non-advocacy. -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">3 · The lesson for Germany</div>
+            <div class="meta">one price vs twelve</div>
+          </div>
+          <p class="block-pitch">Germany has the same physical split — windy north, demand-heavy south — but clears at one national price and manages the gap with curtailment and redispatch. The Nordics priced the split instead. <span id="lessonStat"></span></p>
+          <div class="cmp">
+            <div class="cmp-de">
+              <div class="cmp-h">Germany · one zone</div>
+              <div class="cmp-b">One national price; the north–south gap shows up as curtailment and redispatch, not in the price.</div>
+              <a class="cmp-link" href="wasted_wind.html">See Germany's north–south story →</a>
+            </div>
+            <div class="cmp-no">
+              <div class="cmp-h">Nordics · twelve zones</div>
+              <div class="cmp-b">Prices diverge by region, signalling where the grid is tight and where new supply or demand is worth most.</div>
+            </div>
+          </div>
+          <!-- copy block A — verbatim, evenhanded, takes no side on zonal pricing -->
+          <p class="cap" id="blockA">The Nordics are split into many price zones, so a windy, hydro-rich north can clear at a different (often lower) price than a demand-heavy south — the prices reflect where the grid is actually constrained. This is the live version of the split Germany debates for its single DE-LU zone. Supporters say zonal prices steer investment to where it's needed; critics say they push structurally higher prices onto some regions and add complexity. Wattlas takes no side — it shows what splitting looks like in a system that already did it.</p>
+          <!-- copy block B — verbatim, what a bidding zone is -->
+          <p class="cap" id="blockB">A bidding zone is the area inside which electricity clears at one wholesale price. Nordic zones group regions by where the transmission grid constrains flows — they are not administrative regions, so the map boundaries are approximate.</p>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="fuels.js"></script>
+  <script src="geo.js"></script>
+  <script>
+    async function loadGeo() {
+      for (const p of ["geo/nordic_zones.topo.json", "../frontend/geo/nordic_zones.topo.json", "/frontend/geo/nordic_zones.topo.json"]) {
+        try { const r = await fetch(p); if (r.ok) return r.json(); } catch (e) {}
+      }
+      return null;
+    }
+    async function loadJSON(name) {
+      for (const base of ["../data/", "data/", "/data/"]) {
+        try { const r = await fetch(base + name); if (r.ok) return r.json(); } catch (e) {}
+      }
+      return null;
+    }
+    // Country full names for the shell KPI / labels.
+    const COUNTRY = { SE: "Sweden", NO: "Norway", DK: "Denmark", FI: "Finland" };
+
+    // cheap -> dear sequential ramp (the approved mockup palette): cool -> warm.
+    const RAMP = ["#cfe9df", "#b8ddd5", "#ecdfae", "#efc59a", "#eca79a"];
+    const fmtEur = (v) => "€" + Math.round(v);
+
+    (async function main() {
+      const host = document.getElementById("map");
+      const [topo, prices] = await Promise.all([loadGeo(), loadJSON("nordic_prices.json")]);
+      if (!topo || !topo.objects || !topo.objects.zones) {
+        host.innerHTML = '<div class="nodata">Zone map asset unavailable.</div>'; return;
+      }
+
+      // code -> avg_price (null where a zone reported no data -> rendered "no data").
+      const zoneData = (prices && prices.zones) ? prices.zones : [];
+      const avg = {};
+      zoneData.forEach((z) => { avg[z.code] = z.avg_price; });
+      const vals = zoneData.map((z) => z.avg_price).filter((v) => v != null);
+
+      // Scandinavia is tall and far north — a conic conformal centred on ~16°E
+      // reads better than the default Mercator. geo.js fits it to the basemap.
+      const projection = d3.geoConicConformal().parallels([58, 68]).rotate([-16, 0]);
+      const map = GeoMap.choropleth(host, {
+        topo, object: "zones", width: 380, height: 520, className: "zone", projection,
+        ariaLabel: "Map of the Nordic countries split into 12 electricity bidding zones (SE1–SE4, NO1–NO5, DK1–DK2, FI), shaded by average day-ahead price — a cheap hydro-rich north and a dearer, continent-connected south. Boundaries are approximate.",
+      });
+
+      // Sequential price shade; a zone with no data returns null -> CSS "no data"
+      // fill, kept visually distinct from a real low value (Panel-1 criterion).
+      const lo = vals.length ? Math.min(...vals) : 0;
+      const hi = vals.length ? Math.max(...vals) : 1;
+      const color = d3.scaleQuantize().domain([lo, hi]).range(RAMP);
+      map.recolor((props) => (avg[props.code] != null ? color(avg[props.code]) : null));
+
+      // Zone-code labels + native hover (name + avg price) on each zone.
+      map.svg.append("g").selectAll("text").data(map.features).join("text")
+        .attr("class", "zlabel")
+        .attr("x", (f) => map.path.centroid(f)[0])
+        .attr("y", (f) => map.path.centroid(f)[1] + 3)
+        .attr("text-anchor", "middle")
+        .text((f) => f.properties.code);
+      map.svg.selectAll("path.zone").append("title")
+        .text((f) => `${f.properties.name} — ${avg[f.properties.code] != null ? fmtEur(avg[f.properties.code]) + "/MWh avg" : "no data"}`);
+
+      // KPIs from the real data.
+      const withVal = zoneData.filter((z) => z.avg_price != null);
+      const cheapest = withVal.length ? withVal.reduce((a, b) => (b.avg_price < a.avg_price ? b : a)) : null;
+      const dearest = withVal.length ? withVal.reduce((a, b) => (b.avg_price > a.avg_price ? b : a)) : null;
+      document.getElementById("kpis").innerHTML = [
+        { label: "Nordic price zones", val: String(map.features.length) },
+        { label: "Cheapest zone", val: cheapest ? `${cheapest.code} · ${fmtEur(cheapest.avg_price)}` : "—" },
+        { label: "Dearest zone", val: dearest ? `${dearest.code} · ${fmtEur(dearest.avg_price)}` : "—" },
+        { label: "Germany", val: "1 zone" },
+      ].map((i) => `<div class="kpi"><div class="label">${i.label}</div><div class="val" style="font-size:${i.val.length > 7 ? "18px" : "24px"}">${i.val}</div></div>`).join("");
+
+      // Right column: zones grouped by country, each with its colour + avg price, cheap -> dear.
+      const byCountry = {};
+      zoneData.forEach((z) => { (byCountry[z.country] = byCountry[z.country] || []).push(z); });
+      document.getElementById("zoneList").innerHTML = ["SE", "NO", "DK", "FI"].filter((c) => byCountry[c]).map((c) => {
+        const rows = byCountry[c].slice().sort((a, b) => (a.avg_price ?? 1e9) - (b.avg_price ?? 1e9)).map((z) => {
+          const sw = z.avg_price != null ? color(z.avg_price) : "#e3e1d8";
+          const val = z.avg_price != null ? fmtEur(z.avg_price) : "n/a";
+          return `<div style="display:flex;align-items:center;gap:7px;margin:2px 0;"><span style="width:10px;height:10px;border-radius:2px;background:${sw};flex:none;"></span><span style="width:32px;color:var(--text);">${z.code}</span><span style="color:var(--muted);">${val}</span></div>`;
+        }).join("");
+        return `<div style="margin-bottom:9px;"><div style="font-weight:500;color:var(--text);font-size:12px;margin-bottom:3px;">${COUNTRY[c] || c}</div>${rows}</div>`;
+      }).join("");
+
+      // Ramp legend (cheap -> dear) + a distinct "no data" swatch.
+      document.getElementById("rampLegend").innerHTML =
+        `<span>cheap ${fmtEur(lo)}</span>` +
+        '<span style="display:inline-flex;height:11px;border-radius:2px;overflow:hidden;">' +
+        RAMP.map((c) => `<span class="sw" style="background:${c};width:14px;border-radius:0;"></span>`).join("") +
+        `</span><span>${fmtEur(hi)} dear · avg €/MWh</span>` +
+        '<span style="display:inline-flex;align-items:center;gap:4px;"><span class="sw" style="background:#e3e1d8"></span>no data</span>';
+
+      // Replace the shell caption with the real period + extremes.
+      if (prices) document.getElementById("mapSrc").textContent =
+        `Average day-ahead price by bidding zone, ${prices.period_start} to ${prices.period_end} (ENTSO-E). ` +
+        `${cheapest ? "Cheapest " + cheapest.code + " " + fmtEur(cheapest.avg_price) + "; " : ""}${dearest ? "dearest " + dearest.code + " " + fmtEur(dearest.avg_price) + "." : ""} ` +
+        `Boundaries are approximate — zones are not administrative regions.`;
+    })();
+
+    // --- Panel 2: within-country divergence over time (far-north vs far-south zone) ---
+    (async function buildPanel2() {
+      const data = await loadJSON("nordic_prices.json");
+      const wrap = document.getElementById("divWrap");
+      if (!data || !data.zones || !data.months || !data.months.length) {
+        wrap.innerHTML = '<div class="nodata">Zone price series unavailable.</div>'; return;
+      }
+      const byCode = {};
+      data.zones.forEach((z) => { byCode[z.code] = z; });
+      const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const labels = data.months.map((m) => { const [y, mm] = m.split("-"); return MON[+mm - 1] + " " + y.slice(2); });
+      // Far-north vs far-south. Denmark is west vs east — it barely diverges, a
+      // deliberate counter-example to the Swedish/Norwegian north–south split.
+      const PAIRS = {
+        SE: { a: "SE1", b: "SE4", al: "SE1 — north", bl: "SE4 — south" },
+        NO: { a: "NO4", b: "NO2", al: "NO4 — north", bl: "NO2 — south" },
+        DK: { a: "DK1", b: "DK2", al: "DK1 — west", bl: "DK2 — east" },
+      };
+      const N = "#2f7d78", S = "#d98c3f";
+      let chart;
+
+      function render(cc) {
+        const p = PAIRS[cc];
+        const aS = byCode[p.a] ? byCode[p.a].months : [];
+        const bS = byCode[p.b] ? byCode[p.b].months : [];
+        const datasets = [
+          { label: p.al, data: aS, borderColor: N, backgroundColor: N, borderWidth: 2, tension: 0.3, pointRadius: 2, order: 2, spanGaps: false },
+          { label: p.bl, data: bS, borderColor: S, backgroundColor: "rgba(217,140,63,.14)", borderWidth: 2, tension: 0.3, pointRadius: 2, fill: "-1", order: 1, spanGaps: false },
+        ];
+        if (chart) chart.destroy();
+        chart = new Chart(document.getElementById("divChart"), {
+          type: "line",
+          data: { labels, datasets },
+          options: {
+            responsive: true, maintainAspectRatio: false, animation: false,
+            interaction: { mode: "index", intersect: false },
+            plugins: {
+              legend: { display: false },
+              tooltip: { callbacks: {
+                label: (c) => `${c.dataset.label}: ${c.parsed.y == null ? "no data" : "€" + Math.round(c.parsed.y)}`,
+                afterBody: (items) => {
+                  const a = items.find((i) => i.datasetIndex === 0), b = items.find((i) => i.datasetIndex === 1);
+                  if (a && b && a.parsed.y != null && b.parsed.y != null)
+                    return ["gap: €" + Math.round(Math.abs(b.parsed.y - a.parsed.y))];
+                  return [];
+                },
+              } },
+            },
+            scales: {
+              y: { title: { display: true, text: "€/MWh", font: { size: 11 } }, grid: { color: "rgba(0,0,0,.06)" }, ticks: { font: { size: 10 } } },
+              x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 0, autoSkip: true } },
+            },
+          },
+        });
+
+        // Legend + the gap stat for the pair actually drawn (so it matches the band).
+        const gaps = labels.map((_, i) => (aS[i] != null && bS[i] != null) ? Math.abs(bS[i] - aS[i]) : null);
+        const present = gaps.filter((v) => v != null);
+        const avgGap = present.length ? present.reduce((s, v) => s + v, 0) / present.length : null;
+        let mi = -1, mv = -Infinity;
+        gaps.forEach((v, i) => { if (v != null && v > mv) { mv = v; mi = i; } });
+        const widest = mi >= 0 ? ` · widest €${Math.round(mv)} in ${labels[mi]}` : "";
+        document.getElementById("divLegend").innerHTML =
+          `<span><span class="swatch" style="background:${N}"></span>${p.al}</span>` +
+          `<span><span class="swatch" style="background:${S}"></span>${p.bl}</span>` +
+          (avgGap != null ? `<span style="color:var(--hint)">avg gap €${Math.round(avgGap)}${widest}</span>` : "");
+      }
+
+      ["SE", "NO", "DK"].forEach((cc) => {
+        document.getElementById("div" + cc).addEventListener("click", function () {
+          document.querySelectorAll("#divSE,#divNO,#divDK").forEach((b) => b.classList.remove("active"));
+          this.classList.add("active");
+          render(cc);
+        });
+      });
+      render("SE");
+    })();
+
+    // --- Panel 3: ground the one-vs-many comparison in the live north–south spread ---
+    (async function buildPanel3() {
+      const data = await loadJSON("nordic_prices.json");
+      const el = document.getElementById("lessonStat");
+      if (!el || !data || !data.zones) return;
+      const v = data.zones.filter((z) => z.avg_price != null);
+      if (v.length < 2) return;
+      const lo = v.reduce((a, b) => (b.avg_price < a.avg_price ? b : a));
+      const hi = v.reduce((a, b) => (b.avg_price > a.avg_price ? b : a));
+      // Difference of the rounded extremes so the stat reads consistently (90 − 26 = 64).
+      const loR = Math.round(lo.avg_price), hiR = Math.round(hi.avg_price);
+      el.textContent =
+        `Across this 12-month window the cheapest and dearest Nordic zones sit about €${hiR - loR}/MWh apart ` +
+        `(${lo.code} €${loR} vs ${hi.code} €${hiR}); Germany prices that whole span as one number.`;
+    })();
+  </script>
+  <script src="nav.js"></script>
+</body>
+</html>

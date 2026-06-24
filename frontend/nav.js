@@ -91,8 +91,10 @@
     { text: "History",     mark: "8", section: "history",     page: "history.html"     },
   ];
   var STORIES = [
-    { text: "Germany North-South Grid", mark: "DE", page: "wasted_wind.html" },
-    { text: "France Nuclear",           mark: "FR", page: "fr_nuclear.html"  },
+    { text: "Germany North-South Grid", mark: "DE", page: "wasted_wind.html"  },
+    { text: "France Nuclear",           mark: "FR", page: "fr_nuclear.html"   },
+    { text: "Nordic Price Zones",       mark: "NZ", page: "nordic_zones.html" },
+    { text: "UK Regional Carbon",       mark: "UK", page: "uk_regional.html"  },
   ];
 
   var here = (location.pathname.split("/").pop() || "").toLowerCase();

@@ -498,6 +498,110 @@ matching `takeaways` string is shown. `full_range` ⊇ the sum of components (va
 the builder). Copy block E and the per-technology sources/ranges are shown verbatim;
 framing is symmetric and non-advocacy.
 
+## `nordic_prices.json` (v5 — Nordic price-zones slice)
+
+Day-ahead prices for the **12 Nordic bidding zones** (Sweden SE1–SE4, Norway
+NO1–NO5, Denmark DK1–DK2, Finland FI), from `pipeline/build_nordic_zones.py` (its
+own builder — landmine #11 — reusing the shared ENTSO-E client + `metrics.py`, not
+entangled with `build_spread`/`build_divergence`). Powers `nordic_zones.html`
+Panels 1–2. Zone EIC codes are from entsoe-py's `Area` enum; each zone is grouped
+in its **own** local calendar (SE/NO/DK are CET, FI is EET/+1h — landmine #4).
+
+```json
+{
+  "generated_at": "2026-06-24T08:00:00Z",
+  "unit": "EUR/MWh",
+  "note": "Day-ahead prices per bidding zone (ENTSO-E). Nordic prices are heavily hydro/reservoir- and weather-driven … within_country_gap is the spread between a country's dearest and cheapest zone per month (max - min).",
+  "period_start": "2025-06-24",
+  "period_end": "2026-06-23",
+  "months": ["2025-06", "2025-07", "…", "2026-06"],
+  "zones": [
+    { "code": "SE4", "country": "SE", "name": "South (SE4)",
+      "avg_price": 78.0,                 // mean over the period, EUR/MWh (1 dp); null if no data
+      "months": [78.12, 80.4, "…"] }     // monthly mean aligned to top-level `months`; null where missing
+    // 12 entries, one per zone
+  ],
+  "within_country_gap": {
+    "SE": { "months": [12.3, "…"], "avg_gap": 14.0 },   // max - min across a country's zones, per month
+    "NO": { "months": [], "avg_gap": 0 },
+    "DK": { "months": [], "avg_gap": 0 }
+    // FI omitted — single zone, no within-country gap
+  }
+}
+```
+
+`code` is the **join key** shared with `frontend/geo/nordic_zones.topo.json`
+(`props.code`) and is a bidding-zone code, *not* a NUTS code. `avg_price` and the
+`within_country_gap` series are rounded to 1 dp; per-zone `months` carry the 2-dp
+`monthly_means` value. Gaps are **null**, never zero: a zone with no data, or a
+month a zone didn't report, is `null`; `within_country_gap` is `null` for any month
+fewer than two of a country's zones reported (landmine #8). `period_start/end`
+reflect real coverage (complete local days only). **Hydro caveat:** Nordic
+divergence reflects wet/dry reservoir years as well as grid congestion — the
+frontend surfaces this so decoupling isn't misread as congestion alone.
+
+## `uk_regional_carbon.json` (v6 — UK regional slice)
+
+Per-region grid carbon intensity (gCO2/kWh) + generation mix for the 14 GB DNO
+regions, from `pipeline/build_uk_regional_carbon.py` (isolated module — landmine #11;
+NESO Carbon Intensity API, open/no key). Powers `uk_regional.html` Panel 1.
+
+```json
+{
+  "generated_at": "2026-06-24T08:00:00Z",
+  "unit": "gCO2/kWh",
+  "methodology": "NESO regional Carbon Intensity API, consumption-based … Great Britain only — excludes Northern Ireland. Regional values are forecast-based; means over a recent ~2-week window. renewable_pct = wind + solar + hydro.",
+  "basis": "forecast",
+  "period_start": "2026-06-10", "period_end": "2026-06-23",
+  "regions": [
+    { "regionid": 1, "name": "North Scotland",
+      "intensity": 8,                 // mean gCO2/kWh (integer); null if no data
+      "renewable_pct": 78.0,          // wind + solar + hydro
+      "low_carbon_pct": 80.0,         // + nuclear
+      "mix": { "wind": 70.0, "hydro": 6.0, "gas": 4.0, "imports": 12.0, "…": 0 } }  // mean % per fuel
+    // 14 entries, one per region (regionid 1-14)
+  ]
+}
+```
+
+`regionid` (1–14) is the **join key** to `frontend/geo/uk_dno.topo.json`
+(`props.regionid`). **Consumption-based** (the carbon of electricity *used* in a region,
+imports included) — do **not** mix with the site's production-based `carbon.json` view;
+the methodology is stated (landmine #12). **GB only** — Northern Ireland excluded
+(all-island SEM). Regional intensity is **forecast** (wind-dominated northern regions can
+read near zero). Gaps are `null`, never zero.
+
+## `uk_constraints.json` (v6 — UK regional slice, Panel 2)
+
+Monthly **thermal-constraint cost (£m) and volume (GWh)** for Great Britain, from
+`pipeline/build_uk_constraints.py` (isolated module — landmine #11; NESO "Constraint
+Breakdown" open data). Powers `uk_regional.html` Panel 2.
+
+```json
+{
+  "generated_at": "2026-06-24T08:00:00Z",
+  "currency": "GBP", "status": "ok",
+  "unit_cost": "GBP million", "unit_volume": "GWh",
+  "source": "NESO Constraint Breakdown — Thermal constraints (open data portal)",
+  "note": "Thermal-constraint cost and volume … the dominant thermal constraint is the B6 Scotland-England boundary … turning Scottish wind down and replacement up — a managed grid-stability cost, not energy discarded by choice. Volume is the thermal balancing-action volume, not pure curtailed-wind GWh.",
+  "period_start": "2022-04", "period_end": "2026-06",
+  "totals": { "cost_gbp_m": 0, "volume_gwh": 0, "peak_month": "YYYY-MM", "peak_cost_gbp_m": 0 },
+  "months": [ { "month": "2025-01", "cost_gbp_m": 0, "volume_gwh": 0 } ]
+}
+```
+
+**Methodology (landmine #12).** This is the **thermal**-constraint cost/volume (the
+B6 Scotland–England boundary dominates it) — overwhelmingly the cost of turning Scottish
+wind **down** and replacement generation **up**. It is a *managed grid-stability cost*,
+the British equivalent of German redispatch — **not** energy discarded by choice, and the
+volume is the **balancing-action volume**, not pure curtailed-wind GWh (so the frontend
+labels it "constraint cost/volume", not "wasted wind"). Currency **GBP** (millions);
+volume MWh→**GWh**; **Great Britain**. NESO revises these figures over time.
+
+**Degraded state.** If the NESO source is unavailable at build time the file carries
+`"status": "unavailable"` and an empty `months` array; the frontend renders an
+"awaiting source" state and never fabricates data.
+
 ### Frontend obligations
 - Render `perfect_arbitrage_eur_per_mw` only alongside a visible caveat that it is an unachievable upper bound (see CLAUDE.md landmine #7).
 - Treat `complete: false` days distinctly (e.g. muted) and never break if `days` has gaps.
