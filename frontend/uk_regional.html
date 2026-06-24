@@ -169,11 +169,17 @@
         .attr("y", (f) => map.path.centroid(f)[1] + 3)
         .attr("text-anchor", "middle")
         .text((f) => f.properties.short);
-      map.svg.selectAll("path.region").append("title")
-        .text((f) => { const r = byId[f.properties.regionid];
-          return r && r.intensity != null
-            ? `${f.properties.name} — ${Math.round(r.intensity)} gCO₂/kWh · ${Math.round(r.renewable_pct)}% renewable`
-            : `${f.properties.name} — no data`; });
+      // Rich hover context per region (floats above the cursor): name, DNO operator,
+      // carbon intensity, renewable share and the two dominant fuels.
+      map.hover((props) => {
+        const dno = props.dno ? `<br><span class="gt-sub">${props.dno}</span>` : "";
+        const r = byId[props.regionid];
+        if (!r || r.intensity == null) return `<b>${props.name}</b>${dno}<br><span class="gt-sub">no carbon data</span>`;
+        const top = Object.entries(r.mix || {}).sort((a, b) => b[1] - a[1]).slice(0, 2)
+          .map(([f, p]) => `${f} ${Math.round(p)}%`).join(", ");
+        return `<b>${props.name}</b>${dno}<br>${Math.round(r.intensity)} gCO₂/kWh · ${Math.round(r.renewable_pct)}% renewable`
+          + (top ? `<br><span class="gt-sub">mostly ${top}</span>` : "");
+      });
 
       // KPIs from the real data.
       const withVal = regionData.filter((r) => r.intensity != null);

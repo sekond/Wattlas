@@ -171,8 +171,18 @@
         .attr("y", (f) => map.path.centroid(f)[1] + 3)
         .attr("text-anchor", "middle")
         .text((f) => f.properties.code);
-      map.svg.selectAll("path.zone").append("title")
-        .text((f) => `${f.properties.name} — ${avg[f.properties.code] != null ? fmtEur(avg[f.properties.code]) + "/MWh avg" : "no data"}`);
+      // Rich hover context per zone (floats above the cursor): name, country, average
+      // price and the seasonal monthly range.
+      const zByCode = {};
+      zoneData.forEach((z) => { zByCode[z.code] = z; });
+      map.hover((props) => {
+        const head = `<b>${props.name}</b><br><span class="gt-sub">${COUNTRY[props.country] || props.country} · bidding zone</span>`;
+        const z = zByCode[props.code];
+        if (!z || z.avg_price == null) return head + '<br><span class="gt-sub">no price data</span>';
+        const vals = (z.months || []).filter((v) => v != null);
+        const range = vals.length ? `€${Math.round(Math.min(...vals))}–€${Math.round(Math.max(...vals))}` : "—";
+        return head + `<br>Avg ${fmtEur(z.avg_price)}/MWh<br><span class="gt-sub">monthly range ${range}/MWh</span>`;
+      });
 
       // KPIs from the real data.
       const withVal = zoneData.filter((z) => z.avg_price != null);
