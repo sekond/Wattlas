@@ -48,6 +48,7 @@ jobs:
           # and don't persist between runs.
           python pipeline/build_spread.py
           python pipeline/build_pulse.py
+          python pipeline/build_storage.py || echo "storage build skipped/failed — continuing"   # pure: reads spread.json + pulse.json
           python pipeline/build_divergence.py
           python pipeline/build_mismatch.py
           python pipeline/build_mix.py
@@ -60,6 +61,9 @@ jobs:
           # zones (ENTSO-E). Isolated builder; non-fatal so a Nordic fetch hiccup
           # can't break the core refresh.
           python pipeline/build_nordic_zones.py || echo "Nordic zones build skipped/failed — continuing"
+          # Dunkelflaute slice (v7): low-renewable spell detection from ENTSO-E generation
+          # + load + price (DE-LU). Non-fatal.
+          python pipeline/build_dunkelflaute.py || echo "Dunkelflaute build skipped/failed — continuing"
           # New external sources (isolated): never let one fail the whole refresh.
           python pipeline/build_curtailment.py --years 2 || echo "curtailment build skipped/failed — continuing"
           # Wasted-wind Panel 2: per-control-area net balance from SMARD (open, no key).
