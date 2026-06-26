@@ -15,21 +15,28 @@ German TSOs for curtailment), pre-computed into a static site with no backend.
 It started as a way to learn the data terrain of European power markets, and grew
 into a small tool that surfaces a few genuinely interesting things about them.
 
-More recently it went **below the bidding-zone line** with two **map-based** views — a
-deliberate diptych of how each country's low-carbon bet has a hidden weakness.
-**North–south grid** shows why Germany throws nothing away on purpose yet still curtails
-northern wind it can't ship to southern demand (data from **MaStR** and **SMARD**), and
-**France nuclear** shows where France's centralised reactor fleet sits, which régions
-lean on it, and how its output dips for maintenance (data from **RTE's éCO2mix via
-ODRÉ**). These are rendered with D3-geo from committed TopoJSON basemaps — still no map
+More recently it went **below the bidding-zone line** and then **beyond price** — into
+seven **deep dives**. Four are **map-based**, including a **trilogy on one problem**,
+*three ways a congested grid is handled*: Germany keeps one price and curtails northern
+wind it can't ship south (**North–south grid**, from **MaStR** + **SMARD**), the
+**Nordics** already split into a dozen price zones (**Nordic price zones**, ENTSO-E), and
+**Britain** keeps one price and pays Scottish wind to switch off (**UK regional**, from
+**NESO**) — alongside **France nuclear**, the centralised mirror (**RTE's éCO2mix via
+ODRÉ**). Three further stories are chart-based: **Dunkelflaute** (the cold, dark, windless
+spells when wind and solar all but vanish), **Storage** (the batteries that live off the
+daily price spread), and a sober, sourced replay of the **Iberian blackout** of 28 April
+2025. The map views render with D3-geo from committed TopoJSON basemaps — still no map
 tiles, no backend.
 
 ## The views
 
 The **Dashboard** is the home page; the eight core topic views below are the panels it
-unifies, and each also has a focused standalone page. Two further **map-based** views —
-**North–south grid** (Germany) and **France nuclear** — go below the bidding-zone line;
-they are standalone pages linked from the dashboard rather than dashboard panels.
+unifies, and each also has a focused standalone page. Beyond them, seven **deep dives** —
+standalone pages linked from the dashboard rather than dashboard panels — go further: four
+**map stories** that drop below the bidding-zone line (**North–south grid**, **France
+nuclear**, **Nordic price zones**, **UK regional**) and three chart-based stories on grid
+stress, storage and a historical blackout (**Dunkelflaute**, **Storage**, **Iberian
+blackout**).
 
 ### Dashboard — everything at once *(landing page)*
 
@@ -122,6 +129,63 @@ to *every* technology, reshuffling the ranking — the point being that it depen
 you count. Curated from published studies (not a live feed), each figure with a range and
 a citation; it takes no side.
 
+### Nordic price zones — living with the split *(map view)*
+
+The Nordics already did what Germany debates: split into many bidding zones. A schematic
+map of the **12 Nordic zones** (SE1–4, NO1–5, DK1–2, FI) shaded by average day-ahead price
+— a cheap, hydro-rich north (NO4 ~€26/MWh) against a demand-heavy, continent-coupled south
+(DK2 ~€90); within-country divergence over time, where Sweden's far-north SE1 and far-south
+SE4 are one market with two prices that pull **widest in spring snowmelt**, not just winter;
+and an even-handed lesson for the German single-zone question, linked to North–south grid.
+Boundaries are **approximate** (zones aren't administrative regions, so they're built from
+county groupings and labelled as such); zone prices are ENTSO-E — the source the site
+already runs on.
+
+### UK regional — wind paid to switch off *(map view)*
+
+Britain's third answer to the same bottleneck. The **14 GB DNO regions** shaded by
+**consumption-based** grid carbon intensity (clean wind/hydro Scotland near 0 gCO₂/kWh
+against gas-heavy South Wales ~290) from the **NESO Carbon Intensity API**; the monthly
+wind **constraint payments** — roughly **£2 bn a year** — Britain pays to turn Scottish
+wind down (and replacement up) when the grid can't carry it south, from **NESO's Constraint
+Breakdown**; and a three-fixes comparison linking back to the German and Nordic stories. A
+constraint payment is framed as a managed grid-stability cost — the British equivalent of
+German redispatch — not energy discarded by choice. **Great Britain only** (no Northern
+Ireland), and the consumption-based methodology, are stated throughout.
+
+### Dunkelflaute — when the wind dies and the sun's gone
+
+A renewable grid's hardest hours. The view **auto-detects the worst low-renewable spell**
+in the last year of German data — where the 24-hour rolling wind+solar share of demand
+stays below a stated, adjustable **10%** — and plots it hour by hour: wind and solar
+collapsing toward zero (to ~1.5% of demand in the detected November 2025 spell) while coal,
+gas, biomass, hydro and **net imports** carry the load and the price climbs. Plus the
+year's frequency of low-renewable hours and the normal-vs-spell generation mix. Framed as
+the engineering reality a high-renewable grid plans for — firm capacity, storage or strong
+interconnection — **not** an argument against renewables.
+
+### Storage — the batteries that live off the spread
+
+The optimistic counterpart to Dunkelflaute. A transparent toy battery (1 MW / 2 MWh, 85%
+round-trip) arbitraged over the real average price profile — charging in the cheap midday
+trough, discharging into the evening peak — with the captured spread labelled an explicit
+**upper bound** (perfect foresight, the same caveat as Spread). Where grid-scale storage is
+being built (Great Britain and Germany leading, roughly **6× since 2021**), in **GW power**
+distinct from **GWh energy**; and how the widening daily spread improves the arbitrage case
+while **cannibalisation** — more storage flattening the very spread it feeds on — pulls real
+revenue back. Pure builder: it reads the committed Pulse and Spread data, no extra fetch.
+
+### Iberian blackout — the day the grid went dark *(historical)*
+
+A sober, data-led replay of the **28 April 2025** blackout across Spain and Portugal. The
+ENTSO-E load curve records it honestly — Portugal's load **collapses to ~0.1 GW** and
+rebuilds in stages overnight, while **Spain's metering goes dark** (a data gap, rendered as
+a gap) — overlaid with sourced restoration milestones (hydro black-start, the France and
+Morocco interconnectors, the Spain–Portugal tie-lines). It **does not assert a cause**:
+that is cited to the **ENTSO-E Expert Panel final report** (20 March 2026 — *"a combination
+of many interacting factors … not a single cause or technology"*; *"the problem is not
+renewable energy, but voltage control"*). A fixed historical window, not a refreshing view.
+
 ## How it works
 
 ```
@@ -129,13 +193,17 @@ Open-data APIs  →  pipeline/ (Python/pandas)  →  data/*.json  →  frontend/
 ```
 
 The pipeline is the only thing that touches the upstream APIs: **ENTSO-E** (prices,
-generation, load, flows), **netztransparenz.de** (curtailment), **MaStR** and **SMARD**
-(German capacity and regional balance), and **ODRÉ — RTE éCO2mix** (French régional and
-national). Each new source is its **own isolated module**, so a failure in one can't
-break the others. It fetches up to ~12 months for most views (~3 years for History),
-computes the metrics, and writes small JSON files the frontend reads directly. The two
-map views also draw committed, pre-simplified **TopoJSON** basemaps with D3-geo — no map
-tiles, so the pages still open as static files. No database, no server, nothing to break.
+generation, load, flows — for every zone, including the Nordic ones and the Iberian
+window), **netztransparenz.de** (curtailment), **MaStR** and **SMARD** (German capacity
+and regional balance), **ODRÉ — RTE éCO2mix** (French régional and national), and **NESO**
+(the GB Carbon Intensity API and the Constraint Breakdown dataset, both open, no key). Each
+new source is its **own isolated module**, so a failure in one can't break the others. It
+fetches up to ~12 months for most views (~3 years for History; a fixed one-off window for
+the Iberian blackout), computes the metrics, and writes small JSON files the frontend reads
+directly. A couple of builders are deliberately **pure** — Storage reads the committed
+Pulse and Spread data and needs no fetch at all. The four map views also draw committed,
+pre-simplified **TopoJSON** basemaps with D3-geo — no map tiles, so the pages still open as
+static files. No database, no server, nothing to break.
 
 A scheduled GitHub Action re-runs the pipeline daily (05:17 UTC) and commits the
 refreshed JSON to `main`; GitHub Pages redeploys automatically.
@@ -155,16 +223,26 @@ explicit in the app rather than hidden:
   (perfect foresight, no losses) — not achievable revenue.
 - Carbon intensity is **production-based** (lifecycle factors), generation gaps
   render as gaps (never fabricated zeros), and negative prices / residual load are
-  kept, never clipped.
+  kept, never clipped. The Storage view extends the same upper-bound discipline to its
+  battery-arbitrage figure.
+- Where a metric needs a **threshold** (the Dunkelflaute low-renewable cutoff) or a
+  methodology that differs from the rest of the site (NESO's **consumption-based** GB
+  regional carbon, against the site's production-based view; UK regional is **Great
+  Britain only**), the choice is stated in the view, not buried.
+- The Iberian-blackout view is sober and **assigns no cause** of its own — it shows what
+  the grid data recorded (Spain's missing load during the outage renders as a gap) and
+  cites the conclusions to the official ENTSO-E investigation, which it links.
 
 ## Status
 
-Released as **v1.0.0** — see [Releases](https://github.com/sekond/Wattlas/releases) —
-with the two map-based views (North–south grid, France nuclear) added and deployed
-since (see the [changelog](CHANGELOG.md)). A working, deployed learning project: the
-data engineering is complete and the numbers reproduce known structural features of
-the German, French and European markets. It is not a commercial product and makes no
-investment recommendations.
+Released as **v1.0.0** — see [Releases](https://github.com/sekond/Wattlas/releases) — and
+extended well beyond it since: **four map stories** (North–south grid, France nuclear,
+Nordic price zones, UK regional) and **three chart-based deep dives** (Dunkelflaute,
+Storage, Iberian blackout) added and deployed (see the [changelog](CHANGELOG.md)). A
+working, deployed learning project: the data engineering is complete and the numbers
+reproduce known structural features of the German, French, Nordic, British and wider
+European markets — and replay a real historical event. It is not a commercial product and
+makes no investment recommendations.
 
 ## Run it locally
 
@@ -172,10 +250,11 @@ investment recommendations.
    Settings → Web API Security Token).
 2. `cp .env.example .env` and paste your token in. *(Curtailment additionally needs
    `NETZTRANSPARENZ_CLIENT_ID` / `NETZTRANSPARENZ_CLIENT_SECRET`; without them that
-   one view shows its "awaiting source" state. The map views' sources — SMARD, MaStR,
-   ODRÉ éCO2mix — are open and need no token; the France availability panel can
-   optionally use RTE OAuth (`RTE_CLIENT_ID` / `RTE_CLIENT_SECRET`) and degrades to
-   output without it.)*
+   one view shows its "awaiting source" state. The deep-dive sources — SMARD, MaStR, ODRÉ
+   éCO2mix, and **NESO** (GB Carbon Intensity + Constraint Breakdown) — are open and need
+   no token; the Nordic, Dunkelflaute and Iberian-blackout views reuse the ENTSO-E token,
+   and Storage needs no fetch at all. The France availability panel can optionally use RTE
+   OAuth (`RTE_CLIENT_ID` / `RTE_CLIENT_SECRET`) and degrades to output without it.)*
 3. Install deps: `pip install -r requirements.txt`
 4. Build the data (each script supports `--use-cache` for offline re-runs once
    fetched):
@@ -198,11 +277,20 @@ investment recommendations.
    python pipeline/build_fr_costs.py                # France nuclear: curated €/MWh cost stack -> data/fr_costs.json
    python pipeline/build_fr_regional.py             # France nuclear: éCO2mix régional balance (ODRÉ)
    python pipeline/build_fr_nuclear_availability.py # France nuclear: monthly output mix (ODRÉ)
+   # Further deep dives (sources open / reuse ENTSO-E — no extra token):
+   python pipeline/build_nordic_zones.py            # Nordic price zones: ENTSO-E zone prices  -> data/nordic_prices.json
+   python pipeline/build_uk_regional_carbon.py      # UK regional: NESO Carbon Intensity API   -> data/uk_regional_carbon.json
+   python pipeline/build_uk_constraints.py          # UK regional: NESO Constraint Breakdown    -> data/uk_constraints.json
+   python pipeline/build_dunkelflaute.py            # Dunkelflaute: ENTSO-E generation+load+price -> data/dunkelflaute.json
+   python pipeline/build_storage.py                 # Storage: PURE (reads pulse.json + spread.json) -> data/storage.json
+   python pipeline/build_iberian_blackout.py        # Iberian blackout: one-off ES/PT window    -> data/iberian_blackout.json
    ```
    > `build_carbon.py` and `build_mismatch_zones.py` read the per-zone generation
-   > cache, so run them **after** `build_mix.py` (the daily Action orders them this way).
-   > The map basemaps (`frontend/geo/*.topo.json`) are committed static assets — not
-   > rebuilt by these scripts.
+   > cache, so run them **after** `build_mix.py`; `build_storage.py` reads `pulse.json`
+   > + `spread.json`, so run it **after** `build_pulse.py` (the daily Action orders them
+   > this way). `build_iberian_blackout.py` is a **one-off historical** pull — not part of
+   > the daily refresh. The map basemaps (`frontend/geo/*.topo.json`) are committed static
+   > assets — not rebuilt by these scripts.
 5. Serve the repo root and open the site:
    `python -m http.server 8000` then visit `http://localhost:8000/` (the dashboard
    is the landing page).
@@ -226,19 +314,30 @@ it's a manual run.
   each new source is **isolated**: `build_curtailment.py` (netztransparenz),
   `build_regional_balance.py` (SMARD), `build_mastr_capacity.py` (MaStR), the France
   `build_fr_nuclear_sites.py` / `build_fr_regional.py` / `build_fr_nuclear_availability.py` (ODRÉ),
-  and `build_fr_costs.py` (curated €/MWh cost stack, study-based)
+  `build_fr_costs.py` (curated €/MWh cost stack, study-based), `build_nordic_zones.py` (ENTSO-E
+  Nordic zone prices), `build_uk_regional_carbon.py` + `build_uk_constraints.py` (NESO),
+  `build_dunkelflaute.py` (ENTSO-E low-renewable spell detection), `build_storage.py` (pure
+  battery-arbitrage model over the committed Pulse/Spread data), and `build_iberian_blackout.py`
+  (a one-off ES/PT historical pull)
 - `pipeline/de_fields.py`, `pipeline/fr_fields.py` — German→English / French→English translation
   layers (no foreign label reaches the UI); `pipeline/de_kreis_nuts.json` — the NUTS-3↔AGS crosswalk
 - `pipeline/test_*.py` — offline unit tests (`test_metrics`, `test_build`, `test_de_fields`,
   `test_mastr_capacity`, `test_regional_balance`, `test_fr_fields`, `test_fr_nuclear_sites`,
-  `test_fr_regional`, `test_fr_nuclear_availability`, `test_fr_costs`)
+  `test_fr_regional`, `test_fr_nuclear_availability`, `test_fr_costs`, plus the deep dives:
+  `test_nordic_zones`, `test_uk_regional_carbon`, `test_uk_constraints`, `test_dunkelflaute`,
+  `test_storage`, `test_iberian_blackout`)
 - `data/*.json` — pre-aggregated, committed view data; `data/schema.md` — the pipeline↔frontend contract
 - `frontend/dashboard.html` — the landing dashboard; `frontend/{pulse,index(Spread),divergence,mix,mismatch,curtailment,history}.html` — standalone views
-- `frontend/wasted_wind.html` (North–south grid), `frontend/fr_nuclear.html` (France nuclear) — the
-  map views; `frontend/geo.js` — D3-geo render helpers; `frontend/geo/*.topo.json` — committed basemaps
+- `frontend/wasted_wind.html` (North–south grid), `frontend/fr_nuclear.html` (France nuclear),
+  `frontend/nordic_zones.html` (Nordic price zones), `frontend/uk_regional.html` (UK regional) —
+  the **map views**; `frontend/geo.js` — D3-geo render helpers (a reusable choropleth + rich hover);
+  `frontend/geo/*.topo.json` — committed basemaps (with `*.build.py` regenerators for the curated ones)
+- `frontend/dunkelflaute.html`, `frontend/storage.html`, `frontend/iberian_blackout.html` — the
+  three chart-based **deep dives**
 - `frontend/dash/` — dashboard modules (`dash-core/panels-a/panels-b/boot.js`, `mobile-panels.js`, `dash.css`, `mobile.css`)
 - `frontend/fuels.js` — fuel palette mirror; `frontend/util.js`, `frontend/styles.css` — shared helpers and styles
-- `ROADMAP_V2.md`, `RUN_V2.md`, `RUN_V3.md` (North–south grid), `RUN_V4.md` (France nuclear),
+- `ROADMAP_V2.md`, `RUN_V2.md` … `RUN_V9.md` (the staged slices: V3 North–south grid, V4 France
+  nuclear, V5 Nordic zones, V6 UK regional, V7 Dunkelflaute, V8 Iberian blackout, V9 Storage),
   `SLICE_*.md`, `SOURCES.md`, `prompts/` — the staged expansion plans, runners and prompts
 - `design-archive/` — frozen design-handoff bundle (reference only; the live dashboard lives in `frontend/dash/`)
 - `.github/workflows/refresh-data.yml` — daily data refresh
@@ -258,13 +357,19 @@ runs the full `build()` against a fixture into a temp directory and asserts the
 JSON is written with schema-correct keys. The map-view modules add their own offline
 tests — the translation layers (with a drift-guard that every emitted fuel is
 canonical and that the région crosswalk matches the committed basemap), the MaStR /
-SMARD / éCO2mix aggregations, and the net-balance identities — all without network.
+SMARD / éCO2mix aggregations, and the net-balance identities — all without network. The
+deep dives test their pure functions the same way: the Nordic county→zone aggregation, the
+UK carbon and constraint aggregations, the Dunkelflaute spell detector, the battery-arbitrage
+model (charge-cheap / discharge-dear, and that efficiency keeps it below the lossless bound),
+and the Iberian-blackout timeline (including its **"no asserted cause"** contract).
 
 ## Data sources
 
 - [ENTSO-E Transparency Platform](https://transparency.entsoe.eu) — prices,
-  generation, load and cross-border flows for every view except Curtailment. A
-  free API token is required to re-run the pipeline; see the setup above.
+  generation, load and cross-border flows for every view except Curtailment, including the
+  **Nordic bidding zones** (Nordic price zones), the German generation/load/price behind
+  **Dunkelflaute**, and the fixed Spain/Portugal window for the **Iberian blackout**. A free
+  API token is required to re-run the pipeline; see the setup above.
 - [netztransparenz.de](https://www.netztransparenz.de) — the German TSOs'
   redispatch/curtailment API, used by Curtailment and the North–south grid view
   (separate OAuth credentials; degrades gracefully without them).
@@ -278,11 +383,30 @@ SMARD / éCO2mix aggregations, and the net-balance identities — all without ne
   national generation/consumption for the France nuclear view (open, no key). The
   optional available-capacity overlay would use the [RTE Data Portal](https://data.rte-france.com)
   (OAuth); without it Panel 3 shows output and degrades gracefully.
+- [NESO Carbon Intensity API](https://carbonintensity.org.uk) — Great Britain's regional
+  grid carbon intensity across the 14 DNO regions (**consumption-based**, forecast-led),
+  for the UK regional carbon map (open, no key).
+- [NESO Constraint Breakdown](https://www.neso.energy/data-portal/constraint-breakdown) —
+  monthly thermal-constraint cost and volume (the B6 Scotland–England boundary, the bulk of
+  Britain's wind constraint payments), resolved via the NESO data portal's CKAN API (open).
+- Storage capacity (Storage, Panel 2) — a curated, committed series of operational
+  grid-scale battery **power (GW)** by country and year, drawn from published market reports
+  ([SolarPower Europe](https://www.solarpowereurope.org) market outlooks, Wood Mackenzie,
+  Modo Energy, LCP Delta). Approximate aggregates, **not** a live registry pull; energy (GWh)
+  differs by duration.
+- [ENTSO-E Expert Panel — 28 April 2025 Iberian blackout (data + final report)](https://www.entsoe.eu/publications/blackout/28-april-2025-iberian-blackout/)
+  — the official investigation the Iberian-blackout view cites for cause attribution and
+  restoration milestones (alongside [REE](https://www.ree.es/en) and [REN](https://datahub.ren.pt/en/)).
+  Wattlas asserts no cause of its own.
 - Cost comparison (France nuclear, Panel 4) — a curated €/MWh cost stack drawn from
   published studies (Lazard *LCOE+* 2024, the Cour des comptes reports on the EPR/EPR2
   programme, ANDRA/Cigéo waste-disposal estimates, OECD-NEA system-cost work, and IRENA
   renewable-cost data). This is a hand-assembled, committed static table — **not a live
   feed** — where every figure carries a range and a citation; the view takes no side.
-- Region boundaries: [Eurostat GISCO NUTS](https://ec.europa.eu/eurostat/web/gisco)
-  (German Landkreise = NUTS-3; French régions = NUTS-1), pre-simplified and committed
-  as TopoJSON. © EuroGeographics.
+- Region boundaries — pre-simplified, committed TopoJSON: German Landkreise and French
+  régions from [Eurostat GISCO NUTS](https://ec.europa.eu/eurostat/web/gisco) (NUTS-3 /
+  NUTS-1, © EuroGeographics); the **12 Nordic bidding zones** dissolved from GISCO NUTS-3
+  counties via a verified county→zone crosswalk; and the **14 GB DNO licence areas** from the
+  [NESO data portal](https://www.neso.energy/data-portal/gis-boundaries-gb-dno-license-areas),
+  reprojected to WGS84. Bidding-zone boundaries are approximate (they aren't administrative
+  regions) and labelled as such.
