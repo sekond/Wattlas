@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wattlas — showcase</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  /* Showcase deck — reuses the project's design tokens (styles.css :root). One light
+     theme, one accent (--amber = "where it shows its working"). No chart library. */
+  :root { --accent: var(--amber); --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  * { box-sizing: border-box; }
+  html { scroll-snap-type: y mandatory; scroll-behavior: smooth; overflow-x: clip; }
+  body.deck { margin: 0; background: var(--bg); color: var(--text); overflow-x: clip;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.5; }
+
+  /* presentation chrome */
+  .progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; background: transparent; z-index: 60; }
+  .progress i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .15s ease; }
+  .counter { position: fixed; top: 12px; right: 16px; z-index: 60; font-family: var(--mono);
+    font-size: 11px; color: var(--muted); background: var(--surface); border: 0.5px solid var(--border);
+    border-radius: 999px; padding: 3px 10px; }
+  .dots { position: fixed; right: 14px; top: 50%; transform: translateY(-50%); z-index: 60;
+    display: flex; flex-direction: column; gap: 9px; }
+  .dots button { width: 8px; height: 8px; border-radius: 50%; border: 0; padding: 0; cursor: pointer;
+    background: rgba(0,0,0,.18); transition: background .15s, transform .15s; }
+  .dots button:hover { background: rgba(0,0,0,.4); }
+  .dots button[aria-current="true"] { background: var(--accent); transform: scale(1.5); }
+
+  /* slides — each fits one viewport (svh avoids mobile URL-bar clipping) */
+  .slide { height: 100svh; scroll-snap-align: start; scroll-snap-stop: always;
+    display: flex; align-items: center; justify-content: center; padding: 56px 24px 40px; }
+  .inner { width: 100%; max-width: 960px; display: flex; flex-direction: column; height: 100%;
+    justify-content: center; gap: clamp(12px, 2.4vh, 26px); }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--hint);
+    text-transform: uppercase; }
+  .eyebrow .tag { color: var(--accent); }
+  h1.hero { font-size: clamp(34px, 7vw, 76px); font-weight: 600; letter-spacing: -.02em; margin: 0; }
+  h2.title { font-size: clamp(22px, 3.6vw, 36px); font-weight: 600; letter-spacing: -.01em; margin: 0; }
+  .lede { font-size: clamp(14px, 1.9vw, 19px); color: var(--muted); max-width: 56ch; margin: 0; }
+  .lede strong { color: var(--text); font-weight: 600; }
+  .lines { display: flex; flex-direction: column; gap: 7px; font-size: clamp(13px, 1.7vw, 16.5px); }
+  .lines div { color: var(--muted); }
+  .lines b { color: var(--text); font-weight: 600; }
+  .takeaway { display: flex; align-items: center; gap: 9px; font-size: clamp(13px, 1.7vw, 16px);
+    color: var(--text); margin-top: auto; padding-top: 6px; }
+  .takeaway .tick { flex: none; width: 7px; height: 14px; border-radius: 2px; background: var(--accent); }
+  .muted { color: var(--muted); } .hint { color: var(--hint); }
+
+  /* tooltip — explains the deck to itself */
+  .tip { position: relative; cursor: help; border-bottom: 1px dotted var(--hint); outline: none; }
+  .tip::after { content: attr(data-tip); position: absolute; bottom: 132%; left: 50%; transform: translateX(-50%);
+    background: var(--text); color: var(--bg); font-size: 11px; line-height: 1.45; padding: 7px 10px;
+    border-radius: 7px; width: max-content; max-width: min(250px, 80vw); opacity: 0; pointer-events: none;
+    transition: opacity .12s ease; z-index: 70; box-shadow: 0 4px 14px rgba(0,0,0,.18); }
+  .tip:hover::after, .tip:focus-visible::after { opacity: 1; }
+
+  /* framed screenshots — browser chrome + phone bezel; flex row that shrinks (min-width:0) */
+  .stage { display: flex; align-items: flex-end; justify-content: center; min-width: 0; }
+  .frame { min-width: 0; flex: 0 1 auto; --shot-h: min(46vh, 360px);
+    border: 0.5px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface);
+    box-shadow: 0 8px 30px rgba(40,36,20,.10); }
+  .frame .bar { display: flex; align-items: center; gap: 6px; padding: 7px 11px; background: var(--surface-2);
+    border-bottom: 0.5px solid var(--border); }
+  .frame .bar i { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .frame .bar .u { margin-left: 8px; font-size: 10.5px; color: var(--hint); background: var(--bg);
+    border: 0.5px solid var(--border); border-radius: 5px; padding: 2px 9px; max-width: 70%;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .shot { width: calc(var(--shot-h) * 1.5); height: var(--shot-h); max-width: 88vw; background: var(--surface-2);
+    position: relative; }
+  .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  .shot.ph::after { content: attr(data-label) " — capture pending"; position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center; text-align: center; padding: 18px;
+    font-family: var(--mono); font-size: 11px; color: var(--hint);
+    background: repeating-linear-gradient(45deg, var(--surface-2), var(--surface-2) 10px, #ece9e0 10px, #ece9e0 20px); }
+  .phone { flex: 0 0 auto; margin-left: -42px; margin-bottom: 8px; --ph-h: min(34vh, 290px);
+    border: 4px solid #d9d6cd; border-radius: 20px; overflow: hidden; background: #d9d6cd;
+    box-shadow: 0 8px 22px rgba(40,36,20,.14); }
+  .phone .shot { width: calc(var(--ph-h) * 0.46); height: var(--ph-h); border-radius: 14px; }
+  .smalls { display: flex; gap: 10px; justify-content: center; align-items: flex-start; min-width: 0; }
+  .smalls > div { flex: 1 1 0; min-width: 0; max-width: 300px; }
+  .smalls .frame { --shot-h: min(25vh, 178px); width: 100%; }
+  .smalls .frame .shot { width: 100%; }
+  .cap { font-size: 11px; color: var(--hint); text-align: center; margin-top: 4px; }
+
+  /* CSS-only diagrams (no chart lib) */
+  .zoom { display: flex; flex-direction: column; gap: 0; max-width: 460px; }
+  .zoom .lvl { border: 0.5px solid var(--border); background: var(--surface); border-radius: 9px;
+    padding: 10px 14px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .zoom .lvl + .lvl { margin-top: 18px; position: relative; }
+  .zoom .lvl + .lvl::before { content: ""; position: absolute; left: 26px; top: -18px; height: 18px;
+    border-left: 1.5px solid var(--border); }
+  .zoom .lvl .k { font-weight: 600; font-size: 14px; } .zoom .lvl .v { font-size: 12px; color: var(--hint); }
+  .zoom .lvl.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .zoom .lvl.on .k { color: #6b520a; }
+
+  .flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; justify-content: center; }
+  .flow .node { border: 0.5px solid var(--border); background: var(--surface); border-radius: 9px;
+    padding: 11px 14px; text-align: center; min-width: 0; }
+  .flow .node .k { font-weight: 600; font-size: 13px; } .flow .node .v { font-size: 11px; color: var(--hint); margin-top: 2px; }
+  .flow .arr { display: flex; align-items: center; color: var(--hint); padding: 0 10px; font-size: 16px; }
+  @media (max-width: 640px) { .flow .arr { transform: rotate(90deg); padding: 4px 0; } .flow { flex-direction: column; align-items: center; } }
+
+  .ledger { width: 100%; max-width: 680px; border: 0.5px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .ledger .row { display: grid; grid-template-columns: 1fr 1.1fr; gap: 12px; padding: 11px 15px;
+    font-size: 13px; border-bottom: 0.5px solid var(--border); }
+  .ledger .row:last-child { border-bottom: 0; }
+  .ledger .row .c { color: var(--text); font-weight: 500; } .ledger .row .h { color: var(--muted); }
+  .ledger .row .h b { color: #6b520a; font-weight: 600; }
+
+  .mods { display: flex; flex-wrap: wrap; gap: 9px; max-width: 640px; }
+  .mods .m { border: 0.5px solid var(--border); background: var(--surface); border-radius: 8px;
+    padding: 8px 12px; font-size: 12.5px; } .mods .m b { font-weight: 600; } .mods .m span { color: var(--hint); }
+
+  .stats { display: flex; flex-wrap: wrap; gap: 14px; }
+  .stat { border: 0.5px solid var(--border); background: var(--surface); border-radius: 10px;
+    padding: 13px 16px; min-width: 0; }
+  .stat .n { font-size: clamp(22px, 3vw, 30px); font-weight: 600; letter-spacing: -.01em; }
+  .stat .l { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .cta-links { display: flex; gap: 12px; flex-wrap: wrap; }
+  .cta-links a { text-decoration: none; font-size: 14px; font-weight: 500; border-radius: 999px;
+    padding: 9px 18px; border: 0.5px solid var(--border); }
+  .cta-links a.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .cta-links a.ghost { color: var(--text); }
+
+  .divider .inner { align-items: center; text-align: center; }
+  .divider h2 { font-size: clamp(26px, 5vw, 48px); }
+
+  /* trilogy cards */
+  .tri { display: flex; gap: 12px; flex-wrap: wrap; }
+  .tri .t { flex: 1 1 180px; min-width: 0; border: 0.5px solid var(--border); border-radius: 10px; padding: 12px 14px; background: var(--surface); }
+  .tri .t .badge { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--accent); }
+  .tri .t .k { font-weight: 600; font-size: 14px; margin: 3px 0 4px; }
+  .tri .t .v { font-size: 12px; color: var(--muted); }
+
+  @media (max-width: 760px) {
+    .dots { display: none; }
+    .phone { display: none; }              /* phone overlay drops on mobile; desktop frame stays */
+    .slide { padding: 52px 16px 28px; }
+    .ledger .row { grid-template-columns: 1fr; gap: 3px; }
+  }
+</style>
+</head>
+<body class="deck">
+<div class="progress"><i id="pbar"></i></div>
+<div class="counter" id="counter">01 / 12</div>
+<nav class="dots" id="dots" aria-label="Go to slide"></nav>
+
+<main id="deck">
+
+  <!-- 01 HOOK -->
+  <section class="slide" data-tag="HOOK">
+    <div class="inner" style="justify-content:center;gap:18px">
+      <div class="eyebrow"><span class="num">01 / 12</span> · <span class="tag">HOOK</span></div>
+      <h1 class="hero">Wattlas</h1>
+      <p class="lede" style="font-size:clamp(15px,2.2vw,22px)">European electricity, explained. Open data on how and when the price of power moves across the continent.</p>
+      <div class="lines"><div><b>Live</b>, static, and rebuilt every day from public sources.</div></div>
+      <div class="takeaway"><span class="tick"></span> A working tool you can open right now, not a pitch.</div>
+    </div>
+  </section>
+
+  <!-- 02 PROBLEM -->
+  <section class="slide" data-tag="PROBLEM">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">02 / 12</span> · <span class="tag">PROBLEM</span></div>
+      <h2 class="title">Electricity has no warehouse</h2>
+      <p class="lede">Its price swings hour to hour — cheap when the wind blows, dear when it doesn't. The data is open, but raw: <span class="tip" tabindex="0" data-tip="Every series is timezone-aware; twice a year a day has 23 or 25 hours at the DST switch.">timezone-aware</span>, gap-ridden, and spread across a dozen national APIs.</p>
+      <div class="stage" style="margin:4px 0">
+        <div class="zoom">
+          <div class="lvl"><span class="k">Country / bidding zone</span><span class="v">where most maps stop</span></div>
+          <div class="lvl on"><span class="k">Price zone</span><span class="v">SE1–4, NO1–5, DE-LU…</span></div>
+          <div class="lvl on"><span class="k">Region / Landkreis</span><span class="v">where the physics lives</span></div>
+          <div class="lvl on"><span class="k">Installation</span><span class="v">every wind & solar unit</span></div>
+        </div>
+      </div>
+      <div class="takeaway"><span class="tick"></span> The signal is public. Reading it honestly is the work.</div>
+    </div>
+  </section>
+
+  <!-- 03 PRODUCT -->
+  <section class="slide" data-tag="PRODUCT">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">03 / 12</span> · <span class="tag">PRODUCT</span></div>
+      <h2 class="title">One place to read European power</h2>
+      <p class="lede">Wattlas turns that open data into explorable views. <strong>Eight core views</strong> unify on one dashboard; <strong>seven deep dives</strong> go further, below the bidding-zone line.</p>
+      <div class="stage">
+        <div class="frame">
+          <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">sekond.github.io/Wattlas</span></div>
+          <div class="shot" data-label="Dashboard"><img alt="Wattlas dashboard" src="public/showcase/dashboard.png" onerror="this.closest('.shot').classList.add('ph')"></div>
+        </div>
+        <div class="phone">
+          <div class="shot" data-label="Mobile"><img alt="Wattlas on mobile" src="public/showcase/dashboard-m.png" onerror="this.closest('.shot').classList.add('ph')"></div>
+        </div>
+      </div>
+      <div class="takeaway"><span class="tick"></span> Pick a zone, choose a window, and every panel snaps to it.</div>
+    </div>
+  </section>
+
+  <!-- 04 PROOF · SPREAD -->
+  <section class="slide" data-tag="PROOF · SPREAD">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">04 / 12</span> · <span class="tag">PROOF · SPREAD</span></div>
+      <h2 class="title">One view, one clear question</h2>
+      <p class="lede">The <strong>Spread</strong> view measures the daily gap between the cheapest and dearest hour — about <span class="tip" tabindex="0" data-tip="Average daily Top-Bottom spread (TB1) over the last 12 months of DE-LU day-ahead prices.">€125/MWh</span> on average. Negative-price days are flagged; the battery-arbitrage figure is labelled an upper bound, not a promise.</p>
+      <div class="stage">
+        <div class="frame">
+          <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">/Wattlas/frontend/index.html</span></div>
+          <div class="shot" data-label="Spread"><img alt="Spread view" src="public/showcase/spread.png" onerror="this.closest('.shot').classList.add('ph')"></div>
+        </div>
+        <div class="phone"><div class="shot" data-label="Spread (mobile)"><img alt="Spread on mobile" src="public/showcase/spread-m.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+      </div>
+      <div class="takeaway"><span class="tick"></span> A number you can act on, with its limits in plain sight.</div>
+    </div>
+  </section>
+
+  <!-- 05 PROOF · STORIES -->
+  <section class="slide" data-tag="PROOF · STORIES">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">05 / 12</span> · <span class="tag">PROOF · STORIES</span></div>
+      <h2 class="title">Three countries, one congested grid</h2>
+      <p class="lede">Renewable-rich regions a congested grid can't fully serve. Three market designs, shown side by side and cross-linked.</p>
+      <div class="tri">
+        <div class="t"><span class="badge">DE</span><div class="k">Germany</div><div class="v">One price; curtails northern wind it can't ship south.</div></div>
+        <div class="t"><span class="badge">NORDICS</span><div class="k">Split the zone</div><div class="v">A dozen price zones — a cheap hydro north, a dearer south.</div></div>
+        <div class="t"><span class="badge">GB</span><div class="k">Pay it down</div><div class="v">One price; pays Scottish wind to switch off (~£2bn/yr).</div></div>
+      </div>
+      <div class="stage" style="margin-top:2px">
+        <div class="frame" style="--shot-h:min(23vh,160px)">
+          <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">/frontend/nordic_zones.html</span></div>
+          <div class="shot" data-label="Nordic price zones"><img alt="Nordic price zones map" src="public/showcase/nordic.png" onerror="this.closest('.shot').classList.add('ph')"></div>
+        </div>
+      </div>
+      <div class="takeaway"><span class="tick"></span> Same physics, three answers — the comparison is the point.</div>
+    </div>
+  </section>
+
+  <!-- 06 PROOF · DEEP DIVES -->
+  <section class="slide" data-tag="PROOF · DEEP DIVES">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">06 / 12</span> · <span class="tag">PROOF · DEEP DIVES</span></div>
+      <h2 class="title">Stress, storage, and a real event</h2>
+      <p class="lede">Three chart-based stories carry their own caveat where the data is thin.</p>
+      <div class="smalls">
+        <div>
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">dunkelflaute</span></div><div class="shot" data-label="Dunkelflaute"><img alt="Dunkelflaute" src="public/showcase/dunkelflaute.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="cap">Wind+solar to 1.5% of demand</div>
+        </div>
+        <div>
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">storage</span></div><div class="shot" data-label="Storage"><img alt="Storage" src="public/showcase/storage.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="cap">Buy low, sell high — upper bound</div>
+        </div>
+        <div>
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">iberian_blackout</span></div><div class="shot" data-label="Iberian blackout"><img alt="Iberian blackout" src="public/showcase/iberian.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="cap">28 Apr 2025, cause cited not asserted</div>
+        </div>
+      </div>
+      <div class="takeaway"><span class="tick"></span> Range of reasoning, from grid stress to a sourced post-mortem.</div>
+    </div>
+  </section>
+
+  <!-- 07 HONESTY -->
+  <section class="slide" data-tag="HONESTY">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">07 / 12</span> · <span class="tag">HONESTY</span></div>
+      <h2 class="title">It shows its working</h2>
+      <p class="lede">Energy data is easy to get subtly wrong. Wattlas makes each choice visible rather than hiding it.</p>
+      <div class="ledger">
+        <div class="row"><span class="c">Battery arbitrage</span><span class="h">labelled an <b>unachievable upper bound</b> (perfect foresight, no losses)</span></div>
+        <div class="row"><span class="c">Missing data</span><span class="h">renders as a <b>gap</b>, never a fabricated zero</span></div>
+        <div class="row"><span class="c">The Iberian blackout</span><span class="h">assigns <b>no cause</b>; it cites the official report</span></div>
+        <div class="row"><span class="c">GB regional carbon</span><span class="h"><b>consumption-based</b> and labelled; Great Britain, not the UK</span></div>
+      </div>
+      <div class="takeaway"><span class="tick"></span> It shows its working. The reader keeps the judgment.</div>
+    </div>
+  </section>
+
+  <!-- 08 DIVIDER -->
+  <section class="slide divider" data-tag="HOW IT'S BUILT">
+    <div class="inner" style="gap:14px">
+      <div class="eyebrow"><span class="num">08 / 12</span> · <span class="tag">HOW IT'S BUILT</span></div>
+      <h2 class="title">How it's built</h2>
+      <p class="lede" style="margin:0 auto">Optional depth for the technically curious. The story above stands on its own.</p>
+      <div class="hint" style="font-family:var(--mono);font-size:11px">↓ scroll for the engineering</div>
+    </div>
+  </section>
+
+  <!-- 09 ARCHITECTURE -->
+  <section class="slide" data-tag="ARCHITECTURE">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">09 / 12</span> · <span class="tag">ARCHITECTURE</span></div>
+      <h2 class="title">Pre-compute, then serve files</h2>
+      <p class="lede">The pipeline is the only thing that touches the APIs. It writes small JSON files the frontend reads directly.</p>
+      <div class="flow">
+        <div class="node"><div class="k">Open-data APIs</div><div class="v">ENTSO-E, NESO, MaStR…</div></div>
+        <div class="arr">→</div>
+        <div class="node"><div class="k">Pipeline</div><div class="v">Python / pandas</div></div>
+        <div class="arr">→</div>
+        <div class="node"><div class="k">data/*.json</div><div class="v">pre-aggregated</div></div>
+        <div class="arr">→</div>
+        <div class="node"><div class="k">Static frontend</div><div class="v">vanilla JS, D3, Chart.js</div></div>
+        <div class="arr">→</div>
+        <div class="node"><div class="k">GitHub Pages</div><div class="v">no backend</div></div>
+      </div>
+      <div class="takeaway"><span class="tick"></span> No database, no server. The pages open as files.</div>
+    </div>
+  </section>
+
+  <!-- 10 ISOLATION -->
+  <section class="slide" data-tag="ISOLATION">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">10 / 12</span> · <span class="tag">ISOLATION</span></div>
+      <h2 class="title">Each source fails on its own</h2>
+      <p class="lede">Every data source is its own module — different auth, units and language. A failure in one can't break the others; a missing key degrades to an honest <span class="tip" tabindex="0" data-tip="e.g. without netztransparenz credentials, the Curtailment view writes status:&quot;unavailable&quot; and the page shows an &quot;awaiting source&quot; state.">"awaiting source"</span> state.</p>
+      <div class="mods">
+        <div class="m"><b>ENTSO-E</b> <span>prices, generation, flows</span></div>
+        <div class="m"><b>NESO</b> <span>GB carbon + constraints</span></div>
+        <div class="m"><b>MaStR</b> <span>every DE installation</span></div>
+        <div class="m"><b>SMARD</b> <span>control-area balance</span></div>
+        <div class="m"><b>ODRÉ</b> <span>French régional</span></div>
+        <div class="m"><b>netztransparenz</b> <span>curtailment</span></div>
+      </div>
+      <p class="lede hint" style="font-size:13px">The non-obvious traps are written down as "landmines" and coded around: the Oct-2025 resolution break, the 23/25-hour DST days, the zones that aren't administrative regions.</p>
+      <div class="takeaway"><span class="tick"></span> Built to fail open, one source at a time.</div>
+    </div>
+  </section>
+
+  <!-- 11 TRUST -->
+  <section class="slide" data-tag="TRUST">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">11 / 12</span> · <span class="tag">TRUST</span></div>
+      <h2 class="title">The numbers reproduce</h2>
+      <p class="lede">Metric functions are pure and tested offline — DST days, the resolution break, negative prices, data gaps.</p>
+      <div class="stats">
+        <div class="stat"><div class="n">62</div><div class="l">offline tests pass</div></div>
+        <div class="stat"><div class="n">0</div><div class="l"><span class="tip" tabindex="0" data-tip="The map basemaps regenerate byte-for-byte from a committed build script.">drift</span> in map builds</div></div>
+        <div class="stat"><div class="n">05:17 UTC</div><div class="l">daily refresh</div></div>
+        <div class="stat"><div class="n">every figure</div><div class="l">carries a source</div></div>
+      </div>
+      <p class="lede hint" style="font-size:13px">Curated tables (the cost stack, the storage series) carry a range and a citation; they take no side.</p>
+      <div class="takeaway"><span class="tick"></span> Correctness is a feature, kept visible.</div>
+    </div>
+  </section>
+
+  <!-- 12 CTA -->
+  <section class="slide" data-tag="OPEN IT">
+    <div class="inner" style="justify-content:center;gap:18px">
+      <div class="eyebrow"><span class="num">12 / 12</span> · <span class="tag">OPEN IT</span></div>
+      <h2 class="title">Open it. Read the code.</h2>
+      <p class="lede">Everything here is live and public. Explore the views, or read how each number is computed.</p>
+      <div class="cta-links">
+        <a class="primary" href="https://sekond.github.io/Wattlas/" target="_blank" rel="noopener">Open the live site →</a>
+        <a class="ghost" href="https://github.com/sekond/Wattlas" target="_blank" rel="noopener">Read the code on GitHub</a>
+      </div>
+      <div class="takeaway"><span class="tick"></span> European electricity, explained — and verifiable.</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  (function () {
+    const slides = [...document.querySelectorAll(".slide")];
+    const total = slides.length;
+    const counter = document.getElementById("counter");
+    const pbar = document.getElementById("pbar");
+    const dotsWrap = document.getElementById("dots");
+    const pad = (n) => String(n).padStart(2, "0");
+
+    // dot rail
+    slides.forEach((s, i) => {
+      const b = document.createElement("button");
+      b.setAttribute("aria-label", "Slide " + (i + 1) + ": " + (s.dataset.tag || ""));
+      b.addEventListener("click", () => s.scrollIntoView({ behavior: "smooth" }));
+      dotsWrap.appendChild(b);
+    });
+    const dots = [...dotsWrap.children];
+
+    let active = 0;
+    function setActive(i) {
+      if (i === active) return;
+      active = i;
+      counter.textContent = pad(i + 1) + " / " + pad(total);
+      pbar.style.width = ((i) / (total - 1) * 100) + "%";
+      dots.forEach((d, k) => d.setAttribute("aria-current", k === i ? "true" : "false"));
+    }
+
+    // center-band observer (NOT a threshold — thresholds fail when a slide exceeds the viewport)
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) setActive(slides.indexOf(e.target)); });
+    }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
+    slides.forEach((s) => io.observe(s));
+    setActive(0);
+
+    // present with the keyboard
+    function go(delta) {
+      const next = Math.max(0, Math.min(total - 1, active + delta));
+      slides[next].scrollIntoView({ behavior: "smooth" });
+    }
+    addEventListener("keydown", (e) => {
+      if (e.target.matches("a, button")) return;
+      switch (e.key) {
+        case "ArrowDown": case "ArrowRight": case "PageDown": case " ": e.preventDefault(); go(1); break;
+        case "ArrowUp": case "ArrowLeft": case "PageUp": e.preventDefault(); go(-1); break;
+        case "Home": e.preventDefault(); slides[0].scrollIntoView({ behavior: "smooth" }); break;
+        case "End": e.preventDefault(); slides[total - 1].scrollIntoView({ behavior: "smooth" }); break;
+      }
+    });
+  })();
+</script>
+</body>
+</html>
