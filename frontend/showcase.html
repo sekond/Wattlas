@@ -7,7 +7,9 @@
 <link rel="stylesheet" href="styles.css" />
 <style>
   /* Showcase deck — reuses the project's design tokens (styles.css :root). One light
-     theme, one accent (--amber = "where it shows its working"). No chart library. */
+     theme, one accent (--amber = "where it shows its working"). No chart library.
+     Act I presents the product (every dashboard view, then every story, two per page);
+     Act II is purely technical (build, CI/CD, data sources). */
   :root { --accent: var(--amber); --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
   * { box-sizing: border-box; }
   html { scroll-snap-type: y mandatory; scroll-behavior: smooth; overflow-x: clip; }
@@ -21,29 +23,28 @@
     font-size: 11px; color: var(--muted); background: var(--surface); border: 0.5px solid var(--border);
     border-radius: 999px; padding: 3px 10px; }
   .dots { position: fixed; right: 14px; top: 50%; transform: translateY(-50%); z-index: 60;
-    display: flex; flex-direction: column; gap: 9px; }
-  .dots button { width: 8px; height: 8px; border-radius: 50%; border: 0; padding: 0; cursor: pointer;
+    display: flex; flex-direction: column; gap: 7px; }
+  .dots button { width: 7px; height: 7px; border-radius: 50%; border: 0; padding: 0; cursor: pointer;
     background: rgba(0,0,0,.18); transition: background .15s, transform .15s; }
   .dots button:hover { background: rgba(0,0,0,.4); }
   .dots button[aria-current="true"] { background: var(--accent); transform: scale(1.5); }
+  .dots button.sec { background: rgba(0,0,0,.34); }   /* section openers stand out on the rail */
 
   /* slides — each fits one viewport (svh avoids mobile URL-bar clipping) */
   .slide { height: 100svh; scroll-snap-align: start; scroll-snap-stop: always;
-    display: flex; align-items: center; justify-content: center; padding: 56px 24px 40px; }
-  .inner { width: 100%; max-width: 960px; display: flex; flex-direction: column; height: 100%;
-    justify-content: center; gap: clamp(12px, 2.4vh, 26px); }
+    display: flex; align-items: center; justify-content: center; padding: 54px 24px 38px; }
+  .inner { width: 100%; max-width: 980px; display: flex; flex-direction: column; height: 100%;
+    justify-content: center; gap: clamp(11px, 2.2vh, 22px); }
   .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--hint);
     text-transform: uppercase; }
   .eyebrow .tag { color: var(--accent); }
   h1.hero { font-size: clamp(34px, 7vw, 76px); font-weight: 600; letter-spacing: -.02em; margin: 0; }
-  h2.title { font-size: clamp(22px, 3.6vw, 36px); font-weight: 600; letter-spacing: -.01em; margin: 0; }
-  .lede { font-size: clamp(14px, 1.9vw, 19px); color: var(--muted); max-width: 56ch; margin: 0; }
+  h2.title { font-size: clamp(21px, 3.4vw, 34px); font-weight: 600; letter-spacing: -.01em; margin: 0; }
+  .lede { font-size: clamp(13.5px, 1.8vw, 18px); color: var(--muted); max-width: 58ch; margin: 0; }
   .lede strong { color: var(--text); font-weight: 600; }
-  .lines { display: flex; flex-direction: column; gap: 7px; font-size: clamp(13px, 1.7vw, 16.5px); }
-  .lines div { color: var(--muted); }
-  .lines b { color: var(--text); font-weight: 600; }
   .takeaway { display: flex; align-items: center; gap: 9px; font-size: clamp(13px, 1.7vw, 16px);
     color: var(--text); margin-top: auto; padding-top: 6px; }
+  .takeaway.flush { margin-top: 0; }
   .takeaway .tick { flex: none; width: 7px; height: 14px; border-radius: 2px; background: var(--accent); }
   .muted { color: var(--muted); } .hint { color: var(--hint); }
 
@@ -55,16 +56,16 @@
     transition: opacity .12s ease; z-index: 70; box-shadow: 0 4px 14px rgba(0,0,0,.18); }
   .tip:hover::after, .tip:focus-visible::after { opacity: 1; }
 
-  /* framed screenshots — browser chrome + phone bezel; flex row that shrinks (min-width:0) */
+  /* framed screenshots — browser chrome; flex row that shrinks (min-width:0) */
   .stage { display: flex; align-items: flex-end; justify-content: center; min-width: 0; }
   .frame { min-width: 0; flex: 0 1 auto; --shot-h: min(46vh, 360px);
     border: 0.5px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface);
     box-shadow: 0 8px 30px rgba(40,36,20,.10); }
-  .frame .bar { display: flex; align-items: center; gap: 6px; padding: 7px 11px; background: var(--surface-2);
+  .frame .bar { display: flex; align-items: center; gap: 6px; padding: 6px 11px; background: var(--surface-2);
     border-bottom: 0.5px solid var(--border); }
   .frame .bar i { width: 9px; height: 9px; border-radius: 50%; flex: none; }
   .frame .bar .u { margin-left: 8px; font-size: 10.5px; color: var(--hint); background: var(--bg);
-    border: 0.5px solid var(--border); border-radius: 5px; padding: 2px 9px; max-width: 70%;
+    border: 0.5px solid var(--border); border-radius: 5px; padding: 2px 9px; max-width: 72%;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .shot { width: calc(var(--shot-h) * 1.5); height: var(--shot-h); max-width: 88vw; background: var(--surface-2);
     position: relative; }
@@ -73,50 +74,56 @@
     display: flex; align-items: center; justify-content: center; text-align: center; padding: 18px;
     font-family: var(--mono); font-size: 11px; color: var(--hint);
     background: repeating-linear-gradient(45deg, var(--surface-2), var(--surface-2) 10px, #ece9e0 10px, #ece9e0 20px); }
-  /* two-column scene layout (text + visual) — fills the width, stacks on mobile */
+
+  /* two-column scene layout (text + visual) */
   .two { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 4vw, 46px); align-items: center; width: 100%; }
   .two .col { min-width: 0; display: flex; flex-direction: column; gap: clamp(10px, 1.8vh, 16px); }
-  @media (max-width: 720px) { .two { grid-template-columns: 1fr; gap: 18px; } }
-  .smalls { display: flex; gap: 12px; justify-content: center; align-items: stretch; min-width: 0; }
-  .smalls > div { flex: 1 1 0; min-width: 0; max-width: 360px; }
-  .smalls .frame { --shot-h: min(36vh, 252px); width: 100%; }
-  .smalls .frame .shot { width: 100%; }
-  .story-shot { --shot-h: min(40vh, 310px); }    /* scene 5 map: bigger desktop, smaller mobile (below) */
-  .cap { font-size: 11px; color: var(--hint); text-align: center; margin-top: 4px; }
+  @media (max-width: 720px) { .two { grid-template-columns: 1fr; gap: 16px; } }
+
+  /* two-up catalogue — two views or two stories per page, each a screenshot + problem + purpose */
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 3.4vw, 38px); width: 100%; align-items: start; }
+  .item { min-width: 0; display: flex; flex-direction: column; gap: 7px; }
+  .item .frame { width: 100%; --shot-h: min(31vh, 234px); }
+  .item .frame .shot { width: 100%; }
+  .item-h { display: flex; align-items: baseline; gap: 8px; margin-top: 3px; }
+  .item-h .n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--accent); flex: none; }
+  .item-h h3 { margin: 0; font-size: clamp(15px, 1.9vw, 19px); font-weight: 600; letter-spacing: -.01em; }
+  .pp { font-size: clamp(11.5px, 1.35vw, 13.5px); color: var(--muted); line-height: 1.46; }
+  .pp b { display: inline-block; font-family: var(--mono); font-size: 9.5px; font-weight: 700;
+    letter-spacing: .05em; text-transform: uppercase; color: var(--accent); margin-right: 6px; }
+
+  /* chips (the seven stories, the section openers) */
+  .mods { display: flex; flex-wrap: wrap; gap: 9px; max-width: 760px; }
+  .mods .m { border: 0.5px solid var(--border); background: var(--surface); border-radius: 8px;
+    padding: 8px 12px; font-size: 12.5px; } .mods .m b { font-weight: 600; } .mods .m span { color: var(--hint); }
 
   /* CSS-only diagrams (no chart lib) */
-  .zoom { display: flex; flex-direction: column; gap: 0; max-width: 460px; }
-  .zoom .lvl { border: 0.5px solid var(--border); background: var(--surface); border-radius: 9px;
-    padding: 10px 14px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
-  .zoom .lvl + .lvl { margin-top: 18px; position: relative; }
-  .zoom .lvl + .lvl::before { content: ""; position: absolute; left: 26px; top: -18px; height: 18px;
-    border-left: 1.5px solid var(--border); }
-  .zoom .lvl .k { font-weight: 600; font-size: 14px; } .zoom .lvl .v { font-size: 12px; color: var(--hint); }
-  .zoom .lvl.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-  .zoom .lvl.on .k { color: #6b520a; }
-
   .flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; justify-content: center; }
   .flow .node { border: 0.5px solid var(--border); background: var(--surface); border-radius: 9px;
     padding: 11px 14px; text-align: center; min-width: 0; }
+  .flow .node.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
   .flow .node .k { font-weight: 600; font-size: 13px; } .flow .node .v { font-size: 11px; color: var(--hint); margin-top: 2px; }
   .flow .arr { display: flex; align-items: center; color: var(--hint); padding: 0 10px; font-size: 16px; }
   @media (max-width: 640px) { .flow .arr { transform: rotate(90deg); padding: 4px 0; } .flow { flex-direction: column; align-items: center; } }
 
-  .ledger { width: 100%; max-width: 680px; border: 0.5px solid var(--border); border-radius: 10px; overflow: hidden; }
-  .ledger .row { display: grid; grid-template-columns: 1fr 1.1fr; gap: 12px; padding: 11px 15px;
+  /* data-source catalogue */
+  .srcgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; max-width: 900px; }
+  .src { border: 0.5px solid var(--border); background: var(--surface); border-radius: 9px; padding: 11px 13px; min-width: 0; }
+  .src .nm { font-weight: 600; font-size: 13.5px; }
+  .src .wt { font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.42; }
+  .src .ac { font-family: var(--mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--hint); margin-top: 6px; }
+
+  /* principle ledger */
+  .ledger { width: 100%; max-width: 740px; border: 0.5px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .ledger .row { display: grid; grid-template-columns: 0.8fr 1.5fr; gap: 14px; padding: 10px 15px;
     font-size: 13px; border-bottom: 0.5px solid var(--border); }
   .ledger .row:last-child { border-bottom: 0; }
-  .ledger .row .c { color: var(--text); font-weight: 500; } .ledger .row .h { color: var(--muted); }
+  .ledger .row .c { color: var(--text); font-weight: 600; } .ledger .row .h { color: var(--muted); }
   .ledger .row .h b { color: #6b520a; font-weight: 600; }
 
-  .mods { display: flex; flex-wrap: wrap; gap: 9px; max-width: 640px; }
-  .mods .m { border: 0.5px solid var(--border); background: var(--surface); border-radius: 8px;
-    padding: 8px 12px; font-size: 12.5px; } .mods .m b { font-weight: 600; } .mods .m span { color: var(--hint); }
-
   .stats { display: flex; flex-wrap: wrap; gap: 14px; }
-  .stat { border: 0.5px solid var(--border); background: var(--surface); border-radius: 10px;
-    padding: 13px 16px; min-width: 0; }
-  .stat .n { font-size: clamp(22px, 3vw, 30px); font-weight: 600; letter-spacing: -.01em; }
+  .stat { border: 0.5px solid var(--border); background: var(--surface); border-radius: 10px; padding: 13px 16px; min-width: 0; }
+  .stat .n { font-size: clamp(20px, 2.8vw, 28px); font-weight: 600; letter-spacing: -.01em; }
   .stat .l { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
   .cta-links { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -128,24 +135,18 @@
   .divider .inner { align-items: center; text-align: center; }
   .divider h2 { font-size: clamp(26px, 5vw, 48px); }
 
-  /* trilogy cards */
-  .tri { display: flex; gap: 12px; flex-wrap: wrap; }
-  .tri .t { flex: 0 0 auto; min-width: 0; border: 0.5px solid var(--border); border-radius: 10px; padding: 11px 14px; background: var(--surface); }
-  .tri .t .badge { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--accent); }
-  .tri .t .k { font-weight: 600; font-size: 14px; margin: 3px 0 4px; }
-  .tri .t .v { font-size: 12px; color: var(--muted); }
-
   @media (max-width: 760px) {
     .dots { display: none; }
-    .slide { padding: 52px 16px 28px; }
-    .ledger .row { grid-template-columns: 1fr; gap: 3px; }
-    .story-shot { --shot-h: min(28vh, 205px); }
+    .slide { padding: 50px 15px 26px; }
+    .pair .item .frame { --shot-h: min(19vh, 132px); }
+    .srcgrid { grid-template-columns: 1fr 1fr; }
+    .ledger .row { grid-template-columns: 1fr; gap: 2px; }
   }
 </style>
 </head>
 <body class="deck">
 <div class="progress"><i id="pbar"></i></div>
-<div class="counter" id="counter">01 / 12</div>
+<div class="counter" id="counter">01 / 17</div>
 <nav class="dots" id="dots" aria-label="Go to slide"></nav>
 
 <main id="deck">
@@ -153,216 +154,319 @@
   <!-- 01 HOOK -->
   <section class="slide" data-tag="HOOK">
     <div class="inner" style="justify-content:center;gap:clamp(10px,2.2vh,20px);align-items:center;text-align:center">
-      <div class="eyebrow"><span class="num">01 / 12</span> · <span class="tag">HOOK</span></div>
+      <div class="eyebrow"><span class="num">01 / 17</span> · <span class="tag">HOOK</span></div>
       <h1 class="hero">Wattlas</h1>
       <p class="lede" style="font-size:clamp(15px,2.2vw,21px);margin:0 auto">European electricity, explained. Open data on how and when the price of power moves across the continent, live and rebuilt every day.</p>
       <div class="stage" style="margin-top:2px">
-        <div class="frame" style="--shot-h:min(42vh,330px)">
-          <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">sekond.github.io/Wattlas</span></div>
-          <div class="shot" data-label="Dashboard"><img alt="Wattlas dashboard" src="public/showcase/dashboard.png" onerror="this.closest('.shot').classList.add('ph')"></div>
+        <div class="frame" style="--shot-h:min(42vh,326px)">
+          <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">sekond.github.io/Wattlas · Pulse</span></div>
+          <div class="shot" data-label="Pulse"><img alt="The Pulse view — average price by hour of day" src="public/showcase/pulse.png" onerror="this.closest('.shot').classList.add('ph')"></div>
         </div>
       </div>
-      <div class="takeaway" style="margin-top:0"><span class="tick"></span> A working tool you can open right now, not a pitch.</div>
+      <div class="takeaway flush"><span class="tick"></span> A working tool you can open right now, not a pitch.</div>
     </div>
   </section>
 
-  <!-- 02 PROBLEM -->
-  <section class="slide" data-tag="PROBLEM">
+  <!-- 02 SECTION 1 — THE DASHBOARD (opener) -->
+  <section class="slide" data-tag="THE DASHBOARD" data-section>
     <div class="inner">
-      <div class="eyebrow"><span class="num">02 / 12</span> · <span class="tag">PROBLEM</span></div>
-      <div class="two">
-        <div class="col">
-          <h2 class="title">Electricity has no warehouse</h2>
-          <p class="lede">Its price swings hour to hour: cheap when the wind blows, dear when it doesn't. The data is open, but raw. It is <span class="tip" tabindex="0" data-tip="Every series is timezone-aware; twice a year a day has 23 or 25 hours at the DST switch.">timezone-aware</span>, gap-ridden, and spread across a dozen national APIs. And the well-known maps stop at the country line, where the physics begins.</p>
-          <div class="takeaway"><span class="tick"></span> The signal is public. Reading it honestly is the work.</div>
-        </div>
-        <div class="col">
-          <div class="zoom" style="max-width:none">
-            <div class="lvl"><span class="k">Country / bidding zone</span><span class="v">where most maps stop</span></div>
-            <div class="lvl on"><span class="k">Price zone</span><span class="v">SE1–4, NO1–5, DE-LU…</span></div>
-            <div class="lvl on"><span class="k">Region / Landkreis</span><span class="v">where the physics lives</span></div>
-            <div class="lvl on"><span class="k">Installation</span><span class="v">every wind & solar unit</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 03 PRODUCT -->
-  <section class="slide" data-tag="PRODUCT">
-    <div class="inner">
-      <div class="eyebrow"><span class="num">03 / 12</span> · <span class="tag">PRODUCT</span></div>
-      <h2 class="title">Compare countries, refine the picture</h2>
-      <p class="lede">Wattlas unifies <strong>eight core views</strong> on one dashboard; <strong>seven deep dives</strong> go further. Add up to <strong>six bidding zones</strong> and every panel re-computes, comparing them side by side. Here Germany sits against France, the Netherlands and Austria.</p>
+      <div class="eyebrow"><span class="num">02 / 17</span> · <span class="tag">SECTION 1 · THE DASHBOARD</span></div>
+      <h2 class="title">One dashboard, eight views</h2>
+      <p class="lede">The core of Wattlas: eight views over European power, every one able to compare up to <strong>six bidding zones</strong> at once. Here Germany sits against France, the Netherlands and Austria.</p>
       <div class="stage">
-        <div class="frame" style="--shot-h:min(45vh,370px)">
+        <div class="frame" style="--shot-h:min(44vh,348px)">
           <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">sekond.github.io/Wattlas</span></div>
           <div class="shot" data-label="Dashboard"><img alt="Wattlas dashboard comparing four bidding zones" src="public/showcase/dashboard-multi.png" onerror="this.closest('.shot').classList.add('ph')"></div>
         </div>
       </div>
-      <div class="takeaway"><span class="tick"></span> One curve per zone, side by side: the comparison is the tool.</div>
+      <div class="takeaway"><span class="tick"></span> Pick the zones, pick the window; every panel re-computes.</div>
     </div>
   </section>
 
-  <!-- 04 PROOF · SPREAD -->
-  <section class="slide" data-tag="PROOF · SPREAD">
+  <!-- 03 VIEWS · Pulse + Spread -->
+  <section class="slide" data-tag="DASHBOARD VIEWS">
     <div class="inner">
-      <div class="eyebrow"><span class="num">04 / 12</span> · <span class="tag">PROOF · SPREAD</span></div>
-      <h2 class="title">One view, one clear question</h2>
-      <p class="lede">The <strong>Spread</strong> view measures the daily gap between the cheapest and dearest hour — about <span class="tip" tabindex="0" data-tip="Average daily Top-Bottom spread (TB1) over the last 12 months of DE-LU day-ahead prices.">€125/MWh</span> on average. Negative-price days are flagged; the battery-arbitrage figure is labelled an upper bound, not a promise.</p>
-      <div class="stage">
-        <div class="frame" style="--shot-h:min(47vh,388px)">
-          <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">/Wattlas/frontend/index.html</span></div>
-          <div class="shot" data-label="Spread"><img alt="Spread view" src="public/showcase/spread.png" onerror="this.closest('.shot').classList.add('ph')"></div>
+      <div class="eyebrow"><span class="num">03 / 17</span> · <span class="tag">DASHBOARD VIEWS · 1–2 OF 8</span></div>
+      <div class="pair">
+        <div class="item">
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">pulse.html</span></div><div class="shot" data-label="Pulse"><img alt="Pulse view" src="public/showcase/pulse.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="item-h"><span class="n">1</span><h3>Pulse</h3></div>
+          <div class="pp"><b>Problem</b> When in the day is power cheap, and when is it dear?</div>
+          <div class="pp"><b>Purpose</b> Average day-ahead price by hour, weekday against weekend — the duck curve.</div>
+        </div>
+        <div class="item">
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">index.html</span></div><div class="shot" data-label="Spread"><img alt="Spread view" src="public/showcase/spread.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="item-h"><span class="n">2</span><h3>Spread</h3></div>
+          <div class="pp"><b>Problem</b> How wide is the gap between the cheapest and dearest hour each day?</div>
+          <div class="pp"><b>Purpose</b> The daily spread (~€125/MWh on average), negative-price days flagged, an upper-bound arbitrage figure.</div>
         </div>
       </div>
-      <div class="takeaway"><span class="tick"></span> A number you can act on, with its limits in plain sight.</div>
     </div>
   </section>
 
-  <!-- 05 PROOF · STORIES -->
-  <section class="slide" data-tag="PROOF · STORIES">
+  <!-- 04 VIEWS · Mix + Mismatch -->
+  <section class="slide" data-tag="DASHBOARD VIEWS">
     <div class="inner">
-      <div class="eyebrow"><span class="num">05 / 12</span> · <span class="tag">PROOF · STORIES</span></div>
+      <div class="eyebrow"><span class="num">04 / 17</span> · <span class="tag">DASHBOARD VIEWS · 3–4 OF 8</span></div>
+      <div class="pair">
+        <div class="item">
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">mix.html</span></div><div class="shot" data-label="Mix"><img alt="Mix view" src="public/showcase/mix.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="item-h"><span class="n">3</span><h3>Mix</h3></div>
+          <div class="pp"><b>Problem</b> What actually generates the power, and how do countries differ?</div>
+          <div class="pp"><b>Purpose</b> Generation by fuel, two zones side by side — French nuclear against German wind and solar.</div>
+        </div>
+        <div class="item">
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">mismatch.html</span></div><div class="shot" data-label="Mismatch"><img alt="Mismatch view" src="public/showcase/mismatch.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="item-h"><span class="n">4</span><h3>Mismatch</h3></div>
+          <div class="pp"><b>Problem</b> How much load is left once wind and solar have run?</div>
+          <div class="pp"><b>Purpose</b> Residual load by hour, per zone — what dispatchable plant still has to cover.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 VIEWS · Divergence + Carbon -->
+  <section class="slide" data-tag="DASHBOARD VIEWS">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">05 / 17</span> · <span class="tag">DASHBOARD VIEWS · 5–6 OF 8</span></div>
+      <div class="pair">
+        <div class="item">
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">divergence.html</span></div><div class="shot" data-label="Divergence"><img alt="Divergence view" src="public/showcase/divergence.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="item-h"><span class="n">5</span><h3>Divergence</h3></div>
+          <div class="pp"><b>Problem</b> How far do neighbouring zones' prices drift apart, and why?</div>
+          <div class="pp"><b>Purpose</b> Monthly price gaps alongside the physical cross-border flow, with congestion flagged.</div>
+        </div>
+        <div class="item">
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">dashboard · Carbon</span></div><div class="shot" data-label="Carbon"><img alt="Carbon view" src="public/showcase/carbon.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="item-h"><span class="n">6</span><h3>Carbon</h3></div>
+          <div class="pp"><b>Problem</b> How clean is each hour of the grid?</div>
+          <div class="pp"><b>Purpose</b> Production-based carbon intensity from the mix — low when renewables peak, high on coal-heavy hours.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 VIEWS · Curtailment + History -->
+  <section class="slide" data-tag="DASHBOARD VIEWS">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">06 / 17</span> · <span class="tag">DASHBOARD VIEWS · 7–8 OF 8</span></div>
+      <div class="pair">
+        <div class="item">
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">curtailment.html</span></div><div class="shot" data-label="Curtailment"><img alt="Curtailment view" src="public/showcase/curtailment.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="item-h"><span class="n">7</span><h3>Curtailment</h3></div>
+          <div class="pp"><b>Problem</b> How much clean power does the grid throw away?</div>
+          <div class="pp"><b>Purpose</b> Curtailed renewable energy the grid couldn't move; fails open to "awaiting source" if the feed is down.</div>
+        </div>
+        <div class="item">
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">history.html</span></div><div class="shot" data-label="History"><img alt="History view" src="public/showcase/history.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="item-h"><span class="n">8</span><h3>History</h3></div>
+          <div class="pp"><b>Problem</b> Is the daily spread widening over the years?</div>
+          <div class="pp"><b>Purpose</b> Multi-year daily spread, zoomable, with the longer-run trend in view.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 SECTION 2 — THE STORIES (opener) -->
+  <section class="slide" data-tag="THE STORIES" data-section>
+    <div class="inner">
+      <div class="eyebrow"><span class="num">07 / 17</span> · <span class="tag">SECTION 2 · THE STORIES</span></div>
+      <h2 class="title">Seven stories below the line</h2>
+      <p class="lede">Where the bidding-zone view stops, the deep dives begin: congestion, curtailment, a blackout, each one going down to the region or the single installation.</p>
+      <div class="mods">
+        <div class="m"><b>Germany North-South</b></div>
+        <div class="m"><b>France Nuclear</b></div>
+        <div class="m"><b>Nordic Price Zones</b></div>
+        <div class="m"><b>UK Regional Carbon</b></div>
+        <div class="m"><b>Dunkelflaute</b></div>
+        <div class="m"><b>Storage</b></div>
+        <div class="m"><b>Iberian Blackout</b></div>
+      </div>
+      <div class="takeaway"><span class="tick"></span> Same data, taken one question deeper.</div>
+    </div>
+  </section>
+
+  <!-- 08 STORIES · Germany North-South + France Nuclear -->
+  <section class="slide" data-tag="STORIES">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">08 / 17</span> · <span class="tag">STORIES · 1–2 OF 7</span></div>
+      <div class="pair">
+        <div class="item">
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">wasted_wind.html</span></div><div class="shot" data-label="Germany North-South"><img alt="Germany North-South grid story" src="public/showcase/wasted_wind.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="item-h"><span class="n">DE</span><h3>Germany North-South</h3></div>
+          <div class="pp"><b>Problem</b> Wind is built in the north, demand sits in the south, the grid between is constrained.</div>
+          <div class="pp"><b>Purpose</b> A Landkreis capacity map, the control-area balance, and the single-zone debate.</div>
+        </div>
+        <div class="item">
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">fr_nuclear.html</span></div><div class="shot" data-label="France Nuclear"><img alt="France nuclear story" src="public/showcase/fr_nuclear.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="item-h"><span class="n">FR</span><h3>France Nuclear</h3></div>
+          <div class="pp"><b>Problem</b> Where does France's centralised fleet sit, and when does its output dip?</div>
+          <div class="pp"><b>Purpose</b> A région map of hosted nuclear, the seasonal availability dip, and the real cost.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 STORIES · Nordic + UK Regional -->
+  <section class="slide" data-tag="STORIES">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">09 / 17</span> · <span class="tag">STORIES · 3–4 OF 7</span></div>
+      <div class="pair">
+        <div class="item">
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">nordic_zones.html</span></div><div class="shot" data-label="Nordic Price Zones"><img alt="Nordic price zones story" src="public/showcase/nordic.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="item-h"><span class="n">NZ</span><h3>Nordic Price Zones</h3></div>
+          <div class="pp"><b>Problem</b> Germany debates splitting its bidding zone; the Nordics already did.</div>
+          <div class="pp"><b>Purpose</b> Twelve zones shaded by price, the within-country divergence, the lesson for Germany.</div>
+        </div>
+        <div class="item">
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">uk_regional.html</span></div><div class="shot" data-label="UK Regional Carbon"><img alt="UK regional carbon story" src="public/showcase/uk_regional.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="item-h"><span class="n">UK</span><h3>UK Regional Carbon</h3></div>
+          <div class="pp"><b>Problem</b> Scotland's wind is stranded behind a constrained grid — at what cost?</div>
+          <div class="pp"><b>Purpose</b> Fourteen regions by carbon intensity, and the ~£2bn/yr in wind constraint payments.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 STORIES · Dunkelflaute + Storage -->
+  <section class="slide" data-tag="STORIES">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">10 / 17</span> · <span class="tag">STORIES · 5–6 OF 7</span></div>
+      <div class="pair">
+        <div class="item">
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">dunkelflaute.html</span></div><div class="shot" data-label="Dunkelflaute"><img alt="Dunkelflaute story" src="public/showcase/dunkelflaute.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="item-h"><span class="n">DF</span><h3>Dunkelflaute</h3></div>
+          <div class="pp"><b>Problem</b> What happens when wind and solar vanish for days at a time?</div>
+          <div class="pp"><b>Purpose</b> Auto-detects the worst spell, then shows the backup stack and the price spike it forces.</div>
+        </div>
+        <div class="item">
+          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">storage.html</span></div><div class="shot" data-label="Storage"><img alt="Storage story" src="public/showcase/storage.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
+          <div class="item-h"><span class="n">ST</span><h3>Storage</h3></div>
+          <div class="pp"><b>Problem</b> Can a battery earn off the daily price swing?</div>
+          <div class="pp"><b>Purpose</b> A transparent model, labelled an upper bound, and where storage is actually being built.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 STORIES · Iberian Blackout (the seventh, featured) -->
+  <section class="slide" data-tag="STORIES">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">11 / 17</span> · <span class="tag">STORIES · 7 OF 7</span></div>
       <div class="two">
         <div class="col">
-          <h2 class="title">Three countries, one congested grid</h2>
-          <p class="lede">Renewable-rich regions a congested grid can't fully serve. Three market designs, side by side and cross-linked.</p>
-          <div class="tri" style="flex-direction:column;gap:9px">
-            <div class="t"><span class="badge">DE</span><div class="k">Germany</div><div class="v">One price; curtails northern wind it can't ship south.</div></div>
-            <div class="t"><span class="badge">NORDICS</span><div class="k">Split the zone</div><div class="v">A dozen price zones: a cheap hydro north, a dearer south.</div></div>
-            <div class="t"><span class="badge">GB</span><div class="k">Pay it down</div><div class="v">One price; pays Scottish wind to switch off (~£2bn/yr).</div></div>
-          </div>
+          <h2 class="title">Iberian Blackout</h2>
+          <div class="pp" style="font-size:clamp(13px,1.6vw,15px)"><b>Problem</b> On 28 April 2025 the Iberian grid went dark within seconds.</div>
+          <div class="pp" style="font-size:clamp(13px,1.6vw,15px)"><b>Purpose</b> Replays the load collapse and the sourced restoration, hour by hour. It cites the official cause and asserts none of its own.</div>
+          <div class="takeaway"><span class="tick"></span> A post-mortem that quotes the report instead of guessing.</div>
         </div>
         <div class="col">
-          <div class="frame story-shot">
-            <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">/frontend/nordic_zones.html</span></div>
-            <div class="shot" data-label="Nordic price zones"><img alt="Nordic price zones map" src="public/showcase/nordic.png" onerror="this.closest('.shot').classList.add('ph')"></div>
+          <div class="frame" style="--shot-h:min(42vh,326px)">
+            <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">iberian_blackout.html</span></div>
+            <div class="shot" data-label="Iberian Blackout"><img alt="Iberian blackout story" src="public/showcase/iberian.png" onerror="this.closest('.shot').classList.add('ph')"></div>
           </div>
-          <div class="takeaway" style="margin-top:14px"><span class="tick"></span> Same physics, three answers, shown together.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 06 PROOF · DEEP DIVES -->
-  <section class="slide" data-tag="PROOF · DEEP DIVES">
-    <div class="inner">
-      <div class="eyebrow"><span class="num">06 / 12</span> · <span class="tag">PROOF · DEEP DIVES</span></div>
-      <h2 class="title">Stress, storage, and a real event</h2>
-      <p class="lede">Three chart-based stories carry their own caveat where the data is thin.</p>
-      <div class="smalls">
-        <div>
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">dunkelflaute</span></div><div class="shot" data-label="Dunkelflaute"><img alt="Dunkelflaute" src="public/showcase/dunkelflaute.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="cap">Wind+solar to 1.5% of demand</div>
-        </div>
-        <div>
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">storage</span></div><div class="shot" data-label="Storage"><img alt="Storage" src="public/showcase/storage.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="cap">Buy low, sell high — upper bound</div>
-        </div>
-        <div>
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">iberian_blackout</span></div><div class="shot" data-label="Iberian blackout"><img alt="Iberian blackout" src="public/showcase/iberian.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="cap">28 Apr 2025, cause cited not asserted</div>
-        </div>
-      </div>
-      <div class="takeaway"><span class="tick"></span> Range of reasoning, from grid stress to a sourced post-mortem.</div>
-    </div>
-  </section>
-
-  <!-- 07 HONESTY -->
-  <section class="slide" data-tag="HONESTY">
-    <div class="inner">
-      <div class="eyebrow"><span class="num">07 / 12</span> · <span class="tag">HONESTY</span></div>
-      <h2 class="title">It shows its working</h2>
-      <p class="lede">Energy data is easy to get subtly wrong. Wattlas makes each choice visible rather than hiding it.</p>
-      <div class="ledger">
-        <div class="row"><span class="c">Battery arbitrage</span><span class="h">labelled an <b>unachievable upper bound</b> (perfect foresight, no losses)</span></div>
-        <div class="row"><span class="c">Missing data</span><span class="h">renders as a <b>gap</b>, never a fabricated zero</span></div>
-        <div class="row"><span class="c">The Iberian blackout</span><span class="h">assigns <b>no cause</b>; it cites the official report</span></div>
-        <div class="row"><span class="c">GB regional carbon</span><span class="h"><b>consumption-based</b> and labelled; Great Britain, not the UK</span></div>
-      </div>
-      <div class="takeaway"><span class="tick"></span> It shows its working. The reader keeps the judgment.</div>
-    </div>
-  </section>
-
-  <!-- 08 DIVIDER -->
-  <section class="slide divider" data-tag="HOW IT'S BUILT">
+  <!-- 12 DIVIDER — Act II -->
+  <section class="slide divider" data-tag="HOW IT'S BUILT" data-section>
     <div class="inner" style="gap:14px">
-      <div class="eyebrow"><span class="num">08 / 12</span> · <span class="tag">HOW IT'S BUILT</span></div>
+      <div class="eyebrow"><span class="num">12 / 17</span> · <span class="tag">ACT II · HOW IT'S BUILT</span></div>
       <h2 class="title">How it's built</h2>
-      <p class="lede" style="margin:0 auto">Optional depth for the technically curious. The story above stands on its own.</p>
+      <p class="lede" style="margin:0 auto">The product stands on its own. What follows is purely technical: the build, the pipeline, and the data sources behind it.</p>
       <div class="hint" style="font-family:var(--mono);font-size:11px">↓ scroll for the engineering</div>
     </div>
   </section>
 
-  <!-- 09 ARCHITECTURE -->
-  <section class="slide" data-tag="ARCHITECTURE">
+  <!-- 13 BUILD — Claude + GitHub -->
+  <section class="slide" data-tag="BUILD">
     <div class="inner">
-      <div class="eyebrow"><span class="num">09 / 12</span> · <span class="tag">ARCHITECTURE</span></div>
-      <h2 class="title">Pre-compute, then serve files</h2>
-      <p class="lede">The pipeline is the only thing that touches the APIs. It writes small JSON files the frontend reads directly.</p>
+      <div class="eyebrow"><span class="num">13 / 17</span> · <span class="tag">BUILD · CLAUDE + GITHUB</span></div>
+      <h2 class="title">Built with Claude Code, shipped through GitHub</h2>
+      <p class="lede">Each view was built as a small vertical slice: a prompt stating the goal and success criteria, then code with an offline test, then a pull request. A human approved every step before it merged.</p>
+      <div class="flow">
+        <div class="node"><div class="k">Prompt</div><div class="v">goal + success criteria</div></div>
+        <div class="arr">→</div>
+        <div class="node on"><div class="k">Claude Code</div><div class="v">pipeline · test · frontend</div></div>
+        <div class="arr">→</div>
+        <div class="node"><div class="k">Pull request</div><div class="v">to GitHub</div></div>
+        <div class="arr">→</div>
+        <div class="node"><div class="k">Review</div><div class="v">human approval</div></div>
+        <div class="arr">→</div>
+        <div class="node"><div class="k">Merge</div><div class="v">to main</div></div>
+      </div>
+      <p class="lede hint" style="font-size:13px">The same flow as its sibling project, StockScore: small steps, each gated, each reviewable in a diff.</p>
+      <div class="takeaway"><span class="tick"></span> The model did the typing; the gates, tests and review kept it honest.</div>
+    </div>
+  </section>
+
+  <!-- 14 CI/CD — GitHub Actions + Pages -->
+  <section class="slide" data-tag="CI/CD">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">14 / 17</span> · <span class="tag">CI/CD · GITHUB</span></div>
+      <h2 class="title">A cron, a commit, a redeploy</h2>
+      <p class="lede">The pipeline is the only code that touches the APIs; it writes small JSON the frontend reads directly. A GitHub Action reruns it daily and commits the data; GitHub Pages redeploys. No backend, no database.</p>
       <div class="flow">
         <div class="node"><div class="k">Open-data APIs</div><div class="v">ENTSO-E, NESO, MaStR…</div></div>
         <div class="arr">→</div>
         <div class="node"><div class="k">Pipeline</div><div class="v">Python / pandas</div></div>
         <div class="arr">→</div>
-        <div class="node"><div class="k">data/*.json</div><div class="v">pre-aggregated</div></div>
+        <div class="node"><div class="k">data/*.json</div><div class="v">pre-aggregated, committed</div></div>
         <div class="arr">→</div>
-        <div class="node"><div class="k">Static frontend</div><div class="v">vanilla JS, D3, Chart.js</div></div>
-        <div class="arr">→</div>
-        <div class="node"><div class="k">GitHub Pages</div><div class="v">no backend</div></div>
+        <div class="node on"><div class="k">GitHub Pages</div><div class="v">static, no backend</div></div>
       </div>
-      <div class="takeaway"><span class="tick"></span> No database, no server. The pages open as files.</div>
+      <p class="lede hint" style="font-size:13px">Daily at <span class="tip" tabindex="0" data-tip="05:17 UTC = 06:17 CET / 07:17 CEST — after the previous trading day has closed and published. The job commits only the JSON that actually changed.">05:17 UTC</span> the Refresh-data workflow rebuilds every view and commits only what changed. The heavy MaStR bulk download runs weekly, isolated and non-fatal.</p>
+      <div class="takeaway"><span class="tick"></span> The whole "backend" is a scheduled job that writes files.</div>
     </div>
   </section>
 
-  <!-- 10 ISOLATION -->
-  <section class="slide" data-tag="ISOLATION">
+  <!-- 15 DATA SOURCES — the catalogue -->
+  <section class="slide" data-tag="DATA SOURCES">
     <div class="inner">
-      <div class="eyebrow"><span class="num">10 / 12</span> · <span class="tag">ISOLATION</span></div>
-      <h2 class="title">Each source fails on its own</h2>
-      <p class="lede">Every data source is its own module — different auth, units and language. A failure in one can't break the others; a missing key degrades to an honest <span class="tip" tabindex="0" data-tip="e.g. without netztransparenz credentials, the Curtailment view writes status:&quot;unavailable&quot; and the page shows an &quot;awaiting source&quot; state.">"awaiting source"</span> state.</p>
-      <div class="mods">
-        <div class="m"><b>ENTSO-E</b> <span>prices, generation, flows</span></div>
-        <div class="m"><b>NESO</b> <span>GB carbon + constraints</span></div>
-        <div class="m"><b>MaStR</b> <span>every DE installation</span></div>
-        <div class="m"><b>SMARD</b> <span>control-area balance</span></div>
-        <div class="m"><b>ODRÉ</b> <span>French régional</span></div>
-        <div class="m"><b>netztransparenz</b> <span>curtailment</span></div>
+      <div class="eyebrow"><span class="num">15 / 17</span> · <span class="tag">DATA SOURCES</span></div>
+      <h2 class="title">Six open feeds, each in its own language</h2>
+      <p class="lede">Wattlas joins half a dozen public sources, each with its own auth, units, language and lag, and reconciles them to one canonical shape.</p>
+      <div class="srcgrid">
+        <div class="src"><div class="nm">ENTSO-E</div><div class="wt">Day-ahead prices, generation, load and cross-border flows for every EU bidding zone.</div><div class="ac">API token</div></div>
+        <div class="src"><div class="nm">NESO</div><div class="wt">Great Britain regional carbon intensity, plus Scottish wind constraint payments.</div><div class="ac">Open API</div></div>
+        <div class="src"><div class="nm">MaStR</div><div class="wt">Germany's Marktstammdatenregister: every individual wind and solar installation.</div><div class="ac">Open bulk export</div></div>
+        <div class="src"><div class="nm">SMARD</div><div class="wt">Bundesnetzagentur: per-control-area generation and net balance (German field names).</div><div class="ac">Open API</div></div>
+        <div class="src"><div class="nm">ODRÉ / RTE</div><div class="wt">France's éCO2mix régional and national generation by fuel.</div><div class="ac">Open API</div></div>
+        <div class="src"><div class="nm">netztransparenz</div><div class="wt">German TSOs: curtailed (abgeregelt) renewable energy by period.</div><div class="ac">OAuth client</div></div>
       </div>
-      <p class="lede hint" style="font-size:13px">The non-obvious traps are written down as "landmines" and coded around: the Oct-2025 resolution break, the 23/25-hour DST days, the zones that aren't administrative regions.</p>
-      <div class="takeaway"><span class="tick"></span> Built to fail open, one source at a time.</div>
+      <p class="lede hint" style="font-size:13px">Plus Eurostat GISCO boundaries for the maps, and a few curated, cited tables (the cost stack, the storage series).</p>
     </div>
   </section>
 
-  <!-- 11 TRUST -->
-  <section class="slide" data-tag="TRUST">
+  <!-- 16 DATA MANAGEMENT — how the sources are kept honest -->
+  <section class="slide" data-tag="DATA MANAGEMENT">
     <div class="inner">
-      <div class="eyebrow"><span class="num">11 / 12</span> · <span class="tag">TRUST</span></div>
-      <h2 class="title">The numbers reproduce</h2>
-      <p class="lede">Metric functions are pure and tested offline — DST days, the resolution break, negative prices, data gaps.</p>
-      <div class="stats">
-        <div class="stat"><div class="n">62</div><div class="l">offline tests pass</div></div>
-        <div class="stat"><div class="n">0</div><div class="l"><span class="tip" tabindex="0" data-tip="The map basemaps regenerate byte-for-byte from a committed build script.">drift</span> in map builds</div></div>
-        <div class="stat"><div class="n">05:17 UTC</div><div class="l">daily refresh</div></div>
-        <div class="stat"><div class="n">every figure</div><div class="l">carries a source</div></div>
+      <div class="eyebrow"><span class="num">16 / 17</span> · <span class="tag">DATA MANAGEMENT</span></div>
+      <h2 class="title">How the sources are kept honest</h2>
+      <div class="ledger">
+        <div class="row"><span class="c">Isolation</span><span class="h">Each source is its <b>own pipeline module</b>; one failure can't break the others.</span></div>
+        <div class="row"><span class="c">Fail open</span><span class="h">A missing key writes <b>status:"unavailable"</b>; the view shows "awaiting source," never a crash.</span></div>
+        <div class="row"><span class="c">Landmines</span><span class="h">The non-obvious traps are documented and coded around: the <b>Oct-2025 resolution break</b>, the 23/25-hour DST days, zones that aren't regions.</span></div>
+        <div class="row"><span class="c">Units stated</span><span class="h">MWh vs GWh, gCO₂/kWh, <b>production- vs consumption-based</b> carbon — labelled in code and on screen.</span></div>
+        <div class="row"><span class="c">Tested offline</span><span class="h">Pure metric functions run on inline fixtures: <b>62 tests</b>, no network.</span></div>
       </div>
-      <p class="lede hint" style="font-size:13px">Curated tables (the cost stack, the storage series) carry a range and a citation; they take no side.</p>
-      <div class="takeaway"><span class="tick"></span> Correctness is a feature, kept visible.</div>
+      <div class="takeaway"><span class="tick"></span> Resampled to hourly, grouped in local time, every join written down.</div>
     </div>
   </section>
 
-  <!-- 12 CTA -->
+  <!-- 17 CTA -->
   <section class="slide" data-tag="OPEN IT">
     <div class="inner" style="justify-content:center;gap:18px">
-      <div class="eyebrow"><span class="num">12 / 12</span> · <span class="tag">OPEN IT</span></div>
+      <div class="eyebrow"><span class="num">17 / 17</span> · <span class="tag">OPEN IT</span></div>
       <h2 class="title">Open it. Read the code.</h2>
-      <p class="lede">Everything here is live and public. Explore the views, or read how each number is computed.</p>
+      <p class="lede">Everything here is live and public. Explore the views and stories, or read how each number is computed.</p>
       <div class="cta-links">
         <a class="primary" href="https://sekond.github.io/Wattlas/" target="_blank" rel="noopener">Open the live site →</a>
         <a class="ghost" href="https://github.com/sekond/Wattlas" target="_blank" rel="noopener">Read the code on GitHub</a>
       </div>
-      <div class="takeaway"><span class="tick"></span> European electricity, explained — and verifiable.</div>
+      <div class="takeaway"><span class="tick"></span> European electricity, explained and verifiable.</div>
     </div>
   </section>
 
@@ -377,9 +481,12 @@
     const dotsWrap = document.getElementById("dots");
     const pad = (n) => String(n).padStart(2, "0");
 
-    // dot rail
+    // dot rail + fill each eyebrow's "NN / total" from its position (no hand-numbering)
     slides.forEach((s, i) => {
+      const num = s.querySelector(".eyebrow .num");
+      if (num) num.textContent = pad(i + 1) + " / " + pad(total);
       const b = document.createElement("button");
+      if (s.hasAttribute("data-section")) b.classList.add("sec");
       b.setAttribute("aria-label", "Slide " + (i + 1) + ": " + (s.dataset.tag || ""));
       b.addEventListener("click", () => s.scrollIntoView({ behavior: "smooth" }));
       dotsWrap.appendChild(b);
