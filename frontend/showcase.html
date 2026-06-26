@@ -73,14 +73,15 @@
     display: flex; align-items: center; justify-content: center; text-align: center; padding: 18px;
     font-family: var(--mono); font-size: 11px; color: var(--hint);
     background: repeating-linear-gradient(45deg, var(--surface-2), var(--surface-2) 10px, #ece9e0 10px, #ece9e0 20px); }
-  .phone { flex: 0 0 auto; margin-left: -42px; margin-bottom: 8px; --ph-h: min(34vh, 290px);
-    border: 4px solid #d9d6cd; border-radius: 20px; overflow: hidden; background: #d9d6cd;
-    box-shadow: 0 8px 22px rgba(40,36,20,.14); }
-  .phone .shot { width: calc(var(--ph-h) * 0.46); height: var(--ph-h); border-radius: 14px; }
-  .smalls { display: flex; gap: 10px; justify-content: center; align-items: flex-start; min-width: 0; }
-  .smalls > div { flex: 1 1 0; min-width: 0; max-width: 300px; }
-  .smalls .frame { --shot-h: min(25vh, 178px); width: 100%; }
+  /* two-column scene layout (text + visual) — fills the width, stacks on mobile */
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 4vw, 46px); align-items: center; width: 100%; }
+  .two .col { min-width: 0; display: flex; flex-direction: column; gap: clamp(10px, 1.8vh, 16px); }
+  @media (max-width: 720px) { .two { grid-template-columns: 1fr; gap: 18px; } }
+  .smalls { display: flex; gap: 12px; justify-content: center; align-items: stretch; min-width: 0; }
+  .smalls > div { flex: 1 1 0; min-width: 0; max-width: 360px; }
+  .smalls .frame { --shot-h: min(36vh, 252px); width: 100%; }
   .smalls .frame .shot { width: 100%; }
+  .story-shot { --shot-h: min(40vh, 310px); }    /* scene 5 map: bigger desktop, smaller mobile (below) */
   .cap { font-size: 11px; color: var(--hint); text-align: center; margin-top: 4px; }
 
   /* CSS-only diagrams (no chart lib) */
@@ -129,16 +130,16 @@
 
   /* trilogy cards */
   .tri { display: flex; gap: 12px; flex-wrap: wrap; }
-  .tri .t { flex: 1 1 180px; min-width: 0; border: 0.5px solid var(--border); border-radius: 10px; padding: 12px 14px; background: var(--surface); }
+  .tri .t { flex: 0 0 auto; min-width: 0; border: 0.5px solid var(--border); border-radius: 10px; padding: 11px 14px; background: var(--surface); }
   .tri .t .badge { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--accent); }
   .tri .t .k { font-weight: 600; font-size: 14px; margin: 3px 0 4px; }
   .tri .t .v { font-size: 12px; color: var(--muted); }
 
   @media (max-width: 760px) {
     .dots { display: none; }
-    .phone { display: none; }              /* phone overlay drops on mobile; desktop frame stays */
     .slide { padding: 52px 16px 28px; }
     .ledger .row { grid-template-columns: 1fr; gap: 3px; }
+    .story-shot { --shot-h: min(28vh, 205px); }
   }
 </style>
 </head>
@@ -151,12 +152,17 @@
 
   <!-- 01 HOOK -->
   <section class="slide" data-tag="HOOK">
-    <div class="inner" style="justify-content:center;gap:18px">
+    <div class="inner" style="justify-content:center;gap:clamp(10px,2.2vh,20px);align-items:center;text-align:center">
       <div class="eyebrow"><span class="num">01 / 12</span> · <span class="tag">HOOK</span></div>
       <h1 class="hero">Wattlas</h1>
-      <p class="lede" style="font-size:clamp(15px,2.2vw,22px)">European electricity, explained. Open data on how and when the price of power moves across the continent.</p>
-      <div class="lines"><div><b>Live</b>, static, and rebuilt every day from public sources.</div></div>
-      <div class="takeaway"><span class="tick"></span> A working tool you can open right now, not a pitch.</div>
+      <p class="lede" style="font-size:clamp(15px,2.2vw,21px);margin:0 auto">European electricity, explained. Open data on how and when the price of power moves across the continent, live and rebuilt every day.</p>
+      <div class="stage" style="margin-top:2px">
+        <div class="frame" style="--shot-h:min(42vh,330px)">
+          <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">sekond.github.io/Wattlas</span></div>
+          <div class="shot" data-label="Dashboard"><img alt="Wattlas dashboard" src="public/showcase/dashboard.png" onerror="this.closest('.shot').classList.add('ph')"></div>
+        </div>
+      </div>
+      <div class="takeaway" style="margin-top:0"><span class="tick"></span> A working tool you can open right now, not a pitch.</div>
     </div>
   </section>
 
@@ -164,17 +170,21 @@
   <section class="slide" data-tag="PROBLEM">
     <div class="inner">
       <div class="eyebrow"><span class="num">02 / 12</span> · <span class="tag">PROBLEM</span></div>
-      <h2 class="title">Electricity has no warehouse</h2>
-      <p class="lede">Its price swings hour to hour — cheap when the wind blows, dear when it doesn't. The data is open, but raw: <span class="tip" tabindex="0" data-tip="Every series is timezone-aware; twice a year a day has 23 or 25 hours at the DST switch.">timezone-aware</span>, gap-ridden, and spread across a dozen national APIs.</p>
-      <div class="stage" style="margin:4px 0">
-        <div class="zoom">
-          <div class="lvl"><span class="k">Country / bidding zone</span><span class="v">where most maps stop</span></div>
-          <div class="lvl on"><span class="k">Price zone</span><span class="v">SE1–4, NO1–5, DE-LU…</span></div>
-          <div class="lvl on"><span class="k">Region / Landkreis</span><span class="v">where the physics lives</span></div>
-          <div class="lvl on"><span class="k">Installation</span><span class="v">every wind & solar unit</span></div>
+      <div class="two">
+        <div class="col">
+          <h2 class="title">Electricity has no warehouse</h2>
+          <p class="lede">Its price swings hour to hour: cheap when the wind blows, dear when it doesn't. The data is open, but raw. It is <span class="tip" tabindex="0" data-tip="Every series is timezone-aware; twice a year a day has 23 or 25 hours at the DST switch.">timezone-aware</span>, gap-ridden, and spread across a dozen national APIs. And the well-known maps stop at the country line, where the physics begins.</p>
+          <div class="takeaway"><span class="tick"></span> The signal is public. Reading it honestly is the work.</div>
+        </div>
+        <div class="col">
+          <div class="zoom" style="max-width:none">
+            <div class="lvl"><span class="k">Country / bidding zone</span><span class="v">where most maps stop</span></div>
+            <div class="lvl on"><span class="k">Price zone</span><span class="v">SE1–4, NO1–5, DE-LU…</span></div>
+            <div class="lvl on"><span class="k">Region / Landkreis</span><span class="v">where the physics lives</span></div>
+            <div class="lvl on"><span class="k">Installation</span><span class="v">every wind & solar unit</span></div>
+          </div>
         </div>
       </div>
-      <div class="takeaway"><span class="tick"></span> The signal is public. Reading it honestly is the work.</div>
     </div>
   </section>
 
@@ -182,18 +192,15 @@
   <section class="slide" data-tag="PRODUCT">
     <div class="inner">
       <div class="eyebrow"><span class="num">03 / 12</span> · <span class="tag">PRODUCT</span></div>
-      <h2 class="title">One place to read European power</h2>
-      <p class="lede">Wattlas turns that open data into explorable views. <strong>Eight core views</strong> unify on one dashboard; <strong>seven deep dives</strong> go further, below the bidding-zone line.</p>
+      <h2 class="title">Compare countries, refine the picture</h2>
+      <p class="lede">Wattlas unifies <strong>eight core views</strong> on one dashboard; <strong>seven deep dives</strong> go further. Add up to <strong>six bidding zones</strong> and every panel re-computes, comparing them side by side. Here Germany sits against France, the Netherlands and Austria.</p>
       <div class="stage">
-        <div class="frame">
+        <div class="frame" style="--shot-h:min(45vh,370px)">
           <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">sekond.github.io/Wattlas</span></div>
-          <div class="shot" data-label="Dashboard"><img alt="Wattlas dashboard" src="public/showcase/dashboard.png" onerror="this.closest('.shot').classList.add('ph')"></div>
-        </div>
-        <div class="phone">
-          <div class="shot" data-label="Mobile"><img alt="Wattlas on mobile" src="public/showcase/dashboard-m.png" onerror="this.closest('.shot').classList.add('ph')"></div>
+          <div class="shot" data-label="Dashboard"><img alt="Wattlas dashboard comparing four bidding zones" src="public/showcase/dashboard-multi.png" onerror="this.closest('.shot').classList.add('ph')"></div>
         </div>
       </div>
-      <div class="takeaway"><span class="tick"></span> Pick a zone, choose a window, and every panel snaps to it.</div>
+      <div class="takeaway"><span class="tick"></span> One curve per zone, side by side: the comparison is the tool.</div>
     </div>
   </section>
 
@@ -204,11 +211,10 @@
       <h2 class="title">One view, one clear question</h2>
       <p class="lede">The <strong>Spread</strong> view measures the daily gap between the cheapest and dearest hour — about <span class="tip" tabindex="0" data-tip="Average daily Top-Bottom spread (TB1) over the last 12 months of DE-LU day-ahead prices.">€125/MWh</span> on average. Negative-price days are flagged; the battery-arbitrage figure is labelled an upper bound, not a promise.</p>
       <div class="stage">
-        <div class="frame">
+        <div class="frame" style="--shot-h:min(47vh,388px)">
           <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">/Wattlas/frontend/index.html</span></div>
           <div class="shot" data-label="Spread"><img alt="Spread view" src="public/showcase/spread.png" onerror="this.closest('.shot').classList.add('ph')"></div>
         </div>
-        <div class="phone"><div class="shot" data-label="Spread (mobile)"><img alt="Spread on mobile" src="public/showcase/spread-m.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
       </div>
       <div class="takeaway"><span class="tick"></span> A number you can act on, with its limits in plain sight.</div>
     </div>
@@ -218,20 +224,24 @@
   <section class="slide" data-tag="PROOF · STORIES">
     <div class="inner">
       <div class="eyebrow"><span class="num">05 / 12</span> · <span class="tag">PROOF · STORIES</span></div>
-      <h2 class="title">Three countries, one congested grid</h2>
-      <p class="lede">Renewable-rich regions a congested grid can't fully serve. Three market designs, shown side by side and cross-linked.</p>
-      <div class="tri">
-        <div class="t"><span class="badge">DE</span><div class="k">Germany</div><div class="v">One price; curtails northern wind it can't ship south.</div></div>
-        <div class="t"><span class="badge">NORDICS</span><div class="k">Split the zone</div><div class="v">A dozen price zones — a cheap hydro north, a dearer south.</div></div>
-        <div class="t"><span class="badge">GB</span><div class="k">Pay it down</div><div class="v">One price; pays Scottish wind to switch off (~£2bn/yr).</div></div>
-      </div>
-      <div class="stage" style="margin-top:2px">
-        <div class="frame" style="--shot-h:min(23vh,160px)">
-          <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">/frontend/nordic_zones.html</span></div>
-          <div class="shot" data-label="Nordic price zones"><img alt="Nordic price zones map" src="public/showcase/nordic.png" onerror="this.closest('.shot').classList.add('ph')"></div>
+      <div class="two">
+        <div class="col">
+          <h2 class="title">Three countries, one congested grid</h2>
+          <p class="lede">Renewable-rich regions a congested grid can't fully serve. Three market designs, side by side and cross-linked.</p>
+          <div class="tri" style="flex-direction:column;gap:9px">
+            <div class="t"><span class="badge">DE</span><div class="k">Germany</div><div class="v">One price; curtails northern wind it can't ship south.</div></div>
+            <div class="t"><span class="badge">NORDICS</span><div class="k">Split the zone</div><div class="v">A dozen price zones: a cheap hydro north, a dearer south.</div></div>
+            <div class="t"><span class="badge">GB</span><div class="k">Pay it down</div><div class="v">One price; pays Scottish wind to switch off (~£2bn/yr).</div></div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="frame story-shot">
+            <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">/frontend/nordic_zones.html</span></div>
+            <div class="shot" data-label="Nordic price zones"><img alt="Nordic price zones map" src="public/showcase/nordic.png" onerror="this.closest('.shot').classList.add('ph')"></div>
+          </div>
+          <div class="takeaway" style="margin-top:14px"><span class="tick"></span> Same physics, three answers, shown together.</div>
         </div>
       </div>
-      <div class="takeaway"><span class="tick"></span> Same physics, three answers — the comparison is the point.</div>
     </div>
   </section>
 
