@@ -80,17 +80,18 @@
   .two .col { min-width: 0; display: flex; flex-direction: column; gap: clamp(10px, 1.8vh, 16px); }
   @media (max-width: 720px) { .two { grid-template-columns: 1fr; gap: 16px; } }
 
-  /* two-up catalogue — two views or two stories per page, each a screenshot + problem + purpose */
-  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 3.4vw, 38px); width: 100%; align-items: start; }
-  .item { min-width: 0; display: flex; flex-direction: column; gap: 7px; }
-  .item .frame { width: 100%; --shot-h: min(31vh, 234px); }
-  .item .frame .shot { width: 100%; }
-  .item-h { display: flex; align-items: baseline; gap: 8px; margin-top: 3px; }
-  .item-h .n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--accent); flex: none; }
-  .item-h h3 { margin: 0; font-size: clamp(15px, 1.9vw, 19px); font-weight: 600; letter-spacing: -.01em; }
+  /* one item per page — a feature: a big screenshot beside its question + answer */
+  .feat .frame { width: 100%; --shot-h: min(52vh, 416px); }
+  .feat .frame .shot { width: 100%; }
+  .feat .q { font-size: clamp(15px, 2vw, 21px); margin-bottom: 1px; }
+  .feat .d { font-size: clamp(12.5px, 1.5vw, 15px); }
+  .feat.flip { direction: rtl; }                 /* alternate the screenshot's side on desktop */
+  .feat.flip > .col { direction: ltr; }
+  @media (max-width: 720px) { .feat.flip { direction: ltr; } }   /* on mobile, keep source order */
   /* question-led micro-pitch: the question the view answers, then what you see */
   .q { font-size: clamp(12.5px, 1.55vw, 14.5px); color: var(--text); font-style: italic; line-height: 1.4; }
   .d { font-size: clamp(11.5px, 1.35vw, 13px); color: var(--muted); line-height: 1.46; }
+  .eyebadge { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--accent); }
 
   /* slide 7 — each story, briefly introduced */
   .storylist { display: flex; flex-direction: column; gap: 0; width: 100%; max-width: 840px; }
@@ -150,7 +151,7 @@
 </head>
 <body class="deck">
 <div class="progress"><i id="pbar"></i></div>
-<div class="counter" id="counter">01 / 17</div>
+<div class="counter" id="counter">01 / 24</div>
 <nav class="dots" id="dots" aria-label="Go to slide"></nav>
 
 <main id="deck">
@@ -187,86 +188,122 @@
     </div>
   </section>
 
-  <!-- 03 VIEWS · Pulse + Spread -->
-  <section class="slide" data-tag="DASHBOARD VIEWS">
+  <!-- VIEW 1 · Pulse -->
+  <section class="slide" data-tag="DASHBOARD VIEW">
     <div class="inner">
-      <div class="eyebrow"><span class="num">03 / 17</span> · <span class="tag">DASHBOARD VIEWS · 1–2 OF 8</span></div>
-      <div class="pair">
-        <div class="item">
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">pulse.html</span></div><div class="shot" data-label="Pulse"><img alt="Pulse view" src="public/showcase/pulse.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="item-h"><span class="n">1</span><h3>Pulse</h3></div>
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">DASHBOARD VIEW · 1 OF 8</span></div>
+      <div class="two feat">
+        <div class="col">
+          <h2 class="title">Pulse</h2>
           <div class="q">When is power cheapest, and when does it cost the most?</div>
           <div class="d">Average day-ahead price by hour, weekday against weekend — the duck curve.</div>
         </div>
-        <div class="item">
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">index.html</span></div><div class="shot" data-label="Spread"><img alt="Spread view" src="public/showcase/spread.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="item-h"><span class="n">2</span><h3>Spread</h3></div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">pulse.html</span></div><div class="shot" data-label="Pulse"><img alt="Pulse view" src="public/showcase/pulse.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW 2 · Spread -->
+  <section class="slide" data-tag="DASHBOARD VIEW">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">DASHBOARD VIEW · 2 OF 8</span></div>
+      <div class="two feat flip">
+        <div class="col">
+          <h2 class="title">Spread</h2>
           <div class="q">How wide is the gap between the cheapest and dearest hour each day?</div>
           <div class="d">The daily spread (~€125/MWh on average), negative-price days flagged, an upper-bound arbitrage figure.</div>
         </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">index.html</span></div><div class="shot" data-label="Spread"><img alt="Spread view" src="public/showcase/spread.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- 04 VIEWS · Mix + Mismatch -->
-  <section class="slide" data-tag="DASHBOARD VIEWS">
+  <!-- VIEW 3 · Mix -->
+  <section class="slide" data-tag="DASHBOARD VIEW">
     <div class="inner">
-      <div class="eyebrow"><span class="num">04 / 17</span> · <span class="tag">DASHBOARD VIEWS · 3–4 OF 8</span></div>
-      <div class="pair">
-        <div class="item">
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">mix.html</span></div><div class="shot" data-label="Mix"><img alt="Mix view" src="public/showcase/mix.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="item-h"><span class="n">3</span><h3>Mix</h3></div>
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">DASHBOARD VIEW · 3 OF 8</span></div>
+      <div class="two feat">
+        <div class="col">
+          <h2 class="title">Mix</h2>
           <div class="q">What actually generates the power, and how do countries differ?</div>
           <div class="d">Generation by fuel, two zones side by side — French nuclear against German wind and solar.</div>
         </div>
-        <div class="item">
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">mismatch.html</span></div><div class="shot" data-label="Mismatch"><img alt="Mismatch view" src="public/showcase/mismatch.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="item-h"><span class="n">4</span><h3>Mismatch</h3></div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">mix.html</span></div><div class="shot" data-label="Mix"><img alt="Mix view" src="public/showcase/mix.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW 4 · Mismatch -->
+  <section class="slide" data-tag="DASHBOARD VIEW">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">DASHBOARD VIEW · 4 OF 8</span></div>
+      <div class="two feat flip">
+        <div class="col">
+          <h2 class="title">Mismatch</h2>
           <div class="q">How much load is left once wind and solar have run?</div>
           <div class="d">Residual load by hour, per zone — what dispatchable plant still has to cover.</div>
         </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">mismatch.html</span></div><div class="shot" data-label="Mismatch"><img alt="Mismatch view" src="public/showcase/mismatch.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- 05 VIEWS · Divergence + Carbon -->
-  <section class="slide" data-tag="DASHBOARD VIEWS">
+  <!-- VIEW 5 · Divergence -->
+  <section class="slide" data-tag="DASHBOARD VIEW">
     <div class="inner">
-      <div class="eyebrow"><span class="num">05 / 17</span> · <span class="tag">DASHBOARD VIEWS · 5–6 OF 8</span></div>
-      <div class="pair">
-        <div class="item">
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">divergence.html</span></div><div class="shot" data-label="Divergence"><img alt="Divergence view" src="public/showcase/divergence.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="item-h"><span class="n">5</span><h3>Divergence</h3></div>
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">DASHBOARD VIEW · 5 OF 8</span></div>
+      <div class="two feat">
+        <div class="col">
+          <h2 class="title">Divergence</h2>
           <div class="q">How far do neighbouring zones' prices drift apart, and why?</div>
           <div class="d">Monthly price gaps alongside the physical cross-border flow, with congestion flagged.</div>
         </div>
-        <div class="item">
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">dashboard · Carbon</span></div><div class="shot" data-label="Carbon"><img alt="Carbon view" src="public/showcase/carbon.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="item-h"><span class="n">6</span><h3>Carbon</h3></div>
-          <div class="q">How clean is each hour of the grid?</div>
-          <div class="d">Production-based carbon intensity from the mix — low when renewables peak, high on coal-heavy hours.</div>
-        </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">divergence.html</span></div><div class="shot" data-label="Divergence"><img alt="Divergence view" src="public/showcase/divergence.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- 06 VIEWS · Curtailment + History -->
-  <section class="slide" data-tag="DASHBOARD VIEWS">
+  <!-- VIEW 6 · Carbon -->
+  <section class="slide" data-tag="DASHBOARD VIEW">
     <div class="inner">
-      <div class="eyebrow"><span class="num">06 / 17</span> · <span class="tag">DASHBOARD VIEWS · 7–8 OF 8</span></div>
-      <div class="pair">
-        <div class="item">
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">curtailment.html</span></div><div class="shot" data-label="Curtailment"><img alt="Curtailment view" src="public/showcase/curtailment.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="item-h"><span class="n">7</span><h3>Curtailment</h3></div>
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">DASHBOARD VIEW · 6 OF 8</span></div>
+      <div class="two feat flip">
+        <div class="col">
+          <h2 class="title">Carbon</h2>
+          <div class="q">How clean is each hour of the grid?</div>
+          <div class="d">Production-based carbon intensity from the mix — low when renewables peak, high on coal-heavy hours.</div>
+        </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">dashboard · Carbon</span></div><div class="shot" data-label="Carbon"><img alt="Carbon view" src="public/showcase/carbon.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW 7 · Curtailment -->
+  <section class="slide" data-tag="DASHBOARD VIEW">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">DASHBOARD VIEW · 7 OF 8</span></div>
+      <div class="two feat">
+        <div class="col">
+          <h2 class="title">Curtailment</h2>
           <div class="q">How much clean power does the grid throw away?</div>
           <div class="d">Curtailed renewable energy the grid couldn't move; fails open to "awaiting source" if the feed is down.</div>
         </div>
-        <div class="item">
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">history.html</span></div><div class="shot" data-label="History"><img alt="History view" src="public/showcase/history.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="item-h"><span class="n">8</span><h3>History</h3></div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">curtailment.html</span></div><div class="shot" data-label="Curtailment"><img alt="Curtailment view" src="public/showcase/curtailment.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW 8 · History -->
+  <section class="slide" data-tag="DASHBOARD VIEW">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">DASHBOARD VIEW · 8 OF 8</span></div>
+      <div class="two feat flip">
+        <div class="col">
+          <h2 class="title">History</h2>
           <div class="q">Is the daily spread widening over the years?</div>
           <div class="d">Multi-year daily spread, zoomable, with the longer-run trend in view.</div>
         </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">history.html</span></div><div class="shot" data-label="History"><img alt="History view" src="public/showcase/history.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
       </div>
     </div>
   </section>
@@ -290,86 +327,107 @@
     </div>
   </section>
 
-  <!-- 08 STORIES · Germany North-South + France Nuclear -->
+  <!-- STORY 1 · Germany North-South -->
   <section class="slide" data-tag="STORIES">
     <div class="inner">
-      <div class="eyebrow"><span class="num">08 / 17</span> · <span class="tag">STORIES · 1–2 OF 7</span></div>
-      <div class="pair">
-        <div class="item">
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">wasted_wind.html</span></div><div class="shot" data-label="Germany North-South"><img alt="Germany North-South grid story" src="public/showcase/wasted_wind.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="item-h"><span class="n">DE</span><h3>Germany North-South</h3></div>
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">STORY · 1 OF 7</span></div>
+      <div class="two feat">
+        <div class="col">
+          <h2 class="title">Germany North-South</h2>
           <div class="q">Why is northern wind stranded from the demand down south?</div>
           <div class="d">A Landkreis capacity map, the control-area balance, and the single-zone debate.</div>
         </div>
-        <div class="item">
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">fr_nuclear.html</span></div><div class="shot" data-label="France Nuclear"><img alt="France nuclear story" src="public/showcase/fr_nuclear.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="item-h"><span class="n">FR</span><h3>France Nuclear</h3></div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">wasted_wind.html</span></div><div class="shot" data-label="Germany North-South"><img alt="Germany North-South grid story" src="public/showcase/wasted_wind.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY 2 · France Nuclear -->
+  <section class="slide" data-tag="STORIES">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">STORY · 2 OF 7</span></div>
+      <div class="two feat flip">
+        <div class="col">
+          <h2 class="title">France Nuclear</h2>
           <div class="q">Where does France's centralised fleet sit, and when does it dip?</div>
           <div class="d">A région map of hosted nuclear, the seasonal availability dip, and the real cost.</div>
         </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">fr_nuclear.html</span></div><div class="shot" data-label="France Nuclear"><img alt="France nuclear story" src="public/showcase/fr_nuclear.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- 09 STORIES · Nordic + UK Regional -->
+  <!-- STORY 3 · Nordic Price Zones -->
   <section class="slide" data-tag="STORIES">
     <div class="inner">
-      <div class="eyebrow"><span class="num">09 / 17</span> · <span class="tag">STORIES · 3–4 OF 7</span></div>
-      <div class="pair">
-        <div class="item">
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">nordic_zones.html</span></div><div class="shot" data-label="Nordic Price Zones"><img alt="Nordic price zones story" src="public/showcase/nordic.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="item-h"><span class="n">NZ</span><h3>Nordic Price Zones</h3></div>
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">STORY · 3 OF 7</span></div>
+      <div class="two feat">
+        <div class="col">
+          <h2 class="title">Nordic Price Zones</h2>
           <div class="q">What does the split-zone market Germany debates actually look like?</div>
           <div class="d">Twelve zones shaded by price, the within-country divergence, the lesson for Germany.</div>
         </div>
-        <div class="item">
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">uk_regional.html</span></div><div class="shot" data-label="UK Regional Carbon"><img alt="UK regional carbon story" src="public/showcase/uk_regional.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="item-h"><span class="n">UK</span><h3>UK Regional Carbon</h3></div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">nordic_zones.html</span></div><div class="shot" data-label="Nordic Price Zones"><img alt="Nordic price zones story" src="public/showcase/nordic.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY 4 · UK Regional Carbon -->
+  <section class="slide" data-tag="STORIES">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">STORY · 4 OF 7</span></div>
+      <div class="two feat flip">
+        <div class="col">
+          <h2 class="title">UK Regional Carbon</h2>
           <div class="q">What does stranding Scotland's wind actually cost?</div>
           <div class="d">Fourteen regions by carbon intensity, and the ~£2bn/yr in wind constraint payments.</div>
         </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">uk_regional.html</span></div><div class="shot" data-label="UK Regional Carbon"><img alt="UK regional carbon story" src="public/showcase/uk_regional.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- 10 STORIES · Dunkelflaute + Storage -->
+  <!-- STORY 5 · Dunkelflaute -->
   <section class="slide" data-tag="STORIES">
     <div class="inner">
-      <div class="eyebrow"><span class="num">10 / 17</span> · <span class="tag">STORIES · 5–6 OF 7</span></div>
-      <div class="pair">
-        <div class="item">
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">dunkelflaute.html</span></div><div class="shot" data-label="Dunkelflaute"><img alt="Dunkelflaute story" src="public/showcase/dunkelflaute.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="item-h"><span class="n">DF</span><h3>Dunkelflaute</h3></div>
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">STORY · 5 OF 7</span></div>
+      <div class="two feat">
+        <div class="col">
+          <h2 class="title">Dunkelflaute</h2>
           <div class="q">What happens when wind and solar vanish for days at a time?</div>
           <div class="d">Auto-detects the worst spell, then shows the backup stack and the price spike it forces.</div>
         </div>
-        <div class="item">
-          <div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">storage.html</span></div><div class="shot" data-label="Storage"><img alt="Storage story" src="public/showcase/storage.png" onerror="this.closest('.shot').classList.add('ph')"></div></div>
-          <div class="item-h"><span class="n">ST</span><h3>Storage</h3></div>
-          <div class="q">Can a battery earn off the daily price swing?</div>
-          <div class="d">A transparent model, labelled an upper bound, and where storage is actually being built.</div>
-        </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">dunkelflaute.html</span></div><div class="shot" data-label="Dunkelflaute"><img alt="Dunkelflaute story" src="public/showcase/dunkelflaute.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- 11 STORIES · Iberian Blackout (the seventh, featured) -->
+  <!-- STORY 6 · Storage -->
   <section class="slide" data-tag="STORIES">
     <div class="inner">
-      <div class="eyebrow"><span class="num">11 / 17</span> · <span class="tag">STORIES · 7 OF 7</span></div>
-      <div class="two">
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">STORY · 6 OF 7</span></div>
+      <div class="two feat flip">
+        <div class="col">
+          <h2 class="title">Storage</h2>
+          <div class="q">Can a battery earn off the daily price swing?</div>
+          <div class="d">A transparent model, labelled an upper bound, and where storage is actually being built.</div>
+        </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">storage.html</span></div><div class="shot" data-label="Storage"><img alt="Storage story" src="public/showcase/storage.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY 7 · Iberian Blackout -->
+  <section class="slide" data-tag="STORIES">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">STORY · 7 OF 7</span></div>
+      <div class="two feat">
         <div class="col">
           <h2 class="title">Iberian Blackout</h2>
-          <div class="q" style="font-size:clamp(13.5px,1.7vw,16px)">How does a national grid go dark within seconds, and come back?</div>
-          <div class="d" style="font-size:clamp(12.5px,1.5vw,14px)">28 April 2025: the story replays the load collapse and the sourced restoration, hour by hour. It cites the official cause and asserts none of its own.</div>
-          <div class="takeaway"><span class="tick"></span> A post-mortem that quotes the report instead of guessing.</div>
+          <div class="q">How does a national grid go dark within seconds, and come back?</div>
+          <div class="d">28 April 2025: replays the load collapse and the sourced restoration, hour by hour. It cites the official cause and asserts none of its own.</div>
         </div>
-        <div class="col">
-          <div class="frame" style="--shot-h:min(42vh,326px)">
-            <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">iberian_blackout.html</span></div>
-            <div class="shot" data-label="Iberian Blackout"><img alt="Iberian blackout story" src="public/showcase/iberian.png" onerror="this.closest('.shot').classList.add('ph')"></div>
-          </div>
-        </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">iberian_blackout.html</span></div><div class="shot" data-label="Iberian Blackout"><img alt="Iberian blackout story" src="public/showcase/iberian.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
       </div>
     </div>
   </section>
