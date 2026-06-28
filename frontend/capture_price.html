@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Capture price</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell"><main class="main">
+  <div class="wrap">
+    <h1>What a megawatt-hour of solar is actually worth</h1>
+    <p class="sub">As more solar floods the same midday hours, each one earns less. The <strong>capture price</strong> is the average price solar actually receives, generation-weighted. Divided by the baseload price, that's the <strong>value factor</strong> — and it's falling.</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 24px;"></div>
+
+    <div id="zoneBar" class="legend" style="margin-bottom:18px;"></div>
+
+    <div id="kpis" class="kpis"></div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">The value factor, falling</div>
+        <div class="meta" id="vfMeta"></div>
+      </div>
+      <canvas id="vfChart" height="120"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:#e3a82a"></span>Solar</span>
+        <span><span class="swatch" style="background:#2f7d78"></span>Wind</span>
+        <span><span class="swatch" style="background:#b8b6ae"></span>Value factor = 1.0</span>
+      </div>
+      <div class="meta" style="margin-top:8px;">Capture price ÷ baseload, monthly. Generation and price are resampled to one canonical hourly resolution before weighting (Germany switched to quarter-hourly settlement in Oct 2025). Anchors — DE solar capture ~50–60% of baseload, ~16% of solar at negative prices, 573 negative hours — are cited 2025 context, not computed here.</div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">Capture vs baseload, by zone</div>
+        <div class="meta">€/MWh</div>
+      </div>
+      <canvas id="cbChart" height="120"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:#e3a82a"></span>Solar capture</span>
+        <span><span class="swatch" style="background:#2f7d78"></span>Wind capture</span>
+        <span><span class="swatch" style="background:#d9d6cd"></span>Baseload</span>
+      </div>
+      <div class="meta" style="margin-top:8px;">Capture = generation-weighted mean price for that fuel; baseload = time-weighted mean. Negative prices are kept, not clipped — they are the point. €/MWh.</div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">The share earning nothing</div>
+        <div class="meta" id="ngMeta"></div>
+      </div>
+      <canvas id="ngChart" height="120"></canvas>
+      <div class="meta" style="margin-top:8px;">% of solar generation in negative-price hours.</div>
+    </div>
+
+    <div id="status" class="loading">Loading data…</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="util.js"></script>
+  <script>
+    const AMBER = "#e3a82a", TEAL = "#2f7d78", GREY = "#d9d6cd", REF = "#b8b6ae", NEGCOL = "#cf7a5a";
+    async function loadJSON(name) {
+      const candidates = ["../data/" + name, "data/" + name, "/data/" + name];
+      for (const path of candidates) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) { /* try next */ }
+      }
+      throw new Error("could not load " + name);
+    }
+    const zoneLabel = (z) => z.replace(/_/g, "-");
+    const monthShort = (m) => {
+      // m is "YYYY-MM"; return short month label
+      const parts = String(m).split("-");
+      if (parts.length < 2) return String(m);
+      const names = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      return names[parseInt(parts[1], 10) - 1] || m;
+    };
+
+    let DATA = null, CURRENT = null, vfChart = null;
+
+    function renderZoneBar(zones, current) {
+      const bar = document.getElementById("zoneBar");
+      bar.innerHTML = zones.map(z =>
+        `<button data-zone="${z}" class="swatch-btn" style="font:inherit;font-size:12px;cursor:pointer;padding:4px 12px;border-radius:8px;border:0.5px solid rgba(0,0,0,.18);background:${z===current?'#2b2a27':'#fff'};color:${z===current?'#faf9f5':'#2b2a27'}">${zoneLabel(z)}</button>`
+      ).join("");
+      bar.querySelectorAll("button").forEach(b =>
+        b.onclick = () => { CURRENT = b.dataset.zone; renderZone(); });
+    }
+
+    function renderKPIs(zd) {
+      const solar = zd.solar || {}, wind = zd.wind || {};
+      const items = [
+        { label: "Solar value factor", val: solar.value_factor != null ? solar.value_factor.toFixed(2) : "—", cls: "neg" },
+        { label: "Wind value factor", val: wind.value_factor != null ? wind.value_factor.toFixed(2) : "—" },
+        { label: "Solar at neg. prices", val: solar.neg_gen_share != null ? Math.round(solar.neg_gen_share) + "%" : "—", cls: "neg" },
+        { label: "Solar capture", val: solar.capture != null ? "€" + Math.round(solar.capture) + "/MWh" : "—", cls: "neg" },
+      ];
+      document.getElementById("kpis").innerHTML = items.map(i =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
+    }
+
+    function renderVF(zd) {
+      const solarM = (zd.solar && zd.solar.monthly) || [];
+      const windM = (zd.wind && zd.wind.monthly) || [];
+      const labels = solarM.map(r => monthShort(r.month));
+      const one = labels.map(() => 1);
+      if (vfChart) vfChart.destroy();
+      vfChart = new Chart(document.getElementById("vfChart"), {
+        data: { labels, datasets: [
+          { type: "line", label: "Solar", data: solarM.map(r => r.value_factor), borderColor: AMBER,
+            backgroundColor: "rgba(227,168,42,0.10)", borderWidth: 2, tension: 0.3, pointRadius: 0, fill: true, spanGaps: true },
+          { type: "line", label: "Wind", data: windM.map(r => r.value_factor), borderColor: TEAL,
+            backgroundColor: "transparent", borderWidth: 2, tension: 0.3, pointRadius: 0, spanGaps: true },
+          { type: "line", label: "1.0", data: one, borderColor: REF, borderWidth: 1, borderDash: [4,4], pointRadius: 0 },
+        ]},
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.parsed.y == null ? "n/a" : c.parsed.y.toFixed(2)}` } } },
+          scales: { x: { grid: { display: false }, ticks: { color: "#888780", font: { size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 12 } },
+            y: { ticks: { color: "#888780", font: { size: 10 } }, grid: { color: "rgba(0,0,0,0.05)" }, title: { display: true, text: "value factor", font: { size: 11 } } } } },
+      });
+      document.getElementById("vfMeta").textContent = "capture ÷ baseload · " + zoneLabel(CURRENT);
+    }
+
+    function renderNeg(zd) {
+      const solarM = (zd.solar && zd.solar.monthly) || [];
+      const labels = solarM.map(r => monthShort(r.month));
+      new Chart(document.getElementById("ngChart"), {
+        type: "bar",
+        data: { labels, datasets: [{ data: solarM.map(r => r.neg_gen_share), backgroundColor: NEGCOL, borderRadius: 2 }] },
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${c.parsed.y == null ? "n/a" : Math.round(c.parsed.y)}% of solar gen` } } },
+          scales: { x: { grid: { display: false }, ticks: { color: "#888780", font: { size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 12 } },
+            y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => v + "%" }, grid: { color: "rgba(0,0,0,0.05)" } } } },
+      });
+    }
+
+    // Zone-by-zone bar uses ALL available zones (not the selected one).
+    function renderCapByZone() {
+      const zones = DATA.zones_available;
+      const labels = zones.map(zoneLabel);
+      const get = (z, g, k) => DATA.zones[z] && DATA.zones[z][g] ? DATA.zones[z][g][k] : null;
+      new Chart(document.getElementById("cbChart"), {
+        type: "bar",
+        data: { labels, datasets: [
+          { label: "Solar capture", data: zones.map(z => get(z, "solar", "capture")), backgroundColor: AMBER, borderRadius: 3 },
+          { label: "Wind capture", data: zones.map(z => get(z, "wind", "capture")), backgroundColor: TEAL, borderRadius: 3 },
+          { label: "Baseload", data: zones.map(z => get(z, "solar", "baseload")), backgroundColor: GREY, borderRadius: 3 },
+        ]},
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.parsed.y == null ? "n/a" : "€" + Math.round(c.parsed.y)}/MWh` } } },
+          scales: { x: { grid: { display: false }, ticks: { color: "#888780", font: { size: 11 } } },
+            y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => "€" + Math.round(v) }, grid: { color: "rgba(0,0,0,0.05)" }, title: { display: true, text: "€/MWh", font: { size: 11 } } } } },
+      });
+    }
+
+    function renderZone() {
+      const zd = DATA.zones[CURRENT] || {};
+      renderZoneBar(DATA.zones_available, CURRENT);
+      renderKPIs(zd);
+      renderVF(zd);
+      renderNeg(zd);
+      const sm = (zd.solar && zd.solar.monthly) || [];
+      document.getElementById("ngMeta").textContent = sm.length ? "% of solar generation in negative-price hours" : "";
+    }
+
+    (async function main() {
+      const status = document.getElementById("status");
+      let data = null;
+      try { data = await loadJSON("capture_price.json"); } catch (e) { /* handled below */ }
+      if (!data) {
+        status.textContent = "Could not load data. Run `python pipeline/build_capture_price.py` first, then serve the folder.";
+        return;
+      }
+      DATA = data;
+      CURRENT = data.zone_default || (data.zones_available && data.zones_available[0]);
+      // Period note: first/last monthly month of the default zone's solar series.
+      const refZone = data.zones[CURRENT] || {};
+      const sm = (refZone.solar && refZone.solar.monthly) || [];
+      if (sm.length) {
+        document.getElementById("periodNote").textContent =
+          `Monthly data from ${sm[0].month} to ${sm[sm.length - 1].month}` +
+          (data.context_note ? " · anchors cited from 2025 context" : "");
+      } else if (data.context_note) {
+        document.getElementById("periodNote").textContent = data.context_note;
+      }
+      renderCapByZone();
+      renderZone();
+      status.style.display = "none";
+    })();
+  </script>
+  <script src="nav.js"></script>
+  </main></div>
+</body>
+</html>
