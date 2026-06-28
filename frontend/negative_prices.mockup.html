@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wattlas — Negative prices (mockup)</title>
+<style>
+  body{margin:0;background:#faf9f5;color:#2b2a27;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+  .ww-wrap{max-width:960px;margin:0 auto;padding:24px 18px 56px}
+  .ww-frame{background:#faf9f5;color:#2b2a27;border:0.5px solid rgba(0,0,0,.18);border-radius:14px;overflow:hidden}
+  .ww-bbar{display:flex;gap:6px;align-items:center;padding:9px 14px;background:#f1efe8;border-bottom:0.5px solid rgba(0,0,0,.12)}
+  .ww-dot{width:10px;height:10px;border-radius:50%}
+  .ww-url{margin-left:10px;font-size:12px;color:#5f5e5a;background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:6px;padding:3px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ww-page{padding:18px 20px 24px}
+  .ww-nav{display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,.12);padding-bottom:9px;margin-bottom:15px;flex-wrap:wrap;gap:8px}
+  .ww-brand{font-size:15px;font-weight:500}
+  .ww-brand small{color:#888780;font-weight:400;margin-left:6px;font-size:12px}
+  .ww-links{display:flex;gap:13px;font-size:12px;color:#5f5e5a;flex-wrap:wrap}
+  .ww-links .on{color:#2b2a27;font-weight:500;border-bottom:2px solid #2b2a27;padding-bottom:6px}
+  .ww-banner{background:#fff7e0;border:0.5px solid #e7cf86;border-left:3px solid #b8860b;border-radius:8px;padding:9px 13px;font-size:12px;color:#6b520a;margin-bottom:15px}
+  .ww-h1{font-size:21px;font-weight:500;margin:0 0 4px}
+  .ww-sub{color:#5f5e5a;font-size:13px;margin:0 0 17px;max-width:74ch}
+  .ww-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:19px}
+  .ww-kpi{background:#f1efe8;border-radius:8px;padding:12px 13px}
+  .ww-kpi .l{font-size:12px;color:#5f5e5a;margin-bottom:5px}
+  .ww-kpi .v{font-size:22px;font-weight:500}
+  .ww-kpi .v.neg{color:#a32d2d}
+  .ww-card{background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:12px;padding:15px 17px;margin-bottom:15px}
+  .ww-ch{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;gap:10px;flex-wrap:wrap}
+  .ww-ct{font-size:15px;font-weight:500}
+  .ww-cm{font-size:12px;color:#888780}
+  .ww-pitch{font-size:12px;color:#5f5e5a;margin:0 0 12px;max-width:82ch}
+  .ww-seg{display:inline-flex;border:0.5px solid rgba(0,0,0,.18);border-radius:8px;overflow:hidden}
+  .ww-seg button{font:inherit;font-size:12px;padding:5px 13px;border:none;background:#fff;color:#2b2a27;cursor:pointer}
+  .ww-seg button.on{background:#2b2a27;color:#faf9f5}
+  .ww-legend{font-size:11px;color:#5f5e5a;margin-top:10px;display:flex;gap:13px;flex-wrap:wrap;align-items:center}
+  .ww-sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}
+  .ww-cap{font-size:11px;color:#888780;margin:9px 0 0;max-width:82ch}
+  .ww-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  @media(max-width:620px){.ww-kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="ww-wrap">
+<h2 class="ww-sr">Mockup of the Wattlas Negative-prices page: hours when wholesale electricity costs less than nothing because there is too much wind and solar for the demand. A year-long calendar heatmap of negative hours per day, a breakdown of how long each negative-price episode lasts, and which months go negative. Negative-price hours are real (Wattlas Spread); the calendar and episode breakdowns are illustrative placeholders.</h2>
+
+<div class="ww-frame">
+  <div class="ww-bbar"><span class="ww-dot" style="background:#e2655a"></span><span class="ww-dot" style="background:#e6b54a"></span><span class="ww-dot" style="background:#6fae5f"></span><span class="ww-url">sekond.github.io/Wattlas/frontend/negative_prices.html</span></div>
+  <div class="ww-page">
+
+    <div class="ww-nav">
+      <div class="ww-brand">Wattlas <small>European electricity, explained</small></div>
+      <div class="ww-links"><span>Dashboard</span><span>Spread</span><span>Mix</span><span>Carbon</span><span>Curtailment</span><span class="on">Negative prices</span></div>
+    </div>
+
+    <div class="ww-banner"><span style="font-weight:500">Mockup</span> — layout and story preview. Negative-price hours are real (Wattlas Spread); the calendar and episode breakdowns are illustrative placeholders.</div>
+
+    <div class="ww-h1">When power costs less than nothing</div>
+    <div class="ww-sub">Sometimes there's so much wind and solar, and so little demand to soak it up, that the wholesale price falls below zero — producers pay to keep generating. Wattlas treats this as a first-class metric: how many hours a year, when they cluster, and how long each spell lasts.</div>
+
+    <div class="ww-kpis">
+      <div class="ww-kpi"><div class="l">Negative-price hours (12 mo)</div><div class="v neg">573</div></div>
+      <div class="ww-kpi"><div class="l">vs. previous year</div><div class="v neg">+25%</div></div>
+      <div class="ww-kpi"><div class="l">Longest single episode</div><div class="v">9 h</div></div>
+      <div class="ww-kpi"><div class="l">Most in one day</div><div class="v">14 h</div></div>
+    </div>
+
+    <div class="ww-card">
+      <div class="ww-ch"><div class="ww-ct">1 · A year of negative hours</div><div class="ww-cm">hours per day, last 12 months</div></div>
+      <div class="ww-pitch">Each cell is one day, shaded by how many of its hours cleared below zero. Negative days cluster in sunny, windy stretches — bright spring weekends are the deepest red.</div>
+      <div id="ww-cal" role="img" aria-label="Calendar heatmap of negative-price hours per day over twelve months; darker red means more negative hours, clustering in spring. Illustrative placeholder.">
+        <div style="font-size:12px;color:#888780;padding:24px 0;text-align:center">Loading calendar…</div>
+      </div>
+      <div class="ww-legend" style="margin-top:12px"><span>Negative hours/day</span><span style="display:flex;gap:3px;align-items:center" id="ww-callegend"></span><span id="ww-callegendmax">0 → 14 h</span></div>
+      <div class="ww-cap">Counted on the canonical hourly grid (not 15-minute settlement periods), grouped by Europe/Berlin local calendar day, so day length varies across DST. Per-day values are illustrative; the yearly total is real (Wattlas Spread).</div>
+    </div>
+
+    <div class="ww-card">
+      <div class="ww-ch"><div class="ww-ct">2 · How long do they last?</div><div class="ww-cm">episode duration</div></div>
+      <div class="ww-pitch">A short dip is easy to ride through; a long one is what hurts. As midday solar grows, the negative spells stretch from an odd hour into long, continuous afternoon runs.</div>
+      <div style="position:relative;height:220px"><canvas id="ww-dur" role="img" aria-label="Distribution of negative-price episode durations: 142 one-hour episodes, 96 two-hour, 71 three-to-four-hour, 38 five-to-eight-hour, and 9 of nine hours or more. Illustrative placeholder.">Most episodes last an hour or two; a handful run nine hours or more.</canvas></div>
+      <div class="ww-cap">An episode = a run of consecutive negative hours within the canonical hourly series. The multi-hour midday-solar runs are what experts now emphasise. Episode counts are illustrative placeholders; the yearly hour total is real.</div>
+    </div>
+
+    <div class="ww-card">
+      <div class="ww-ch"><div class="ww-ct">3 · Which months go negative</div><div class="ww-cm">negative hours per month</div></div>
+      <div class="ww-pitch">Negative prices are a spring-and-early-summer story: long days, strong sun, mild demand. Dark winter months barely register.</div>
+      <div style="position:relative;height:220px"><canvas id="ww-mon" role="img" aria-label="Negative-price hours by month from July to June, near zero in winter and peaking in spring around 140 hours. Illustrative placeholder.">Negative hours peak in spring and all but vanish in winter.</canvas></div>
+      <div class="ww-cap">Negative-price hours are real (Wattlas Spread); the per-month split here is an illustrative placeholder until the live build slices the real hourly series by month.</div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){
+  // ---- Card 1: calendar heatmap (CSS grid, no chart lib) ----
+  // Light -> amber -> red scale by negative-hour count (0 = pale).
+  const CAL_SCALE=["#f1efe8","#f7e7c8","#f1cf93","#e8a85f","#d97b3f","#a32d2d"];
+  function shade(h){ // h = negative hours that day (0..14)
+    if(h<=0)return CAL_SCALE[0];
+    if(h<=2)return CAL_SCALE[1];
+    if(h<=4)return CAL_SCALE[2];
+    if(h<=7)return CAL_SCALE[3];
+    if(h<=10)return CAL_SCALE[4];
+    return CAL_SCALE[5];
+  }
+  // Deterministic illustrative pattern: spring weekends run hot, winter near zero.
+  function dayHours(week,dow){
+    // week 0..51 starting in July; spring (~weeks 36..46) peaks.
+    const seasonal=Math.max(0,Math.cos((week-41)/52*2*Math.PI)); // peak ~week 41 (Apr/May)
+    const weekend=(dow===0||dow===6)?1.35:1.0;
+    let base=seasonal*11*weekend;
+    // pseudo-random but fixed jitter
+    const j=((week*7+dow)*2654435761>>>0)%100/100;
+    let v=Math.round(base*(0.55+0.7*j));
+    if(v<0)v=0; if(v>14)v=14;
+    // winter weeks (~weeks 10..24, i.e. Nov..Feb) almost always 0
+    if(week>=10&&week<=24&&j<0.85)v=0;
+    return v;
+  }
+  const DOW=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  const host=document.getElementById("ww-cal");
+  host.innerHTML="";
+  const grid=document.createElement("div");
+  grid.style.cssText="display:grid;grid-template-columns:24px repeat(52,1fr);gap:2px;align-items:center";
+  // day-of-week row labels in column 0 are drawn per cell row instead; build row-major via 7 rows
+  // We build as 7 rows x (1 label + 52 cells)
+  host.appendChild(grid);
+  // Use a wrapper of 7 rows
+  grid.style.display="grid";
+  grid.style.gridTemplateColumns="26px repeat(52,1fr)";
+  grid.style.gridTemplateRows="repeat(7,12px)";
+  grid.style.gap="2px";
+  for(let dow=0;dow<7;dow++){
+    const lbl=document.createElement("div");
+    lbl.textContent=(dow%2===0)?DOW[dow]:"";
+    lbl.style.cssText="font-size:9px;color:#888780;line-height:12px;grid-column:1;grid-row:"+(dow+1);
+    grid.appendChild(lbl);
+    for(let w=0;w<52;w++){
+      const h=dayHours(w,dow);
+      const cell=document.createElement("div");
+      cell.title=h+(h===1?" negative hour":" negative hours");
+      cell.style.cssText="grid-column:"+(w+2)+";grid-row:"+(dow+1)+";background:"+shade(h)+";border-radius:2px;width:100%;height:12px";
+      grid.appendChild(cell);
+    }
+  }
+  // Month axis row
+  const months=["Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"];
+  const axis=document.createElement("div");
+  axis.style.cssText="display:grid;grid-template-columns:26px repeat(12,1fr);margin-top:4px;font-size:9px;color:#888780";
+  const pad=document.createElement("div");axis.appendChild(pad);
+  months.forEach(function(m){const c=document.createElement("div");c.textContent=m;c.style.textAlign="center";axis.appendChild(c);});
+  host.appendChild(axis);
+  // Legend swatches
+  const leg=document.getElementById("ww-callegend");
+  CAL_SCALE.forEach(function(c){const s=document.createElement("span");s.style.cssText="display:inline-block;width:12px;height:12px;border-radius:2px;background:"+c;leg.appendChild(s);});
+
+  // ---- Card 2: episode-duration bars ----
+  new Chart(document.getElementById("ww-dur"),{type:"bar",data:{labels:["1 h","2 h","3–4 h","5–8 h","9 h+"],datasets:[{data:[142,96,71,38,9],backgroundColor:["#f1cf93","#e8a85f","#d97b3f","#cf7a5a","#a32d2d"],borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:"episodes",font:{size:11}},grid:{color:"rgba(0,0,0,.06)"},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:11}}}}}});
+
+  // ---- Card 3: negative hours per month (Jul..Jun) ----
+  new Chart(document.getElementById("ww-mon"),{type:"bar",data:{labels:months,datasets:[{data:[98,12,64,60,51,0,0,4,7,123,140,77],backgroundColor:"#cf7a5a",borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:"neg. hours",font:{size:11}},grid:{color:"rgba(0,0,0,.06)"},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:10}}}}}});
+})();
+</script>
+</body>
+</html>
