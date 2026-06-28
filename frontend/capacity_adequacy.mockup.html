@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wattlas — Capacity adequacy (mockup)</title>
+<style>
+  body{margin:0;background:#faf9f5;color:#2b2a27;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+  .ww-wrap{max-width:960px;margin:0 auto;padding:24px 18px 56px}
+  .ww-frame{background:#faf9f5;color:#2b2a27;border:0.5px solid rgba(0,0,0,.18);border-radius:14px;overflow:hidden}
+  .ww-bbar{display:flex;gap:6px;align-items:center;padding:9px 14px;background:#f1efe8;border-bottom:0.5px solid rgba(0,0,0,.12)}
+  .ww-dot{width:10px;height:10px;border-radius:50%}
+  .ww-url{margin-left:10px;font-size:12px;color:#5f5e5a;background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:6px;padding:3px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ww-page{padding:18px 20px 24px}
+  .ww-nav{display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,.12);padding-bottom:9px;margin-bottom:15px;flex-wrap:wrap;gap:8px}
+  .ww-brand{font-size:15px;font-weight:500}
+  .ww-brand small{color:#888780;font-weight:400;margin-left:6px;font-size:12px}
+  .ww-links{display:flex;gap:13px;font-size:12px;color:#5f5e5a;flex-wrap:wrap}
+  .ww-links .on{color:#2b2a27;font-weight:500;border-bottom:2px solid #2b2a27;padding-bottom:6px}
+  .ww-banner{background:#fff7e0;border:0.5px solid #e7cf86;border-left:3px solid #b8860b;border-radius:8px;padding:9px 13px;font-size:12px;color:#6b520a;margin-bottom:15px}
+  .ww-h1{font-size:21px;font-weight:500;margin:0 0 4px}
+  .ww-sub{color:#5f5e5a;font-size:13px;margin:0 0 17px;max-width:74ch}
+  .ww-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:19px}
+  .ww-kpi{background:#f1efe8;border-radius:8px;padding:12px 13px}
+  .ww-kpi .l{font-size:12px;color:#5f5e5a;margin-bottom:5px}
+  .ww-kpi .v{font-size:22px;font-weight:500}
+  .ww-kpi .v.neg{color:#a32d2d}
+  .ww-card{background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:12px;padding:15px 17px;margin-bottom:15px}
+  .ww-ch{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;gap:10px;flex-wrap:wrap}
+  .ww-ct{font-size:15px;font-weight:500}
+  .ww-cm{font-size:12px;color:#888780}
+  .ww-pitch{font-size:12px;color:#5f5e5a;margin:0 0 12px;max-width:82ch}
+  .ww-seg{display:inline-flex;border:0.5px solid rgba(0,0,0,.18);border-radius:8px;overflow:hidden}
+  .ww-seg button{font:inherit;font-size:12px;padding:5px 13px;border:none;background:#fff;color:#2b2a27;cursor:pointer}
+  .ww-seg button.on{background:#2b2a27;color:#faf9f5}
+  .ww-legend{font-size:11px;color:#5f5e5a;margin-top:10px;display:flex;gap:13px;flex-wrap:wrap;align-items:center}
+  .ww-sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}
+  .ww-cap{font-size:11px;color:#888780;margin:9px 0 0;max-width:82ch}
+  .ww-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  @media(max-width:620px){.ww-kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="ww-wrap">
+<h2 class="ww-sr">Mockup of the Wattlas Capacity-adequacy page: the forward consumer cost of keeping dispatchable backup available when wind and solar drop for days. A provisional levy-cost trajectory through 2045 and a Dunkelflaute residual-load chart where demand stays near 70 gigawatts while wind plus solar collapse to about 5. The tender and levy figures come from a May-2026 cabinet bill still pending Bundestag passage and are shown as a provisional, cited range; the residual-load stress is real.</h2>
+
+<div class="ww-frame">
+  <div class="ww-bbar"><span class="ww-dot" style="background:#e2655a"></span><span class="ww-dot" style="background:#e6b54a"></span><span class="ww-dot" style="background:#6fae5f"></span><span class="ww-url">sekond.github.io/Wattlas/frontend/capacity_adequacy.html</span></div>
+  <div class="ww-page">
+
+    <div class="ww-nav">
+      <div class="ww-brand">Wattlas <small>European electricity, explained</small></div>
+      <div class="ww-links"><span>Dashboard</span><span>Spread</span><span>Mismatch</span><span>Dunkelflaute</span><span>Curtailment</span><span class="on">Capacity</span></div>
+    </div>
+
+    <div class="ww-banner"><span style="font-weight:500">Mockup</span> — layout and story preview. The 12 GW tender and the levy figures come from a May-2026 cabinet bill still pending Bundestag passage — <strong>NOT YET LAW</strong>; shown as a provisional range with a citation. The residual-load stress is real (Wattlas Mismatch + Dunkelflaute).</div>
+
+    <div class="ww-h1">Paying to keep the lights on when the wind drops</div>
+    <div class="ww-sub">When wind and solar vanish for days (<strong>Dunkelflaute</strong>), the grid leans on dispatchable backup. Germany's planned capacity mechanism procures gas plants and recovers the cost through a levy — a forward consumer cost. This panel pairs the cost with a residual-load stress indicator.</div>
+
+    <div class="ww-kpis">
+      <div class="ww-kpi"><div class="l">Backup gas tender</div><div class="v">12 GW</div></div>
+      <div class="ww-kpi"><div class="l">Online by</div><div class="v">2031</div></div>
+      <div class="ww-kpi"><div class="l">Levy (2031, up to)</div><div class="v neg">€3.0 bn</div></div>
+      <div class="ww-kpi"><div class="l">Worst residual-load peak</div><div class="v neg">72 GW</div></div>
+    </div>
+
+    <div class="ww-card">
+      <div class="ww-ch"><div class="ww-ct">1 · The forward cost of capacity</div><div class="ww-cm">levy, € bn per year — provisional</div></div>
+      <div class="ww-pitch">The capacity mechanism pays plants to be available, not to run. That availability payment is recovered from consumers through a levy. The first year carries the build-out premium; the cost then settles into a steady band as plants come online and amortize.</div>
+      <div style="display:flex;gap:14px;font-size:11px;color:#5f5e5a;margin-bottom:6px"><span><span class="ww-sw" style="background:rgba(184,134,11,.45)"></span>Annual levy (€ bn) — provisional, upper bound</span></div>
+      <div style="position:relative;height:230px"><canvas id="ww-levy" role="img" aria-label="Annual capacity levy in billions of euros, 2031 to 2045: starting near 3.0 in 2031 and settling into a band around 2.3 billion per year. Provisional, pending Bundestag passage.">Annual capacity levy starts near €3.0 bn in 2031 and settles around €2.3 bn/yr. Provisional.</canvas></div>
+      <div class="ww-cap">From a May-2026 cabinet bill pending Bundestag — <strong>"not yet law."</strong> Figures are an upper-bound range with a citation, modelled on how Wattlas treats the France cost stack. The faded bars signal the numbers are provisional, not settled. € bn/yr.</div>
+    </div>
+
+    <div class="ww-card">
+      <div class="ww-ch"><div class="ww-ct">2 · When renewables can't cover demand</div><div class="ww-cm">a Dunkelflaute spell, GW</div></div>
+      <div class="ww-pitch">Over a multi-day calm, dark spell, demand holds near 70 GW while wind and solar together collapse toward 5 GW. The shaded gap is the residual load — the power dispatchable backup has to supply, and the reason a capacity mechanism exists at all.</div>
+      <div style="display:flex;gap:14px;font-size:11px;color:#5f5e5a;margin-bottom:6px"><span><span class="ww-sw" style="background:#2b2a27"></span>Demand</span><span><span class="ww-sw" style="background:#4aa6a0"></span>Wind + solar</span><span><span class="ww-sw" style="background:rgba(163,45,45,.16);border:1px solid #a32d2d"></span>Residual load (backup)</span></div>
+      <div style="position:relative;height:240px"><canvas id="ww-df" role="img" aria-label="A Dunkelflaute spell over five days: demand stays near 70 gigawatts while wind plus solar collapse from about 35 to about 5 gigawatts, leaving a large residual-load gap met by backup. Illustrative placeholder.">Demand holds near 70 GW while wind plus solar collapse to about 5 GW; the gap is residual load met by backup.</canvas></div>
+      <div class="ww-cap">Residual load = demand − wind − solar (Wattlas Mismatch). The worst spells are auto-detected by the Dunkelflaute deep-dive. The stress is real; the spell shown here is an illustrative placeholder shaped to a typical multi-day Dunkelflaute.</div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){
+  // Card 1 — provisional levy trajectory. First year carries the build-out
+  // premium; then settles into a steady band. Faded fill signals "not yet law".
+  const years=["2031","2033","2035","2037","2039","2041","2043","2045"];
+  const levy=[3.0,2.6,2.5,2.4,2.3,2.3,2.3,2.3];
+  new Chart(document.getElementById("ww-levy"),{type:"bar",data:{labels:years,datasets:[{label:"Annual levy (€ bn)",data:levy,backgroundColor:"rgba(184,134,11,.32)",borderColor:"rgba(184,134,11,.55)",borderWidth:1,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return "€"+c.parsed.y.toFixed(1)+" bn (provisional)";}}}},scales:{y:{min:0,max:3.6,title:{display:true,text:"€ bn / yr",font:{size:11}},grid:{color:"rgba(0,0,0,.06)"},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:10}}}}}});
+
+  // Card 2 — Dunkelflaute spell. Demand ~70 GW flat; wind+solar collapse to ~5 GW.
+  // Residual load is shaded as the band between the two (demand minus renewables).
+  const hours=["D1 00","D1 12","D2 00","D2 12","D3 00","D3 12","D4 00","D4 12","D5 00","D5 12","D6 00"];
+  const demand=[68,72,69,71,68,70,69,71,68,72,70];
+  const renew =[34,28,18,12,9,7,6,5,5,6,9];
+  new Chart(document.getElementById("ww-df"),{data:{labels:hours,datasets:[
+    {type:"line",label:"Demand",data:demand,borderColor:"#2b2a27",backgroundColor:"rgba(163,45,45,.16)",borderWidth:2,tension:.3,pointRadius:0,fill:"+1",order:2},
+    {type:"line",label:"Wind + solar",data:renew,borderColor:"#4aa6a0",backgroundColor:"rgba(74,166,160,.14)",borderWidth:2,tension:.3,pointRadius:0,fill:"origin",order:1}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:80,title:{display:true,text:"GW",font:{size:11}},grid:{color:"rgba(0,0,0,.06)"},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:9},maxRotation:0,autoSkip:true,maxTicksLimit:6}}}}});
+})();
+</script>
+</body>
+</html>
