@@ -57,6 +57,12 @@ jobs:
           python pipeline/build_flows.py
           python pipeline/build_zone_views.py        # reads the zone-price cache from build_divergence
           python pipeline/build_history.py --years 3
+          # v10 "Value Layer" slices. These read the zone-price cache (build_divergence)
+          # and the per-zone generation cache (build_mix) produced above — no new fetch.
+          # Non-fatal so a value-layer hiccup can't break the core refresh.
+          python pipeline/build_negative_prices.py || echo "negative-prices build skipped/failed — continuing"
+          python pipeline/build_flex_savings.py || echo "flex-savings build skipped/failed — continuing"
+          python pipeline/build_capture_price.py || echo "capture-price build skipped/failed — continuing"
           # Nordic price-zones slice (v5): day-ahead prices for the 12 Nordic bidding
           # zones (ENTSO-E). Isolated builder; non-fatal so a Nordic fetch hiccup
           # can't break the core refresh.

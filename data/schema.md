@@ -704,8 +704,72 @@ field. Figures around the outage are **provisional/revised** — labelled. Times
 (Madrid). Spain's load gap renders as a gap, Portugal's collapse as recorded. Not in the
 daily refresh — a fixed historical window.
 
+## `capture_price.json` (v10 — Value Layer slice 1, no new source)
+
+Per-zone, per-renewable-group generation-weighted **capture price**, time-weighted
+**baseload**, **value factor** (capture/baseload) and **negative-price generation
+share**, overall and by local month. Built offline from the generation cache
+(build_mix) and the zone-price cache (build_divergence); generation and price are
+resampled to one canonical hourly resolution **before weighting** (landmine #3).
+
+```json
+{
+  "generated_at": "…", "zone_default": "DE_LU", "zones_available": ["DE_LU", "FR", …],
+  "source": "ENTSO-E generation + day-ahead prices",
+  "method": "generation-weighted capture price / time-weighted baseload (value factor)",
+  "groups": { "solar": ["Solar"], "wind": ["Wind onshore", "Wind offshore"] },
+  "context_note": "Anchor figures (…50-60%…16%…573h, 2025) are cited context, not computed here.",
+  "zones": { "DE_LU": {
+      "solar": { "capture": 48.3, "baseload": 87.6, "value_factor": 0.552, "neg_gen_share": 20.6,
+                 "monthly": [ { "month": "2025-07", "capture": …, "baseload": …, "value_factor": …, "neg_gen_share": … } ] },
+      "wind":  { "capture": …, "baseload": …, "value_factor": 0.885, "neg_gen_share": …, "monthly": [ … ] } } }
+}
+```
+
+`value_factor` < 1.0 = the fuel earns less than baseload (cannibalization). capture/
+baseload €/MWh, value_factor dimensionless, neg_gen_share percent. Negative prices kept
+(landmine #6). Anchors are cited 2025 context, not these computed values.
+
+## `negative_prices.json` (v10 — Value Layer slice 2, no new source)
+
+Per-zone negative-price metrics from the zone-price cache: hours per month, a
+date→count calendar, and episode (consecutive-negative-hour run-length) duration.
+Counting is on the canonical hourly grid (landmine #3); days/months local-tz.
+
+```json
+{
+  "generated_at": "…", "zone_default": "DE_LU", "zones_available": ["DE_LU", …],
+  "source": "ENTSO-E day-ahead prices",
+  "zones": { "DE_LU": {
+      "period_start": "…", "period_end": "…",
+      "total_neg_hours": 494, "longest_episode_h": 20, "max_in_one_day": 16,
+      "by_month": [ { "month": "2025-07", "neg_hours": 64 } ],
+      "calendar": [ { "date": "2025-07-06", "neg_hours": 7 } ],
+      "episodes": [ { "length_hours": 1, "count": 142 }, { "length_hours": 2, "count": 96 } ] } }
+}
+```
+
+## `flex_savings.json` (v10 — Value Layer slice 3, no new source)
+
+Per-zone dynamic-tariff savings for shiftable-load presets, from the zone-price cache.
+**UPPER BOUND** (landmine #7): assumes perfect foresight of the cheapest hours, like the
+battery model — the frontend MUST label it so. Prices €/MWh; flat tariff = period mean.
+
+```json
+{
+  "generated_at": "…", "zone_default": "DE_LU", "zones_available": ["DE_LU", …],
+  "source": "ENTSO-E day-ahead prices", "flat_tariff": "period mean price",
+  "perfect_foresight_is_upper_bound": true,
+  "zones": { "DE_LU": {
+      "period_start": "…", "period_end": "…",
+      "presets": [ { "name": "EV", "window_h": 4, "kwh_per_day": 10.0,
+                     "annual_saving_eur": 187.0, "flat_cost_eur": …, "optimized_cost_eur": …, "days": 360, "n": 4 } ] } }
+}
+```
+
 ### Frontend obligations
 - Render `perfect_arbitrage_eur_per_mw` only alongside a visible caveat that it is an unachievable upper bound (see CLAUDE.md landmine #7).
+- For `flex_savings`, label `annual_saving_eur` as a perfect-foresight **upper bound** (same as the battery figure). For `capture_price`, present the roadmap anchors as cited context, not computed values; for `negative_prices`, never clip negatives and count hours, not 15-min slots.
 - Treat `complete: false` days distinctly (e.g. muted) and never break if `days` has gaps.
 - Round every number before display.
 - For `mix`/`carbon`, use the canonical fuel palette (`frontend/fuels.js`); render `null` fuel/hour slots as gaps, never zeros. Show the carbon methodology label.

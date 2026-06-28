@@ -1,0 +1,233 @@
+{
+  "generated_at": "2026-06-28T19:50:57+00:00",
+  "zone_default": "DE_LU",
+  "zones_available": [
+    "DE_LU",
+    "FR",
+    "NL",
+    "BE",
+    "PL",
+    "AT"
+  ],
+  "source": "ENTSO-E day-ahead prices",
+  "flat_tariff": "period mean price",
+  "perfect_foresight_is_upper_bound": true,
+  "zones": {
+    "DE_LU": {
+      "period_start": "2025-06-28",
+      "period_end": "2026-06-27",
+      "presets": [
+        {
+          "name": "EV",
+          "window_h": 4,
+          "annual_saving_eur": 187.02,
+          "flat_cost_eur": 338.41,
+          "optimized_cost_eur": 151.39,
+          "days": 365,
+          "n": 4,
+          "kwh_per_day": 10.0
+        },
+        {
+          "name": "Heat pump",
+          "window_h": 6,
+          "annual_saving_eur": 134.28,
+          "flat_cost_eur": 270.73,
+          "optimized_cost_eur": 136.45,
+          "days": 365,
+          "n": 6,
+          "kwh_per_day": 8.0
+        },
+        {
+          "name": "Home battery",
+          "window_h": 3,
+          "annual_saving_eur": 234.93,
+          "flat_cost_eur": 406.1,
+          "optimized_cost_eur": 171.17,
+          "days": 365,
+          "n": 3,
+          "kwh_per_day": 12.0
+        }
+      ]
+    },
+    "FR": {
+      "period_start": "2025-06-28",
+      "period_end": "2026-06-27",
+      "presets": [
+        {
+          "name": "EV",
+          "window_h": 4,
+          "annual_saving_eur": 137.55,
+          "flat_cost_eur": 212.78,
+          "optimized_cost_eur": 75.23,
+          "days": 365,
+          "n": 4,
+          "kwh_per_day": 10.0
+        },
+        {
+          "name": "Heat pump",
+          "window_h": 6,
+          "annual_saving_eur": 100.02,
+          "flat_cost_eur": 170.22,
+          "optimized_cost_eur": 70.21,
+          "days": 365,
+          "n": 6,
+          "kwh_per_day": 8.0
+        },
+        {
+          "name": "Home battery",
+          "window_h": 3,
+          "annual_saving_eur": 172.54,
+          "flat_cost_eur": 255.34,
+          "optimized_cost_eur": 82.8,
+          "days": 365,
+          "n": 3,
+          "kwh_per_day": 12.0
+        }
+      ]
+    },
+    "NL": {
+      "period_start": "2025-06-28",
+      "period_end": "2026-06-27",
+      "presets": [
+        {
+          "name": "EV",
+          "window_h": 4,
+          "annual_saving_eur": 182.56,
+          "flat_cost_eur": 330.03,
+          "optimized_cost_eur": 147.47,
+          "days": 365,
+          "n": 4,
+          "kwh_per_day": 10.0
+        },
+        {
+          "name": "Heat pump",
+          "window_h": 6,
+          "annual_saving_eur": 130.91,
+          "flat_cost_eur": 264.02,
+          "optimized_cost_eur": 133.11,
+          "days": 365,
+          "n": 6,
+          "kwh_per_day": 8.0
+        },
+        {
+          "name": "Home battery",
+          "window_h": 3,
+          "annual_saving_eur": 229.58,
+          "flat_cost_eur": 396.04,
+          "optimized_cost_eur": 166.46,
+          "days": 365,
+          "n": 3,
+          "kwh_per_day": 12.0
+        }
+      ]
+    },
+    "BE": {
+      "period_start": "2025-06-28",
+      "period_end": "2026-06-27",
+      "presets": [
+        {
+          "name": "EV",
+          "window_h": 4,
+          "annual_saving_eur": 168.85,
+          "flat_cost_eur": 311.44,
+          "optimized_cost_eur": 142.58,
+          "days": 365,
+          "n": 4,
+          "kwh_per_day": 10.0
+        },
+        {
+          "name": "Heat pump",
+          "window_h": 6,
+          "annual_saving_eur": 121.21,
+          "flat_cost_eur": 249.15,
+          "optimized_cost_eur": 127.94,
+          "days": 365,
+          "n": 6,
+          "kwh_per_day": 8.0
+        },
+        {
+          "name": "Home battery",
+          "window_h": 3,
+          "annual_saving_eur": 212.56,
+          "flat_cost_eur": 373.72,
+          "optimized_cost_eur": 161.17,
+          "days": 365,
+          "n": 3,
+          "kwh_per_day": 12.0
+        }
+      ]
+    },
+    "PL": {
+      "period_start": "2025-06-28",
+      "period_end": "2026-06-27",
+      "presets": [
+        {
+          "name": "EV",
+          "window_h": 4,
+          "annual_saving_eur": 197.61,
+          "flat_cost_eur": 395.99,
+          "optimized_cost_eur": 198.38,
+          "days": 365,
+          "n": 4,
+          "kwh_per_day": 10.0
+        },
+        {
+          "name": "Heat pump",
+          "window_h": 6,
+          "annual_saving_eur": 142.1,
+          "flat_cost_eur": 316.79,
+          "optimized_cost_eur": 174.7,
+          "days": 365,
+          "n": 6,
+          "kwh_per_day": 8.0
+        },
+        {
+          "name": "Home battery",
+          "window_h": 3,
+          "annual_saving_eur": 247.93,
+          "flat_cost_eur": 475.19,
+          "optimized_cost_eur": 227.26,
+          "days": 365,
+          "n": 3,
+          "kwh_per_day": 12.0
+        }
+      ]
+    },
+    "AT": {
+      "period_start": "2025-06-28",
+      "period_end": "2026-06-27",
+      "presets": [
+        {
+          "name": "EV",
+          "window_h": 4,
+          "annual_saving_eur": 192.38,
+          "flat_cost_eur": 378.55,
+          "optimized_cost_eur": 186.17,
+          "days": 365,
+          "n": 4,
+          "kwh_per_day": 10.0
+        },
+        {
+          "name": "Heat pump",
+          "window_h": 6,
+          "annual_saving_eur": 137.25,
+          "flat_cost_eur": 302.84,
+          "optimized_cost_eur": 165.59,
+          "days": 365,
+          "n": 6,
+          "kwh_per_day": 8.0
+        },
+        {
+          "name": "Home battery",
+          "window_h": 3,
+          "annual_saving_eur": 242.2,
+          "flat_cost_eur": 454.26,
+          "optimized_cost_eur": 212.06,
+          "days": 365,
+          "n": 3,
+          "kwh_per_day": 12.0
+        }
+      ]
+    }
+  }
+}
