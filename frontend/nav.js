@@ -98,6 +98,9 @@
     { text: "Dunkelflaute",             mark: "DF", page: "dunkelflaute.html" },
     { text: "Storage",                  mark: "ST", page: "storage.html"      },
     { text: "Iberian Blackout",         mark: "IB", page: "iberian_blackout.html" },
+    { text: "Capture Price",            mark: "CP", page: "capture_price.html"   },
+    { text: "Negative Prices",          mark: "NP", page: "negative_prices.html" },
+    { text: "Flexibility",              mark: "FX", page: "flexibility.html"     },
   ];
 
   var here = (location.pathname.split("/").pop() || "").toLowerCase();
