@@ -25,6 +25,17 @@ is in `ROADMAP_V2.md`, driven by `RUN_V2.md`, with prompts in
 one at a time with the same confirmation-gated protocol. Read the v2 landmines
 below before starting any v2 phase.
 
+**For the v10 "Value Layer" expansion** (price-formation and value layer: capture
+price, negative-prices, flexibility, storage cannibalization, curtailment-in-€,
+locational signal, retail wedge, capacity adequacy, marginal-fuel, industrial
+proxy): the vetted plan is in `ROADMAP_V10.md`, driven by `RUN_V10.md`, with
+prompts in `prompts/v10_prompts.md`. When the user says "Follow RUN_V10.md", run
+the slices one at a time with the same confirmation-gated protocol. Honour the two
+acceptance gates (capture-price canonical-hourly weighting; the locational view's
+no-simulated-price rule) and the three VERIFY-FIRST source checks before building.
+(Note: `v3`–`v9` belong to earlier single slices — wasted-wind, France nuclear,
+Nordic, UK, Dunkelflaute, Iberian, Storage — and are unrelated to v10.)
+
 ## Project Overview
 
 Wattlas is a web application that explores the temporal and financial dimensions of European electricity markets, with a focus on the renewable-energy transition. It pulls open data from the ENTSO-E Transparency Platform, computes market metrics in a Python/pandas pipeline, writes small pre-aggregated JSON files, and renders them in a static JavaScript frontend.
