@@ -55,6 +55,14 @@
     '.loading::before{content:"";flex:none;width:14px;height:14px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--hint);animation:wspin .8s linear infinite}' +
     '@keyframes wspin{to{transform:rotate(360deg)}}' +
     '.loading.empty,.loading.awaiting{color:var(--muted)} .loading.empty::before,.loading.awaiting::before{display:none}' +
+    '.sitefoot{border-top:.5px solid var(--border);margin-top:48px;padding:24px 0 10px;font-size:12px}' +
+    '.sitefoot .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}' +
+    '.sitefoot h4{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--hint);margin:0 0 8px}' +
+    '.sitefoot a{display:block;color:var(--muted);text-decoration:none;padding:2px 0;line-height:1.5}' +
+    '.sitefoot a:hover{color:var(--text)}' +
+    '.sitefoot .sf-meta{margin-top:18px;color:var(--hint);font-size:11px}' +
+    '.sitefoot .sf-meta a{display:inline;color:var(--muted)}' +
+    '@media (max-width:640px){.sitefoot .cols{grid-template-columns:1fr 1fr}}' +
     '.topbar{display:none}' +
     '@media (max-width:900px){' +
       '.shell{display:block}' +
@@ -201,6 +209,19 @@
   if (document.querySelector(".bar, .jumpnav")) header.classList.add("static");
   header.innerHTML = top;
 
+  // ---- Footer sitemap (crawl-resilient backstop; every in-scope page) -------
+  function footCol(title, items) {
+    return '<div><h4>' + title + '</h4>' +
+      items.map(function (it) { return '<a href="' + it.href + '">' + it.text + '</a>'; }).join("") + '</div>';
+  }
+  var footer = document.createElement("footer");
+  footer.className = "sitefoot";
+  footer.innerHTML = '<div class="cols">' +
+    footCol("Views", VIEWS.map(function (v) { return { href: v.page || (DASH + "#" + v.section), text: v.text }; })) +
+    footCol("Stories", STORIES.map(function (s) { return { href: s.page, text: s.text }; })) +
+    footCol("Value layer", VALUE.map(function (s) { return { href: s.page, text: s.text }; })) +
+    '</div><div class="sf-meta"><a href="' + DASH + '">Dashboard</a> · open data, pre-computed and static — no live backend.</div>';
+
   function scrollActivePillIntoView() {
     var nav = header.querySelector(".topnav");
     var act = nav && nav.querySelector("a.active");
@@ -283,6 +304,8 @@
     var shell = document.querySelector(".shell");
     if (shell) shell.insertBefore(aside, shell.firstChild);
     document.body.insertBefore(header, document.body.firstChild);
+    var mainEl = document.querySelector(".main");
+    if (mainEl) mainEl.appendChild(footer);
     if (onDash) setupSpy();
     scrollActivePillIntoView();  // bring the active mobile pill into view on load
 
