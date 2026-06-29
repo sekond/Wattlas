@@ -98,14 +98,20 @@
     { text: "Dunkelflaute",             mark: "DF", page: "dunkelflaute.html" },
     { text: "Storage",                  mark: "ST", page: "storage.html"      },
     { text: "Iberian Blackout",         mark: "IB", page: "iberian_blackout.html" },
+  ];
+  // Value layer (v10) — the economic views. The last two live as sections of an
+  // existing page (M6 decision), linked by anchor rather than a standalone file.
+  var VALUE = [
     { text: "Capture Price",            mark: "CP", page: "capture_price.html"   },
     { text: "Negative Prices",          mark: "NP", page: "negative_prices.html" },
     { text: "Flexibility",              mark: "FX", page: "flexibility.html"     },
     { text: "Locational Signal",        mark: "LO", page: "locational_signal.html" },
-    { text: "Capacity & Adequacy",      mark: "CA", page: "capacity_adequacy.html" },
     { text: "Retail Wedge",             mark: "RW", page: "retail_wedge.html"      },
+    { text: "Capacity & Adequacy",      mark: "CA", page: "capacity_adequacy.html" },
     { text: "Marginal Fuel",            mark: "MF", page: "marginal_fuel.html"     },
     { text: "Industrial",               mark: "IC", page: "industrial.html"        },
+    { text: "Storage Cannibalization",  mark: "SC", page: "storage.html#cannibalization" },
+    { text: "Curtailment in €",         mark: "C€", page: "curtailment.html#cost"  },
   ];
 
   var here = (location.pathname.split("/").pop() || "").toLowerCase();
@@ -152,6 +158,11 @@
     side += navLink({ href: s.page, text: s.text, mark: s.mark, story: true,
                       page: s.page, active: pageActive(s.page) });
   });
+  side += '<div class="navgroup">Value layer</div>';
+  VALUE.forEach(function (s) {
+    side += navLink({ href: s.page, text: s.text, mark: s.mark, story: true,
+                      page: s.page, active: pageActive(s.page) });
+  });
   side += "</nav>";
   side += '<div class="foot">Open data from ENTSO-E, RTE/ODRÉ, SMARD, MaStR and netztransparenz. ' +
     "Pre-computed and static — no live backend.</div>";
@@ -169,6 +180,10 @@
   });
   top += '<span class="div" aria-hidden="true"></span>';
   STORIES.forEach(function (s) {
+    top += pill({ href: s.page, text: s.text, story: true, page: s.page, active: pageActive(s.page) });
+  });
+  top += '<span class="div" aria-hidden="true"></span>';
+  VALUE.forEach(function (s) {
     top += pill({ href: s.page, text: s.text, story: true, page: s.page, active: pageActive(s.page) });
   });
   top += "</nav>";
