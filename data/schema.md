@@ -812,8 +812,33 @@ cost stack. `storage.json` additionally gained a `cannibalization` block (v10 sl
 **illustrative parametric** spread-compression curve (`scenarios:[{assumed_gw,modelled_spread,
 per_mw_arbitrage_eur_yr}]`) — modelled, not measured, with a capacity-remuneration note.
 
+## `retail_wedge.json` (v10 — Value Layer slice 7, NEW SOURCE: Eurostat)
+
+Household electricity price decomposed into energy & supply | network | taxes/fees/levies,
+per country and year, from Eurostat `nrg_pc_204_c` (band DC, EUR/kWh, ANNUAL). Isolated
+module; non-fatal (writes `status:"unavailable"` on a Eurostat hiccup).
+
+```json
+{
+  "generated_at": "…", "status": "ok", "currency": "EUR/kWh", "frequency": "annual",
+  "components": { "energy": "Energy and supply (incl. wholesale + supplier margin)",
+                  "network": "Network costs", "taxes_levies": "Taxes, fees, levies and charges" },
+  "country_default": "DE", "geos_available": ["DE","ES","FR","NL","NO"],
+  "countries": { "DE": [ { "period": "2024", "energy": 0.1654, "network": 0.1147,
+                           "taxes_levies": 0.1147, "total": 0.3948, "currency": "EUR/kWh" } ] }
+}
+```
+
+EUR/kWh ≠ our wholesale €/MWh (stated); annual, not hourly; "geo" is the COUNTRY, not the
+DE-LU zone; "Energy and supply" includes wholesale + supplier margin (not pure wholesale).
+`curtailment.json` additionally gained a `cost_estimate` block (v10 slice 5): an **estimate**
+(curtailed MWh × a reference rate, `cost_estimate_eur` per day + `total_eur`) — not the
+billed EinsMan compensation; the €7.2bn EU figure is different-scope context. Slices 9
+(marginal-fuel) and 10 (industrial) are **context-only explainer pages** — no data artefact.
+
 ### Frontend obligations
 - Render `perfect_arbitrage_eur_per_mw` only alongside a visible caveat that it is an unachievable upper bound (see CLAUDE.md landmine #7).
+- For `retail_wedge`, state EUR/kWh vs €/MWh and country-vs-zone; for `curtailment.cost_estimate`, label it an estimate (not billed), with the EU figure as different-scope context.
 - For `flex_savings`, label `annual_saving_eur` as a perfect-foresight **upper bound** (same as the battery figure). For `capture_price`, present the roadmap anchors as cited context, not computed values; for `negative_prices`, never clip negatives and count hours, not 15-min slots.
 - For `locational_signal`, never present a computed split-zone price; show DE5 vs academic figures as a contested range. For `capacity_adequacy`, label the cost figures provisional/"not yet law" with the citation. For `storage.cannibalization`, label the curve illustrative/modelled, not a forecast.
 - Treat `complete: false` days distinctly (e.g. muted) and never break if `days` has gaps.
