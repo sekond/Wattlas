@@ -68,6 +68,8 @@ jobs:
           # earlier and now also writes the cannibalization block.)
           python pipeline/build_locational_signal.py || echo "locational-signal build skipped/failed — continuing"
           python pipeline/build_capacity_adequacy.py || echo "capacity-adequacy build skipped/failed — continuing"
+          # v10 slice 7 — NEW isolated source: Eurostat household price components (open, no key).
+          python pipeline/build_retail_wedge.py || echo "retail-wedge (Eurostat) build skipped/failed — continuing"
           # Nordic price-zones slice (v5): day-ahead prices for the 12 Nordic bidding
           # zones (ENTSO-E). Isolated builder; non-fatal so a Nordic fetch hiccup
           # can't break the core refresh.
