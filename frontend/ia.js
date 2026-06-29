@@ -223,6 +223,7 @@ window.WATTLAS_IA = {
         { t: "How it works", href: "#/p/methodology" },
         { t: "Data sources", href: "#/p/sources" },
         { t: "Why we restructured", href: "#/audit" },
+        { t: "Showcase", href: "showcase.html" },
       ] },
       { title: "Legal", links: [
         { t: "Privacy", href: "#/p/privacy" },
