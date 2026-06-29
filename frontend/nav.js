@@ -51,6 +51,10 @@
     '.side .foot{margin-top:auto;padding-top:20px;font-size:11px;color:var(--hint);line-height:1.6}' +
     '.main{padding:0 36px 80px;min-width:0}' +
     '.main-inner{max-width:1080px;margin:0 auto;padding-top:26px}' +
+    '.loading{display:flex;align-items:center;justify-content:center;gap:9px;color:var(--hint);font-size:13px;padding:34px 0;text-align:center}' +
+    '.loading::before{content:"";flex:none;width:14px;height:14px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--hint);animation:wspin .8s linear infinite}' +
+    '@keyframes wspin{to{transform:rotate(360deg)}}' +
+    '.loading.empty,.loading.awaiting{color:var(--muted)} .loading.empty::before,.loading.awaiting::before{display:none}' +
     '.topbar{display:none}' +
     '@media (max-width:900px){' +
       '.shell{display:block}' +
@@ -281,6 +285,16 @@
     document.body.insertBefore(header, document.body.firstChild);
     if (onDash) setupSpy();
     scrollActivePillIntoView();  // bring the active mobile pill into view on load
+
+    // Graceful empty state: when a data page swaps the loading text for a message
+    // (load failure or "awaiting source"), drop the spinner so it reads as a static
+    // state, not a stuck loader. Single source for every page that uses #status.loading.
+    var statusEl = document.getElementById("status");
+    if (statusEl && window.MutationObserver) {
+      new MutationObserver(function () {
+        if (getComputedStyle(statusEl).display !== "none") statusEl.classList.add("empty");
+      }).observe(statusEl, { childList: true, characterData: true, subtree: true });
+    }
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
   else mount();
