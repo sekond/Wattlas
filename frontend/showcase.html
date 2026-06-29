@@ -144,7 +144,11 @@
     .dots { display: none; }
     .slide { padding: 50px 15px 26px; }
     .pair .item .frame { --shot-h: min(19vh, 132px); }
-    .srcgrid { grid-template-columns: 1fr 1fr; }
+    .srcgrid { grid-template-columns: 1fr 1fr; gap: 6px; }
+    .src { padding: 6px 9px; }
+    .src .nm { font-size: 12.5px; }
+    .src .wt { font-size: 10px; line-height: 1.3; margin-top: 2px; }
+    .src .ac { margin-top: 3px; }
     .ledger .row { grid-template-columns: 1fr; gap: 2px; }
   }
 </style>
@@ -432,6 +436,88 @@
     </div>
   </section>
 
+  <!-- VALUE LAYER — section opener -->
+  <section class="slide" data-tag="THE VALUE LAYER" data-section>
+    <div class="inner">
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">ACT I · THE VALUE LAYER</span></div>
+      <h2 class="title">From what the grid did to what it was worth</h2>
+      <p class="lede">Ten newer views add the economic layer on top of the physical one: price formation, value, and who pays. Each shows its working and labels every estimate.</p>
+      <div class="storylist">
+        <div class="sl"><b>Capture Price</b><span>What a megawatt-hour of solar actually earns — and why it falls.</span></div>
+        <div class="sl"><b>Negative Prices</b><span>When power costs less than nothing: hours, episodes, a calendar.</span></div>
+        <div class="sl"><b>Flexibility</b><span>What shifting a load to the cheapest hours saves (upper bound).</span></div>
+        <div class="sl"><b>Storage Cannibalization</b><span>How more batteries thin the very spread they feed on.</span></div>
+        <div class="sl"><b>Curtailment in €</b><span>What thrown-away wind costs (an estimate, not the bill).</span></div>
+        <div class="sl"><b>Locational Signal</b><span>The north–south split debate, shown as evidence, not a price.</span></div>
+        <div class="sl"><b>Retail Wedge</b><span>Your bill, split into wholesale, grid and taxes.</span></div>
+        <div class="sl"><b>Capacity &amp; Adequacy</b><span>Paying to cover the windless days (a provisional cost).</span></div>
+        <div class="sl"><b>Marginal Fuel</b><span>Why gas usually sets the price (a model, not a measurement).</span></div>
+        <div class="sl"><b>Industrial</b><span>Industrial prices — and where Wattlas honestly stops.</span></div>
+      </div>
+      <div class="takeaway"><span class="tick"></span> The physical story, now with its price tag.</div>
+    </div>
+  </section>
+
+  <!-- VALUE LAYER 1 · Capture price -->
+  <section class="slide" data-tag="VALUE LAYER">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">VALUE LAYER · 1 OF 4</span></div>
+      <div class="two feat">
+        <div class="col">
+          <h2 class="title">Capture Price</h2>
+          <div class="q">What is a megawatt-hour of solar actually worth?</div>
+          <div class="d">Generation-weighted capture ÷ baseload = the value factor. German solar earns only ~55% of the average price — cannibalization, computed from real data (anchors cited, not assumed).</div>
+        </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">capture_price.html</span></div><div class="shot" data-label="Capture Price"><img alt="Capture price view" src="public/showcase/capture_price.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUE LAYER 2 · Retail wedge -->
+  <section class="slide" data-tag="VALUE LAYER">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">VALUE LAYER · 2 OF 4</span></div>
+      <div class="two feat flip">
+        <div class="col">
+          <h2 class="title">Retail Wedge</h2>
+          <div class="q">What is actually in your electricity bill?</div>
+          <div class="d">The wholesale price is a minority of it. Split into energy &amp; supply, network charges and taxes &amp; levies — Germany ~€0.39/kWh, only ~40% energy. Eurostat, annual, country-level.</div>
+        </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">retail_wedge.html</span></div><div class="shot" data-label="Retail Wedge"><img alt="Retail wedge view" src="public/showcase/retail_wedge.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUE LAYER 3 · Marginal fuel -->
+  <section class="slide" data-tag="VALUE LAYER">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">VALUE LAYER · 3 OF 4</span></div>
+      <div class="two feat">
+        <div class="col">
+          <h2 class="title">Marginal Fuel</h2>
+          <div class="q">Why is the price what it is?</div>
+          <div class="d">A model, not a measurement: the modelled gas marginal cost against the day-ahead price shows gas setting it ~77% of days. The gas input is a labelled proxy; the inference is flagged as such.</div>
+        </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">marginal_fuel.html</span></div><div class="shot" data-label="Marginal Fuel"><img alt="Marginal fuel view" src="public/showcase/marginal_fuel.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUE LAYER 4 · Locational signal -->
+  <section class="slide" data-tag="VALUE LAYER">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">00 / 00</span> · <span class="tag">VALUE LAYER · 4 OF 4</span></div>
+      <div class="two feat flip">
+        <div class="col">
+          <h2 class="title">Locational Signal</h2>
+          <div class="q">Why does Germany waste northern wind?</div>
+          <div class="d">The north–south bottleneck is internal to the one bidding zone, so it shows in neither flows nor prices. Shown as congestion evidence — no simulated split price; the contested case is a cited range.</div>
+        </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">locational_signal.html</span></div><div class="shot" data-label="Locational Signal"><img alt="Locational signal view" src="public/showcase/locational_signal.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+      </div>
+    </div>
+  </section>
+
   <!-- 12 DIVIDER — Act II -->
   <section class="slide divider" data-tag="HOW IT'S BUILT" data-section>
     <div class="inner" style="gap:14px">
@@ -488,8 +574,8 @@
   <section class="slide" data-tag="DATA SOURCES">
     <div class="inner">
       <div class="eyebrow"><span class="num">15 / 17</span> · <span class="tag">DATA SOURCES</span></div>
-      <h2 class="title">Six open feeds, each in its own language</h2>
-      <p class="lede">Wattlas joins half a dozen public sources, each with its own auth, units, language and lag, and reconciles them to one canonical shape.</p>
+      <h2 class="title">Nine open feeds, each in its own language</h2>
+      <p class="lede">A stack of public sources, each with its own auth, units and lag, reconciled to one canonical shape — anything not licence-clean is flagged.</p>
       <div class="srcgrid">
         <div class="src"><div class="nm">ENTSO-E</div><div class="wt">Day-ahead prices, generation, load and cross-border flows for every EU bidding zone.</div><div class="ac">API token</div></div>
         <div class="src"><div class="nm">NESO</div><div class="wt">Great Britain regional carbon intensity, plus Scottish wind constraint payments.</div><div class="ac">Open API</div></div>
@@ -497,8 +583,11 @@
         <div class="src"><div class="nm">SMARD</div><div class="wt">Bundesnetzagentur: per-control-area generation and net balance (German field names).</div><div class="ac">Open API</div></div>
         <div class="src"><div class="nm">ODRÉ / RTE</div><div class="wt">France's éCO2mix régional and national generation by fuel.</div><div class="ac">Open API</div></div>
         <div class="src"><div class="nm">netztransparenz</div><div class="wt">German TSOs: curtailed (abgeregelt) renewable energy by period.</div><div class="ac">OAuth client</div></div>
+        <div class="src"><div class="nm">Eurostat</div><div class="wt">Household &amp; industrial electricity price components (energy / network / taxes).</div><div class="ac">Open API</div></div>
+        <div class="src"><div class="nm">Yahoo TTF</div><div class="wt">Dutch TTF gas front-month, for the marginal-fuel model — a proxy, not licence-clean.</div><div class="ac">Proxy ⚠</div></div>
+        <div class="src"><div class="nm">EEX EUA</div><div class="wt">EU carbon (EUA) price from primary auctions — curated, slow-moving, stated as-of.</div><div class="ac">Curated</div></div>
       </div>
-      <p class="lede hint" style="font-size:13px">Plus Eurostat GISCO boundaries for the maps, and a few curated, cited tables (the cost stack, the storage series).</p>
+      <p class="lede hint" style="font-size:13px">Plus Eurostat GISCO map boundaries and a few curated, cited tables.</p>
     </div>
   </section>
 

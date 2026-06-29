@@ -186,6 +186,84 @@ that is cited to the **ENTSO-E Expert Panel final report** (20 March 2026 — *"
 of many interacting factors … not a single cause or technology"*; *"the problem is not
 renewable energy, but voltage control"*). A fixed historical window, not a refreshing view.
 
+## Value Layer (v10)
+
+Wattlas already owned the *physical* half of the story — what the grid did. The **Value
+Layer** adds the **economic, locational and consumer** half: *what was it worth, where, and
+who paid for it.* Ten views, each leading with its caveat (the numbers here are easy to get
+subtly wrong, so the honest framing is part of the view, not a footnote).
+
+### Capture price / value factor
+
+Generation-weighted capture price ÷ baseload — the **value factor** — for solar and wind per
+zone, trended over time, with the share of each tech's output falling in negative-price
+hours. (DE solar capture runs ~0.55 of baseload.) Resampled to canonical hourly first so the
+Oct-2025 resolution break can't corrupt the weighting; the roadmap **anchor figures are
+cited context, not computed truth** — the live numbers come from the actual series.
+
+### Negative prices — first-class
+
+Negative prices promoted from a secondary line to a metric in their own right: hours per
+year per zone, a calendar heatmap, and **episode duration**. Counted on the canonical hourly
+grid (so 15-minute periods can't inflate the count), in local-time calendar days, never
+clipped.
+
+### Flexibility / dynamic-tariff savings
+
+What a shiftable load (EV, heat pump, battery) charging in the cheapest N hours saves per
+year versus a flat tariff, per zone. The €/yr figure is a **perfect-foresight upper bound** —
+the same caveat as the battery-arbitrage number, carried verbatim — because it assumes the
+cheapest hours are known in advance.
+
+### Storage cannibalization *(added to the Storage view)*
+
+An illustrative parametric curve showing the daily spread compressing as assumed battery
+volume grows, with per-MW arbitrage declining alongside it. **Doubly caveated:** the base
+arbitrage is already a perfect-foresight upper bound, and the compression curve is
+illustrative/parametric, **not measured or a forecast**.
+
+### Curtailment in €
+
+A € axis and a running annual total on the Curtailment view: curtailed MWh × a reference
+rate. An **estimate**, explicitly labelled — *not* billed compensation — with the €7.2bn EU
+2024 figure kept as different-scope (7-country) context, never conflated with the German
+number.
+
+### Locational / market-design signal
+
+The internal north–south congestion made legible from SMARD balance + netztransparenz
+redispatch, with the single-bidding-zone debate framed even-handedly. The bottleneck is
+internal to the DE-LU zone, so **no simulated split price is produced**; the DE5 benchmark
+and the academic dissent are shown as a **cited contested range**, with the decided reality
+(single zone retained) annotated.
+
+### Wholesale→retail wedge
+
+The consumer price decomposed into wholesale | grid fees | levies & taxes over time
+(EUR/kWh, annual). Stated plainly: **EUR/kWh ≠ our €/MWh** (conversion documented), the
+source is biannual averages not hourly, and Eurostat **"DE" is the country, not the DE-LU
+zone** — flagged where wholesale (zone) meets retail (country).
+
+### Capacity & adequacy
+
+A Dunkelflaute residual-load stress indicator alongside a forward consumer-cost line for
+capacity policy. The 12 GW gas tender, 2031 target and levy figures come from a pending
+cabinet bill — carried as **provisional, "not yet law"**, with a range and a citation.
+
+### Marginal-fuel
+
+A **model, not a measurement** — CCGT marginal cost (gas/efficiency + EUA × carbon
+intensity) versus the day-ahead price, inferring when gas sets the price (~77% of days). The
+model caveat is stated prominently; the gas input is a Yahoo TTF proxy and the CO₂ a curated
+EEX value (see sources).
+
+### Industrial prices
+
+A thin DE vs FR/ES/NO industrial-price comparison from Eurostat, with an **explicit
+out-of-scope boundary**: the financing, M&A, PPA and capital-markets themes sit above the
+day-ahead/physical layer Wattlas occupies — a deliberate boundary, not an omission. Any price
+shown is labelled country-level Eurostat, not a Wattlas computation.
+
 ## How it works
 
 ```
@@ -403,6 +481,15 @@ and the Iberian-blackout timeline (including its **"no asserted cause"** contrac
   programme, ANDRA/Cigéo waste-disposal estimates, OECD-NEA system-cost work, and IRENA
   renewable-cost data). This is a hand-assembled, committed static table — **not a live
   feed** — where every figure carries a range and a citation; the view takes no side.
+- [Eurostat — electricity price components](https://ec.europa.eu/eurostat) (`nrg_pc_204_c`
+  household, `nrg_pc_205_c` industrial) — the wholesale/network/taxes split behind the
+  Wholesale→retail wedge and the Industrial-prices comparison (open REST API, no key; annual
+  averages in EUR/kWh, **country-level not bidding-zone**, isolated module, fails open).
+- Yahoo Finance `TTF=F` — the Dutch TTF gas front-month (EUR/MWh) used **only** as the gas
+  input to the marginal-fuel model. A **proxy, not licence-clean for redistribution** —
+  labelled as such and never presented as an official price.
+- EEX EUA — a curated carbon price drawn from EEX primary auctions for the marginal-fuel
+  model (slow-moving, stated **as-of**, not a live feed).
 - Region boundaries — pre-simplified, committed TopoJSON: German Landkreise and French
   régions from [Eurostat GISCO NUTS](https://ec.europa.eu/eurostat/web/gisco) (NUTS-3 /
   NUTS-1, © EuroGeographics); the **12 Nordic bidding zones** dissolved from GISCO NUTS-3
