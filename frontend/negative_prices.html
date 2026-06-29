@@ -6,9 +6,13 @@
   <title>Wattlas — Negative prices</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* Calendar heatmap — CSS grid, one cell per recorded day. Scoped to this view. */
-    .cal-grid { display: grid; grid-template-columns: repeat(auto-fill, 13px); gap: 2px; margin-top: 4px; }
+    /* Calendar heatmap — GitHub-style contributions grid: 7 day-of-week rows
+       (Mon..Sun) flowing down each week column, one column per ISO week across
+       the whole period. grid-auto-flow:column fills top-to-bottom then wraps to
+       the next week. Every day in the range gets a cell (zero days are pale). */
+    .cal-grid { display: grid; grid-template-rows: repeat(7, 13px); grid-auto-flow: column; grid-auto-columns: 13px; gap: 2px; margin-top: 4px; overflow-x: auto; padding-bottom: 4px; }
     .cal-cell { width: 13px; height: 13px; border-radius: 2px; background: #f1efe8; }
+    .cal-cell.empty { background: transparent; }
     .cal-legend { font-size: 11px; color: #5f5e5a; margin-top: 12px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .cal-legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
     .zone-seg { display: inline-flex; flex-wrap: wrap; gap: 6px; margin: 0 0 20px; }
@@ -32,14 +36,14 @@
         <div class="title">A year of negative hours</div>
         <div class="meta">hours per day, last 12 months</div>
       </div>
-      <p class="sub" style="margin:0 0 12px;">Each cell is one day on which at least one hour cleared below zero, shaded by how many. Negative days cluster in sunny, windy stretches.</p>
+      <p class="sub" style="margin:0 0 12px;">Each cell is one day across the whole period; the colour shows how many hours cleared below zero (pale = none). Negative days cluster in sunny, windy stretches.</p>
       <div class="cal-grid" id="calGrid"></div>
       <div class="cal-legend">
         <span>Negative hours/day</span>
         <span style="display:flex;gap:3px;align-items:center" id="calLegend"></span>
         <span id="calLegendMax"></span>
       </div>
-      <div class="meta" style="margin-top:9px;">Counted on the canonical hourly grid (not 15-minute settlement periods), grouped by Europe/Berlin local calendar day, so day length varies across DST. Prices real (ENTSO-E). Only days with at least one negative hour are shown.</div>
+      <div class="meta" style="margin-top:9px;">Counted on the canonical hourly grid (not 15-minute settlement periods), grouped by Europe/Berlin local calendar day, so day length varies across DST. Prices real (ENTSO-E).</div>
     </div>
 
     <div class="card">
@@ -101,18 +105,48 @@
         `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
     }
 
+    // Parse a YYYY-MM-DD as a calendar date (UTC noon avoids DST/local shifts).
+    function parseDay(s) { const [y, m, d] = s.split("-").map(Number); return new Date(Date.UTC(y, m - 1, d, 12)); }
+    function fmtDay(dt) {
+      const y = dt.getUTCFullYear(), m = String(dt.getUTCMonth() + 1).padStart(2, "0"), d = String(dt.getUTCDate()).padStart(2, "0");
+      return y + "-" + m + "-" + d;
+    }
+    // Mon=0 .. Sun=6 (JS getUTCDay has Sun=0), so the grid rows read Mon..Sun.
+    function dowMon(dt) { return (dt.getUTCDay() + 6) % 7; }
+
     function renderCalendar(z) {
       const grid = document.getElementById("calGrid");
       grid.innerHTML = "";
+
+      // Index recorded (non-zero) days by date; the rest default to 0.
+      const byDate = {};
       let maxH = 0;
-      z.calendar.forEach(d => { if (d.neg_hours > maxH) maxH = d.neg_hours; });
-      z.calendar.forEach(d => {
+      z.calendar.forEach(d => { byDate[d.date] = d.neg_hours; if (d.neg_hours > maxH) maxH = d.neg_hours; });
+
+      // Full date range: prefer period_start/end, else min/max of calendar dates.
+      const dates = z.calendar.map(d => d.date).sort();
+      const startStr = z.period_start || dates[0];
+      const endStr = z.period_end || dates[dates.length - 1];
+      if (!startStr || !endStr) return;
+      const start = parseDay(startStr), end = parseDay(endStr);
+
+      // Pad the first week so each column is a full Mon..Sun: emit empty cells
+      // for the weekdays before the period begins.
+      for (let i = 0; i < dowMon(start); i++) {
+        const pad = document.createElement("div");
+        pad.className = "cal-cell empty";
+        grid.appendChild(pad);
+      }
+
+      for (let dt = new Date(start); dt <= end; dt.setUTCDate(dt.getUTCDate() + 1)) {
+        const key = fmtDay(dt);
+        const h = byDate[key] || 0;
         const cell = document.createElement("div");
         cell.className = "cal-cell";
-        cell.style.background = shade(d.neg_hours);
-        cell.title = d.date + " — " + d.neg_hours + (d.neg_hours === 1 ? " negative hour" : " negative hours");
+        cell.style.background = shade(h);
+        cell.title = key + " — " + h + (h === 1 ? " negative hour" : " negative hours");
         grid.appendChild(cell);
-      });
+      }
       const leg = document.getElementById("calLegend");
       leg.innerHTML = "";
       CAL_SCALE.forEach(c => {

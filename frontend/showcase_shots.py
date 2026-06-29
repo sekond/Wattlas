@@ -45,6 +45,12 @@ SHOTS = [
     {"path": "frontend/dunkelflaute.html", "out": "dunkelflaute.png", "h": 900},
     {"path": "frontend/storage.html", "out": "storage.png", "h": 900},
     {"path": "frontend/iberian_blackout.html", "out": "iberian.png", "h": 900},
+    # v10 Value Layer highlights (clipped to .main like the other views)
+    {"path": "frontend/capture_price.html", "out": "capture_price.png", "h": 900},
+    {"path": "frontend/retail_wedge.html", "out": "retail_wedge.png", "h": 900},
+    {"path": "frontend/marginal_fuel.html", "out": "marginal_fuel.png", "h": 900},
+    {"path": "frontend/locational_signal.html", "out": "locational_signal.png", "h": 900},
+    {"path": "frontend/capacity_adequacy.html", "out": "capacity_adequacy.png", "h": 900},
 ]
 
 
