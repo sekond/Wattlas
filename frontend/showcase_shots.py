@@ -8,7 +8,8 @@ ON-DEMAND — Playwright is not a committed dependency:
 Serves the repo root locally, renders each page at ~display resolution (1440px,
 deviceScaleFactor 1 — a gentle downscale into the deck's frames so thin lines and
 small text stay crisp), waits for the charts to draw, and writes stable PNGs to
-frontend/public/showcase/. The deck catalogues every dashboard view and every story.
+frontend/public/showcase/. One capture per view across the five sections of the
+live information architecture (frontend/ia.js); the deck (showcase.html) frames them.
 """
 from __future__ import annotations
 
@@ -24,33 +25,48 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "frontend" / "public" / "showcase"
 PORT = 8099
 
+# One capture per view, grouped by the live five-section information architecture
+# (see frontend/ia.js). The deck (showcase.html) frames each of these. Filenames
+# are stable so the deck's <img src> need not change when this list is re-ordered.
 SHOTS = [
-    # the dashboard, comparing four bidding zones (section opener) — keep the nav chrome
-    {"path": "frontend/dashboard.html", "out": "dashboard-multi.png", "h": 950,
+    # the zone-compare dashboard (now panels.html — dashboard.html is the editorial
+    # landing). Keep the nav chrome here; it's the "compare bidding zones" hero.
+    {"path": "frontend/panels.html", "out": "dashboard-multi.png", "h": 950,
      "clicks": ["FR", "NL", "AT"], "scrollto": ".ctrl", "clip": False},
-    # the eight dashboard views (Carbon has no standalone page — grab its dashboard section)
+
+    # 01 · The Daily Rhythm
     {"path": "frontend/pulse.html", "out": "pulse.png", "h": 900},
     {"path": "frontend/index.html", "out": "spread.png", "h": 900},
-    {"path": "frontend/mix.html", "out": "mix.png", "h": 900},
-    {"path": "frontend/mismatch.html", "out": "mismatch.png", "h": 900},
-    {"path": "frontend/divergence.html", "out": "divergence.png", "h": 900},
-    {"path": "frontend/dashboard.html", "out": "carbon.png", "h": 900, "scrollto": "#carbon", "scrollby": 250},
-    {"path": "frontend/curtailment.html", "out": "curtailment.png", "h": 900},
+    {"path": "frontend/negative_prices.html", "out": "negative_prices.png", "h": 900},
+    {"path": "frontend/capture_price.html", "out": "capture_price.png", "h": 900},
     {"path": "frontend/history.html", "out": "history.png", "h": 900},
-    # the seven stories
+
+    # 02 · What's on the Grid
+    {"path": "frontend/mix.html", "out": "mix.png", "h": 900},
+    {"path": "frontend/carbon.html", "out": "carbon.png", "h": 900},
+    {"path": "frontend/mismatch.html", "out": "mismatch.png", "h": 900},
+    {"path": "frontend/marginal_fuel.html", "out": "marginal_fuel.png", "h": 900},
+
+    # 03 · Geography of Price
+    {"path": "frontend/divergence.html", "out": "divergence.png", "h": 900},
     {"path": "frontend/wasted_wind.html", "out": "wasted_wind.png", "h": 900},
     {"path": "frontend/fr_nuclear.html", "out": "fr_nuclear.png", "h": 900},
     {"path": "frontend/nordic_zones.html", "out": "nordic.png", "h": 900},
     {"path": "frontend/uk_regional.html", "out": "uk_regional.png", "h": 900},
+    {"path": "frontend/curtailment.html", "out": "curtailment.png", "h": 900},
+    {"path": "frontend/locational_signal.html", "out": "locational_signal.png", "h": 900},
+
+    # 04 · When the Grid is Tested
     {"path": "frontend/dunkelflaute.html", "out": "dunkelflaute.png", "h": 900},
     {"path": "frontend/storage.html", "out": "storage.png", "h": 900},
-    {"path": "frontend/iberian_blackout.html", "out": "iberian.png", "h": 900},
-    # v10 Value Layer highlights (clipped to .main like the other views)
-    {"path": "frontend/capture_price.html", "out": "capture_price.png", "h": 900},
-    {"path": "frontend/retail_wedge.html", "out": "retail_wedge.png", "h": 900},
-    {"path": "frontend/marginal_fuel.html", "out": "marginal_fuel.png", "h": 900},
-    {"path": "frontend/locational_signal.html", "out": "locational_signal.png", "h": 900},
     {"path": "frontend/capacity_adequacy.html", "out": "capacity_adequacy.png", "h": 900},
+    {"path": "frontend/iberian_blackout.html", "out": "iberian.png", "h": 900},
+
+    # 05 · The Bill
+    {"path": "frontend/flexibility.html", "out": "flexibility.png", "h": 900},
+    {"path": "frontend/retail_wedge.html", "out": "retail_wedge.png", "h": 900},
+    {"path": "frontend/industrial.html", "out": "industrial.png", "h": 900},
+    # "Curtailment in €" reuses curtailment.png (same page, #cost section).
 ]
 
 
