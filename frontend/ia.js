@@ -211,6 +211,24 @@ window.WATTLAS_IA = {
         { h: "Corrections", p: "Spotted a number that looks wrong? Energy data is easy to get subtly wrong — corrections with a source are genuinely welcome." },
       ],
     },
+    {
+      // IMPRESSUM — operator details mirror the sister project's live Impressum
+      // (StockScore, frontend/src/app/(redesign)/impressum). Keep the name, address
+      // and contact in sync if they ever change. (§ 5 DDG / § 18 Abs. 2 MStV.)
+      id: "impressum",
+      title: "Impressum",
+      kicker: "Legal notice · Angaben gemäß § 5 DDG",
+      blocks: [
+        { h: "", p: "Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG). Wattlas wird von einer Privatperson betrieben und ist ein nicht-kommerzielles, kostenloses Lern- und Informationsprojekt." },
+        { h: "Diensteanbieter", p: "Sebastian Knödel<br>Urbanstraße 64<br>70182 Stuttgart<br>Deutschland" },
+        { h: "Kontakt", p: "E-Mail: contact@sekond.de<br>Telefon: +49 160 4281516" },
+        { h: "Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV", p: "Sebastian Knödel, Anschrift wie unter „Diensteanbieter“." },
+        { h: "Haftung für Inhalte", p: "Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen. Die Inhalte dienen ausschließlich Informations- und Bildungszwecken und stellen keine Anlage-, Handels- oder Energieberatung dar (siehe <a href=\"#/p/terms\">Terms &amp; Disclaimer</a>)." },
+        { h: "Haftung für Links", p: "Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Für diese fremden Inhalte ist stets der jeweilige Anbieter oder Betreiber verantwortlich. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen." },
+        { h: "Urheberrecht", p: "Die durch den Seitenbetreiber erstellten Inhalte unterliegen dem deutschen Urheberrecht. Die zugrunde liegenden offenen Daten verbleiben bei ihren jeweiligen Anbietern und unterliegen deren Lizenz- und Namensnennungspflichten (siehe <a href=\"#/p/sources\">Data sources &amp; licences</a>)." },
+        { h: "Verbraucherstreitbeilegung", p: "Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen." },
+      ],
+    },
   ],
 
   // Footer columns (link groups) shown site-wide.
@@ -226,6 +244,7 @@ window.WATTLAS_IA = {
         { t: "Showcase", href: "showcase.html" },
       ] },
       { title: "Legal", links: [
+        { t: "Impressum", href: "#/p/impressum" },
         { t: "Privacy", href: "#/p/privacy" },
         { t: "Terms & Disclaimer", href: "#/p/terms" },
         { t: "Contact", href: "#/p/contact" },
