@@ -833,8 +833,30 @@ EUR/kWh ≠ our wholesale €/MWh (stated); annual, not hourly; "geo" is the COU
 DE-LU zone; "Energy and supply" includes wholesale + supplier margin (not pure wholesale).
 `curtailment.json` additionally gained a `cost_estimate` block (v10 slice 5): an **estimate**
 (curtailed MWh × a reference rate, `cost_estimate_eur` per day + `total_eur`) — not the
-billed EinsMan compensation; the €7.2bn EU figure is different-scope context. Slices 9
-(marginal-fuel) and 10 (industrial) are **context-only explainer pages** — no data artefact.
+billed EinsMan compensation; the €7.2bn EU figure is different-scope context.
+
+## `industrial_prices.json` (v10 — Value Layer slice 10, source: Eurostat)
+
+Industrial electricity-price comparison from Eurostat `nrg_pc_205_c` (non-household, band
+IC = 500-1 999 MWh/yr), energy|network|taxes_levies per country/year (EUR/kWh, annual).
+Same isolated-fetch + JSON-stat pattern as `retail_wedge.json` (reuses its parser). Fails
+open to `status:"unavailable"`.
+
+```json
+{
+  "generated_at": "…", "status": "ok", "currency": "EUR/kWh", "frequency": "annual",
+  "band": "IC (500-1 999 MWh/yr)", "country_default": "DE",
+  "geos_available": ["DE","ES","FR","NL","NO"],
+  "countries": { "DE": [ { "period": "2024", "energy": 0.129, "network": 0.0704,
+                           "taxes_levies": 0.0823, "total": 0.2817, "currency": "EUR/kWh" } ] }
+}
+```
+
+This is the PRICE layer of industrial competitiveness only; corporate strategy, M&A, PPAs
+and capital-markets themes stay out of scope (the `industrial.html` view says so). **Slice 9
+(marginal-fuel) remains a context-only explainer** — no licence-clean free TTF gas feed
+exists (energy-charts has no gas endpoint; EEX/ICE are paid; Yahoo is licence-murky), so it
+is not fabricated.
 
 ### Frontend obligations
 - Render `perfect_arbitrage_eur_per_mw` only alongside a visible caveat that it is an unachievable upper bound (see CLAUDE.md landmine #7).

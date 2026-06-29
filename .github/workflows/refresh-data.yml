@@ -70,6 +70,8 @@ jobs:
           python pipeline/build_capacity_adequacy.py || echo "capacity-adequacy build skipped/failed — continuing"
           # v10 slice 7 — NEW isolated source: Eurostat household price components (open, no key).
           python pipeline/build_retail_wedge.py || echo "retail-wedge (Eurostat) build skipped/failed — continuing"
+          # v10 slice 10 — thin industrial-price layer (Eurostat nrg_pc_205_c, open, no key).
+          python pipeline/build_industrial_prices.py || echo "industrial-prices (Eurostat) build skipped/failed — continuing"
           # Nordic price-zones slice (v5): day-ahead prices for the 12 Nordic bidding
           # zones (ENTSO-E). Isolated builder; non-fatal so a Nordic fetch hiccup
           # can't break the core refresh.
