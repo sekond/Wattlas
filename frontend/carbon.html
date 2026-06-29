@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Carbon</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .controls { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; margin-bottom: 20px; }
+    .controls label { font-size: 12px; color: var(--muted); margin-right: 6px; }
+    .controls select {
+      font: inherit; font-size: 13px; padding: 6px 10px; border-radius: var(--radius-sm);
+      border: 0.5px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="shell"><main class="main">
+  <div class="wrap">
+    <h1>Carbon</h1>
+    <p class="sub">How clean each hour is — production-based grid carbon intensity. Cleaner midday when wind and solar peak, dirtier when fossil plants fill the gaps.</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 20px;"></div>
+
+    <div class="controls">
+      <div><label for="zone">Zone</label><select id="zone"></select></div>
+    </div>
+
+    <div id="kpis" class="kpis"></div>
+
+    <div class="row2" id="charts">
+      <div class="card">
+        <div class="head"><div class="title">Daily grid carbon intensity</div><div class="meta" id="metaDaily">source ENTSO-E</div></div>
+        <canvas id="chartDaily" height="120"></canvas>
+      </div>
+      <div class="card">
+        <div class="head"><div class="title">Carbon by hour of day</div><div class="meta" id="metaHour">source ENTSO-E</div></div>
+        <canvas id="chartHour" height="120"></canvas>
+      </div>
+    </div>
+
+    <div class="meta" id="capDaily" style="margin-top:12px;">Daily grid carbon intensity, gCO₂eq/kWh. Production-based, IPCC AR5 lifecycle factors. Source: ENTSO-E generation mix.</div>
+    <div class="meta" id="capHour" style="margin-top:8px;">Carbon intensity across the average day. The grid runs cleaner midday when renewables peak and dirtier at the evening fossil ramp. Production-based, IPCC AR5 lifecycle factors.</div>
+    <div id="status" class="loading">Loading data…</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="util.js"></script>
+  <script>
+    const hh = (h) => String(h).padStart(2, "0") + ":00";
+    let CARBON = null, chartDaily = null, chartHour = null;
+
+    async function loadJSON(name) {
+      for (const path of ["../data/" + name, "data/" + name, "/data/" + name]) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) {}
+      }
+      throw new Error("could not load " + name);
+    }
+
+    const mean = (arr) => {
+      const v = arr.filter((x) => x != null);
+      return v.length ? v.reduce((a, x) => a + x, 0) / v.length : null;
+    };
+    // Index of the extreme (min/max) over a numeric profile, ignoring nulls.
+    function extreme(arr, kind) {
+      let idx = -1, val = null;
+      arr.forEach((v, i) => {
+        if (v == null) return;
+        if (val == null || (kind === "min" ? v < val : v > val)) { val = v; idx = i; }
+      });
+      return { idx, val };
+    }
+
+    function renderKPIs(zd) {
+      const meanCI = mean(zd.intensity_daily);
+      const prof = zd.intensity_profile || [];
+      const clean = extreme(prof, "min"), dirty = extreme(prof, "max");
+      const renShare = mean(zd.renewable_share_daily);
+      const items = [
+        { label: "Mean intensity", val: meanCI != null ? Math.round(meanCI) + " gCO₂/kWh" : "—" },
+        { label: "Cleanest hour", val: clean.idx >= 0 ? hh(clean.idx) + " · " + Math.round(clean.val) : "—", cls: "pos" },
+        { label: "Dirtiest hour", val: dirty.idx >= 0 ? hh(dirty.idx) + " · " + Math.round(dirty.val) : "—", cls: "neg" },
+        { label: "Avg renewable share", val: renShare != null ? Math.round(renShare) + "%" : "—" },
+      ];
+      document.getElementById("kpis").innerHTML = items.map((i) =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
+    }
+
+    function renderDaily(zd) {
+      if (chartDaily) chartDaily.destroy();
+      chartDaily = new Chart(document.getElementById("chartDaily"), {
+        type: "line",
+        data: { labels: zd.days.map(fmtDate), datasets: [
+          { label: "Carbon intensity", data: zd.intensity_daily, borderColor: "#5a3a22",
+            backgroundColor: "rgba(90,58,34,0.10)", fill: true, borderWidth: 2, pointRadius: 0, tension: 0.3, spanGaps: true } ] },
+        options: {
+          responsive: true, animation: false, interaction: { mode: "index", intersect: false },
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => c.parsed.y == null ? null :
+              Math.round(c.parsed.y) + " gCO₂/kWh · " +
+              (zd.renewable_share_daily[c.dataIndex] != null ? Math.round(zd.renewable_share_daily[c.dataIndex]) + "% renewable" : "renewable n/a") } } },
+          scales: {
+            x: { ticks: { maxTicksLimit: 8, maxRotation: 0, color: "#888780", font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => v + " g" }, grid: { color: "rgba(0,0,0,0.05)" } },
+          },
+        },
+      });
+    }
+
+    function renderHour(zd) {
+      if (chartHour) chartHour.destroy();
+      const hasRen = Array.isArray(zd.renewable_share_profile);
+      const datasets = [
+        { label: "Carbon intensity", data: zd.intensity_profile, yAxisID: "y", borderColor: "#5a3a22",
+          backgroundColor: "rgba(90,58,34,0.10)", fill: true, borderWidth: 2, pointRadius: 0, tension: 0.3, spanGaps: true } ];
+      if (hasRen) datasets.push(
+        { label: "Renewable share", data: zd.renewable_share_profile, yAxisID: "yRen", borderColor: "#3b6d11",
+          backgroundColor: "transparent", borderWidth: 1.6, pointRadius: 0, tension: 0.3, spanGaps: true });
+      const scales = {
+        x: { ticks: { maxTicksLimit: 12, color: "#888780", font: { size: 10 } }, grid: { display: false } },
+        y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => v + " g" }, grid: { color: "rgba(0,0,0,0.05)" } },
+      };
+      if (hasRen) scales.yRen = { position: "right", min: 0, max: 100, ticks: { color: "#3b6d11", font: { size: 10 }, callback: (v) => v + "%" }, grid: { display: false } };
+      chartHour = new Chart(document.getElementById("chartHour"), {
+        type: "line",
+        data: { labels: (zd.hours || []).map(hh), datasets },
+        options: {
+          responsive: true, animation: false, interaction: { mode: "index", intersect: false },
+          plugins: { legend: { display: hasRen, labels: { font: { size: 10 }, boxWidth: 12 } },
+            tooltip: { callbacks: { label: (c) => c.parsed.y == null ? null :
+              (c.dataset.label === "Renewable share" ? `Renewable: ${Math.round(c.parsed.y)}%` : `Carbon: ${Math.round(c.parsed.y)} gCO₂/kWh`) } } },
+          scales,
+        },
+      });
+    }
+
+    function render() {
+      const z = document.getElementById("zone").value;
+      const zd = CARBON.zones[z];
+      if (!zd) return;
+      renderKPIs(zd);
+      renderDaily(zd);
+      renderHour(zd);
+    }
+
+    function fillSelector() {
+      const zones = (CARBON.zones_available || Object.keys(CARBON.zones)).filter((z) => CARBON.zones[z]);
+      const sel = document.getElementById("zone");
+      sel.innerHTML = zones.map((z) => `<option value="${z}">${zoneName(z)}</option>`).join("");
+      sel.value = CARBON.zone_default && zones.includes(CARBON.zone_default) ? CARBON.zone_default : zones[0];
+    }
+
+    (async function main() {
+      const status = document.getElementById("status");
+      try { CARBON = await loadJSON("carbon.json"); } catch (e) {}
+      if (!CARBON || !CARBON.zones || !Object.keys(CARBON.zones).length) {
+        status.textContent = "Awaiting data. Run the carbon pipeline first, then serve the folder."; return; }
+      fillSelector();
+      const z = document.getElementById("zone").value;
+      const zd = CARBON.zones[z];
+      document.getElementById("periodNote").textContent = `Data shown for ${fmtPeriod(zd.period_start, zd.period_end)}`;
+      render();
+      document.getElementById("zone").addEventListener("change", () => {
+        const zz = CARBON.zones[document.getElementById("zone").value];
+        document.getElementById("periodNote").textContent = `Data shown for ${fmtPeriod(zz.period_start, zz.period_end)}`;
+        render();
+      });
+      status.style.display = "none";
+    })();
+  </script>
+  <script src="nav.js"></script>
+  </main></div>
+</body>
+</html>
