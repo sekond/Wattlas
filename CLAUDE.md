@@ -20,7 +20,7 @@ Never advance past a failed or wrong-looking result; stop and propose a fix.
 Run `bootstrap.py` first to verify the project is correctly assembled.
 
 **For the v2 expansion** (more data sources + a consolidated dashboard): the plan
-is in `ROADMAP_V2.md`, driven by `RUN_V2.md`, with prompts in
+is in `docs/roadmaps/ROADMAP_V2.md`, driven by `docs/runbooks/RUN_V2.md`, with prompts in
 `prompts/v2_prompts.md`. When the user says "Follow RUN_V2.md", run those phases
 one at a time with the same confirmation-gated protocol. Read the v2 landmines
 below before starting any v2 phase.
@@ -28,7 +28,7 @@ below before starting any v2 phase.
 **For the v10 "Value Layer" expansion** (price-formation and value layer: capture
 price, negative-prices, flexibility, storage cannibalization, curtailment-in-€,
 locational signal, retail wedge, capacity adequacy, marginal-fuel, industrial
-proxy): the vetted plan is in `ROADMAP_V10.md`, driven by `RUN_V10.md`, with
+proxy): the vetted plan is in `docs/roadmaps/ROADMAP_V10.md`, driven by `docs/runbooks/RUN_V10.md`, with
 prompts in `prompts/v10_prompts.md`. When the user says "Follow RUN_V10.md", run
 the slices one at a time with the same confirmation-gated protocol. Honour the two
 acceptance gates (capture-price canonical-hourly weighting; the locational view's
@@ -73,7 +73,7 @@ These are non-obvious facts about the data. Getting them wrong produces code tha
 
 8. **Missing data happens.** ENTSO-E has gaps. The pipeline must not crash on a missing day; it should record which days are missing and continue. The frontend must render gracefully when a day is absent.
 
-## v2 expansion landmines (read before the v2 phases — see ROADMAP_V2.md)
+## v2 expansion landmines (read before the v2 phases — see docs/roadmaps/ROADMAP_V2.md)
 
 9. **Generation-by-type is messier than prices.** More categories, more gaps,
    underreported buckets, and an "other/unknown" category. Never fabricate a

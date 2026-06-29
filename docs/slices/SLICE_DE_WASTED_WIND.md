@@ -1,9 +1,9 @@
 # Vertical slice spec — "Why Germany throws away wind it can't ship south"
 
 > **Status:** spec only. No code is written until each step below is approved under
-> the `RUN.md` / `RUN_V2.md` protocol (one step per turn, confirmation-gated).
-> Detailed per-step prompts will live in `prompts/v3_prompts.md`, mirroring
-> `prompts/v2_prompts.md`. This is **phase one (Germany only)**; the France
+> the `../../RUN.md` / `../runbooks/RUN_V2.md` protocol (one step per turn, confirmation-gated).
+> Detailed per-step prompts will live in `../../prompts/v3_prompts.md`, mirroring
+> `../../prompts/v2_prompts.md`. This is **phase one (Germany only)**; the France
 > regional layer is deferred to phase two, after this ships and is validated.
 
 This is the first **map-based** view in Wattlas and the first that goes *below* the
@@ -113,7 +113,7 @@ tells the south it's short or the north it's long.
 
 ## 3. Datasets & endpoints
 
-All sourced from `SOURCES.md`. Secrets (where needed) live in `.env` (gitignored);
+All sourced from `../SOURCES.md`. Secrets (where needed) live in `.env` (gitignored);
 read via environment variables. Each row that is new gets its **own isolated pipeline
 module** — never entangled with the ENTSO-E pipeline (landmine 11).
 
@@ -290,7 +290,7 @@ Reused unchanged: `data/curtailment.json`, `data/spread.json`.
 2. **Translation module.** `pipeline/de_fields.py` + unit tests.
 3. **MaStR aggregation.** `build_mastr_capacity.py` → the two JSON files; update
    `schema.md`; unit-test aggregation on a fixture. **← USER sanity-checks the first
-   real capacity numbers (gated, per RUN.md).**
+   real capacity numbers (gated, per ../../RUN.md).**
 4. **Panel 1.** Wire choropleth + wind/solar toggle + top-20 points + caption (block D).
 5. **Regional balance.** `build_regional_balance.py` from SMARD → Panel 2 (net balance
    + redispatch overlay, reusing curtailment's degrade behaviour).

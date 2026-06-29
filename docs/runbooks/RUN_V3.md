@@ -1,8 +1,8 @@
 # RUN_V3.md — Execution protocol for the "wasted wind" slice
 
-Same rules as `RUN.md` / `RUN_V2.md`: **you never copy-paste prompts.** Claude Code
-reads them itself from `prompts/v3_prompts.md` and works through the steps defined
-in `SLICE_DE_WASTED_WIND.md` in order. You approve each step before it runs and
+Same rules as `../../RUN.md` / `RUN_V2.md`: **you never copy-paste prompts.** Claude Code
+reads them itself from `../../prompts/v3_prompts.md` and works through the steps defined
+in `../slices/SLICE_DE_WASTED_WIND.md` in order. You approve each step before it runs and
 verify the result before the next.
 
 This builds **one vertical slice** — the Germany north–south "Why Germany throws
@@ -23,7 +23,7 @@ each step:
    step adds the new map dependency (D3) or touches a new source (MaStR, SMARD).
 2. **Stop and wait for the user's explicit approval** ("go", "next", etc.). Honour
    skip / stop / adjust.
-3. On approval, execute that step's prompt from `prompts/v3_prompts.md` yourself —
+3. On approval, execute that step's prompt from `../../prompts/v3_prompts.md` yourself —
    do not ask the user to paste it.
 4. Regenerate any affected JSON and run the tests (`python pipeline/test_metrics.py`,
    plus any new slice tests) to confirm nothing broke.
@@ -47,7 +47,7 @@ If a step fails, a result looks wrong, or a source returns unexpected data, **st
 — report it and propose a fix. Do not auto-advance past a problem. Prefer a small
 test fetch/aggregate before a full pipeline run.
 
-**Architectural guardrail (from CLAUDE.md):** this slice stays **static** —
+**Architectural guardrail (from ../../CLAUDE.md):** this slice stays **static** —
 pre-computed JSON + a committed, pre-simplified TopoJSON basemap, no backend, no
 database, **no map tiles** (D3-geo renders the committed TopoJSON; no tile server,
 so the page still opens as a file). If any step seems to need a live backend or a
@@ -57,10 +57,10 @@ tile service, stop and flag it as a deliberate decision rather than adding one.
 pipeline module, never entangled with the ENTSO-E pipeline. All German field names
 are translated in one place (`de_fields.py`); no German label reaches the frontend.
 
-## The steps (full detail in `prompts/v3_prompts.md`; rationale in `SLICE_DE_WASTED_WIND.md`)
+## The steps (full detail in `../../prompts/v3_prompts.md`; rationale in `../slices/SLICE_DE_WASTED_WIND.md`)
 
 ### Step 0 — Pre-flight + orientation
-Execute **Prompt 0**: read `CLAUDE.md`, `SLICE_DE_WASTED_WIND.md`, `SOURCES.md`, and
+Execute **Prompt 0**: read `../../CLAUDE.md`, `../slices/SLICE_DE_WASTED_WIND.md`, `../SOURCES.md`, and
 `data/schema.md`; produce a <200-word summary of the slice, its three panels, and
 the data plan; change nothing.
 **Gate:** the summary must name the slice's two extra landmines — the north–south
@@ -114,7 +114,7 @@ Execute **Prompt 7**: final rounding / English-only / caveat pass; optional dash
 panel link; add the new builders to `.github/workflows/refresh-data.yml` (degrade
 gracefully if a source is missing); confirm offline tests pass and the page opens
 statically.
-**Gate:** definition of done in `SLICE_DE_WASTED_WIND.md` §11 met.
+**Gate:** definition of done in `../slices/SLICE_DE_WASTED_WIND.md` §11 met.
 
 ## Between steps — the move that matters
 Each panel is a sensible stopping point and a chance to show the sharpened view to a

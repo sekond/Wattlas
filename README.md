@@ -30,21 +30,25 @@ tiles, no backend.
 
 ## The views
 
-The **Dashboard** is the home page; the eight core topic views below are the panels it
-unifies, and each also has a focused standalone page. Beyond them, seven **deep dives** —
-standalone pages linked from the dashboard rather than dashboard panels — go further: four
-**map stories** that drop below the bidding-zone line (**North–south grid**, **France
-nuclear**, **Nordic price zones**, **UK regional**) and three chart-based stories on grid
-stress, storage and a historical blackout (**Dunkelflaute**, **Storage**, **Iberian
-blackout**).
+All 26 destinations are grouped under **five question-led sections** — *The Daily Rhythm,
+What's on the Grid, Geography of Price, When the Grid is Tested, The Bill* — surfaced by an
+editorial **landing page** that routes a first-time visitor into the question they came
+for. Each section has a hub page; each view is a focused standalone page that points to its
+siblings. The eight core topic views below sit across these sections, alongside seven
+**deep dives** — four **map stories** that drop below the bidding-zone line (**North–south
+grid**, **France nuclear**, **Nordic price zones**, **UK regional**) and three chart-based
+stories on grid stress, storage and a historical blackout (**Dunkelflaute**, **Storage**,
+**Iberian blackout**) — and the **value layer** (capture price, negative prices,
+flexibility, retail wedge, and more).
 
-### Dashboard — everything at once *(landing page)*
+### Home — the editorial landing *(landing page)*
 
-A sidebar-navigated, story-driven layout with all eight views as panels. Pick a
-zone (compare up to six), choose a time window — or drag the date-range brush —
-and every panel that supports it snaps to your choice, with a linked hover
-crosshair across charts and a plain-language headline computed live from the data.
-Collapses to a phone-native app with bottom-tab navigation on mobile.
+`dashboard.html` is the home: a hero, the five question-led section cards, and a
+"what changed" note — an on-ramp that orients a newcomer rather than a wall of links. The
+navigation (`nav.js`, injected site-wide) is a grouped **accordion sidebar** on desktop and
+a **bottom tab bar** of the five sections on mobile; every page carries a footer and a
+"More in this question" rail. The original all-at-once **panel dashboard** (zone compare,
+date-range brush, linked crosshair) is preserved at `panels.html`.
 
 ### Pulse — the daily rhythm
 
@@ -313,10 +317,12 @@ explicit in the app rather than hidden:
 
 ## Status
 
-Released as **v1.0.0** — see [Releases](https://github.com/sekond/Wattlas/releases) — and
-extended well beyond it since: **four map stories** (North–south grid, France nuclear,
-Nordic price zones, UK regional) and **three chart-based deep dives** (Dunkelflaute,
-Storage, Iberian blackout) added and deployed (see the [changelog](CHANGELOG.md)). A
+Released as **v1.1.0** — see [Releases](https://github.com/sekond/Wattlas/releases). The
+initial **v1.0.0** was the Spread view; **v1.1.0** captures everything since: the full
+eight-view dashboard, **four map stories** (North–south grid, France nuclear, Nordic price
+zones, UK regional), **three chart-based deep dives** (Dunkelflaute, Storage, Iberian
+blackout), the **value layer**, and a navigation **restructure** into five question-led
+sections (see the [changelog](docs/CHANGELOG.md)). A
 working, deployed learning project: the data engineering is complete and the numbers
 reproduce known structural features of the German, French, Nordic, British and wider
 European markets — and replay a real historical event. It is not a commercial product and
@@ -405,7 +411,9 @@ it's a manual run.
   `test_nordic_zones`, `test_uk_regional_carbon`, `test_uk_constraints`, `test_dunkelflaute`,
   `test_storage`, `test_iberian_blackout`)
 - `data/*.json` — pre-aggregated, committed view data; `data/schema.md` — the pipeline↔frontend contract
-- `frontend/dashboard.html` — the landing dashboard; `frontend/{pulse,index(Spread),divergence,mix,mismatch,curtailment,history}.html` — standalone views
+- `frontend/dashboard.html` — the **editorial landing** (five question-led sections); `frontend/{pulse,index(Spread),divergence,mix,mismatch,curtailment,history}.html` — standalone views
+- `frontend/ia.js` — the information-architecture **source of record** (`WATTLAS_IA`: the five sections, every view, footer + standard-page copy); `frontend/nav.js` — the site chrome injected on every page (accordion sidebar, mobile top bar + bottom tab bar, footer, "More in this question" rail)
+- `frontend/section.html` (`?s=<id>` hubs), `frontend/page.html` (`?p=<id>` standard pages — About/How it works/Sources/Privacy/Terms/Contact), `frontend/audit.html` (why-we-restructured) — templated chrome pages rendered from `ia.js` by `frontend/redesign.js` + `frontend/redesign.css`; `frontend/panels.html` — the original all-at-once panel dashboard, preserved
 - `frontend/wasted_wind.html` (North–south grid), `frontend/fr_nuclear.html` (France nuclear),
   `frontend/nordic_zones.html` (Nordic price zones), `frontend/uk_regional.html` (UK regional) —
   the **map views**; `frontend/geo.js` — D3-geo render helpers (a reusable choropleth + rich hover);
@@ -414,9 +422,10 @@ it's a manual run.
   three chart-based **deep dives**
 - `frontend/dash/` — dashboard modules (`dash-core/panels-a/panels-b/boot.js`, `mobile-panels.js`, `dash.css`, `mobile.css`)
 - `frontend/fuels.js` — fuel palette mirror; `frontend/util.js`, `frontend/styles.css` — shared helpers and styles
-- `ROADMAP_V2.md`, `RUN_V2.md` … `RUN_V9.md` (the staged slices: V3 North–south grid, V4 France
+- `docs/` — the staged expansion plans, runners and prompts: `docs/roadmaps/ROADMAP_V2.md`,
+  `docs/runbooks/RUN_V2.md` … `RUN_V10.md` (the staged slices: V3 North–south grid, V4 France
   nuclear, V5 Nordic zones, V6 UK regional, V7 Dunkelflaute, V8 Iberian blackout, V9 Storage),
-  `SLICE_*.md`, `SOURCES.md`, `prompts/` — the staged expansion plans, runners and prompts
+  `docs/slices/SLICE_*.md`, `docs/SOURCES.md`, `docs/CHANGELOG.md`; plus `prompts/`
 - `design-archive/` — frozen design-handoff bundle (reference only; the live dashboard lives in `frontend/dash/`)
 - `.github/workflows/refresh-data.yml` — daily data refresh
 

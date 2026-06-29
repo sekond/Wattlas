@@ -1,6 +1,6 @@
 # ROADMAP v10 — The "Value Layer": from what the grid did to what it was worth
 
-Vetted plan produced under `RUN_V10.md` from `wattlas-consolidated-roadmap.md`
+Vetted plan produced under `../runbooks/RUN_V10.md` from `wattlas-consolidated-roadmap.md`
 (synthesis of three energy podcasts) reviewed against the live codebase. Wattlas
 already owns the *physical* half of the 2025–26 energy story (duck curve,
 residual load, congestion, Dunkelflaute, curtailment, zone decoupling, a

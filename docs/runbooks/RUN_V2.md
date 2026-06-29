@@ -1,8 +1,8 @@
 # RUN_V2.md — Execution protocol for the v2 expansion
 
-Same rules as `RUN.md`: **you never copy-paste prompts.** Claude Code reads them
-itself from `prompts/v2_prompts.md` and works through the phases in
-`ROADMAP_V2.md` in order. You approve each phase before it runs and verify the
+Same rules as `../../RUN.md`: **you never copy-paste prompts.** Claude Code reads them
+itself from `../../prompts/v2_prompts.md` and works through the phases in
+`../roadmaps/ROADMAP_V2.md` in order. You approve each phase before it runs and verify the
 result before the next.
 
 ## How to start
@@ -13,14 +13,14 @@ Open the project in Claude Code and say:
 
 ## The protocol Claude Code follows
 
-Execute the phases in `ROADMAP_V2.md` **one at a time** — never more than one
+Execute the phases in `../roadmaps/ROADMAP_V2.md` **one at a time** — never more than one
 phase per turn. For each phase:
 
 1. State the phase number, what it builds, and (for Phases 4–5) that it adds a
    NEW external data source. One or two sentences.
 2. **Stop and wait for the user's explicit approval** ("go", "next", etc.).
    Honour skip/stop/adjust.
-3. On approval, execute that phase's prompt from `prompts/v2_prompts.md`
+3. On approval, execute that phase's prompt from `../../prompts/v2_prompts.md`
    yourself — do not ask the user to paste it.
 4. Regenerate any affected JSON and run the existing tests
    (`python pipeline/test_metrics.py`) to confirm nothing broke.
@@ -40,11 +40,11 @@ If a phase fails, a result looks wrong, or a new source returns unexpected data,
 **stop** — report it and propose a fix. Do not auto-advance past a problem. For
 new sources especially, prefer a small test fetch before the full pipeline run.
 
-**Architectural guardrail (from CLAUDE.md):** every phase here stays static —
+**Architectural guardrail (from ../../CLAUDE.md):** every phase here stays static —
 pre-computed JSON, no backend, no database. If any phase seems to require a live
 backend, stop and flag it as a deliberate decision rather than adding one.
 
-## The phases (see ROADMAP_V2.md for full rationale)
+## The phases (see ../roadmaps/ROADMAP_V2.md for full rationale)
 
 1. **Generation mix** — full fuel breakdown + France/Germany comparison. (ENTSO-E)
 2. **Cross-border flows** — physical flows + congestion in Divergence. (ENTSO-E)

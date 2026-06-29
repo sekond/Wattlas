@@ -1,9 +1,9 @@
 # v10 prompts — the "Value Layer" expansion
 
 One self-contained implementation prompt per slice, in build order. Execute via
-`RUN_V10.md`, one slice per turn, with confirmation between slices. Full rationale,
+`../docs/runbooks/RUN_V10.md`, one slice per turn, with confirmation between slices. Full rationale,
 JSON shapes, schema deltas, metric signatures, honesty caveats and lane tags live in
-`ROADMAP_V10.md` — trust it; don't re-derive. `CLAUDE.md` (with the v2 data landmines)
+`../docs/roadmaps/ROADMAP_V10.md` — trust it; don't re-derive. `CLAUDE.md` (with the v2 data landmines)
 is loaded automatically.
 
 Prime directive: **stay static** (pre-computed JSON, no backend). Each new source is
@@ -22,7 +22,7 @@ exists and is licence-clean; if not, take the documented fallback and report it.
 > **Goal:** generation-weighted capture price ÷ baseload (the value factor) for solar
 > and wind, per bidding zone, trended monthly, plus each tech's share of generation in
 > negative-price hours.
-> **Inputs:** `ROADMAP_V10.md` Slice 1; `_raw_generation_{zone}.parquet` (build_mix),
+> **Inputs:** `../docs/roadmaps/ROADMAP_V10.md` Slice 1; `_raw_generation_{zone}.parquet` (build_mix),
 > `_raw_zone_prices.parquet` (build_divergence) for DE_LU, FR, NL, BE, PL, AT;
 > `metrics.py`, `fuels.py`, `data/schema.md`.
 > **Build:** new `pipeline/build_capture_price.py` that reads both caches (run after
@@ -45,7 +45,7 @@ exists and is licence-clean; if not, take the documented fallback and report it.
 
 > **Goal:** per zone — negative hours/month, a date→count calendar, and episode (run-length)
 > duration.
-> **Inputs:** `ROADMAP_V10.md` Slice 2; `_raw_zone_prices.parquet`; `metrics.py`.
+> **Inputs:** `../docs/roadmaps/ROADMAP_V10.md` Slice 2; `_raw_zone_prices.parquet`; `metrics.py`.
 > **Build:** new `pipeline/build_negative_prices.py` (after build_divergence); new pure
 > `metrics.negative_price_episodes(prices)` (run-length encoding of consecutive negative
 > hours + per-day counts) **on the canonical hourly grid**. Write
@@ -62,7 +62,7 @@ exists and is licence-clean; if not, take the documented fallback and report it.
 
 > **Goal:** "a shiftable load charging in the cheapest N hours saves €X/year vs. a flat
 > tariff," per zone.
-> **Inputs:** `ROADMAP_V10.md` Slice 3; `_raw_zone_prices.parquet`; `metrics.py`.
+> **Inputs:** `../docs/roadmaps/ROADMAP_V10.md` Slice 3; `_raw_zone_prices.parquet`; `metrics.py`.
 > **Build:** new `pipeline/build_flex_savings.py`; new pure
 > `metrics.cheapest_n_hours_savings(prices, kwh_per_day, n)` (flat = annual mean price).
 > Write `data/flex_savings.json` with a few presets (EV / heat pump / home battery) + a
@@ -80,7 +80,7 @@ exists and is licence-clean; if not, take the documented fallback and report it.
 
 > **Goal:** add spread compression vs. assumed battery GW to the Storage deep-dive, plus a
 > capacity-remuneration note — keeping the honest arbitrage toy.
-> **Inputs:** `ROADMAP_V10.md` Slice 4; `pipeline/build_storage.py`; `storage.json`.
+> **Inputs:** `../docs/roadmaps/ROADMAP_V10.md` Slice 4; `pipeline/build_storage.py`; `storage.json`.
 > **Build:** extend `build_storage.py` with a parametric illustrative
 > `spread_compression(installed_gw)`; add a `cannibalization` block to `storage.json`.
 > Fixture: monotonic arbitrage decline as GW rises. Frontend: a cannibalization curve on
@@ -96,7 +96,7 @@ exists and is licence-clean; if not, take the documented fallback and report it.
 ## Prompt 5 — Curtailment in €  (B2B · NEEDS-DATA same source · ⚠ VERIFY-FIRST)
 
 > **Goal:** a € axis + running annual total on the Curtailment view.
-> **Inputs:** `ROADMAP_V10.md` Slice 5; `pipeline/build_curtailment.py`; `curtailment.json`.
+> **Inputs:** `../docs/roadmaps/ROADMAP_V10.md` Slice 5; `pipeline/build_curtailment.py`; `curtailment.json`.
 > **Build:** **VERIFY-FIRST** — does netztransparenz expose redispatch compensation cost
 > (€)? If yes, extend `build_curtailment.py` to fetch it; if no, compute `MWh × reference
 > price` and set `method:"estimate"`. Add `cost_eur`/`cost_by_month`,
@@ -114,8 +114,8 @@ exists and is licence-clean; if not, take the documented fallback and report it.
 
 > **Goal:** make internal DE north–south congestion legible and frame the market-design
 > debate — **without fabricating a split price**.
-> **Inputs:** `ROADMAP_V10.md` Slice 6; `de_regional_balance.json`, `curtailment.json`
-> (+ € from Slice 5), `de_capacity_by_landkreis.json`; the Divergence view; `SLICE_DE_WASTED_WIND.md` for the north–south landmine.
+> **Inputs:** `../docs/roadmaps/ROADMAP_V10.md` Slice 6; `de_regional_balance.json`, `curtailment.json`
+> (+ € from Slice 5), `de_capacity_by_landkreis.json`; the Divergence view; `../docs/slices/SLICE_DE_WASTED_WIND.md` for the north–south landmine.
 > **Build:** new thin `pipeline/build_locational_signal.py` that assembles those JSONs +
 > a curated `context` block; a small pure north–south imbalance/congestion index. Write
 > `data/locational_signal.json`. Fixture: inline regional balance → expected index.
@@ -134,7 +134,7 @@ exists and is licence-clean; if not, take the documented fallback and report it.
 ## Prompt 7 — Wholesale→retail wedge  (B2C · NEEDS-NEW-DATA · ⚠ VERIFY-FIRST)
 
 > **Goal:** decompose the consumer price into wholesale | grid fees | levies/taxes over time.
-> **Inputs:** `ROADMAP_V10.md` Slice 7; `SOURCES.md`; our own price mean (spread/divergence).
+> **Inputs:** `../docs/roadmaps/ROADMAP_V10.md` Slice 7; `../docs/SOURCES.md`; our own price mean (spread/divergence).
 > **Build:** **VERIFY-FIRST** — confirm Eurostat `nrg_pc_204` dataset code + the
 > energy/network/taxes-levies component breakdown + country coverage. New **isolated**
 > `pipeline/build_retail_wedge.py` (own auth/units, non-fatal). Write `data/retail_wedge.json`;
@@ -154,7 +154,7 @@ exists and is licence-clean; if not, take the documented fallback and report it.
 
 > **Goal:** a forward consumer-cost line for capacity policy + a Dunkelflaute residual-load
 > stress indicator.
-> **Inputs:** `ROADMAP_V10.md` Slice 8; `mismatch.json`, `dunkelflaute.json`; `fr_costs.json`
+> **Inputs:** `../docs/roadmaps/ROADMAP_V10.md` Slice 8; `mismatch.json`, `dunkelflaute.json`; `fr_costs.json`
 > as the curated-table pattern.
 > **Build:** new `pipeline/build_capacity_adequacy.py` — a residual-load stress summary from
 > the existing JSONs + a curated/cited `cost` table. Write `data/capacity_adequacy.json`.
@@ -172,7 +172,7 @@ exists and is licence-clean; if not, take the documented fallback and report it.
 
 > **Goal:** overlay the marginal fuel / gas-CO₂ signal on Pulse/Mix to explain *why* the
 > price is set.
-> **Inputs:** `ROADMAP_V10.md` Slice 9; `SOURCES.md`; `mix.json`, `pulse.json`.
+> **Inputs:** `../docs/roadmaps/ROADMAP_V10.md` Slice 9; `../docs/SOURCES.md`; `mix.json`, `pulse.json`.
 > **Build:** **VERIFY-FIRST** — find a genuinely free, licence-clean **TTF gas + CO₂** feed.
 > **If none exists honestly, STOP and build a CONTEXT-ONLY explainer instead (no data
 > artefact), and report that decision.** If a feed exists: new isolated
@@ -190,7 +190,7 @@ exists and is licence-clean; if not, take the documented fallback and report it.
 ## Prompt 10 — Industrial-competitiveness layer  (B2B · CONTEXT-ONLY)
 
 > **Goal:** a thin DE vs. FR/ES/NO industrial-price comparison with an explicit scope boundary.
-> **Inputs:** `ROADMAP_V10.md` Slice 10; Slice 7's Eurostat module (if built).
+> **Inputs:** `../docs/roadmaps/ROADMAP_V10.md` Slice 10; Slice 7's Eurostat module (if built).
 > **Build:** a static annotated explainer. Optionally a thin Eurostat `nrg_pc_205`
 > industrial-price proxy reusing Slice 7's module; otherwise pure context. State plainly
 > that corporate strategy, M&A, PPAs and capital-markets themes are **out of Wattlas's data

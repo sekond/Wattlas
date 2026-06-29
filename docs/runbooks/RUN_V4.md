@@ -1,8 +1,8 @@
 # RUN_V4.md — Execution protocol for the France nuclear slice
 
-Same rules as `RUN.md` / `RUN_V2.md` / `RUN_V3.md`: **you never copy-paste prompts.**
-Claude Code reads them itself from `prompts/v4_prompts.md` and works through the steps
-defined in `SLICE_FR_NUCLEAR.md` in order. You approve each step before it runs and
+Same rules as `../../RUN.md` / `RUN_V2.md` / `RUN_V3.md`: **you never copy-paste prompts.**
+Claude Code reads them itself from `../../prompts/v4_prompts.md` and works through the steps
+defined in `../slices/SLICE_FR_NUCLEAR.md` in order. You approve each step before it runs and
 verify the result before the next.
 
 This builds **one vertical slice** — the France nuclear view (fleet map + exporter/
@@ -25,7 +25,7 @@ each step:
    touches a new source (éCO2mix régional, RTE).
 2. **Stop and wait for the user's explicit approval** ("go", "next", etc.). Honour
    skip / stop / adjust.
-3. On approval, execute that step's prompt from `prompts/v4_prompts.md` yourself — do
+3. On approval, execute that step's prompt from `../../prompts/v4_prompts.md` yourself — do
    not ask the user to paste it.
 4. Regenerate any affected JSON and run the tests (`python pipeline/test_metrics.py`,
    plus any new slice tests) to confirm nothing broke.
@@ -46,7 +46,7 @@ If a step fails, a result looks wrong, or a source returns unexpected data, **st
 report it and propose a fix. Do not auto-advance past a problem. Prefer a small test
 fetch before a full pipeline run.
 
-**Architectural guardrail (from CLAUDE.md):** this slice stays **static** —
+**Architectural guardrail (from ../../CLAUDE.md):** this slice stays **static** —
 pre-computed JSON + committed TopoJSON, **no backend, no tiles** (D3-geo renders the
 committed boundaries). If a step seems to need a live backend or tile service, stop and
 flag it as a deliberate decision rather than adding one.
@@ -56,10 +56,10 @@ flag it as a deliberate decision rather than adding one.
 pipelines. All French field names are translated in one place (`fr_fields.py`); no
 French label reaches the frontend.
 
-## The steps (full detail in `prompts/v4_prompts.md`; rationale in `SLICE_FR_NUCLEAR.md`)
+## The steps (full detail in `../../prompts/v4_prompts.md`; rationale in `../slices/SLICE_FR_NUCLEAR.md`)
 
 ### Step 0 — Pre-flight + orientation
-Execute **Prompt 0**: read `CLAUDE.md`, `SLICE_FR_NUCLEAR.md`, `SOURCES.md`, and
+Execute **Prompt 0**: read `../../CLAUDE.md`, `../slices/SLICE_FR_NUCLEAR.md`, `../SOURCES.md`, and
 `data/schema.md`; produce a <200-word summary of the slice, its three panels, and the
 data plan; change nothing.
 **Gate:** the summary must name the slice's two landmines — France is one bidding zone
@@ -113,7 +113,7 @@ symmetric/non-advocacy; stays static.
 Execute **Prompt 8**: English-only / rounding / caveat pass; optional dashboard panel;
 add the new builders to `.github/workflows/refresh-data.yml` (degrade gracefully if a
 source is missing); confirm offline tests pass and the page opens statically.
-**Gate:** definition of done in `SLICE_FR_NUCLEAR.md` §11 met.
+**Gate:** definition of done in `../slices/SLICE_FR_NUCLEAR.md` §11 met.
 
 ## Between steps — the move that matters
 Each panel is a sensible stopping point and a chance to show the slice — and the

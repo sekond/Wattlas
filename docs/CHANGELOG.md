@@ -5,6 +5,39 @@ All notable changes to Wattlas. Format loosely follows
 
 ## [Unreleased]
 
+## [1.1.0] — 2026-06-29
+
+Everything below the bidding-zone line and beyond price, plus a navigation
+overhaul — the whole expansion since the v1.0.0 Spread release, now tagged. The
+data contract (`data/schema.md`) is unchanged; this is additive features plus a
+frontend/IA restructure.
+
+### Changed — Navigation & information architecture (UX restructure)
+- Regrouped the 26 destinations from build-history buckets ("The Eight Views /
+  Deep dives / Value layer") into **five question-led sections** — The Daily
+  Rhythm, What's on the Grid, Geography of Price, When the Grid is Tested, The
+  Bill. The mapping is authored once in `frontend/ia.js` (`WATTLAS_IA`) and reused
+  everywhere (sidebar, landing, hubs, footer).
+- Rewrote `frontend/nav.js`: desktop is now a grouped **accordion sidebar** (the
+  current section auto-expands); mobile gets a sticky top bar (☰ drawer / ‹ back)
+  plus a fixed **bottom tab bar** carrying the five sections. A site-wide footer
+  and a **"More in this question"** sibling rail (so view pages stop dead-ending)
+  are injected on every page.
+- New editorial **landing** (`dashboard.html`), templated **section hubs**
+  (`section.html?s=<id>`), **standard pages** (`page.html?p=<id>` — About, How it
+  works, Data sources, Privacy, Terms, Contact) and a **why-we-restructured audit**
+  (`audit.html`), all rendered from `ia.js` by `redesign.js` + `redesign.css`. The
+  old panel dashboard is preserved at `panels.html`.
+- Stayed static and storage-free: the prototype's iframe SPA router and its
+  `localStorage` nav-mode toggle were intentionally **dropped** (production is
+  multi-page; CLAUDE.md forbids browser storage). Design handoff archived under
+  `design-archive/ux_restructure_handoff/`.
+
+### Changed — Repository organisation
+- Moved loose top-level docs into a `docs/` tree (`runbooks/`, `roadmaps/`,
+  `slices/`, plus `SOURCES.md` plus this changelog); all cross-references updated.
+  `CLAUDE.md`, `README.md` and `RUN.md` stay at root (bootstrap + runbook entry).
+
 Below the bidding-zone line — the first **map-based** views, and a deliberate
 **diptych**: Germany can't ship its northern wind to southern demand; France can't
 always keep its centralised nuclear cool. Both stay static (pre-computed JSON +

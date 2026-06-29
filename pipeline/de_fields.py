@@ -2,7 +2,7 @@
 SMARD). The SINGLE place where German field names and category labels are mapped
 to English / canonical fuels.
 
-Why this exists (CLAUDE.md landmines 9 & 11; SLICE_DE_WASTED_WIND.md §4):
+Why this exists (CLAUDE.md landmines 9 & 11; docs/slices/SLICE_DE_WASTED_WIND.md §4):
 MaStR and SMARD publish German labels ("Solare Strahlungsenergie", "Braunkohle",
 "In Betrieb", "Windkraft auf See"). NO German string is allowed to reach the
 frontend or the ENTSO-E pipeline. Every downstream module (build_mastr_capacity,

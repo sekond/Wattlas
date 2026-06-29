@@ -5,8 +5,8 @@ dashboard. It deliberately sequences the work so each phase is independently
 shippable and verifiable, and so the dashboard arrives *after* the data layers
 exist to fill it.
 
-**Read this first, then follow `RUN_V2.md` to execute.** The detailed per-step
-prompts are in `prompts/v2_prompts.md`.
+**Read this first, then follow `../runbooks/RUN_V2.md` to execute.** The detailed per-step
+prompts are in `../../prompts/v2_prompts.md`.
 
 ---
 

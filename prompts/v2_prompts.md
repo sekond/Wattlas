@@ -1,6 +1,6 @@
 # v2 prompts — the expansion phases
 
-Detailed prompts for each phase in `ROADMAP_V2.md`. Execute via `RUN_V2.md`, one
+Detailed prompts for each phase in `../docs/roadmaps/ROADMAP_V2.md`. Execute via `../docs/runbooks/RUN_V2.md`, one
 phase at a time, with confirmation between phases. Each follows the repo's rule:
 explicit goal, inputs, output format, success criteria. `CLAUDE.md` (with the v2
 data landmines) is loaded automatically — trust it; don't re-derive the quirks.

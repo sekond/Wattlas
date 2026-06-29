@@ -10,14 +10,14 @@ Wattlas repo (preserving the `prompts/` and `frontend/` subfolders), open the re
 | File | What it is |
 |------|-----------|
 | `SLICE_DE_WASTED_WIND.md` | The spec — one question, three panels, datasets/endpoints, pipeline modules, acceptance criteria, honest-framing copy blocks, risks, out-of-scope. |
-| `RUN_V3.md` | The gated runbook — turn-by-turn protocol; kick off with "Follow RUN_V3.md". |
-| `prompts/v3_prompts.md` | The eight per-step prompts (0–7) Claude Code reads and executes itself. |
-| `SOURCES.md` | The European data-source catalogue (MaStR, SMARD, netztransparenz, …) the slice draws on. |
+| `../runbooks/RUN_V3.md` | The gated runbook — turn-by-turn protocol; kick off with "Follow RUN_V3.md". |
+| `../../prompts/v3_prompts.md` | The eight per-step prompts (0–7) Claude Code reads and executes itself. |
+| `../SOURCES.md` | The European data-source catalogue (MaStR, SMARD, netztransparenz, …) the slice draws on. |
 | `frontend/wasted_wind.mockup.html` | The approved visual mockup — open in a browser. Illustrative placeholder data (real negative-price hours); the live build uses ~400 Landkreise. |
 
 ## Assumes the existing Wattlas repo
 
-These supplement, not replace, what's already there: `CLAUDE.md` (the data landmines),
+These supplement, not replace, what's already there: `../../CLAUDE.md` (the data landmines),
 `data/schema.md` (the data contract), `pipeline/build_curtailment.py` +
 `data/curtailment.json` and `data/spread.json` (reused by Panel 3), the canonical fuel
 palette (`pipeline/fuels.py` / `frontend/fuels.js`), and the daily

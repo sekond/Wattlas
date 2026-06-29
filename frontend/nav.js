@@ -1,317 +1,333 @@
-/* Wattlas — single source of site navigation (styles + links + behaviour).
- * Injects the desktop sidebar (into the page's .shell) and the mobile
- * scroll-nav (at the top of <body>).
+/* Wattlas — single source of site navigation (chrome CSS + links + behaviour).
  *
- * Navigation model — context-aware "hybrid", headered sections:
- *   • The eight analytical views are SECTIONS of the dashboard (ids #pulse …
- *     #history) AND each (except Carbon) also has a richer standalone page.
- *     The sidebar groups them under a "The Eight Views" header, with the two map
- *     stories under a "Map Stories" header (Dashboard sits on top, ungrouped).
- *   • ON the dashboard the view links are in-page anchors and the menu acts as a
- *     SCROLL-SPY: clicking smooth-scrolls to a section, and scrolling the page
- *     highlights the section you're in (so "moving through the dashboard moves
- *     through the menu"). "Dashboard" itself is active when you're at the top.
- *   • OFF the dashboard the same view links resolve to the standalone pages and
- *     the menu is ordinary page-to-page nav with the current page marked active.
- *   • The two map stories are a separate, amber-accented group (standalone only).
+ * Information architecture: the 26 destinations are regrouped under FIVE
+ * question-led sections (see ia.js → WATTLAS_IA.sections). This file renders
+ * that IA as site chrome around every page:
+ *   • Desktop: a grouped accordion sidebar (the active section auto-expands).
+ *   • Mobile (≤900px): a sticky top bar (☰ drawer / ‹ back) + a fixed bottom
+ *     tab bar carrying the five sections.
+ *   • A site-wide footer, and — on a view page — a "More in this question" rail
+ *     of sibling links so pages stop dead-ending.
  *
- * Everything (links, styles, behaviour) lives here so the nav is defined in
- * exactly one place. The CSS is injected too, so it looks right on every page —
- * including index.html, which is self-contained and doesn't load styles.css.
+ * Production is a multi-PAGE static site (no SPA, no iframes). The prototype's
+ * hash router (#/s/…, #/p/…) is translated to real page URLs here:
+ *   #/home → dashboard.html · #/s/<id> → section.html?s=<id>
+ *   #/p/<id> → page.html?p=<id> · #/audit → audit.html · #/v/<id> → view page
  *
- * A page only needs:  <body> … <div class="shell"><main class="main"> … </main></div>
- * … <script src="nav.js"></script>  — nav.js does the rest.
+ * A page only needs:  …<div class="shell"><main class="main"> … </main></div>
+ * <script src="ia.js"></script><script src="nav.js"></script>  — nav.js does the rest.
+ *
+ * Note: no localStorage/sessionStorage — per CLAUDE.md this site keeps no
+ * browser state. The prototype's "By question / Original" nav-mode toggle was a
+ * demo device and is intentionally dropped in production.
  */
 (function () {
+  var IA = window.WATTLAS_IA;
+  if (!IA || !IA.sections) return; // ia.js must load before nav.js
+  var SECTIONS = IA.sections;
   var TAGLINE = "European electricity, explained";
 
-  // ---- Inject nav chrome CSS as early as possible (script is at end of body,
-  //      so <head> already exists). --amber falls back for the one page that
-  //      doesn't declare it. ---------------------------------------------------
-  var CSS = '' +
-    '.shell{display:grid;grid-template-columns:244px minmax(0,1fr);min-height:100vh}' +
-    '.side{position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;' +
-      'padding:26px 16px 20px 22px;border-right:.5px solid var(--border);background:var(--bg)}' +
-    '.side .brand{font-size:19px;font-weight:600;letter-spacing:-.01em;margin:0}' +
-    '.side .brand small{display:block;color:var(--hint);font-weight:400;font-size:12px;margin:3px 0 0}' +
-    '.sidenav{margin-top:22px;display:flex;flex-direction:column;gap:1px}' +
-    '.navgroup{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;' +
-      'color:var(--hint);margin:18px 0 6px 10px}' +
-    '.navgroup.first{margin-top:2px}' +
-    '.sidenav a{display:flex;align-items:flex-start;gap:9px;color:var(--muted);text-decoration:none;' +
-      'font-size:13.5px;line-height:1.3;padding:7px 10px;border-radius:var(--radius-sm,8px);' +
-      'border-left:2px solid transparent}' +
-    '.sidenav a .n{font-variant-numeric:tabular-nums;font-size:10px;color:var(--hint);' +
-      'width:16px;flex:none;text-align:center;padding-top:1px}' +
-    '.sidenav a .sub{display:block;font-size:11px;color:var(--hint);font-weight:400;margin-top:2px}' +
-    '.sidenav a:hover{color:var(--text);background:var(--surface-2)}' +
-    '.sidenav a:hover .sub{color:var(--muted)}' +
-    '.sidenav a.active{color:var(--text);font-weight:600;background:var(--surface-2);border-left-color:var(--amber,#b8860b)}' +
-    '.sidenav a.story .n{color:var(--amber,#b8860b);font-weight:700;font-size:9px;letter-spacing:.03em}' +
-    '.side .foot{margin-top:auto;padding-top:20px;font-size:11px;color:var(--hint);line-height:1.6}' +
-    '.main{padding:0 36px 80px;min-width:0}' +
-    '.main-inner{max-width:1080px;margin:0 auto;padding-top:26px}' +
-    '.loading{display:flex;align-items:center;justify-content:center;gap:9px;color:var(--hint);font-size:13px;padding:34px 0;text-align:center}' +
-    '.loading::before{content:"";flex:none;width:14px;height:14px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--hint);animation:wspin .8s linear infinite}' +
-    '@keyframes wspin{to{transform:rotate(360deg)}}' +
-    '.loading.empty,.loading.awaiting{color:var(--muted)} .loading.empty::before,.loading.awaiting::before{display:none}' +
-    '.sitefoot{border-top:.5px solid var(--border);margin-top:48px;padding:24px 0 10px;font-size:12px}' +
-    '.sitefoot .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}' +
-    '.sitefoot h4{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--hint);margin:0 0 8px}' +
-    '.sitefoot a{display:block;color:var(--muted);text-decoration:none;padding:2px 0;line-height:1.5}' +
-    '.sitefoot a:hover{color:var(--text)}' +
-    '.sitefoot .sf-meta{margin-top:18px;color:var(--hint);font-size:11px}' +
-    '.sitefoot .sf-meta a{display:inline;color:var(--muted)}' +
-    '@media (max-width:640px){.sitefoot .cols{grid-template-columns:1fr 1fr}}' +
-    '.topbar{display:none}' +
-    '@media (max-width:900px){' +
-      '.shell{display:block}' +
-      '.side{display:none}' +
-      '.topbar{display:block;position:sticky;top:0;z-index:40;background:var(--bg);' +
-        'border-bottom:.5px solid var(--border);padding:10px 14px 0}' +
-      '.topbar.static{position:static}' +
-      '.topbar .brand{font-size:16px;font-weight:600}' +
-      '.topbar .brand small{color:var(--hint);font-weight:400;font-size:11px;margin-left:8px}' +
-      '.topnav{display:flex;align-items:center;gap:5px;overflow-x:auto;padding:9px 0 10px;' +
-        '-webkit-overflow-scrolling:touch;scrollbar-width:thin}' +
-      '.topnav a{font-size:12px;color:var(--muted);text-decoration:none;white-space:nowrap;' +
-        'padding:6px 12px;border-radius:999px;border:.5px solid transparent}' +
-      '.topnav a:hover{color:var(--text)}' +
-      '.topnav a.active{color:var(--text);background:var(--surface-2);border-color:var(--border)}' +
-      '.topnav .div{flex:none;align-self:stretch;border-left:.5px solid var(--border);margin:5px 3px}' +
-      '.topnav a.story{color:var(--amber,#b8860b);font-weight:500;border-color:rgba(184,134,11,.35)}' +
-      '.topnav a.story.active{color:var(--bg);background:var(--amber,#b8860b);border-color:var(--amber,#b8860b)}' +
-      '.main{padding:0 14px 64px}' +
-    '}';
+  // Flatten: index views by id and by page, and remember each view's section.
+  var byId = {}, byPage = {};
+  SECTIONS.forEach(function (s) {
+    s.views.forEach(function (v) {
+      v._section = s;
+      byId[v.id] = v;
+      var base = (v.page || "").split("#")[0].split("?")[0].toLowerCase();
+      if (base && !byPage[base]) byPage[base] = v; // first wins (primary section)
+    });
+  });
+
+  // ---- Inject the display font (Newsreader) for editorial headlines + rails --
+  if (!document.getElementById("wattlas-font")) {
+    var fl = document.createElement("link");
+    fl.id = "wattlas-font"; fl.rel = "stylesheet";
+    fl.href = "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap";
+    (document.head || document.documentElement).appendChild(fl);
+  }
+
+  // ---- Inject chrome CSS as early as possible -------------------------------
+  // Only ADDITIVE tokens are declared here (section accents, serif, extra
+  // surfaces); existing page tokens (--bg/--text/--radius…) are left untouched.
+  var CSS = `
+:root{
+  --s-blue:oklch(.50 .10 248); --s-green:oklch(.50 .10 150); --s-amber:oklch(.55 .10 75);
+  --s-red:oklch(.52 .12 28); --s-plum:oklch(.50 .10 312);
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+}
+body:not([data-wx-tokens]){--surface-3:#ece9df; --border-2:rgba(43,42,39,.08)}
+
+.shell{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;
+  padding:24px 14px 16px 20px;border-right:.5px solid var(--border);background:var(--bg);z-index:40}
+.brandlink{display:flex;align-items:center;gap:10px;text-decoration:none;margin:0 0 18px 6px}
+.brandlink .mark{font-size:22px;line-height:1;color:var(--text)}
+.brandlink .bt{font-size:18px;font-weight:600;letter-spacing:-.01em;line-height:1.1;color:var(--text)}
+.brandlink small{display:block;color:var(--hint);font-weight:400;font-size:11.5px}
+.snav{display:flex;flex-direction:column;gap:1px}
+.snav .nlink{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--muted);font-size:13.5px;
+  padding:8px 10px;border-radius:var(--radius-sm,8px);border-left:2px solid transparent}
+.snav .nlink .ni{width:16px;text-align:center;color:var(--hint);font-size:12px;flex:none}
+.snav .nlink:hover{color:var(--text);background:var(--surface-2)}
+.snav .nlink.active{color:var(--text);font-weight:600;background:var(--surface-2);border-left-color:var(--text)}
+.ngroup{margin-top:10px;--ga:var(--text)}
+.ghead{display:block;text-decoration:none;padding:7px 10px 6px;border-radius:var(--radius-sm,8px);border-left:2px solid transparent}
+.ghead .gn{font-variant-numeric:tabular-nums;font-size:10px;font-weight:600;color:var(--ga);letter-spacing:.04em}
+.ghead .gt{display:block;font-size:13.5px;font-weight:600;color:var(--text);margin-top:1px}
+.ghead .gq{display:block;font-size:11px;color:var(--hint);font-weight:400;line-height:1.3;margin-top:1px}
+.ghead:hover{background:var(--surface-2)}
+.ghead.active{background:var(--surface-2);border-left-color:var(--ga)}
+.gkids{display:none;flex-direction:column;gap:0;margin:2px 0 4px 11px;padding-left:11px;border-left:1.5px solid var(--border-2)}
+.gkids.open{display:flex}
+.nkid{text-decoration:none;color:var(--muted);font-size:12.5px;padding:5px 10px;border-radius:7px}
+.nkid:hover{color:var(--text);background:var(--surface-2)}
+.nkid.active{color:var(--text);font-weight:600;background:var(--surface-2)}
+.side .nfoot{margin-top:auto;padding:18px 8px 0;font-size:10.5px;color:var(--hint);line-height:1.6}
+
+.main{padding:0 36px 80px;min-width:0}
+.main-inner{max-width:1080px;margin:0 auto;padding-top:26px}
+.loading{display:flex;align-items:center;justify-content:center;gap:9px;color:var(--hint);font-size:13px;padding:34px 0;text-align:center}
+.loading::before{content:"";flex:none;width:14px;height:14px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--hint);animation:wspin .8s linear infinite}
+@keyframes wspin{to{transform:rotate(360deg)}}
+.loading.empty,.loading.awaiting{color:var(--muted)} .loading.empty::before,.loading.awaiting::before{display:none}
+
+/* "More in this question" rail (foot of every view page) */
+.readon{margin-top:44px}
+.readon .ro-head{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--hint);margin-bottom:14px}
+.readon .ro-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.ro-card{display:flex;flex-direction:column;gap:4px;text-decoration:none;border:.5px solid var(--border);border-radius:var(--radius-sm,8px);
+  padding:14px 16px;background:var(--surface);transition:background .14s,transform .16s,box-shadow .16s}
+.ro-card:hover{background:var(--surface-2);transform:translateY(-2px);box-shadow:0 6px 22px rgba(43,42,39,.08)}
+.ro-card .ro-t{font-family:var(--serif);font-size:17px;font-weight:500;color:var(--a,var(--text))}
+.ro-card .ro-o{font-size:12.5px;color:var(--muted);line-height:1.45}
+
+/* Site footer */
+.sitefoot{margin-top:64px;padding-top:34px;border-top:.5px solid var(--border);font-size:13px}
+.sitefoot .foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:28px;margin-bottom:28px}
+.sitefoot .foot-brand .fb-mark{font-size:20px;font-weight:600;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.sitefoot .foot-brand .fb-mark span{font-size:22px}
+.sitefoot .foot-brand p{font-size:13px;color:var(--muted);line-height:1.6;margin:12px 0 0;max-width:34ch}
+.sitefoot h4{font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--hint);margin:0 0 12px}
+.sitefoot .foot-col a{display:block;font-size:13px;color:var(--muted);text-decoration:none;padding:3px 0;line-height:1.5}
+.sitefoot .foot-col a:hover{color:var(--text)}
+.sitefoot .foot-bot{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;
+  padding:18px 0 6px;border-top:.5px solid var(--border-2);font-size:11.5px;color:var(--hint);line-height:1.6}
+.sitefoot .foot-bot .fb-meta{max-width:64ch}
+.sitefoot .foot-bot .fb-copy{white-space:nowrap}
+@media (max-width:760px){.sitefoot .foot-top{grid-template-columns:1fr 1fr;gap:22px}.sitefoot .foot-brand{grid-column:1 / -1}}
+
+/* Mobile chrome */
+.topbar{display:none}
+.tabbar{display:none}
+#wx-scrim{display:none}
+@media (max-width:900px){
+  .shell{display:block}
+  .side{position:fixed;top:0;left:0;bottom:0;width:280px;height:auto;transform:translateX(-100%);
+    transition:transform .22s ease;box-shadow:0 0 40px rgba(0,0,0,.12)}
+  body.nav-open .side{transform:none}
+  #wx-scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .2s;z-index:35}
+  body.nav-open #wx-scrim{opacity:1;pointer-events:auto}
+  .topbar{display:flex;align-items:center;gap:6px;position:sticky;top:0;z-index:30;
+    background:color-mix(in oklch,var(--bg) 88%,transparent);
+    backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);
+    border-bottom:.5px solid var(--border);padding:11px 14px}
+  .topbar.static{position:static}
+  .topbar .mb{font:inherit;font-size:21px;line-height:1;border:none;background:none;cursor:pointer;color:var(--text);padding:4px 8px;border-radius:8px}
+  .topbar .mb:active{background:var(--surface-2)}
+  .topbar .mb.back{display:none;font-size:30px;font-weight:300;width:34px}
+  body.show-back .topbar .mb.back{display:block}
+  body.show-back .topbar .mb#wx-menuBtn{display:none}
+  .topbar .tb-brand{font-size:16px;font-weight:600;text-decoration:none;color:var(--text)}
+  .topbar .tb-brand small{color:var(--hint);font-weight:400;font-size:11px;margin-left:6px}
+  .main{padding:0 16px calc(96px + env(safe-area-inset-bottom))}
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:32;
+    background:color-mix(in oklch,var(--bg) 90%,transparent);
+    backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);
+    border-top:.5px solid var(--border);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+  .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--hint);padding:5px 2px 3px;position:relative;min-width:0}
+  .tabbar a .tn{font-variant-numeric:tabular-nums;font-size:9px;font-weight:600;letter-spacing:.04em;color:var(--hint)}
+  .tabbar a .tdot{width:7px;height:7px;border-radius:50%;border:1.5px solid currentColor;transition:background .15s}
+  .tabbar a .tl{font-size:10px;font-weight:500;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .tabbar a.active{color:var(--ta)} .tabbar a.active .tn{color:var(--ta)}
+  .tabbar a.active .tdot{background:var(--ta);border-color:var(--ta)}
+  .tabbar a.active::before{content:"";position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:24px;height:2.5px;border-radius:2px;background:var(--ta)}
+}
+@media (max-width:380px){.tabbar a .tl{font-size:9px}}
+`;
   var st = document.createElement("style");
   st.id = "wattlas-nav-css";
   st.textContent = CSS;
   (document.head || document.documentElement).appendChild(st);
 
-  // ---- Links: one source of truth ------------------------------------------
-  // Each view carries both its dashboard `section` id and its standalone `page`.
-  // (Carbon also keeps its dashboard #carbon section; old deep links still land there.)
-  var DASH = "dashboard.html";
-  var VIEWS = [
-    { text: "Pulse",       mark: "1", section: "pulse",       page: "pulse.html"       },
-    { text: "Spread",      mark: "2", section: "spread",      page: "index.html"       },
-    { text: "Mix",         mark: "3", section: "mix",         page: "mix.html"         },
-    { text: "Mismatch",    mark: "4", section: "mismatch",    page: "mismatch.html"    },
-    { text: "Divergence",  mark: "5", section: "divergence",  page: "divergence.html"  },
-    { text: "Carbon",      mark: "6", section: "carbon",      page: "carbon.html"      },
-    { text: "Curtailment", mark: "7", section: "curtailment", page: "curtailment.html" },
-    { text: "History",     mark: "8", section: "history",     page: "history.html"     },
-  ];
-  var STORIES = [
-    { text: "Germany North-South Grid", mark: "DE", page: "wasted_wind.html"  },
-    { text: "France Nuclear",           mark: "FR", page: "fr_nuclear.html"   },
-    { text: "Nordic Price Zones",       mark: "NZ", page: "nordic_zones.html" },
-    { text: "UK Regional Carbon",       mark: "UK", page: "uk_regional.html"  },
-    { text: "Dunkelflaute",             mark: "DF", page: "dunkelflaute.html" },
-    { text: "Storage",                  mark: "ST", page: "storage.html"      },
-    { text: "Iberian Blackout",         mark: "IB", page: "iberian_blackout.html" },
-  ];
-  // Value layer (v10) — the economic views. The last two live as sections of an
-  // existing page (M6 decision), linked by anchor rather than a standalone file.
-  var VALUE = [
-    { text: "Capture Price",            mark: "CP", page: "capture_price.html"   },
-    { text: "Negative Prices",          mark: "NP", page: "negative_prices.html" },
-    { text: "Flexibility",              mark: "FX", page: "flexibility.html"     },
-    { text: "Locational Signal",        mark: "LO", page: "locational_signal.html" },
-    { text: "Retail Wedge",             mark: "RW", page: "retail_wedge.html"      },
-    { text: "Capacity & Adequacy",      mark: "CA", page: "capacity_adequacy.html" },
-    { text: "Marginal Fuel",            mark: "MF", page: "marginal_fuel.html"     },
-    { text: "Industrial",               mark: "IC", page: "industrial.html"        },
-    { text: "Storage Cannibalization",  mark: "SC", page: "storage.html#cannibalization" },
-    { text: "Curtailment in €",         mark: "C€", page: "curtailment.html#cost"  },
-  ];
+  // ---- Route helpers --------------------------------------------------------
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function qp(name) {
+    var m = new RegExp("[?&]" + name + "=([^&#]*)").exec(location.search);
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+  // Translate a prototype hash route to a real production page URL.
+  function routeUrl(h) {
+    if (!h) return h;
+    if (/^https?:/i.test(h)) return h;
+    if (h === "#/home") return "dashboard.html";
+    if (h === "#/audit") return "audit.html";
+    var m;
+    if ((m = /^#\/s\/(.+)$/.exec(h))) return "section.html?s=" + m[1];
+    if ((m = /^#\/p\/(.+)$/.exec(h))) return "page.html?p=" + m[1];
+    if ((m = /^#\/v\/(.+)$/.exec(h))) { var v = byId[m[1]]; return v ? v.page : "dashboard.html"; }
+    return h;
+  }
 
   var here = (location.pathname.split("/").pop() || "").toLowerCase();
   if (!here) here = "index.html";
-  var onDash = (here === DASH);
 
-  // On the dashboard, a view points at its in-page section; elsewhere at its own
-  // page (Carbon has no page, so it always points back to the dashboard section).
-  function viewHref(v) {
-    if (onDash) return "#" + v.section;
-    return v.page ? v.page : (DASH + "#" + v.section);
-  }
-  function pageActive(page) { return !onDash && !!page && page.toLowerCase() === here; }
+  // Determine the current route + active section/view.
+  var route = { name: "view" }; // default; refined below
+  if (here === "dashboard.html") route = { name: "home" };
+  else if (here === "audit.html") route = { name: "audit" };
+  else if (here === "section.html") route = { name: "section", section: qp("s") };
+  else if (here === "page.html") route = { name: "page", page: qp("p") };
+  else if (byPage[here]) { var cv = byPage[here]; route = { name: "view", view: cv.id, section: cv._section.id }; }
+  else route = { name: "other" };
 
-  function attrs(o) {
-    return (o.spy ? ' data-spy="' + o.spy + '"' : "") +
-           (o.home ? ' data-home="1"' : "") +
-           (o.page ? ' data-page="' + o.page.toLowerCase() + '"' : "") +
-           (o.active ? ' aria-current="page"' : "");
-  }
-  // Sidebar link (with marker column); topnav pill (text only).
-  function navLink(o) {
-    var cls = ((o.parent ? "parent " : "") + (o.story ? "story " : "") + (o.active ? "active" : "")).trim();
-    return '<a href="' + o.href + '"' + (cls ? ' class="' + cls + '"' : "") + attrs(o) + '>' +
-      '<span class="n">' + o.mark + '</span><span>' + o.text + '</span></a>';
-  }
-  function pill(o) {
-    var cls = ((o.story ? "story " : "") + (o.active ? "active" : "")).trim();
-    return '<a href="' + o.href + '"' + (cls ? ' class="' + cls + '"' : "") + attrs(o) + '>' + o.text + '</a>';
-  }
-
-  // ---- Desktop sidebar (nested) --------------------------------------------
-  var side = '<div class="brand">Wattlas <small>' + TAGLINE + "</small></div>";
-  side += '<nav class="sidenav" aria-label="Site">';
-  side += navLink({ href: onDash ? "#top" : DASH, text: "Dashboard", mark: "⌂",
-                    home: true, page: DASH, active: false });
-  side += '<div class="navgroup first">The Eight Views</div>';
-  VIEWS.forEach(function (v) {
-    side += navLink({ href: viewHref(v), text: v.text, mark: v.mark,
-                      spy: v.section, page: v.page, active: pageActive(v.page) });
-  });
-  side += '<div class="navgroup">Deep dives</div>';
-  STORIES.forEach(function (s) {
-    side += navLink({ href: s.page, text: s.text, mark: s.mark, story: true,
-                      page: s.page, active: pageActive(s.page) });
-  });
-  side += '<div class="navgroup">Value layer</div>';
-  VALUE.forEach(function (s) {
-    side += navLink({ href: s.page, text: s.text, mark: s.mark, story: true,
-                      page: s.page, active: pageActive(s.page) });
-  });
-  side += "</nav>";
-  side += '<div class="foot">Open data from ENTSO-E, RTE/ODRÉ, SMARD, MaStR and netztransparenz. ' +
-    "Pre-computed and static — no live backend.</div>";
-
-  var aside = document.createElement("aside");
-  aside.className = "side";
-  aside.innerHTML = side;
-
-  // ---- Mobile scroll-nav (flat pills; nesting doesn't apply to a pill row) --
-  var top = '<div class="brand">Wattlas <small>' + TAGLINE + "</small></div>";
-  top += '<nav class="topnav" aria-label="Site">';
-  top += pill({ href: onDash ? "#top" : DASH, text: "Dashboard", home: true, page: DASH, active: false });
-  VIEWS.forEach(function (v) {
-    top += pill({ href: viewHref(v), text: v.text, spy: v.section, page: v.page, active: pageActive(v.page) });
-  });
-  top += '<span class="div" aria-hidden="true"></span>';
-  STORIES.forEach(function (s) {
-    top += pill({ href: s.page, text: s.text, story: true, page: s.page, active: pageActive(s.page) });
-  });
-  top += '<span class="div" aria-hidden="true"></span>';
-  VALUE.forEach(function (s) {
-    top += pill({ href: s.page, text: s.text, story: true, page: s.page, active: pageActive(s.page) });
-  });
-  top += "</nav>";
-
-  var header = document.createElement("header");
-  header.className = "topbar";
-  // Pages with their own sticky controls (e.g. a .bar / .jumpnav toolbar) can't
-  // have a second sticky bar fighting for the top — keep the mobile nav in
-  // normal flow there. (The dashboard's .ctrl bar is made static on mobile in
-  // dash.css instead, so the dashboard keeps a sticky top-nav without colliding.)
-  if (document.querySelector(".bar, .jumpnav")) header.classList.add("static");
-  header.innerHTML = top;
-
-  // ---- Footer sitemap (crawl-resilient backstop; every in-scope page) -------
-  function footCol(title, items) {
-    return '<div><h4>' + title + '</h4>' +
-      items.map(function (it) { return '<a href="' + it.href + '">' + it.text + '</a>'; }).join("") + '</div>';
-  }
-  var footer = document.createElement("footer");
-  footer.className = "sitefoot";
-  footer.innerHTML = '<div class="cols">' +
-    footCol("Views", VIEWS.map(function (v) { return { href: v.page || (DASH + "#" + v.section), text: v.text }; })) +
-    footCol("Stories", STORIES.map(function (s) { return { href: s.page, text: s.text }; })) +
-    footCol("Value layer", VALUE.map(function (s) { return { href: s.page, text: s.text }; })) +
-    '</div><div class="sf-meta"><a href="' + DASH + '">Dashboard</a> · open data, pre-computed and static — no live backend.</div>';
-
-  function scrollActivePillIntoView() {
-    var nav = header.querySelector(".topnav");
-    var act = nav && nav.querySelector("a.active");
-    if (nav && act) nav.scrollLeft = Math.max(0, act.offsetLeft - 16);
-  }
-
-  // ---- Scroll-spy (dashboard only) -----------------------------------------
-  function setupSpy() {
-    var spyLinks = [].slice.call(document.querySelectorAll("[data-spy]"));
-    var homeLinks = [].slice.call(document.querySelectorAll("[data-home]"));
-    var sections = VIEWS.map(function (v) { return v.section; });
-    var lastSec;  // undefined until first apply
-
-    // The section you're "in" = the last one whose top has scrolled past a line
-    // just under the sticky control bar. null => above the first section (top of
-    // the dashboard) => "Dashboard" itself is active.
-    function currentSection() {
-      // At the very bottom of the page the last (often short) section can't
-      // scroll its top past the line — treat reaching the bottom as "in the last
-      // section" so History still highlights.
-      var doc = document.documentElement;
-      if (window.innerHeight + window.scrollY >= doc.scrollHeight - 4)
-        return sections[sections.length - 1];
-      var line = (window.innerWidth <= 900) ? 100 : 150;
-      var cur = null;
-      for (var i = 0; i < sections.length; i++) {
-        var el = document.getElementById(sections[i]);
-        if (!el) continue;
-        if (el.getBoundingClientRect().top - line <= 0) cur = sections[i];
-        else break;
-      }
-      return cur;
-    }
-    function apply(sec) {
-      spyLinks.forEach(function (a) {
-        var on = (a.getAttribute("data-spy") === sec);
-        a.classList.toggle("active", on);
-        if (on) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+  // ---- Desktop sidebar (grouped accordion) ----------------------------------
+  function buildSidebar() {
+    var h = "";
+    h += '<a class="brandlink" href="dashboard.html"><span class="mark">◐</span>' +
+      '<span class="bt">Wattlas<small>' + TAGLINE + '</small></span></a>';
+    h += '<nav class="snav" aria-label="Site">';
+    h += '<a class="nlink' + (route.name === "home" ? " active" : "") + '" href="dashboard.html"><span class="ni">⌂</span>Home</a>';
+    h += '<a class="nlink' + (route.name === "audit" ? " active" : "") + '" href="audit.html"><span class="ni">✦</span>Why this changed</a>';
+    SECTIONS.forEach(function (s) {
+      var open = (route.section === s.id);
+      var headActive = (route.name === "section" && route.section === s.id);
+      h += '<div class="ngroup" style="--ga:' + s.accent + '">';
+      h += '<a class="ghead' + (headActive ? " active" : "") + '" href="section.html?s=' + s.id + '">' +
+        '<span class="gn">' + s.n + '</span><span class="gt">' + esc(s.title) + '</span>' +
+        '<span class="gq">' + esc(s.kicker) + '</span></a>';
+      h += '<div class="gkids' + (open ? " open" : "") + '">';
+      s.views.forEach(function (v) {
+        var on = (route.name === "view" && route.view === v.id);
+        h += '<a class="nkid' + (on ? " active" : "") + '" href="' + v.page + '">' + esc(v.title) + '</a>';
       });
-      homeLinks.forEach(function (a) {
-        var on = (sec === null);
-        a.classList.toggle("active", on);
-        if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
-      });
-      scrollActivePillIntoView();
-    }
-    function update() {
-      var s = currentSection();
-      if (s !== lastSec) { lastSec = s; apply(s); }
-    }
-
-    // "Dashboard" has no section — clicking it smooth-scrolls to the top.
-    homeLinks.forEach(function (a) {
-      a.addEventListener("click", function (e) {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        if (history.replaceState) history.replaceState(null, "", location.pathname);
-      });
+      h += "</div></div>";
     });
-    // Reflect the click immediately; the scroll handler then keeps it honest.
-    spyLinks.forEach(function (a) {
-      a.addEventListener("click", function () { lastSec = a.getAttribute("data-spy"); apply(lastSec); });
-    });
-
-    // Throttle with setTimeout (not requestAnimationFrame): rAF is paused in
-    // background/hidden tabs, which would freeze the highlight; setTimeout keeps
-    // firing. 60ms is well below the threshold of perceptible highlight lag.
-    var scheduled = false;
-    window.addEventListener("scroll", function () {
-      if (scheduled) return;
-      scheduled = true;
-      setTimeout(function () { scheduled = false; update(); }, 60);
-    }, { passive: true });
-    window.addEventListener("resize", update, { passive: true });
-    window.addEventListener("hashchange", update);
-    update();  // set initial state before paint
+    h += "</nav>";
+    h += '<div class="nfoot">Open data, pre-computed and static. ENTSO-E · RTE/ODRÉ · SMARD · MaStR · NESO.</div>';
+    var aside = document.createElement("aside");
+    aside.className = "side";
+    aside.innerHTML = h;
+    return aside;
   }
 
+  // ---- Mobile top bar -------------------------------------------------------
+  function buildTopbar() {
+    var header = document.createElement("header");
+    header.className = "topbar";
+    // Pages with their own sticky toolbar can't have a second sticky bar.
+    if (document.querySelector(".bar, .jumpnav, .ctrl")) header.classList.add("static");
+    header.innerHTML =
+      '<button class="mb" id="wx-menuBtn" aria-label="Menu">☰</button>' +
+      '<button class="mb back" id="wx-backBtn" aria-label="Back">‹</button>' +
+      '<a class="tb-brand" href="dashboard.html">Wattlas <small>European electricity</small></a>';
+    return header;
+  }
+
+  // ---- Mobile bottom tab bar (the five sections) ----------------------------
+  function buildTabbar() {
+    var tb = document.createElement("nav");
+    tb.className = "tabbar";
+    tb.setAttribute("aria-label", "Sections");
+    tb.innerHTML = SECTIONS.map(function (s) {
+      var active = (route.section === s.id);
+      return '<a class="' + (active ? "active" : "") + '" style="--ta:' + s.accent + '" href="section.html?s=' + s.id + '">' +
+        '<span class="tn">' + s.n + '</span><span class="tdot"></span>' +
+        '<span class="tl">' + esc(s.short || s.title) + '</span></a>';
+    }).join("");
+    return tb;
+  }
+
+  // ---- Site footer ----------------------------------------------------------
+  function buildFooter() {
+    var ft = IA.footer;
+    var cols = ft.columns.map(function (c) {
+      var links = (c.kind === "sections")
+        ? SECTIONS.map(function (s) { return { t: s.title, href: "section.html?s=" + s.id }; })
+        : c.links.map(function (l) { return { t: l.t, href: routeUrl(l.href) }; });
+      return '<div class="foot-col"><h4>' + esc(c.title) + '</h4>' +
+        links.map(function (l) {
+          var ext = /^https?:/i.test(l.href) ? ' target="_blank" rel="noopener"' : "";
+          return '<a href="' + l.href + '"' + ext + '>' + esc(l.t) + '</a>';
+        }).join("") + "</div>";
+    }).join("");
+    var year = new Date().getFullYear();
+    var footer = document.createElement("footer");
+    footer.className = "sitefoot";
+    footer.innerHTML =
+      '<div class="foot-top">' +
+        '<div class="foot-brand"><div class="fb-mark"><span>◐</span>Wattlas</div><p>' + esc(ft.tagline) + "</p></div>" +
+        cols +
+      "</div>" +
+      '<div class="foot-bot"><span class="fb-meta">' + esc(ft.meta) + "</span>" +
+        '<span class="fb-copy">© ' + year + " Wattlas · open data</span></div>";
+    return footer;
+  }
+
+  // ---- "More in this question" rail (view pages only) -----------------------
+  function buildReadon() {
+    if (route.name !== "view") return null;
+    var v = byId[route.view];
+    if (!v) return null;
+    var s = v._section;
+    var sibs = s.views.filter(function (x) { return x.id !== v.id; }).slice(0, 4);
+    if (!sibs.length) return null;
+    var wrap = document.createElement("div");
+    wrap.className = "readon";
+    wrap.style.setProperty("--a", s.accent);
+    wrap.innerHTML = '<div class="ro-head">More in “' + esc(s.title) + '”</div><div class="ro-grid">' +
+      sibs.map(function (x) {
+        return '<a class="ro-card" href="' + x.page + '"><span class="ro-t">' + esc(x.title) +
+          '</span><span class="ro-o">' + esc(x.one) + "</span></a>";
+      }).join("") + "</div>";
+    return wrap;
+  }
+
+  // ---- Parent route (mobile back button) ------------------------------------
+  function parentUrl() {
+    if (route.name === "view" && route.section) return "section.html?s=" + route.section;
+    return "dashboard.html";
+  }
+
+  // ---- Mount ----------------------------------------------------------------
   function mount() {
     var shell = document.querySelector(".shell");
-    if (shell) shell.insertBefore(aside, shell.firstChild);
-    document.body.insertBefore(header, document.body.firstChild);
-    var mainEl = document.querySelector(".main");
-    if (mainEl) mainEl.appendChild(footer);
-    if (onDash) setupSpy();
-    scrollActivePillIntoView();  // bring the active mobile pill into view on load
+    if (shell) shell.insertBefore(buildSidebar(), shell.firstChild);
+
+    var scrim = document.createElement("div");
+    scrim.id = "wx-scrim";
+    document.body.insertBefore(scrim, document.body.firstChild);
+    document.body.insertBefore(buildTopbar(), document.body.firstChild);
+    document.body.appendChild(buildTabbar());
+
+    var mainEl = document.querySelector(".main") || document.querySelector(".content");
+    if (mainEl) {
+      var ro = buildReadon();
+      if (ro) mainEl.appendChild(ro);
+      mainEl.appendChild(buildFooter());
+    }
+
+    // Mobile: show the back button on any non-home route (hides the ☰ then).
+    if (route.name !== "home") document.body.classList.add("show-back");
+
+    var menuBtn = document.getElementById("wx-menuBtn");
+    var backBtn = document.getElementById("wx-backBtn");
+    if (menuBtn) menuBtn.addEventListener("click", function () { document.body.classList.toggle("nav-open"); });
+    if (scrim) scrim.addEventListener("click", function () { document.body.classList.remove("nav-open"); });
+    if (backBtn) backBtn.addEventListener("click", function () { location.href = parentUrl(); });
 
     // Graceful empty state: when a data page swaps the loading text for a message
-    // (load failure or "awaiting source"), drop the spinner so it reads as a static
-    // state, not a stuck loader. Single source for every page that uses #status.loading.
+    // (load failure or "awaiting source"), drop the spinner so it reads as a
+    // static state, not a stuck loader.
     var statusEl = document.getElementById("status");
     if (statusEl && window.MutationObserver) {
       new MutationObserver(function () {

@@ -1,8 +1,8 @@
 # Vertical slice spec — "France's nuclear: where it sits, who it powers, when it dips"
 
 > **Status:** spec only. No code until each step is approved under the
-> `RUN.md` / `RUN_V2.md` protocol (one step per turn, confirmation-gated). Per-step
-> prompts will live in `prompts/v4_prompts.md`; the runbook in `RUN_V4.md`. This is
+> `../../RUN.md` / `../runbooks/RUN_V2.md` protocol (one step per turn, confirmation-gated). Per-step
+> prompts will live in `../../prompts/v4_prompts.md`; the runbook in `../runbooks/RUN_V4.md`. This is
 > **phase two** — the France regional layer — and it deliberately **reuses the map
 > machinery** (`frontend/geo.js`, D3-geo + committed TopoJSON) built for the Germany
 > slice (`SLICE_DE_WASTED_WIND.md`). If France is built before Germany, Step 1 adds
@@ -140,7 +140,7 @@ range. **This is the one section not derived from a live feed.**
 
 ## 3. Datasets & endpoints
 
-From `SOURCES.md`. Secrets (RTE OAuth) live in `.env`; read via env vars. Each new
+From `../SOURCES.md`. Secrets (RTE OAuth) live in `.env`; read via env vars. Each new
 source is its **own isolated module** — never entangled with the ENTSO-E or the
 German (SMARD/MaStR) pipelines.
 

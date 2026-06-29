@@ -203,7 +203,7 @@ stays static. Build → show to a field contact → re-prioritise.
 
 ## Landmines & conventions (read before integrating any source)
 
-These extend the rules in `CLAUDE.md`:
+These extend the rules in `../CLAUDE.md`:
 
 1. **Isolate every source** in its own pipeline module — different auth, units,
    languages (German on SMARD/MaStR, French on ODRÉ), resolutions, and lag. A
