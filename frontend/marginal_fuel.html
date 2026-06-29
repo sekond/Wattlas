@@ -6,126 +6,163 @@
   <title>Wattlas — Marginal Fuel</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* Scoped styles for the illustrative merit-order diagram on this page only.
-       This is a CONCEPT sketch, not data — see the explicit label in the markup. */
-    .merit {
-      display: flex;
-      align-items: flex-end;
-      gap: 6px;
-      height: 180px;
-      margin: 18px 0 10px;
-      padding: 0;
-    }
-    .merit .block {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      color: #fff;
-      font-size: 11px;
-      line-height: 1.2;
-      text-align: center;
-      border-radius: 3px 3px 0 0;
-      padding-bottom: 4px;
-    }
-    .merit .block span { padding: 0 2px; }
-    .merit-axis {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: #888780;
-      margin-top: 2px;
-    }
-    .demand-line {
-      position: relative;
-      border-top: 2px dashed #b23b3b;
-      margin: 4px 0 2px;
-    }
-    .demand-line .tag {
-      position: absolute;
-      right: 0;
-      top: -18px;
-      font-size: 11px;
-      color: #b23b3b;
-      font-weight: 600;
-    }
-    .illus-tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: #8a6d1a;
-      background: rgba(196, 154, 26, 0.12);
-      border: 1px solid rgba(196, 154, 26, 0.35);
-      border-radius: 3px;
-      padding: 2px 7px;
-      margin-bottom: 10px;
-    }
-    .boundary {
+    /* Page-scoped styling only. The caveat banner makes the MODEL-not-measurement
+       nature of this view impossible to miss; this is a credibility requirement. */
+    .caveat {
       border-left: 3px solid #c49a1a;
-      background: rgba(196, 154, 26, 0.06);
+      background: rgba(196, 154, 26, 0.08);
       padding: 12px 16px;
       border-radius: 0 4px 4px 0;
-      margin: 14px 0 4px;
+      margin: -8px 0 20px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: #6b6052;
     }
-    .boundary .title { margin-bottom: 6px; }
+    .caveat strong { color: #8a6d1a; }
+    .infer-row { display: flex; gap: 10px; margin: 14px 0 6px; }
+    .infer-cell {
+      flex: 1; text-align: center; padding: 14px 8px;
+      border-radius: 4px; color: #fff;
+    }
+    .infer-cell .big { font-size: 26px; font-weight: 600; line-height: 1; }
+    .infer-cell .lbl { font-size: 11px; margin-top: 6px; opacity: 0.95; }
   </style>
 </head>
 <body>
   <div class="shell"><main class="main">
   <div class="wrap">
     <h1>Why the price is what it is: the fuel on the margin</h1>
-    <p class="sub">The single most expensive power plant needed to keep the lights on sets the wholesale price for everyone. That plant is the "marginal fuel" — and it is why a war thousands of kilometres away can show up on a German electricity bill.</p>
+    <p class="sub">The single most expensive power plant needed to keep the lights on sets the wholesale price for everyone. That plant is the "marginal fuel" — usually gas — which is why a gas-supply shock thousands of kilometres away shows up on a German electricity bill.</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 16px;"></div>
+
+    <div class="caveat" id="caveat">
+      <strong>This is a MODEL, not a measurement.</strong> The marginal fuel is <em>inferred</em> from the wholesale price versus a modelled gas (CCGT) marginal cost — not observed directly. The gas series is a <strong>Yahoo TTF proxy</strong> (a front-month future, not licence-clean for redistribution and not day-ahead spot). CO<sub>2</sub> is a <strong>curated EEX EUA value</strong>. Change the assumptions and the picture changes.
+    </div>
+
+    <div id="kpis" class="kpis"></div>
 
     <div class="card">
       <div class="head">
-        <div class="title">What "marginal fuel" means</div>
+        <div class="title">Price vs the gas marginal cost</div>
+        <div class="meta" id="lineMeta"></div>
       </div>
-      <p>Wholesale electricity clears as a single price per hour. Generators are stacked cheapest-first into a "merit order": wind and solar bid near zero because their fuel is free, then nuclear, then coal, then gas. The grid dispatches up that stack until supply meets demand — and the price everyone is paid is set by the <em>last, most expensive</em> plant that had to run.</p>
-      <p>That last plant is the marginal one. When renewables alone cover demand, the marginal plant is cheap and prices fall — sometimes below zero. When demand outruns the cheap stack, gas is usually the marginal fuel, and the price tracks the cost of gas <em>plus</em> the CO<sub>2</sub> permit the plant must buy to burn it. This is the geopolitics-as-price-driver story: a gas-supply shock moves the marginal cost, and the whole market follows.</p>
-
-      <div class="illus-tag">Illustrative concept — not Wattlas data</div>
-      <div class="merit" aria-label="Illustrative merit-order stack">
-        <div class="block" style="height:18%; background:#3b6d11;"><span>Wind / Solar</span></div>
-        <div class="block" style="height:30%; background:#7a8f2a;"><span>Nuclear</span></div>
-        <div class="block" style="height:55%; background:#5a4636;"><span>Coal</span></div>
-        <div class="block" style="height:82%; background:#b07a2a;"><span>Gas — sets the price</span></div>
-        <div class="block" style="height:100%; background:#9a9a9a;"><span>Peaker</span></div>
+      <canvas id="lineChart" height="120"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:#2b2a27"></span>Wholesale price (ENTSO-E, measured)</span>
+        <span><span class="swatch" style="background:#b07a2a"></span>Gas marginal cost (modelled)</span>
+        <span><span class="swatch" style="background:#9a9a9a"></span>Gas price (TTF proxy)</span>
       </div>
-      <div class="demand-line"><span class="tag">demand meets supply here</span></div>
-      <div class="merit-axis"><span>cheapest, dispatched first →</span><span>most expensive</span></div>
-      <div class="meta" style="margin-top:8px;">A schematic of the merit order. Bar heights are arbitrary and chosen for illustration; they are not measured costs.</div>
+      <div class="meta" id="lineCap" style="margin-top:8px;"></div>
     </div>
 
     <div class="card">
       <div class="head">
-        <div class="title">Why Wattlas doesn't compute it (yet)</div>
+        <div class="title">What sets the price</div>
+        <div class="meta">Merit-order inference over the classified period</div>
       </div>
-      <div class="boundary">
-        <div class="title">Scope boundary — a deliberate choice, not an omission</div>
-        <p style="margin-bottom:0;">Wattlas does <strong>not</strong> attribute prices to a marginal fuel. Doing so honestly requires a merit-order model <em>plus</em> a live feed of gas (TTF) and CO<sub>2</sub> (EU ETS) prices to know where each fuel sits in the stack. No free, licence-clean source for those is currently wired into the pipeline.</p>
-      </div>
-      <p>We could <em>infer</em> a marginal fuel from generation mix and price alone — but that would be a <strong>model, not a measurement</strong>. It would carry assumptions about plant efficiencies, fuel costs, and bidding behaviour that we cannot validate against an authoritative source. Presenting a modelled attribution next to Wattlas's measured ENTSO-E data would blur the line between what we observe and what we guess.</p>
-      <p>So we hold this boundary on purpose. If a free, licence-clean TTF + CO<sub>2</sub> feed becomes available and the methodology can be stated and validated, marginal-fuel attribution is a natural next slice. Until then, we explain the mechanism rather than fabricate the number.</p>
+      <div class="infer-row" id="inferRow"></div>
+      <div class="meta" id="inferCap" style="margin-top:8px;"></div>
     </div>
 
     <div class="card">
       <div class="head">
-        <div class="title">What we show instead</div>
+        <div class="title">What this is, and isn't</div>
       </div>
-      <p>The pieces the marginal-fuel story is built from are already measured and on the site — drawn straight from ENTSO-E, no modelling required:</p>
+      <p>This view crosses a line Wattlas usually holds: everything else on the site is <strong>measured</strong> ENTSO-E data; this one is a <strong>merit-order inference</strong>. We label it loudly so you can weigh it accordingly.</p>
       <ul>
-        <li><strong><a href="mix.html">The Mix</a></strong> — actual generation by fuel type, hour by hour. This is the raw material of the merit order: you can see when renewables are covering demand and when fossil plant has to step in.</li>
-        <li><strong>Carbon</strong> — production-based carbon intensity (gCO<sub>2</sub>/kWh), shown on the <a href="index.html">dashboard</a>. A close proxy for how fossil-heavy the marginal supply is at any moment.</li>
-        <li><strong><a href="pulse.html">Pulse</a></strong> — the daily price rhythm. The shape of this curve is the marginal fuel changing through the day, even though we don't name the fuel.</li>
+        <li>The gas series is a <strong>Yahoo TTF proxy</strong> (Dutch TTF front-month future) — a convenience source, <strong>not licence-clean for redistribution</strong>, and a future rather than the day-ahead spot a plant actually pays.</li>
+        <li>CO<sub>2</sub> is a <strong>curated EUA value from EEX primary auctions</strong> — a slow-moving input stated as-of a date, not a live feed.</li>
+        <li>The marginal-fuel split is an <strong>inference</strong>: we compare each day's wholesale price to the modelled gas marginal cost and attribute the day to gas, renewables, or "other". It carries assumptions about plant efficiency, fuel cost, and bidding we cannot fully validate.</li>
       </ul>
-      <p>Together these show the <em>effect</em> of the marginal fuel — the mix shifting and the price moving with it — without claiming a precise attribution we can't yet measure.</p>
+      <p>For the things we <em>do</em> measure straight from ENTSO-E: see <strong><a href="mix.html">the Mix</a></strong> for actual generation by fuel type, and <strong>Carbon</strong> on the <a href="index.html">dashboard</a> for production-based carbon intensity.</p>
     </div>
+
+    <div id="status" class="loading">Loading data…</div>
   </div>
-  </main></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <script src="util.js"></script>
+  <script>
+    const C_PRICE = "#2b2a27", C_MARG = "#b07a2a", C_GAS = "#9a9a9a";
+    const C_GAS_SET = "#b07a2a", C_REN = "#3b6d11", C_OTHER = "#888780";
+    const r0 = (n) => Math.round(n);
+
+    async function loadJSON(name) {
+      const candidates = ["../data/" + name, "data/" + name, "/data/" + name];
+      for (const path of candidates) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) { /* try next */ }
+      }
+      throw new Error("could not load " + name);
+    }
+
+    function renderKPIs(D) {
+      const last = D.monthly[D.monthly.length - 1];
+      const inf = D.inference, a = D.assumptions;
+      const items = [
+        { label: "Days gas sets the price", val: r0(inf.gas_set_pct) + "%" },
+        { label: "Days renewables set it", val: r0(inf.renewable_set_pct) + "%" },
+        { label: "Gas (TTF, latest)", val: "€" + r0(last.gas_eur_mwh) + "/MWh" },
+        { label: "CO₂ (EUA)", val: "€" + r0(a.eua_eur_t) + "/t" },
+      ];
+      document.getElementById("kpis").innerHTML = items.map(i =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val">${i.val}</div></div>`).join("");
+    }
+
+    function renderLine(D) {
+      const labels = D.monthly.map(m => m.month);
+      new Chart(document.getElementById("lineChart"), {
+        type: "line",
+        data: { labels, datasets: [
+          { label: "Wholesale price", data: D.monthly.map(m => m.wholesale_price), borderColor: C_PRICE, backgroundColor: C_PRICE, borderWidth: 2, pointRadius: 2, tension: 0.25 },
+          { label: "Gas marginal cost (modelled)", data: D.monthly.map(m => m.gas_marginal_cost), borderColor: C_MARG, backgroundColor: C_MARG, borderWidth: 2, pointRadius: 2, tension: 0.25 },
+          { label: "Gas price (TTF proxy)", data: D.monthly.map(m => m.gas_eur_mwh), borderColor: C_GAS, backgroundColor: C_GAS, borderWidth: 1.5, borderDash: [4, 3], pointRadius: 0, tension: 0.25 },
+        ]},
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${c.dataset.label}: €${r0(c.parsed.y)}/MWh` } } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: "#888780", font: { size: 10 }, maxRotation: 0, autoSkip: true } },
+            y: { grid: { color: "rgba(0,0,0,0.05)" },
+                 ticks: { color: "#888780", font: { size: 10 }, callback: (v) => "€" + r0(v) } } } },
+      });
+      document.getElementById("lineMeta").textContent = "DE-LU · EUR/MWh by month";
+      const a = D.assumptions;
+      document.getElementById("lineCap").textContent =
+        `When the wholesale line sits near the gas marginal cost, gas is setting the price. Gas marginal cost = gas / efficiency + EUA × intensity ` +
+        `(CCGT efficiency ${a.ccgt_efficiency}, ${a.ccgt_t_co2_per_mwh} t CO₂/MWh, EUA €${r0(a.eua_eur_t)}/t as of ${a.eua_as_of}). A MODEL, not a measurement.`;
+    }
+
+    function renderInference(D) {
+      const inf = D.inference;
+      const cells = [
+        { val: r0(inf.gas_set_pct), lbl: "Gas sets the price", bg: C_GAS_SET },
+        { val: r0(inf.renewable_set_pct), lbl: "Renewables set it", bg: C_REN },
+        { val: r0(inf.other_pct), lbl: "Other / unclear", bg: C_OTHER },
+      ];
+      document.getElementById("inferRow").innerHTML = cells.map(c =>
+        `<div class="infer-cell" style="background:${c.bg}"><div class="big">${c.val}%</div><div class="lbl">${c.lbl}</div></div>`).join("");
+      document.getElementById("inferCap").textContent =
+        `Heuristic over ${r0(inf.days_classified)} classified days: a day is attributed to gas when the wholesale price sits close to the modelled gas marginal cost; ` +
+        `to renewables when it falls well below (cheap stack covering demand); otherwise "other / unclear". An inference, not an observed dispatch record.`;
+    }
+
+    (async function main() {
+      const status = document.getElementById("status");
+      let D = null;
+      try { D = await loadJSON("marginal_fuel.json"); } catch (e) { /* handled below */ }
+      if (!D || D.status !== "ok") {
+        status.textContent = (D && D.note) ? D.note
+          : "Awaiting the marginal-fuel model. Run the pipeline first, then serve the folder. The framing above still applies.";
+        return;
+      }
+      const first = D.monthly[0].month, last = D.monthly[D.monthly.length - 1].month;
+      document.getElementById("periodNote").textContent =
+        `Monthly, ${first}–${last} · DE-LU. ${D.note}`;
+      renderKPIs(D); renderLine(D); renderInference(D);
+      status.style.display = "none";
+    })();
+  </script>
   <script src="nav.js"></script>
+  </main></div>
 </body>
 </html>

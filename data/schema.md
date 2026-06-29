@@ -853,14 +853,33 @@ open to `status:"unavailable"`.
 ```
 
 This is the PRICE layer of industrial competitiveness only; corporate strategy, M&A, PPAs
-and capital-markets themes stay out of scope (the `industrial.html` view says so). **Slice 9
-(marginal-fuel) remains a context-only explainer** — no licence-clean free TTF gas feed
-exists (energy-charts has no gas endpoint; EEX/ICE are paid; Yahoo is licence-murky), so it
-is not fabricated.
+and capital-markets themes stay out of scope (the `industrial.html` view says so).
+
+## `marginal_fuel.json` (v10 — Value Layer slice 9, MODEL overlay)
+
+A MODELLED estimate (not a measurement): the CCGT short-run marginal cost
+(gas/efficiency + EUA × carbon intensity) vs the actual day-ahead price, to infer when gas
+sets the price. Gas = **Yahoo TTF=F** (front-month proxy, NOT licence-clean for
+redistribution — labelled); CO2 = a **curated EUA** value from EEX auctions (slow-moving,
+stated as-of); wholesale = our `spread.json`.
+
+```json
+{
+  "generated_at": "…", "status": "ok", "is_model_not_measurement": true,
+  "assumptions": { "ccgt_efficiency": 0.52, "ccgt_t_co2_per_mwh": 0.35, "eua_eur_t": 76.0, "eua_as_of": "2026-06" },
+  "sources": { "gas": "Yahoo TTF=F proxy…", "co2": "curated EEX EUA…", "wholesale": "ENTSO-E spread.json" },
+  "monthly": [ { "month": "2026-06", "gas_eur_mwh": 45.8, "gas_marginal_cost": 114.8, "wholesale_price": 120.6 } ],
+  "inference": { "days_classified": 249, "gas_set_pct": 77, "renewable_set_pct": 2, "other_pct": 22 }
+}
+```
+
+The marginal-fuel split is INFERRED from price vs modelled gas cost — change the assumptions
+and it changes. The gas source is a Yahoo proxy (not licence-clean); the view must say so.
 
 ### Frontend obligations
 - Render `perfect_arbitrage_eur_per_mw` only alongside a visible caveat that it is an unachievable upper bound (see CLAUDE.md landmine #7).
 - For `retail_wedge`, state EUR/kWh vs €/MWh and country-vs-zone; for `curtailment.cost_estimate`, label it an estimate (not billed), with the EU figure as different-scope context.
+- For `marginal_fuel`, label it a MODEL not a measurement, state the assumptions, and flag the gas source as a Yahoo TTF proxy (not licence-clean) + CO2 as a curated EEX value.
 - For `flex_savings`, label `annual_saving_eur` as a perfect-foresight **upper bound** (same as the battery figure). For `capture_price`, present the roadmap anchors as cited context, not computed values; for `negative_prices`, never clip negatives and count hours, not 15-min slots.
 - For `locational_signal`, never present a computed split-zone price; show DE5 vs academic figures as a contested range. For `capacity_adequacy`, label the cost figures provisional/"not yet law" with the citation. For `storage.cannibalization`, label the curve illustrative/modelled, not a forecast.
 - Treat `complete: false` days distinctly (e.g. muted) and never break if `days` has gaps.

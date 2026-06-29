@@ -72,6 +72,9 @@ jobs:
           python pipeline/build_retail_wedge.py || echo "retail-wedge (Eurostat) build skipped/failed — continuing"
           # v10 slice 10 — thin industrial-price layer (Eurostat nrg_pc_205_c, open, no key).
           python pipeline/build_industrial_prices.py || echo "industrial-prices (Eurostat) build skipped/failed — continuing"
+          # v10 slice 9 — marginal-fuel MODEL overlay (Yahoo TTF gas proxy + curated EUA + our
+          # day-ahead price). Non-fatal; a Yahoo hiccup writes status:"unavailable".
+          python pipeline/build_marginal_fuel.py || echo "marginal-fuel build skipped/failed — continuing"
           # Nordic price-zones slice (v5): day-ahead prices for the 12 Nordic bidding
           # zones (ENTSO-E). Isolated builder; non-fatal so a Nordic fetch hiccup
           # can't break the core refresh.
