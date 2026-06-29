@@ -103,6 +103,9 @@
     { text: "Flexibility",              mark: "FX", page: "flexibility.html"     },
     { text: "Locational Signal",        mark: "LO", page: "locational_signal.html" },
     { text: "Capacity & Adequacy",      mark: "CA", page: "capacity_adequacy.html" },
+    { text: "Retail Wedge",             mark: "RW", page: "retail_wedge.html"      },
+    { text: "Marginal Fuel",            mark: "MF", page: "marginal_fuel.html"     },
+    { text: "Industrial",               mark: "IC", page: "industrial.html"        },
   ];
 
   var here = (location.pathname.split("/").pop() || "").toLowerCase();

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Marginal Fuel</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Scoped styles for the illustrative merit-order diagram on this page only.
+       This is a CONCEPT sketch, not data — see the explicit label in the markup. */
+    .merit {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 180px;
+      margin: 18px 0 10px;
+      padding: 0;
+    }
+    .merit .block {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      color: #fff;
+      font-size: 11px;
+      line-height: 1.2;
+      text-align: center;
+      border-radius: 3px 3px 0 0;
+      padding-bottom: 4px;
+    }
+    .merit .block span { padding: 0 2px; }
+    .merit-axis {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #888780;
+      margin-top: 2px;
+    }
+    .demand-line {
+      position: relative;
+      border-top: 2px dashed #b23b3b;
+      margin: 4px 0 2px;
+    }
+    .demand-line .tag {
+      position: absolute;
+      right: 0;
+      top: -18px;
+      font-size: 11px;
+      color: #b23b3b;
+      font-weight: 600;
+    }
+    .illus-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #8a6d1a;
+      background: rgba(196, 154, 26, 0.12);
+      border: 1px solid rgba(196, 154, 26, 0.35);
+      border-radius: 3px;
+      padding: 2px 7px;
+      margin-bottom: 10px;
+    }
+    .boundary {
+      border-left: 3px solid #c49a1a;
+      background: rgba(196, 154, 26, 0.06);
+      padding: 12px 16px;
+      border-radius: 0 4px 4px 0;
+      margin: 14px 0 4px;
+    }
+    .boundary .title { margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+  <div class="shell"><main class="main">
+  <div class="wrap">
+    <h1>Why the price is what it is: the fuel on the margin</h1>
+    <p class="sub">The single most expensive power plant needed to keep the lights on sets the wholesale price for everyone. That plant is the "marginal fuel" — and it is why a war thousands of kilometres away can show up on a German electricity bill.</p>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">What "marginal fuel" means</div>
+      </div>
+      <p>Wholesale electricity clears as a single price per hour. Generators are stacked cheapest-first into a "merit order": wind and solar bid near zero because their fuel is free, then nuclear, then coal, then gas. The grid dispatches up that stack until supply meets demand — and the price everyone is paid is set by the <em>last, most expensive</em> plant that had to run.</p>
+      <p>That last plant is the marginal one. When renewables alone cover demand, the marginal plant is cheap and prices fall — sometimes below zero. When demand outruns the cheap stack, gas is usually the marginal fuel, and the price tracks the cost of gas <em>plus</em> the CO<sub>2</sub> permit the plant must buy to burn it. This is the geopolitics-as-price-driver story: a gas-supply shock moves the marginal cost, and the whole market follows.</p>
+
+      <div class="illus-tag">Illustrative concept — not Wattlas data</div>
+      <div class="merit" aria-label="Illustrative merit-order stack">
+        <div class="block" style="height:18%; background:#3b6d11;"><span>Wind / Solar</span></div>
+        <div class="block" style="height:30%; background:#7a8f2a;"><span>Nuclear</span></div>
+        <div class="block" style="height:55%; background:#5a4636;"><span>Coal</span></div>
+        <div class="block" style="height:82%; background:#b07a2a;"><span>Gas — sets the price</span></div>
+        <div class="block" style="height:100%; background:#9a9a9a;"><span>Peaker</span></div>
+      </div>
+      <div class="demand-line"><span class="tag">demand meets supply here</span></div>
+      <div class="merit-axis"><span>cheapest, dispatched first →</span><span>most expensive</span></div>
+      <div class="meta" style="margin-top:8px;">A schematic of the merit order. Bar heights are arbitrary and chosen for illustration; they are not measured costs.</div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">Why Wattlas doesn't compute it (yet)</div>
+      </div>
+      <div class="boundary">
+        <div class="title">Scope boundary — a deliberate choice, not an omission</div>
+        <p style="margin-bottom:0;">Wattlas does <strong>not</strong> attribute prices to a marginal fuel. Doing so honestly requires a merit-order model <em>plus</em> a live feed of gas (TTF) and CO<sub>2</sub> (EU ETS) prices to know where each fuel sits in the stack. No free, licence-clean source for those is currently wired into the pipeline.</p>
+      </div>
+      <p>We could <em>infer</em> a marginal fuel from generation mix and price alone — but that would be a <strong>model, not a measurement</strong>. It would carry assumptions about plant efficiencies, fuel costs, and bidding behaviour that we cannot validate against an authoritative source. Presenting a modelled attribution next to Wattlas's measured ENTSO-E data would blur the line between what we observe and what we guess.</p>
+      <p>So we hold this boundary on purpose. If a free, licence-clean TTF + CO<sub>2</sub> feed becomes available and the methodology can be stated and validated, marginal-fuel attribution is a natural next slice. Until then, we explain the mechanism rather than fabricate the number.</p>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">What we show instead</div>
+      </div>
+      <p>The pieces the marginal-fuel story is built from are already measured and on the site — drawn straight from ENTSO-E, no modelling required:</p>
+      <ul>
+        <li><strong><a href="mix.html">The Mix</a></strong> — actual generation by fuel type, hour by hour. This is the raw material of the merit order: you can see when renewables are covering demand and when fossil plant has to step in.</li>
+        <li><strong>Carbon</strong> — production-based carbon intensity (gCO<sub>2</sub>/kWh), shown on the <a href="index.html">dashboard</a>. A close proxy for how fossil-heavy the marginal supply is at any moment.</li>
+        <li><strong><a href="pulse.html">Pulse</a></strong> — the daily price rhythm. The shape of this curve is the marginal fuel changing through the day, even though we don't name the fuel.</li>
+      </ul>
+      <p>Together these show the <em>effect</em> of the marginal fuel — the mix shifting and the price moving with it — without claiming a precise attribution we can't yet measure.</p>
+    </div>
+  </div>
+  </main></div>
+  <script src="util.js"></script>
+  <script src="nav.js"></script>
+</body>
+</html>

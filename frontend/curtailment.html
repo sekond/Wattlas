@@ -34,6 +34,7 @@
           <span><span class="swatch" style="background:#a32d2d"></span>Negative-price hours (Spread)</span>
         </div>
         <div class="meta" id="srcNote" style="margin-top:8px;"></div>
+        <div class="meta" id="costNote" style="margin-top:8px;display:none;line-height:1.6;"></div>
       </div>
     </div>
     <div id="status" class="loading">Loading data…</div>
@@ -44,6 +45,8 @@
   <script src="util.js"></script>
   <script>
     const mwh = (n) => Math.round(n).toLocaleString() + " MWh";
+    // Format a euro figure compactly: €X.Xbn if >= 1e9, else €XM (rounded). Always rounded — never raw floats.
+    const eurCompact = (n) => n >= 1e9 ? "€" + (n / 1e9).toFixed(1) + "bn" : "€" + Math.round(n / 1e6) + "M";
     async function loadJSON(name) {
       for (const path of ["../data/" + name, "data/" + name, "/data/" + name]) {
         try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) {}
@@ -85,12 +88,27 @@
             y2: { position: "right", ticks: { color: "#a32d2d", font: { size: 10 } }, grid: { display: false } } } },
       });
       const total = curtail.reduce((a, v) => a + (v || 0), 0);
-      document.getElementById("kpis").innerHTML = [
+      const kpiItems = [
         { label: "Total curtailed", val: mwh(total) },
         { label: "Days covered", val: c.days.length },
         { label: "Units", val: "MWh/day" },
-      ].map(i => `<div class="kpi"><div class="label">${i.label}</div><div class="val">${i.val}</div></div>`).join("");
+      ];
+      // v10 "curtailment in €": running annual-total cost estimate. Guarded so the view still works without the field.
+      if (c.cost_estimate) {
+        kpiItems.push({ label: "Est. curtailment cost", val: eurCompact(c.cost_estimate.total_eur), note: "ESTIMATE" });
+      }
+      document.getElementById("kpis").innerHTML = kpiItems.map(i =>
+        `<div class="kpi"><div class="label">${i.label}${i.note ? ` <span style="color:var(--amber);font-weight:600;">(${i.note})</span>` : ""}</div><div class="val">${i.val}</div></div>`).join("");
       document.getElementById("srcNote").textContent = `Units: ${c.units}. Source: ${c.source}.`;
+      // Honest caption: the € figure is a proxy (MWh × reference rate), not the billed cost; EU €7.2bn is different-scope context.
+      if (c.cost_estimate) {
+        const ce = c.cost_estimate;
+        document.getElementById("costNote").innerHTML =
+          `<strong>Estimated cost:</strong> ~${eurCompact(ce.total_eur)} over the period ` +
+          `(${mwh(total)} curtailed × €${Math.round(ce.reference_eur_per_mwh)}/MWh reference rate). ${ce.method}` +
+          (ce.eu_context_note ? `<br>For context: ${ce.eu_context_note}` : "");
+        document.getElementById("costNote").style.display = "";
+      }
       document.getElementById("chartMeta").textContent = "MWh/day";
       document.getElementById("periodNote").textContent = `Data shown for ${fmtPeriod(c.period_start, c.period_end)}`;
     }
