@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Locational signal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell"><main class="main">
+  <div class="wrap">
+    <h1>One country, one price — across a grid that can't move the power</h1>
+    <p class="sub">The DE-LU north–south bottleneck is <strong>internal</strong> to the single bidding zone, so it appears in neither cross-border flows nor zonal prices. The evidence that it exists is the control-area balance and redispatch volume — not a price gap.</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 24px;"></div>
+
+    <div id="kpis" class="kpis"></div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">1 · Surplus north, deficit south</div>
+        <div class="meta" id="balMeta">net balance by month, GW</div>
+      </div>
+      <canvas id="balChart" height="120"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:#2f7d78"></span>North surplus (50Hertz, TenneT)</span>
+        <span><span class="swatch" style="background:#a32d2d"></span>South deficit (Amprion, TransnetBW)</span>
+      </div>
+      <div class="meta" style="margin-top:8px;">Net balance = generation − load per area group (SMARD), Europe/Berlin local time. The bottleneck is internal to the single DE-LU zone, so it never shows in cross-border flows or zonal prices — redispatch volume is the evidence.</div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">2 · Redispatch volume</div>
+        <div class="meta" id="rdMeta">by month, GWh</div>
+      </div>
+      <canvas id="rdChart" height="120"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:#4aa6a0"></span>Redispatch (GWh)</span>
+      </div>
+      <div class="meta" style="margin-top:8px;">Redispatch — power physically re-routed because the north–south corridor is full — is the evidence of trapped power. Reported by the TSOs (netztransparenz), 1–3 day lag.</div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">3 · The split that was decided against</div>
+        <div class="meta">the contested economics, as a range</div>
+      </div>
+      <div id="debate" class="meta" style="font-size:13px;line-height:1.6;color:var(--text,#444441);"></div>
+      <div class="meta" style="margin-top:10px;">A contested range, both poles cited — ENTSO-E DE5 study vs. academic studies finding small spreads. Wattlas takes no side and computes no split-zone price.</div>
+    </div>
+
+    <div id="status" class="loading">Loading data…</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="util.js"></script>
+  <script>
+    async function loadJSON(name) {
+      const candidates = ["../data/" + name, "data/" + name, "/data/" + name];
+      for (const path of candidates) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) { /* try next */ }
+      }
+      throw new Error("could not load " + name);
+    }
+    const mean = (a) => a.reduce((s, v) => s + v, 0) / a.length;
+    const sum = (a) => a.reduce((s, v) => s + v, 0);
+    function fmtMonth(m) {
+      const [y, mo] = m.split("-");
+      const names = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      return names[parseInt(mo, 10) - 1];
+    }
+    function renderKPIs(d) {
+      const m = d.monthly;
+      const avgN = mean(m.map(x => x.north_surplus_gw));
+      const avgS = mean(m.map(x => x.south_deficit_gw));
+      const rdTotal = sum(m.map(x => x.redispatch_gwh)) / 1000; // GWh -> TWh
+      const peak = Math.max(...m.map(x => x.congestion_index));
+      const items = [
+        { label: "Avg north surplus", val: "+" + avgN.toFixed(1) + " GW" },
+        { label: "Avg south deficit", val: avgS.toFixed(1) + " GW", cls: "neg" },
+        { label: "Redispatch (12 mo)", val: rdTotal.toFixed(1) + " TWh" },
+        { label: "Peak congestion", val: Math.round(peak) + " GW" },
+      ];
+      document.getElementById("kpis").innerHTML = items.map(i =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
+    }
+    function renderBalance(d) {
+      const labels = d.monthly.map(x => fmtMonth(x.month));
+      new Chart(document.getElementById("balChart"), {
+        type: "bar",
+        data: { labels, datasets: [
+          { label: "North surplus", data: d.monthly.map(x => x.north_surplus_gw), backgroundColor: "#2f7d78", borderRadius: 2 },
+          { label: "South deficit", data: d.monthly.map(x => x.south_deficit_gw), backgroundColor: "#a32d2d", borderRadius: 2 } ]},
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.parsed.y > 0 ? "+" : ""}${c.parsed.y.toFixed(1)} GW` } } },
+          scales: { x: { stacked: false, ticks: { color: "#888780", font: { size: 10 } }, grid: { display: false } },
+                    y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => v + " GW" }, grid: { color: "rgba(0,0,0,0.05)" } } } },
+      });
+    }
+    function renderRedispatch(d) {
+      const labels = d.monthly.map(x => fmtMonth(x.month));
+      new Chart(document.getElementById("rdChart"), {
+        type: "bar",
+        data: { labels, datasets: [
+          { label: "Redispatch", data: d.monthly.map(x => x.redispatch_gwh), backgroundColor: "#4aa6a0", borderRadius: 2 } ]},
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${Math.round(c.parsed.y)} GWh` } } },
+          scales: { x: { ticks: { color: "#888780", font: { size: 10 } }, grid: { display: false } },
+                    y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => Math.round(v) + " GWh" }, grid: { color: "rgba(0,0,0,0.05)" } } } },
+      });
+    }
+    function renderDebate(d) {
+      const c = d.context;
+      document.getElementById("debate").innerHTML =
+        `<p style="margin:0 0 10px;"><strong>The decision.</strong> ${c.decision} Germany–Luxembourg stays a single bidding zone: one wholesale price, even when the grid can't move power from the windy north to the industrial south.</p>` +
+        `<p style="margin:0 0 10px;"><strong>The case for splitting.</strong> Smaller zones would signal scarcity and pull investment where it's needed. ENTSO-E's bidding-zone review (the DE5 configuration) estimated roughly <strong>€${Math.round(c.de5_redispatch_meur)}m</strong> in redispatch and about <strong>+€${Math.round(c.de5_welfare_meur)}m</strong> in welfare from a split — on <strong>${c.de5_vintage}</strong>.</p>` +
+        `<p style="margin:0 0 10px;"><strong>The case against.</strong> ${c.academic_dissent} One zone preserves price solidarity between regions, avoids structurally higher southern prices, and keeps the market liquid.</p>` +
+        `<p style="margin:0;"><strong>${c.stance}</strong></p>`;
+    }
+    (async function main() {
+      const status = document.getElementById("status");
+      let data = null;
+      try { data = await loadJSON("locational_signal.json"); } catch (e) { /* handled below */ }
+      if (!data || !data.monthly || !data.monthly.length) {
+        status.textContent = "Could not load data. Run the locational-signal pipeline step first, then serve the folder.";
+        return;
+      }
+      const first = data.monthly[0].month, last = data.monthly[data.monthly.length - 1].month;
+      document.getElementById("periodNote").textContent =
+        `Monthly data ${first} → ${last} · source: ${data.source}`;
+      renderKPIs(data); renderBalance(data); renderRedispatch(data); renderDebate(data);
+      status.style.display = "none";
+    })();
+  </script>
+  <script src="nav.js"></script>
+  </main></div>
+</body>
+</html>

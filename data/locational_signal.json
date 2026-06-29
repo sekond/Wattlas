@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-29T05:57:52+00:00",
+  "source": "SMARD control-area balance + netztransparenz redispatch (assembled)",
+  "unit": "GW (balance), GWh (redispatch)",
+  "note": "North-south congestion is INTERNAL to the DE-LU zone \u2014 it shows in neither cross-border flows nor zonal prices. Evidence is control-area balance + redispatch. No split-zone price is computed.",
+  "north_areas": [
+    "50Hertz",
+    "TenneT"
+  ],
+  "south_areas": [
+    "Amprion",
+    "TransnetBW"
+  ],
+  "monthly": [
+    {
+      "month": "2025-06",
+      "north_surplus_gw": 6.83,
+      "south_deficit_gw": -6.45,
+      "redispatch_gwh": 455.5,
+      "congestion_index": 6.45
+    },
+    {
+      "month": "2025-07",
+      "north_surplus_gw": 2.51,
+      "south_deficit_gw": -7.11,
+      "redispatch_gwh": 207.2,
+      "congestion_index": 2.51
+    },
+    {
+      "month": "2025-08",
+      "north_surplus_gw": 2.35,
+      "south_deficit_gw": -6.8,
+      "redispatch_gwh": 274.2,
+      "congestion_index": 2.35
+    },
+    {
+      "month": "2025-09",
+      "north_surplus_gw": 4.86,
+      "south_deficit_gw": -7.59,
+      "redispatch_gwh": 532.0,
+      "congestion_index": 4.86
+    },
+    {
+      "month": "2025-10",
+      "north_surplus_gw": 6.94,
+      "south_deficit_gw": -7.97,
+      "redispatch_gwh": 824.5,
+      "congestion_index": 6.94
+    },
+    {
+      "month": "2025-11",
+      "north_surplus_gw": 4.39,
+      "south_deficit_gw": -8.63,
+      "redispatch_gwh": 592.0,
+      "congestion_index": 4.39
+    },
+    {
+      "month": "2025-12",
+      "north_surplus_gw": 5.84,
+      "south_deficit_gw": -9.86,
+      "redispatch_gwh": 491.4,
+      "congestion_index": 5.84
+    },
+    {
+      "month": "2026-01",
+      "north_surplus_gw": 7.38,
+      "south_deficit_gw": -8.05,
+      "redispatch_gwh": 849.1,
+      "congestion_index": 7.38
+    },
+    {
+      "month": "2026-02",
+      "north_surplus_gw": 7.75,
+      "south_deficit_gw": -7.54,
+      "redispatch_gwh": 263.9,
+      "congestion_index": 7.54
+    },
+    {
+      "month": "2026-03",
+      "north_surplus_gw": 6.26,
+      "south_deficit_gw": -7.5,
+      "redispatch_gwh": 580.8,
+      "congestion_index": 6.26
+    },
+    {
+      "month": "2026-04",
+      "north_surplus_gw": 6.86,
+      "south_deficit_gw": -8.28,
+      "redispatch_gwh": 462.4,
+      "congestion_index": 6.86
+    },
+    {
+      "month": "2026-05",
+      "north_surplus_gw": 4.83,
+      "south_deficit_gw": -7.34,
+      "redispatch_gwh": 283.2,
+      "congestion_index": 4.83
+    },
+    {
+      "month": "2026-06",
+      "north_surplus_gw": 4.71,
+      "south_deficit_gw": -7.56,
+      "redispatch_gwh": 453.4,
+      "congestion_index": 4.71
+    }
+  ],
+  "context": {
+    "decision": "Single DE-LU bidding zone RETAINED; Aktionsplan Gebotszone (15 Dec 2025).",
+    "de5_redispatch_meur": -613,
+    "de5_welfare_meur": 339,
+    "de5_vintage": "2019 data",
+    "academic_dissent": "Other studies find <\u20ac3/MWh average split spreads \u2014 small.",
+    "stance": "Wattlas shows the physical mismatch the debate is about; it takes no side and computes no split-zone price."
+  },
+  "curtailment_available": true
+}

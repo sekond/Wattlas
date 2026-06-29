@@ -87,6 +87,29 @@ def monthly_tb2(spread_days: list[dict]) -> list[dict]:
     return [{"month": m, "mean_tb2": round(sum(v) / len(v), 1)} for m, v in sorted(acc.items())]
 
 
+def cannibalization_curve(base_spread: float, base_per_mw_eur_yr: float, base_gw: float,
+                          scenarios: list[float], compression_per_gw: float = 0.03) -> list[dict]:
+    """ILLUSTRATIVE parametric model (NOT a forecast): how the arbitrageable daily
+    spread — and the per-MW revenue that rides on it — compresses as more battery
+    capacity competes for the same spread.
+
+    modelled_spread(gw) = base_spread * exp(-compression_per_gw * max(0, gw - base_gw)).
+    per-MW arbitrage scales linearly with the spread. Monotonically non-increasing as
+    gw grows from base_gw. The constants are illustrative — this is the cannibalisation
+    direction made visible, not a prediction. Pure; unit-tested.
+    """
+    import math
+    out = []
+    for gw in scenarios:
+        factor = math.exp(-compression_per_gw * max(0.0, float(gw) - base_gw))
+        out.append({
+            "assumed_gw": gw,
+            "modelled_spread": round(base_spread * factor, 1),
+            "per_mw_arbitrage_eur_yr": round(base_per_mw_eur_yr * factor),
+        })
+    return out
+
+
 def compute(pulse: dict, spread: dict, generated_at: str) -> dict:
     profile = pulse["all_mean"]
     day = battery_day(profile, BATTERY["power_mw"], BATTERY["duration_h"], BATTERY["round_trip"])
@@ -106,6 +129,20 @@ def compute(pulse: dict, spread: dict, generated_at: str) -> dict:
             "mean_tb2_eur_mwh": mean_tb2,        # mean daily 2-hour spread (perfect foresight)
             "period_start": pulse.get("period_start"), "period_end": pulse.get("period_end"),
             "monthly_tb2": monthly_tb2(spread.get("days", [])),
+        },
+        "cannibalization": {
+            "note": ("ILLUSTRATIVE parametric model, not a forecast: how the arbitrageable "
+                     "daily spread (and the per-MW revenue on it) compresses as more battery "
+                     "capacity competes for it. The decline is modelled, not measured."),
+            "base_gw": 4.5, "base_spread_eur_mwh": mean_tb2,
+            "compression_per_gw": 0.03,
+            "scenarios": cannibalization_curve(
+                base_spread=mean_tb2 or 0.0,
+                base_per_mw_eur_yr=round((day["captured_eur"] or 0.0) * 365),
+                base_gw=4.5, scenarios=[5, 10, 15, 20, 30, 40, 50]),
+            "remuneration_note": ("As arbitrage erodes, storage revenue shifts toward "
+                                  "capacity/availability payments (capacity market, ancillary "
+                                  "services) — a structural shift this toy model does not capture."),
         },
         "capacity": CAPACITY,
         "capacity_note": ("Curated from published market reports (SolarPower Europe, Wood "

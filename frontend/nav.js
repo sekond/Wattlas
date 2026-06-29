@@ -101,6 +101,8 @@
     { text: "Capture Price",            mark: "CP", page: "capture_price.html"   },
     { text: "Negative Prices",          mark: "NP", page: "negative_prices.html" },
     { text: "Flexibility",              mark: "FX", page: "flexibility.html"     },
+    { text: "Locational Signal",        mark: "LO", page: "locational_signal.html" },
+    { text: "Capacity & Adequacy",      mark: "CA", page: "capacity_adequacy.html" },
   ];
 
   var here = (location.pathname.split("/").pop() || "").toLowerCase();

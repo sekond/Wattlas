@@ -1,0 +1,84 @@
+{
+  "generated_at": "2026-06-29T05:57:53+00:00",
+  "zone": "DE_LU",
+  "source": "Wattlas Mismatch + Dunkelflaute (stress) + curated capacity-bill figures (cost)",
+  "note": "Stress indicator is real (residual load + Dunkelflaute spells). Cost figures are provisional \u2014 a pending bill, not yet law \u2014 and carry a citation.",
+  "stress": {
+    "peak_residual_gw": 40.5,
+    "peak_total_load_gw": 60.4,
+    "longest_spell_h": 52,
+    "spell_hours_year": 52,
+    "low_vre_hours_year": 510,
+    "vre_share_spell_pct": 8.9,
+    "vre_share_normal_pct": 48.6
+  },
+  "cost": {
+    "tender_gw": 12,
+    "tender_duration_h": 10,
+    "target_year": 2031,
+    "status": "provisional \u2014 May-2026 cabinet bill, pending Bundestag passage (NOT YET LAW)",
+    "source": "German federal capacity-mechanism bill (cabinet draft, May 2026)",
+    "levy_eur_bn": [
+      {
+        "year": 2031,
+        "eur_bn": 3.0
+      },
+      {
+        "year": 2032,
+        "eur_bn": 2.3
+      },
+      {
+        "year": 2033,
+        "eur_bn": 2.3
+      },
+      {
+        "year": 2034,
+        "eur_bn": 2.3
+      },
+      {
+        "year": 2035,
+        "eur_bn": 2.3
+      },
+      {
+        "year": 2036,
+        "eur_bn": 2.3
+      },
+      {
+        "year": 2037,
+        "eur_bn": 2.3
+      },
+      {
+        "year": 2038,
+        "eur_bn": 2.3
+      },
+      {
+        "year": 2039,
+        "eur_bn": 2.3
+      },
+      {
+        "year": 2040,
+        "eur_bn": 2.3
+      },
+      {
+        "year": 2041,
+        "eur_bn": 2.3
+      },
+      {
+        "year": 2042,
+        "eur_bn": 2.3
+      },
+      {
+        "year": 2043,
+        "eur_bn": 2.3
+      },
+      {
+        "year": 2044,
+        "eur_bn": 2.3
+      },
+      {
+        "year": 2045,
+        "eur_bn": 2.3
+      }
+    ]
+  }
+}

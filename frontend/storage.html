@@ -60,6 +60,19 @@
           <p class="cap" id="blockA">A battery earns by charging when power is cheap and discharging when it's dear. The figure here assumes perfect foresight and a stated round-trip efficiency, so it's an <strong>upper bound</strong> on what a real battery captures — the same caveat as the Spread view's arbitrage number. Round-trip losses, cycling wear, and the fact that more storage flattens the very spread it feeds on all pull real revenue below this line.</p>
         </div>
 
+        <!-- Panel 4 — cannibalization model. -->
+        <div class="card hoverable" id="cannibCard" style="display:none;">
+          <div class="head">
+            <div class="title">4 · Cannibalization — more storage, thinner spread</div>
+            <div class="meta">modelled, illustrative</div>
+          </div>
+          <p class="block-pitch">Arbitrage is self-limiting: every gigawatt of storage that competes for the same daily price swing helps flatten it. This parametric model traces how the arbitrageable spread — and the per-MW revenue riding on it — compresses as battery capacity grows.</p>
+          <div class="legend" id="cannibLegend" style="margin-bottom:6px;"></div>
+          <div id="cannibWrap" class="chartbox" style="height:230px;"><canvas id="cannibChart"></canvas></div>
+          <p class="cap" id="cannibNote"></p>
+          <p class="cap" id="cannibRemNote"></p>
+        </div>
+
       </div>
     </main>
   </div>
@@ -173,6 +186,41 @@
       document.getElementById("spreadLegend").innerHTML =
         `<span><span class="swatch" style="background:#b8860b"></span>Monthly 2-hour spread (TB2)</span>` +
         `<span style="color:var(--hint)">mean ${eur(d.spread.mean_tb2_eur_mwh)}/MWh · a battery captures ≈ ${Math.round(d.battery.round_trip * 100)}% of it, minus losses</span>`;
+
+      // Panel 4: cannibalization — modelled spread (and per-MW arbitrage) vs assumed installed GW.
+      // ILLUSTRATIVE parametric model — the decline is modelled, not measured. Hide if absent.
+      if (d.cannibalization) {
+        const cn = d.cannibalization;
+        const sc = cn.scenarios || [];
+        document.getElementById("cannibCard").style.display = "";
+        new Chart(document.getElementById("cannibChart"), {
+          data: { labels: sc.map((x) => x.assumed_gw + " GW"), datasets: [
+            { type: "line", label: "Modelled spread (€/MWh)", data: sc.map((x) => x.modelled_spread), yAxisID: "y", order: 1,
+              borderColor: "#b8860b", backgroundColor: "rgba(184,134,11,.10)", borderWidth: 2, tension: 0.3, pointRadius: 2, fill: true },
+            { type: "bar", label: "Per-MW arbitrage (€/yr)", data: sc.map((x) => x.per_mw_arbitrage_eur_yr), yAxisID: "y1", order: 2,
+              backgroundColor: "rgba(58,124,165,.35)", borderRadius: 2 },
+          ] },
+          options: {
+            responsive: true, maintainAspectRatio: false, animation: false,
+            interaction: { mode: "index", intersect: false },
+            plugins: { legend: { display: false },
+              tooltip: { callbacks: { label: (c) => c.dataset.label.startsWith("Modelled")
+                ? `Spread: ${eur(c.parsed.y)}/MWh` : `Arbitrage: €${Math.round(c.parsed.y).toLocaleString()}/MW/yr` } } },
+            scales: {
+              y: { position: "left", title: { display: true, text: "€/MWh", font: { size: 11 } },
+                grid: { color: "rgba(0,0,0,.06)" }, ticks: { font: { size: 10 } }, beginAtZero: true },
+              y1: { position: "right", title: { display: true, text: "€/MW/yr", font: { size: 10 } },
+                grid: { drawOnChartArea: false }, ticks: { font: { size: 10 }, callback: (v) => "€" + Math.round(v / 1000) + "k" }, beginAtZero: true },
+              x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+            },
+          },
+        });
+        document.getElementById("cannibLegend").innerHTML =
+          `<span><span class="swatch" style="background:#b8860b"></span>Modelled spread (€/MWh)</span>` +
+          `<span><span class="swatch" style="background:rgba(58,124,165,.55)"></span>Per-MW arbitrage (€/yr)</span>`;
+        document.getElementById("cannibNote").innerHTML = "<strong>Illustrative.</strong> " + cn.note;
+        document.getElementById("cannibRemNote").textContent = cn.remuneration_note;
+      }
     })();
   </script>
   <script src="nav.js"></script>
