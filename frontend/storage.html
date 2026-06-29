@@ -61,7 +61,7 @@
         </div>
 
         <!-- Panel 4 — cannibalization model. -->
-        <div class="card hoverable" id="cannibCard" style="display:none;">
+        <div class="card hoverable" id="cannibalization" style="display:none;scroll-margin-top:70px">
           <div class="head">
             <div class="title">4 · Cannibalization — more storage, thinner spread</div>
             <div class="meta">modelled, illustrative</div>
@@ -192,7 +192,7 @@
       if (d.cannibalization) {
         const cn = d.cannibalization;
         const sc = cn.scenarios || [];
-        document.getElementById("cannibCard").style.display = "";
+        document.getElementById("cannibalization").style.display = "";
         new Chart(document.getElementById("cannibChart"), {
           data: { labels: sc.map((x) => x.assumed_gw + " GW"), datasets: [
             { type: "line", label: "Modelled spread (€/MWh)", data: sc.map((x) => x.modelled_spread), yAxisID: "y", order: 1,
