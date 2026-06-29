@@ -767,9 +767,55 @@ battery model — the frontend MUST label it so. Prices €/MWh; flat tariff = p
 }
 ```
 
+## `locational_signal.json` (v10 — Value Layer slice 6, no new source)
+
+Assembled from `de_regional_balance.json` (SMARD) + `curtailment.json` (netztransparenz):
+per-month north-surplus / south-deficit (GW), redispatch volume (GWh), and a congestion
+index = min(north surplus, |south deficit|). Plus a curated, cited `context` block.
+**No simulated split-zone price** — the bottleneck is internal to DE-LU (landmine #2).
+
+```json
+{
+  "generated_at": "…", "source": "SMARD control-area balance + netztransparenz redispatch",
+  "north_areas": ["50Hertz", "TenneT"], "south_areas": ["Amprion", "TransnetBW"],
+  "monthly": [ { "month": "2025-06", "north_surplus_gw": 6.83, "south_deficit_gw": -6.45,
+                 "redispatch_gwh": 455.5, "congestion_index": 6.45 } ],
+  "context": { "decision": "Single DE-LU zone retained (15 Dec 2025)…",
+               "de5_redispatch_meur": -613, "de5_welfare_meur": 339, "de5_vintage": "2019 data",
+               "academic_dissent": "<€3/MWh…", "stance": "no side, no split price" },
+  "curtailment_available": true
+}
+```
+
+DE5 (`-613` / `+339`, 2019 vintage) vs the academic `<€3/MWh` dissent are a **contested
+range**, both cited; never resolved, never a computed split price.
+
+## `capacity_adequacy.json` (v10 — Value Layer slice 8, curated cost + real stress)
+
+Real stress (residual-load peak from `mismatch.json`, Dunkelflaute spell + spell-vs-normal
+VRE share from `dunkelflaute.json`) alongside a **curated, provisional** capacity-cost table.
+
+```json
+{
+  "generated_at": "…", "zone": "DE_LU",
+  "stress": { "peak_residual_gw": 40.5, "peak_total_load_gw": 60.4, "longest_spell_h": 52,
+              "spell_hours_year": 52, "low_vre_hours_year": 510,
+              "vre_share_spell_pct": 8.9, "vre_share_normal_pct": 48.6 },
+  "cost": { "tender_gw": 12, "tender_duration_h": 10, "target_year": 2031,
+            "status": "provisional — May-2026 cabinet bill, pending Bundestag (NOT YET LAW)",
+            "source": "…cabinet draft, May 2026", "levy_eur_bn": [ { "year": 2031, "eur_bn": 3.0 } ] }
+}
+```
+
+Cost figures are **not yet law** — labelled provisional with a citation, like the France
+cost stack. `storage.json` additionally gained a `cannibalization` block (v10 slice 4): an
+**illustrative parametric** spread-compression curve (`scenarios:[{assumed_gw,modelled_spread,
+per_mw_arbitrage_eur_yr}]`) — modelled, not measured, with a capacity-remuneration note.
+
 ### Frontend obligations
 - Render `perfect_arbitrage_eur_per_mw` only alongside a visible caveat that it is an unachievable upper bound (see CLAUDE.md landmine #7).
 - For `flex_savings`, label `annual_saving_eur` as a perfect-foresight **upper bound** (same as the battery figure). For `capture_price`, present the roadmap anchors as cited context, not computed values; for `negative_prices`, never clip negatives and count hours, not 15-min slots.
+- For `locational_signal`, never present a computed split-zone price; show DE5 vs academic figures as a contested range. For `capacity_adequacy`, label the cost figures provisional/"not yet law" with the citation. For `storage.cannibalization`, label the curve illustrative/modelled, not a forecast.
 - Treat `complete: false` days distinctly (e.g. muted) and never break if `days` has gaps.
 - Round every number before display.
 - For `mix`/`carbon`, use the canonical fuel palette (`frontend/fuels.js`); render `null` fuel/hour slots as gaps, never zeros. Show the carbon methodology label.

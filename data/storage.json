@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-24T20:04:49+00:00",
+  "generated_at": "2026-06-29T05:57:52+00:00",
   "zone": "DE_LU",
   "currency": "EUR",
   "unit_power": "MW (power)",
@@ -39,30 +39,30 @@
       23
     ],
     "price": [
-      93.2,
-      88.1,
-      85.1,
-      84.1,
-      85.4,
-      90.6,
-      103.2,
-      113.6,
-      108.7,
-      90.9,
-      73.3,
-      60.6,
-      51.0,
-      45.8,
-      50.1,
-      63.8,
-      81.5,
-      105.6,
-      125.4,
-      138.7,
-      133.3,
-      119.8,
-      109.2,
-      97.3
+      93.6,
+      88.3,
+      85.3,
+      84.3,
+      85.5,
+      90.8,
+      103.3,
+      113.8,
+      108.9,
+      91.2,
+      73.6,
+      60.8,
+      51.2,
+      46.0,
+      50.3,
+      64.1,
+      81.8,
+      105.9,
+      125.9,
+      139.5,
+      134.6,
+      121.0,
+      109.9,
+      97.6
     ],
     "charge_mw": [
       0,
@@ -124,16 +124,16 @@
       19,
       20
     ],
-    "captured_eur": 135.4
+    "captured_eur": 136.7
   },
   "spread": {
-    "mean_tb2_eur_mwh": 117.3,
-    "period_start": "2025-06-23",
-    "period_end": "2026-06-22",
+    "mean_tb2_eur_mwh": 118.3,
+    "period_start": "2025-06-24",
+    "period_end": "2026-06-23",
     "monthly_tb2": [
       {
         "month": "2025-06",
-        "mean_tb2": 149.7
+        "mean_tb2": 152.8
       },
       {
         "month": "2025-07",
@@ -181,9 +181,53 @@
       },
       {
         "month": "2026-06",
-        "mean_tb2": 151.9
+        "mean_tb2": 165.2
       }
     ]
+  },
+  "cannibalization": {
+    "note": "ILLUSTRATIVE parametric model, not a forecast: how the arbitrageable daily spread (and the per-MW revenue on it) compresses as more battery capacity competes for it. The decline is modelled, not measured.",
+    "base_gw": 4.5,
+    "base_spread_eur_mwh": 118.3,
+    "compression_per_gw": 0.03,
+    "scenarios": [
+      {
+        "assumed_gw": 5,
+        "modelled_spread": 116.5,
+        "per_mw_arbitrage_eur_yr": 49152
+      },
+      {
+        "assumed_gw": 10,
+        "modelled_spread": 100.3,
+        "per_mw_arbitrage_eur_yr": 42306
+      },
+      {
+        "assumed_gw": 15,
+        "modelled_spread": 86.3,
+        "per_mw_arbitrage_eur_yr": 36413
+      },
+      {
+        "assumed_gw": 20,
+        "modelled_spread": 74.3,
+        "per_mw_arbitrage_eur_yr": 31341
+      },
+      {
+        "assumed_gw": 30,
+        "modelled_spread": 55.0,
+        "per_mw_arbitrage_eur_yr": 23218
+      },
+      {
+        "assumed_gw": 40,
+        "modelled_spread": 40.8,
+        "per_mw_arbitrage_eur_yr": 17200
+      },
+      {
+        "assumed_gw": 50,
+        "modelled_spread": 30.2,
+        "per_mw_arbitrage_eur_yr": 12742
+      }
+    ],
+    "remuneration_note": "As arbitrage erodes, storage revenue shifts toward capacity/availability payments (capacity market, ancillary services) \u2014 a structural shift this toy model does not capture."
   },
   "capacity": [
     {

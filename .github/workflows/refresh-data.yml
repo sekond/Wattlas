@@ -63,6 +63,11 @@ jobs:
           python pipeline/build_negative_prices.py || echo "negative-prices build skipped/failed — continuing"
           python pipeline/build_flex_savings.py || echo "flex-savings build skipped/failed — continuing"
           python pipeline/build_capture_price.py || echo "capture-price build skipped/failed — continuing"
+          # v10 batch 2 — assemble from committed artefacts (regional balance, curtailment,
+          # mismatch, dunkelflaute) built above; no new fetch. (build_storage already runs
+          # earlier and now also writes the cannibalization block.)
+          python pipeline/build_locational_signal.py || echo "locational-signal build skipped/failed — continuing"
+          python pipeline/build_capacity_adequacy.py || echo "capacity-adequacy build skipped/failed — continuing"
           # Nordic price-zones slice (v5): day-ahead prices for the 12 Nordic bidding
           # zones (ENTSO-E). Isolated builder; non-fatal so a Nordic fetch hiccup
           # can't break the core refresh.
