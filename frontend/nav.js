@@ -77,8 +77,8 @@
   (document.head || document.documentElement).appendChild(st);
 
   // ---- Links: one source of truth ------------------------------------------
-  // Each view carries both its dashboard `section` id and its standalone `page`
-  // (Carbon is a dashboard-only section, so it has no standalone page).
+  // Each view carries both its dashboard `section` id and its standalone `page`.
+  // (Carbon also keeps its dashboard #carbon section; old deep links still land there.)
   var DASH = "dashboard.html";
   var VIEWS = [
     { text: "Pulse",       mark: "1", section: "pulse",       page: "pulse.html"       },
@@ -86,7 +86,7 @@
     { text: "Mix",         mark: "3", section: "mix",         page: "mix.html"         },
     { text: "Mismatch",    mark: "4", section: "mismatch",    page: "mismatch.html"    },
     { text: "Divergence",  mark: "5", section: "divergence",  page: "divergence.html"  },
-    { text: "Carbon",      mark: "6", section: "carbon",      page: null               },
+    { text: "Carbon",      mark: "6", section: "carbon",      page: "carbon.html"      },
     { text: "Curtailment", mark: "7", section: "curtailment", page: "curtailment.html" },
     { text: "History",     mark: "8", section: "history",     page: "history.html"     },
   ];
