@@ -1,9 +1,9 @@
 /* Wattlas — render logic for the editorial chrome pages (home, section hub,
- * standard page, audit). Reads window.WATTLAS_IA (the source of record) and
- * renders into #view. Which view to render is chosen by body[data-wx].
+ * standard page). Reads window.WATTLAS_IA (the source of record) and renders
+ * into #view. Which view to render is chosen by body[data-wx].
  *
- * Multi-page production: prototype hash routes (#/s/…, #/p/…, #/audit) are
- * translated to real page URLs (section.html?s=… etc.). No router, no iframes. */
+ * Multi-page production: prototype hash routes (#/s/…, #/p/…) are translated to
+ * real page URLs (section.html?s=… etc.). No router, no iframes. */
 (function () {
   var IA = window.WATTLAS_IA;
   if (!IA) return;
@@ -16,15 +16,14 @@
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
   function qp(name) { var m = new RegExp("[?&]" + name + "=([^&#]*)").exec(location.search); return m ? decodeURIComponent(m[1]) : null; }
   function tagLabel(t) { return { chart: "Chart", map: "Map view", model: "Model", historical: "Historical" }[t] || t; }
-  // Matches the design copy ("26 views"): the 24 section cards plus the two
-  // standing nav destinations (Home + the audit). Keep in sync with the headline.
+  // "26" matches the design headline: the original flat nav listed 26
+  // destinations, regrouped here into the section cards. Keep in sync with copy.
   function countViews() { var n = 0; SECTIONS.forEach(function (s) { n += s.views.length; }); return n + 2; }
 
   // Translate prototype hash routes to real page URLs (used in authored copy).
   function fixHrefs(html) {
     return String(html)
       .replace(/href="#\/home"/g, 'href="dashboard.html"')
-      .replace(/href="#\/audit"/g, 'href="audit.html"')
       .replace(/href="#\/s\/([^"]+)"/g, 'href="section.html?s=$1"')
       .replace(/href="#\/p\/([^"]+)"/g, 'href="page.html?p=$1"')
       .replace(/href="#\/v\/([^"]+)"/g, function (_, id) { var v = byId[id]; return 'href="' + (v ? v.page : "dashboard.html") + '"'; });
@@ -39,25 +38,26 @@
       '<p class="eyebrow">A field guide to European power markets</p>' +
       "<h1>When — and how much — the price of <em>electricity</em> moves in Europe.</h1>" +
       '<p class="lead">Open data on Germany and its neighbours, pre-computed into views you can actually read. ' +
-      "Everything answers one of five questions. Start with whichever you came for.</p>" +
-      '<div class="hero-actions"><a class="btn" href="section.html?s=rhythm">Start with the daily rhythm</a>' +
-      '<a class="btn ghost" href="audit.html">Why we restructured →</a></div></header>';
+      "Everything answers one of five questions. Start with whichever you came for.</p></header>";
     h += '<div class="five-head"><span>Five questions</span><span class="rule"></span><span>' + countViews() + " views</span></div>";
     h += '<div class="sgrid">';
     SECTIONS.forEach(function (s) {
-      h += '<a class="scard" href="section.html?s=' + s.id + '" style="--a:' + s.accent + '">' +
-        '<div class="scard-top"><span class="sn">' + s.n + "</span>" +
-        '<canvas class="thumb" width="200" height="120" data-thumb="' + s.thumb + '"></canvas></div>' +
-        '<p class="sq">' + esc(s.kicker) + "</p>" +
-        "<h2>" + esc(s.title) + "</h2>" +
+      h += '<div class="scard" style="--a:' + s.accent + '">' +
+        '<div class="scard-head">' +
+          '<a class="scard-htext" href="section.html?s=' + s.id + '">' +
+            '<span class="sn">' + s.n + "</span>" +
+            '<p class="sq">' + esc(s.kicker) + "</p>" +
+            "<h2>" + esc(s.title) + "</h2>" +
+          "</a>" +
+          '<a class="thumb-wrap" href="section.html?s=' + s.id + '" tabindex="-1" aria-hidden="true">' +
+            '<canvas class="thumb" width="200" height="120" data-thumb="' + s.thumb + '"></canvas>' +
+          "</a>" +
+        "</div>" +
         '<p class="sl">' + esc(s.lede) + "</p>" +
-        '<div class="chips">' + s.views.map(function (v) { return '<span class="chip">' + esc(v.title) + "</span>"; }).join("") + "</div></a>";
+        '<p class="chips-lbl">Jump straight in</p>' +
+        '<div class="chips">' + s.views.map(function (v) { return '<a class="chip" href="' + v.page + '">' + esc(v.title) + "</a>"; }).join("") + "</div></div>";
     });
     h += "</div>";
-    h += '<section class="home-note"><h3>What changed</h3><p>The old menu listed all ' + countViews() +
-      " destinations in one flat column, grouped by how the data was built — “The Eight Views”, “Deep dives”, “Value layer.” " +
-      "Useful to the engineer, opaque to everyone else. We regrouped every view under the question it answers, gave the " +
-      'strongest stories room to lead, and connected them so each one points to where to go next. <a href="audit.html">See the full audit →</a></p></section>';
     app.innerHTML = h;
     drawThumbs();
   }
@@ -102,38 +102,6 @@
       if (b.list) h += "<ul>" + b.list.map(function (li) { return "<li>" + fixHrefs(li) + "</li>"; }).join("") + "</ul>";
     });
     h += "</div>";
-    app.innerHTML = h;
-  }
-
-  // ---------- AUDIT ----------
-  function renderAudit() {
-    var a = IA.audit;
-    setTitle("Why this changed");
-    var h = "";
-    h += '<div class="crumb"><a href="dashboard.html">Home</a><span>/</span><span>The audit</span></div>';
-    h += '<header class="audit-hero"><p class="eyebrow">UX audit</p><h1>' + esc(a.headline) + "</h1>" +
-      '<p class="lead">' + esc(a.body) + "</p></header>";
-    h += '<div class="ba">';
-    h += '<div class="ba-col before"><div class="ba-tag">Before</div><div class="ba-frame">' +
-      a.original.map(function (g) {
-        return (g.group ? '<div class="ba-grp">' + esc(g.group) + "</div>" : "") +
-          g.items.map(function (it) { return '<div class="ba-row"><span class="bm">' + esc(it.m) + "</span>" + esc(it.t) + "</div>"; }).join("");
-      }).join("") +
-      '</div><p class="ba-cap">One flat column. 26 links, grouped by build order.</p></div>';
-    h += '<div class="ba-col after"><div class="ba-tag on">After</div><div class="ba-frame">' +
-      SECTIONS.map(function (s) {
-        return '<div class="ba-sec" style="--a:' + s.accent + '"><div class="ba-sh"><span class="ba-sn">' + s.n + "</span>" + esc(s.title) +
-          '<span class="ba-sq">' + esc(s.kicker) + "</span></div>" +
-          '<div class="ba-vs">' + s.views.map(function (v) { return '<span class="ba-v">' + esc(v.title) + "</span>"; }).join("") + "</div></div>";
-      }).join("") +
-      '</div><p class="ba-cap">Five questions. Each view under the one it answers, strongest stories leading.</p></div>';
-    h += "</div>";
-    h += '<div class="prob-head">What was getting in the way</div><div class="probs">';
-    a.problems.forEach(function (p, i) {
-      h += '<div class="prob"><span class="pn">' + (i + 1) + "</span><div><h4>" + esc(p.t) + "</h4><p>" + esc(p.d) + "</p></div></div>";
-    });
-    h += "</div>";
-    h += '<a class="btn" href="dashboard.html">See the redesigned home →</a>';
     app.innerHTML = h;
   }
 
@@ -197,7 +165,6 @@
     var which = document.body.getAttribute("data-wx");
     if (which === "section") renderSection(qp("s"));
     else if (which === "page") renderPage(qp("p"));
-    else if (which === "audit") renderAudit();
     else renderHome();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", render);

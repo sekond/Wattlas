@@ -12,7 +12,7 @@
  * Production is a multi-PAGE static site (no SPA, no iframes). The prototype's
  * hash router (#/s/…, #/p/…) is translated to real page URLs here:
  *   #/home → dashboard.html · #/s/<id> → section.html?s=<id>
- *   #/p/<id> → page.html?p=<id> · #/audit → audit.html · #/v/<id> → view page
+ *   #/p/<id> → page.html?p=<id> · #/v/<id> → view page
  *
  * A page only needs:  …<div class="shell"><main class="main"> … </main></div>
  * <script src="ia.js"></script><script src="nav.js"></script>  — nav.js does the rest.
@@ -26,6 +26,10 @@
   if (!IA || !IA.sections) return; // ia.js must load before nav.js
   var SECTIONS = IA.sections;
   var TAGLINE = "European electricity, explained";
+
+  // Foldable sidebar sections — remember which are collapsed across pages.
+  var FOLDS = {};
+  function saveFolds() { /* no-op: CLAUDE.md forbids localStorage/sessionStorage; folds are session-only */ }
 
   // Flatten: index views by id and by page, and remember each view's section.
   var byId = {}, byPage = {};
@@ -79,6 +83,14 @@ body:not([data-wx-tokens]){--surface-3:#ece9df; --border-2:rgba(43,42,39,.08)}
 .ghead.active{background:var(--surface-2);border-left-color:var(--ga)}
 .gkids{display:none;flex-direction:column;gap:0;margin:2px 0 4px 11px;padding-left:11px;border-left:1.5px solid var(--border-2)}
 .gkids.open{display:flex}
+.ghead-row{display:flex;align-items:stretch;gap:2px}
+.ghead-row .ghead{flex:1 1 auto;min-width:0}
+.gtoggle{flex:none;align-self:center;width:26px;height:26px;padding:0;border:none;background:transparent;cursor:pointer;
+  color:var(--hint);display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm,8px)}
+.gtoggle:hover{background:var(--surface-2);color:var(--text)}
+.gtoggle svg{width:10px;height:7px;transition:transform .18s ease}
+.gtoggle svg path{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.gtoggle[aria-expanded="false"] svg{transform:rotate(-90deg)}
 .nkid{text-decoration:none;color:var(--muted);font-size:12.5px;padding:5px 10px;border-radius:7px}
 .nkid:hover{color:var(--text);background:var(--surface-2)}
 .nkid.active{color:var(--text);font-weight:600;background:var(--surface-2)}
@@ -170,7 +182,6 @@ body:not([data-wx-tokens]){--surface-3:#ece9df; --border-2:rgba(43,42,39,.08)}
     if (!h) return h;
     if (/^https?:/i.test(h)) return h;
     if (h === "#/home") return "dashboard.html";
-    if (h === "#/audit") return "audit.html";
     var m;
     if ((m = /^#\/s\/(.+)$/.exec(h))) return "section.html?s=" + m[1];
     if ((m = /^#\/p\/(.+)$/.exec(h))) return "page.html?p=" + m[1];
@@ -184,7 +195,6 @@ body:not([data-wx-tokens]){--surface-3:#ece9df; --border-2:rgba(43,42,39,.08)}
   // Determine the current route + active section/view.
   var route = { name: "view" }; // default; refined below
   if (here === "dashboard.html") route = { name: "home" };
-  else if (here === "audit.html") route = { name: "audit" };
   else if (here === "section.html") route = { name: "section", section: qp("s") };
   else if (here === "page.html") route = { name: "page", page: qp("p") };
   else if (byPage[here]) { var cv = byPage[here]; route = { name: "view", view: cv.id, section: cv._section.id }; }
@@ -197,15 +207,19 @@ body:not([data-wx-tokens]){--surface-3:#ece9df; --border-2:rgba(43,42,39,.08)}
       '<span class="bt">Wattlas<small>' + TAGLINE + '</small></span></a>';
     h += '<nav class="snav" aria-label="Site">';
     h += '<a class="nlink' + (route.name === "home" ? " active" : "") + '" href="dashboard.html"><span class="ni">⌂</span>Home</a>';
-    h += '<a class="nlink' + (route.name === "audit" ? " active" : "") + '" href="audit.html"><span class="ni">✦</span>Why this changed</a>';
     SECTIONS.forEach(function (s) {
-      var open = (route.section === s.id);
+      var open = (route.section === s.id) ? true : (FOLDS[s.id] !== true);
       var headActive = (route.name === "section" && route.section === s.id);
       h += '<div class="ngroup" style="--ga:' + s.accent + '">';
-      h += '<a class="ghead' + (headActive ? " active" : "") + '" href="section.html?s=' + s.id + '">' +
+      h += '<div class="ghead-row">' +
+        '<a class="ghead' + (headActive ? " active" : "") + '" href="section.html?s=' + s.id + '">' +
         '<span class="gn">' + s.n + '</span><span class="gt">' + esc(s.title) + '</span>' +
-        '<span class="gq">' + esc(s.kicker) + '</span></a>';
-      h += '<div class="gkids' + (open ? " open" : "") + '">';
+        '<span class="gq">' + esc(s.kicker) + '</span></a>' +
+        '<button class="gtoggle" type="button" data-sec="' + s.id + '" aria-expanded="' + open + '" ' +
+        'aria-label="Collapse or expand ' + esc(s.title) + '"><svg viewBox="0 0 10 6" aria-hidden="true">' +
+        '<path d="M1 1l4 4 4-4"></path></svg></button>' +
+        '</div>';
+      h += '<div class="gkids' + (open ? " open" : "") + '" data-sec="' + s.id + '">';
       s.views.forEach(function (v) {
         var on = (route.name === "view" && route.view === v.id);
         h += '<a class="nkid' + (on ? " active" : "") + '" href="' + v.page + '">' + esc(v.title) + '</a>';
@@ -301,7 +315,20 @@ body:not([data-wx-tokens]){--surface-3:#ece9df; --border-2:rgba(43,42,39,.08)}
   // ---- Mount ----------------------------------------------------------------
   function mount() {
     var shell = document.querySelector(".shell");
-    if (shell) shell.insertBefore(buildSidebar(), shell.firstChild);
+    var sideEl = buildSidebar();
+    if (shell) shell.insertBefore(sideEl, shell.firstChild);
+    if (sideEl) sideEl.querySelectorAll(".gtoggle").forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        var sec = btn.getAttribute("data-sec");
+        var kids = sideEl.querySelector('.gkids[data-sec="' + sec + '"]');
+        if (!kids) return;
+        var nowOpen = kids.classList.toggle("open");
+        btn.setAttribute("aria-expanded", String(nowOpen));
+        FOLDS[sec] = !nowOpen;
+        saveFolds();
+      });
+    });
 
     var scrim = document.createElement("div");
     scrim.id = "wx-scrim";
