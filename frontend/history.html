@@ -99,7 +99,10 @@
       const hasZoom = typeof window.ChartZoom !== "undefined" || (Chart.registry.plugins.get && Chart.registry.plugins.get("zoom"));
       hist = new Chart(document.getElementById("histChart"), {
         type: "line",
-        data: { datasets: [{ data: pts, parsing: false, borderColor: "#185fa5", backgroundColor: "rgba(24,95,165,0.08)",
+        // NB: x is an ISO date string, so parsing MUST stay on — the time scale's
+        // date adapter converts the string to a timestamp. With parsing:false the
+        // scale can't read the strings, defaults to ~today, and draws no line.
+        data: { datasets: [{ data: pts, borderColor: "#185fa5", backgroundColor: "rgba(24,95,165,0.08)",
           fill: true, borderWidth: 1, pointRadius: 0, tension: 0 }] },
         options: { responsive: true, animation: false,
           plugins: { legend: { display: false },
