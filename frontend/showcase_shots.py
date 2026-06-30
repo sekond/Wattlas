@@ -69,6 +69,31 @@ SHOTS = [
     # "Curtailment in €" reuses curtailment.png (same page, #cost section).
 ]
 
+# Frame each view from the top of .main down to the BOTTOM of its first chart panel
+# — a clean "hero + first full chart" shot. Avoids the old fixed 900px clip that
+# sliced charts in half (and missed History's chart, which sits below 900px).
+CLIP_JS = r"""
+() => {
+  const main = document.querySelector('main.main, .main');
+  if (!main) return null;
+  const mr = main.getBoundingClientRect();
+  const x = Math.max(0, mr.x);
+  const width = Math.min(mr.width, 1440 - x);
+  let chart = null;
+  for (const el of main.querySelectorAll('canvas, svg')) {
+    const r = el.getBoundingClientRect();
+    if (r.width > 250 && r.height > 120) { chart = el; break; }  // first real chart, not a chevron/icon
+  }
+  let bottom = 760;
+  if (chart) {
+    const panel = chart.closest('.card, .panel, section, .block') || chart;
+    bottom = panel.getBoundingClientRect().bottom;  // page is at scroll-top, so this is the document y
+  }
+  const height = Math.min(1300, Math.max(720, Math.round(bottom + 28)));
+  return { x: Math.round(x), y: 0, width: Math.round(width), height };
+}
+"""
+
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
@@ -81,13 +106,22 @@ def main() -> None:
     with sync_playwright() as p:
         browser = p.chromium.launch()
         for s in SHOTS:
-            ctx = browser.new_context(viewport={"width": 1440, "height": s["h"]}, device_scale_factor=1)
+            clipped = s.get("clip", True)
+            # clipped shots get a tall viewport so the first chart panel has room;
+            # full-chrome shots (dashboard-multi) keep their requested height.
+            vh = 1300 if clipped else s["h"]
+            ctx = browser.new_context(viewport={"width": 1440, "height": vh}, device_scale_factor=1)
             page = ctx.new_page()
             page.goto(f"http://127.0.0.1:{PORT}/{s['path']}", wait_until="networkidle")
-            page.wait_for_timeout(1800)
+            page.wait_for_timeout(2500)  # let Chart.js / D3 draw after the data fetch
             for z in s.get("clicks", []):
                 page.click(f'.zchip[data-z="{z}"]', timeout=4000)
                 page.wait_for_timeout(350)
+            # nudge the scroll to trigger any lazy / observer-driven chart draws, back to top
+            page.evaluate("() => window.scrollTo(0, document.body.scrollHeight)")
+            page.wait_for_timeout(600)
+            page.evaluate("() => window.scrollTo(0, 0)")
+            page.wait_for_timeout(1200)
             if s.get("scrollto"):
                 page.evaluate("sel => { const el = document.querySelector(sel); if (el) el.scrollIntoView({block:'start'}); }", s["scrollto"])
                 page.wait_for_timeout(1400)
@@ -95,13 +129,12 @@ def main() -> None:
                 page.evaluate("n => window.scrollBy(0, n)", s["scrollby"])
                 page.wait_for_timeout(700)
             clip = None
-            if s.get("clip", True):  # crop the nav sidebar — frame just the .main content
-                box = page.evaluate("() => { const m = document.querySelector('main.main, .main'); if (!m) return null; const r = m.getBoundingClientRect(); return {x: Math.max(0, r.x), width: r.width}; }")
-                if box:
-                    clip = {"x": box["x"], "y": 0, "width": min(box["width"], 1440 - box["x"]), "height": s["h"]}
+            if clipped:  # frame .main from the top to the first chart panel's bottom
+                page.evaluate("() => window.scrollTo(0, 0)")
+                clip = page.evaluate(CLIP_JS)
             page.screenshot(path=str(OUT / s["out"]), full_page=False, clip=clip)
             ctx.close()
-            print("captured", s["out"])
+            print("captured", s["out"], "->", (f"{clip['width']}x{clip['height']}" if clip else "full"))
         browser.close()
     httpd.shutdown()
     print("done ->", OUT)
