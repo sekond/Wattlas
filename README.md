@@ -290,6 +290,34 @@ static files. No database, no server, nothing to break.
 A scheduled GitHub Action re-runs the pipeline daily (05:17 UTC) and commits the
 refreshed JSON to `main`; GitHub Pages redeploys automatically.
 
+### Update cadence per source
+
+Each run re-fetches a **rolling window** and rewrites the JSON (no incremental
+append), so a view is only as fresh as the workflow step that builds it. The daily
+job commits **only if the data actually changed** — a source that fails quietly keeps
+its last committed JSON, so the site never breaks, but a figure can look current while
+being stale; check the Action run if in doubt.
+
+| Source | Feeds | Cadence | How it refreshes |
+|---|---|---|---|
+| **ENTSO-E** | prices, generation, load, flows, carbon, residual load, Nordic zones, Dunkelflaute, capture/negative/flexibility | **Daily** | live fetch (API token); rolling ~12 months (History ~3 years) |
+| **SMARD** | German regional balance | **Daily** | open API; rolling 365 days |
+| **netztransparenz** | curtailment (MWh + €) | **Daily** | OAuth; rolling 2 years; without credentials it degrades to "awaiting source" |
+| **ODRÉ — RTE éCO2mix** | France régional + nuclear output | **Daily** | open API; 12–24 months |
+| **RTE Data Portal** | nuclear available-capacity overlay | **Daily attempt — currently paused** | OAuth; the app isn't yet subscribed to the Unavailability API, so it degrades to output-only (`available_gw: null`) |
+| **NESO** | GB regional carbon + constraint costs | **Daily** | open API; ~14-day carbon window, financial-year constraints |
+| **MaStR** | German installed capacity by Landkreis | **Weekly** | heavy (~1.5 GB) bulk download, gated to Mondays UTC (or a manual run) |
+| **Eurostat** | retail wedge, industrial prices | **Daily run, annual data** | open API; the year range is hand-maintained (currently 2019–2024 — a new year needs an edit) |
+| **Yahoo TTF** | marginal-fuel gas input | **Daily** | open endpoint; flagged a proxy, not licence-clean |
+| **EEX EUA · France cost stack · storage capacity series · capacity-adequacy levy** | curated context tables | **On edit only** | hand-entered, cited static tables; the builders run daily but the numbers change only when the table is edited |
+| **Iberian blackout** | the 28 Apr 2025 replay | **Manual one-off** | a fixed historical window; not wired into the daily job |
+
+Sources that need a key **fail open** to an "awaiting source" state rather than
+fabricating data (netztransparenz, RTE, Eurostat, Yahoo, UK constraints); the core
+ENTSO-E builders instead stop the run if the token is missing. The candidate sources
+listed in [`docs/SOURCES.md`](docs/SOURCES.md) are a forward-looking integration
+catalogue — they are not wired into the pipeline yet and so do not auto-update.
+
 ## A note on honesty
 
 Energy data is easy to get subtly wrong, so a few correctness choices are made
