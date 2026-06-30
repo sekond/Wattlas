@@ -92,37 +92,6 @@ window.WATTLAS_IA = {
     },
   ],
 
-  // The audit: what was wrong, stated plainly, and the original flat structure
-  // for the before/after toggle.
-  audit: {
-    headline: "26 destinations, sorted by how they were built — not by what you came to learn.",
-    body: "Wattlas grew in layers: eight core views, then seven deep dives, then a ten-view value layer. Each layer was bolted onto the sidebar as its own flat list, so the menu mirrors the project's build history instead of a visitor's questions. A newcomer faces a wall of 26 near-equal links — “Mismatch”, “Divergence”, “Locational Signal”, “Capture Price” — with no path through them and no sense of which three actually matter.",
-    problems: [
-      { t: "Grouped by origin, not by question", d: "“The Eight Views / Deep dives / Value layer” are pipeline categories. They mean nothing to someone who just wants to know why power is cheap at noon." },
-      { t: "No hierarchy", d: "All 26 links sit at the same visual weight. The map stories — the strongest material — are buried two scrolls down, level with a thin Eurostat comparison." },
-      { t: "Related things sit far apart", d: "Spread, Negative Prices and Capture Price are the same story told three ways, scattered across two different groups." },
-      { t: "Dead-end pages", d: "Each standalone view is an island. Nothing suggests what to read next, so the deep dives never connect into the trilogy they actually form." },
-      { t: "No on-ramp", d: "The home is a dense dashboard. There's no editorial entry that says “start here” for a first-time visitor." },
-    ],
-    // The original navigation, verbatim from nav.js, for the toggle.
-    original: [
-      { group: "", items: [{ t: "Dashboard", m: "⌂" }] },
-      { group: "The Eight Views", items: [
-        { t: "Pulse", m: "1" }, { t: "Spread", m: "2" }, { t: "Mix", m: "3" }, { t: "Mismatch", m: "4" },
-        { t: "Divergence", m: "5" }, { t: "Carbon", m: "6" }, { t: "Curtailment", m: "7" }, { t: "History", m: "8" },
-      ]},
-      { group: "Deep dives", items: [
-        { t: "Germany North-South Grid", m: "DE" }, { t: "France Nuclear", m: "FR" }, { t: "Nordic Price Zones", m: "NZ" },
-        { t: "UK Regional Carbon", m: "UK" }, { t: "Dunkelflaute", m: "DF" }, { t: "Storage", m: "ST" }, { t: "Iberian Blackout", m: "IB" },
-      ]},
-      { group: "Value layer", items: [
-        { t: "Capture Price", m: "CP" }, { t: "Negative Prices", m: "NP" }, { t: "Flexibility", m: "FX" }, { t: "Locational Signal", m: "LO" },
-        { t: "Retail Wedge", m: "RW" }, { t: "Capacity & Adequacy", m: "CA" }, { t: "Marginal Fuel", m: "MF" }, { t: "Industrial", m: "IC" },
-        { t: "Storage Cannibalization", m: "SC" }, { t: "Curtailment in €", m: "C€" },
-      ]},
-    ],
-  },
-
   // Standard site pages reachable from the footer (#/p/<id>).
   pages: [
     {
@@ -221,7 +190,7 @@ window.WATTLAS_IA = {
       blocks: [
         { h: "", p: "Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG). Wattlas wird von einer Privatperson betrieben und ist ein nicht-kommerzielles, kostenloses Lern- und Informationsprojekt." },
         { h: "Diensteanbieter", p: "Sebastian Knödel<br>Urbanstraße 64<br>70182 Stuttgart<br>Deutschland" },
-        { h: "Kontakt", p: "E-Mail: contact@sekond.de<br>Telefon: +49 160 4281516" },
+        { h: "Kontakt", p: "E-Mail: contact@sekond.de" },
         { h: "Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV", p: "Sebastian Knödel, Anschrift wie unter „Diensteanbieter“." },
         { h: "Haftung für Inhalte", p: "Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen. Die Inhalte dienen ausschließlich Informations- und Bildungszwecken und stellen keine Anlage-, Handels- oder Energieberatung dar (siehe <a href=\"#/p/terms\">Terms &amp; Disclaimer</a>)." },
         { h: "Haftung für Links", p: "Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Für diese fremden Inhalte ist stets der jeweilige Anbieter oder Betreiber verantwortlich. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen." },
@@ -240,7 +209,6 @@ window.WATTLAS_IA = {
         { t: "About Wattlas", href: "#/p/about" },
         { t: "How it works", href: "#/p/methodology" },
         { t: "Data sources", href: "#/p/sources" },
-        { t: "Why we restructured", href: "#/audit" },
         { t: "Showcase", href: "showcase.html" },
       ] },
       { title: "Legal", links: [
