@@ -247,7 +247,7 @@
         <span class="vtag">Chart · 2 of 5</span>
         <h2 class="title">Spread</h2>
         <div class="q">How wide is the gap between the cheapest and dearest hour each day?</div>
-        <div class="d">The daily top-to-bottom spread — the signal a battery lives on — averaging roughly €95/MWh. Negative-price days are flagged, and a perfect-foresight arbitrage figure is shown, always labelled an <em>unachievable upper bound</em>, never a revenue promise.</div>
+        <div class="d">The daily top-to-bottom spread — the signal a battery lives on — averaging roughly €96/MWh. Negative-price days are flagged, and a perfect-foresight arbitrage figure is shown, always labelled an <em>unachievable upper bound</em>, never a revenue promise.</div>
         <div class="stat-row"><b>€96/MWh</b><span>average daily top–bottom spread</span></div>
       </div>
       <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">index.html</span></div><div class="shot" data-label="Spread"><img alt="Spread view" src="public/showcase/spread.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
@@ -413,7 +413,7 @@
         <h2 class="title">France Nuclear</h2>
         <div class="q">Where does France's centralised fleet sit, and when does it dip?</div>
         <div class="d">The centralised mirror of the German story: ~63 GW across ~18 sites and 57 reactors, mapped by région, with the spring/summer maintenance dip, who exports and who imports, and the declared availability ceiling drawn over actual output.</div>
-        <div class="stat-row"><b>~63 GW</b><span>nuclear fleet, 18 sites</span></div>
+        <div class="stat-row"><b>~63 GW</b><span>nuclear fleet, ~18 sites</span></div>
       </div>
       <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">fr_nuclear.html</span></div><div class="shot" data-label="France Nuclear"><img alt="France nuclear story" src="public/showcase/fr_nuclear.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
     </div></div>
@@ -663,20 +663,20 @@
   <section class="slide" data-tag="DATA SOURCES">
     <div class="inner">
       <div class="eyebrow"><span class="num"></span> · <span class="tag">DATA SOURCES</span></div>
-      <h2 class="title">Nine open feeds, each in its own language</h2>
-      <p class="lede">A stack of public sources, each with its own auth, units and lag, reconciled to one canonical shape — anything not licence-clean is flagged.</p>
+      <h2 class="title">Seven open feeds, plus a gas proxy and a curated table</h2>
+      <p class="lede">A stack of public sources, each with its own auth, units, lag and <strong>refresh cadence</strong>, reconciled to one canonical shape — anything not licence-clean is flagged.</p>
       <div class="srcgrid">
-        <div class="src"><div class="nm">ENTSO-E</div><div class="wt">Day-ahead prices, generation, load and cross-border flows for every EU bidding zone.</div><div class="ac">API token</div></div>
-        <div class="src"><div class="nm">NESO</div><div class="wt">Great Britain regional carbon intensity, plus Scottish wind constraint payments.</div><div class="ac">Open API</div></div>
-        <div class="src"><div class="nm">MaStR</div><div class="wt">Germany's Marktstammdatenregister: every individual wind and solar installation.</div><div class="ac">Open bulk export</div></div>
-        <div class="src"><div class="nm">SMARD</div><div class="wt">Bundesnetzagentur: per-control-area generation and net balance (German field names).</div><div class="ac">Open API</div></div>
-        <div class="src"><div class="nm">ODRÉ / RTE</div><div class="wt">France's éCO2mix régional and national generation, plus the RTE nuclear-availability feed.</div><div class="ac">Open API + OAuth</div></div>
-        <div class="src"><div class="nm">netztransparenz</div><div class="wt">German TSOs: curtailed (abgeregelt) renewable energy by period.</div><div class="ac">OAuth client</div></div>
-        <div class="src"><div class="nm">Eurostat</div><div class="wt">Household &amp; industrial electricity price components (energy / network / taxes).</div><div class="ac">Open API</div></div>
-        <div class="src"><div class="nm">Yahoo TTF</div><div class="wt">Dutch TTF gas front-month, for the marginal-fuel model — a proxy, not licence-clean.</div><div class="ac">Proxy ⚠</div></div>
-        <div class="src"><div class="nm">EEX EUA</div><div class="wt">EU carbon (EUA) price from primary auctions — curated, slow-moving, stated as-of.</div><div class="ac">Curated</div></div>
+        <div class="src"><div class="nm">ENTSO-E</div><div class="wt">Day-ahead prices, generation, load and cross-border flows for every EU bidding zone.</div><div class="ac">Daily · API token</div></div>
+        <div class="src"><div class="nm">NESO</div><div class="wt">Great Britain regional carbon intensity, plus Scottish wind constraint payments.</div><div class="ac">Daily · Open API</div></div>
+        <div class="src"><div class="nm">MaStR</div><div class="wt">Germany's Marktstammdatenregister: every individual wind and solar installation.</div><div class="ac">Weekly · Open bulk export</div></div>
+        <div class="src"><div class="nm">SMARD</div><div class="wt">Bundesnetzagentur: per-control-area generation and net balance (German field names).</div><div class="ac">Daily · Open API</div></div>
+        <div class="src"><div class="nm">ODRÉ / RTE</div><div class="wt">France's éCO2mix régional and national generation, plus an RTE nuclear-availability overlay (currently paused — awaiting Unavailability-API access).</div><div class="ac">Daily · Open API + OAuth</div></div>
+        <div class="src"><div class="nm">netztransparenz</div><div class="wt">German TSOs: curtailed (abgeregelt) renewable energy by period.</div><div class="ac">Daily · OAuth client</div></div>
+        <div class="src"><div class="nm">Eurostat</div><div class="wt">Household &amp; industrial electricity price components (energy / network / taxes).</div><div class="ac">Daily (annual data) · Open API</div></div>
+        <div class="src"><div class="nm">Yahoo TTF</div><div class="wt">Dutch TTF gas front-month, for the marginal-fuel model — a proxy, not licence-clean.</div><div class="ac">Daily · Proxy ⚠</div></div>
+        <div class="src"><div class="nm">EEX EUA</div><div class="wt">EU carbon (EUA) price from primary auctions — curated, slow-moving, stated as-of.</div><div class="ac">On edit · Curated</div></div>
       </div>
-      <p class="lede hint" style="font-size:13px">Plus Eurostat GISCO map boundaries and a few curated, cited tables.</p>
+      <p class="lede hint" style="font-size:13px">Cadence varies by source — most daily at 05:17 UTC, MaStR weekly, the RTE overlay paused, Eurostat annual, the curated tables on edit. Plus Eurostat GISCO map boundaries.</p>
     </div>
   </section>
 
@@ -687,10 +687,10 @@
       <h2 class="title">How the sources are kept honest</h2>
       <div class="ledger">
         <div class="row"><span class="c">Isolation</span><span class="h">Each source is its <b>own pipeline module</b>; one failure can't break the others.</span></div>
-        <div class="row"><span class="c">Fail open</span><span class="h">A missing key writes <b>status:"unavailable"</b>; the view shows "awaiting source," never a crash.</span></div>
+        <div class="row"><span class="c">Fail open</span><span class="h">A missing key writes <b>status:"unavailable"</b> and the view shows "awaiting source" (netztransparenz, RTE, Eurostat, Yahoo, UK constraints); the core ENTSO-E builders instead stop the run rather than commit a half-empty file.</span></div>
         <div class="row"><span class="c">Landmines</span><span class="h">The non-obvious traps are documented and coded around: the <b>Oct-2025 resolution break</b>, the 23/25-hour DST days, zones that aren't regions.</span></div>
         <div class="row"><span class="c">Units stated</span><span class="h">MWh vs GWh, gCO₂/kWh, <b>production- vs consumption-based</b> carbon — labelled in code and on screen.</span></div>
-        <div class="row"><span class="c">Tested offline</span><span class="h">Pure metric functions run on inline fixtures: no network needed.</span></div>
+        <div class="row"><span class="c">Tested offline</span><span class="h">Pure metric functions run on inline fixtures — <b>130 offline tests</b> across 20 files, no network needed.</span></div>
       </div>
       <div class="takeaway"><span class="tick"></span> Resampled to hourly, grouped in local time, every join written down.</div>
     </div>
