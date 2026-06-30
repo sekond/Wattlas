@@ -221,7 +221,7 @@
       map.svg.selectAll("g.plants").remove();
       const list = plantsByFuel[metric] || [];
       GeoMap.points(map, list, {
-        className: "plants", r: (d) => plantSize(d.mw),
+        className: "plants", r: (d) => plantSize[metric](d.mw),
         fill: (d) => fuelColor(d.fuel), stroke: "#faf9f5", strokeWidth: 0.7,
         title: (d) => `${enName(d.name)} · ${fmtMW(d.mw)} MW` + (d.units ? ` · ${d.units} ${d.fuel.toLowerCase()} units` : ` · ${d.fuel}`),
         html: (d) => {
@@ -302,8 +302,13 @@
         ? { wind: plants.wind || [], solar: plants.solar || [] }
         : { wind: ((plants && plants.plants) || []).filter((p) => /Wind/.test(p.fuel || "")),
             solar: ((plants && plants.plants) || []).filter((p) => p.fuel === "Solar") };
-      const allMw = [...plantsByFuel.wind, ...plantsByFuel.solar].map((p) => p.mw);
-      plantSize = d3.scaleSqrt().domain([0, Math.max(1, ...allMw)]).range([2.5, 9]);
+      // Size each fuel's clusters on ITS OWN max so the solar parks fill the same
+      // radius range as the wind clusters. On a single shared scale, solar (max
+      // ~0.5 GW) renders tiny beside wind (max ~2.6 GW); per-fuel keeps dots
+      // proportional within a fuel and visually comparable across the wind/solar toggle.
+      const sizeFor = (arr) =>
+        d3.scaleSqrt().domain([0, Math.max(1, ...arr.map((p) => p.mw))]).range([2.5, 9]);
+      plantSize = { wind: sizeFor(plantsByFuel.wind), solar: sizeFor(plantsByFuel.solar) };
       // (plotPlants() is called by setMetric so the points follow the wind/solar toggle)
 
       document.getElementById("capSrc").textContent =
