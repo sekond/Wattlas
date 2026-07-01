@@ -63,13 +63,12 @@ def fetch_components(start: pd.Timestamp, end: pd.Timestamp) -> pd.DataFrame:
     times out at the ENTSO-E gateway (504), so we page through a month at a time
     and concatenate.
     """
-    from entsoe import EntsoePandasClient
+    from entsoe_client import make_entsoe_client  # retrying client (transient-5xx safe)
 
     token = os.environ.get("ENTSOE_API_TOKEN")
     if not token:
         sys.exit("ENTSOE_API_TOKEN not set. Copy .env.example to .env and fill it in.")
-    client = EntsoePandasClient(api_key=token)
-
+    client = make_entsoe_client(token)
     frames = []
     a = start
     while a < end:

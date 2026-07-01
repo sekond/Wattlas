@@ -73,13 +73,12 @@ def fetch_zone_prices(start: pd.Timestamp, end: pd.Timestamp) -> pd.DataFrame:
     """Fetch day-ahead prices for every Nordic zone into one DataFrame (cols =
     display codes). A single zone failing is logged and recorded as an empty
     column — one bad zone must not sink the build (landmine #8)."""
-    from entsoe import EntsoePandasClient
+    from entsoe_client import make_entsoe_client  # retrying client (transient-5xx safe)
 
     token = os.environ.get("ENTSOE_API_TOKEN")
     if not token:
         sys.exit("ENTSOE_API_TOKEN not set. Copy .env.example to .env and fill it in.")
-    client = EntsoePandasClient(api_key=token)
-
+    client = make_entsoe_client(token)
     cols: dict[str, pd.Series] = {}
     for ent, code, _country, _tz in ZONES:
         try:

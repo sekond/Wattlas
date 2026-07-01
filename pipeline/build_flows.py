@@ -88,13 +88,12 @@ def fetch_flows(start: pd.Timestamp, end: pd.Timestamp) -> pd.DataFrame:
     '<nb>_cap_imp'. Flows are fetched in monthly chunks (the A11 query can time
     out over a full year), net is computed per chunk, then concatenated.
     """
-    from entsoe import EntsoePandasClient
+    from entsoe_client import make_entsoe_client  # retrying client (transient-5xx safe)
 
     token = os.environ.get("ENTSOE_API_TOKEN")
     if not token:
         sys.exit("ENTSOE_API_TOKEN not set. Copy .env.example to .env and fill it in.")
-    client = EntsoePandasClient(api_key=token)
-
+    client = make_entsoe_client(token)
     cols: dict[str, pd.Series] = {}
     for nb in NEIGHBOURS:
         logger.info("[%s<->%s] fetching flows", HOME, nb)

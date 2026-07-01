@@ -72,13 +72,12 @@ SOURCES = [
 
 def fetch_load(start: pd.Timestamp, end: pd.Timestamp) -> pd.DataFrame:
     """Actual total load for ES and PT over the window, on a common Madrid-tz index."""
-    from entsoe import EntsoePandasClient
+    from entsoe_client import make_entsoe_client  # retrying client (transient-5xx safe)
 
     token = os.environ.get("ENTSOE_API_TOKEN")
     if not token:
         sys.exit("ENTSOE_API_TOKEN not set. Copy .env.example to .env and fill it in.")
-    client = EntsoePandasClient(api_key=token)
-
+    client = make_entsoe_client(token)
     cols = {}
     for zone in ("ES", "PT"):
         logger.info("fetching actual load for %s", zone)

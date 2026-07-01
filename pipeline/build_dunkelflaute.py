@@ -59,13 +59,12 @@ STACK = ["wind", "solar", "biomass", "hydro", "nuclear", "coal", "gas", "other"]
 def fetch_inputs(start: pd.Timestamp, end: pd.Timestamp) -> pd.DataFrame:
     """Fetch DE-LU generation-by-type + load + day-ahead price, return one tz-aware hourly
     DataFrame with the grouped fuel columns + load + price."""
-    from entsoe import EntsoePandasClient
+    from entsoe_client import make_entsoe_client  # retrying client (transient-5xx safe)
 
     token = os.environ.get("ENTSOE_API_TOKEN")
     if not token:
         sys.exit("ENTSOE_API_TOKEN not set. Copy .env.example to .env and fill it in.")
-    client = EntsoePandasClient(api_key=token)
-
+    client = make_entsoe_client(token)
     # generation in monthly chunks (the raw has tuple columns; collapse to canonical fuels)
     chunks = []
     cur = start
