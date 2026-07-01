@@ -146,14 +146,12 @@ window.WATTLAS_IA = {
       title: "Privacy",
       kicker: "Your data",
       blocks: [
-        { h: "", p: "Wattlas is a static site. It has no accounts, no backend and no database, and it does not collect, store or sell any personal information." },
-        { list: [
-          "No cookies are set by Wattlas. A small amount of non-personal interface state (such as your last-viewed section) may be kept in your browser's local storage and never leaves your device.",
-          "No analytics or third-party trackers are embedded.",
-          "Pages are served as static files (GitHub Pages). The host may log standard request metadata (IP, user-agent) for delivery and security, governed by the host's own policy.",
-          "Map basemaps and fonts may be loaded from third-party CDNs; those requests are subject to the respective providers' policies.",
-        ] },
-        { h: "Questions", p: "For anything privacy-related, reach us via the <a href=\"#/p/contact\">contact</a> page." },
+        { h: "", p: "Wattlas is a static website with no accounts, no backend, no database and no forms. It sets no cookies, uses no local or session storage, embeds no analytics or trackers, and loads no third-party fonts, scripts or map tiles — the fonts and libraries it needs are served from this site itself. The only personal data involved is the request metadata your browser sends to the host to load a page, described below." },
+        { h: "Who is responsible", p: "The controller within the meaning of the GDPR is the operator named in the <a href=\"#/p/impressum\">Impressum</a>: Sebastian Knödel, <a href=\"mailto:contact@sekond.de\">contact@sekond.de</a>." },
+        { h: "What is processed, and why", p: "To deliver a page, the hosting provider necessarily receives and logs standard request metadata — in particular your IP address and browser user-agent. This is used only to serve the pages and keep the site secure and available. Legal basis: our legitimate interest in delivering and securing the site (Art. 6(1)(f) GDPR). Wattlas keeps no data store of its own." },
+        { h: "Recipients & international transfer", p: "The site is hosted on GitHub Pages, operated by GitHub, Inc. (a Microsoft company) in the USA, which processes the request metadata above to serve the content. This entails a transfer to the USA; the safeguard is the EU-US Data Privacy Framework, under which Microsoft is certified (European Commission adequacy decision (EU) 2023/1795). No other recipients receive your data." },
+        { h: "Retention", p: "Wattlas retains nothing of its own. The host's request logs are kept for the period set out in the host's privacy policy." },
+        { h: "Your rights", p: "You have the right of access, rectification, erasure, restriction of processing, and to object to processing. To exercise them, contact the operator at <a href=\"mailto:contact@sekond.de\">contact@sekond.de</a>. You also have the right to lodge a complaint with a data-protection supervisory authority — for this site, the Landesbeauftragte für den Datenschutz und die Informationsfreiheit (LfDI) Baden-Württemberg." },
       ],
     },
     {
