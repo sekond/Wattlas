@@ -43,10 +43,13 @@
   });
 
   // ---- Inject the display font (Newsreader) for editorial headlines + rails --
+  // Self-hosted from vendor/fonts/ (SIL OFL) — deliberately NOT loaded from Google
+  // Fonts, so opening a page transmits no visitor IP to Google (GDPR: avoids the
+  // render-time third-party transfer flagged in LG München I, 3 O 17493/20).
   if (!document.getElementById("wattlas-font")) {
     var fl = document.createElement("link");
     fl.id = "wattlas-font"; fl.rel = "stylesheet";
-    fl.href = "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap";
+    fl.href = "vendor/fonts/newsreader.css";
     (document.head || document.documentElement).appendChild(fl);
   }
 

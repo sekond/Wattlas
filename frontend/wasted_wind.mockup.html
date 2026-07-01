@@ -111,9 +111,9 @@
 </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="vendor/d3.min.js"></script>
+<script src="vendor/topojson.min.js"></script>
+<script src="vendor/chart.umd.min.js"></script>
 <script>
 (function(){
 const WIND={"Niedersachsen":12000,"Schleswig-Holstein":9000,"Brandenburg":8000,"Nordrhein-Westfalen":7000,"Sachsen-Anhalt":5500,"Mecklenburg-Vorpommern":3800,"Rheinland-Pfalz":3700,"Hessen":2300,"Bayern":2600,"Baden-Württemberg":1800,"Thüringen":1700,"Sachsen":1400,"Saarland":500,"Bremen":200,"Hamburg":120,"Berlin":30};
@@ -164,7 +164,7 @@ function setMetric(m){
 document.getElementById("ww-bw").onclick=function(){setMetric("wind");};
 document.getElementById("ww-bs").onclick=function(){setMetric("solar");};
 
-d3.json("https://cdn.jsdelivr.net/npm/datamaps@0.5.10/src/js/data/deu.topo.json").then(function(de){
+d3.json("vendor/datamaps/deu.topo.json").then(function(de){
   const fc=topojson.feature(de,de.objects.deu);
   const W=340,H=430;
   proj=d3.geoMercator().fitSize([W,H],fc);
