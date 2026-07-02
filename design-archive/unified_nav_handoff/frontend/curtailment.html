@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Curtailment</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .pending { background: #fff7e0; border: 0.5px solid #e7cf86; border-left: 3px solid var(--amber);
+      border-radius: var(--radius-sm); padding: 16px 18px; font-size: 13px; color: #6b520a; line-height: 1.7; }
+    .pending strong { font-weight: 600; }
+    .pending code { background: rgba(0,0,0,0.05); padding: 1px 5px; border-radius: 3px; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="shell"><main class="main">
+  <div class="wrap">
+    <h1>Curtailment</h1>
+    <p class="sub">When the grid can't absorb or move all the wind and solar it's producing, that clean energy is thrown away — "curtailed." It's the cost of Germany's north–south grid bottleneck, and it tends to spike exactly when wind is high and prices go negative.</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 24px;"></div>
+
+    <div id="pending" class="pending" style="display:none;"></div>
+
+    <div id="dataView" style="display:none;">
+      <div id="kpis" class="kpis"></div>
+      <div class="card">
+        <div class="head">
+          <div class="title">Curtailed renewable energy per day — Germany</div>
+          <div class="meta" id="chartMeta"></div>
+        </div>
+        <canvas id="curtailChart" height="120"></canvas>
+        <div class="legend">
+          <span><span class="swatch" style="background:#3b6d11"></span>Curtailed energy (MWh)</span>
+          <span><span class="swatch" style="background:#a32d2d"></span>Negative-price hours (Spread)</span>
+        </div>
+        <div class="meta" id="srcNote" style="margin-top:8px;"></div>
+      </div>
+    </div>
+    <div id="status" class="loading">Loading data…</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <script src="util.js"></script>
+  <script>
+    const mwh = (n) => Math.round(n).toLocaleString() + " MWh";
+    async function loadJSON(name) {
+      for (const path of ["../data/" + name, "data/" + name, "/data/" + name]) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) {}
+      }
+      return null;
+    }
+    function showPending(c) {
+      document.getElementById("pending").style.display = "";
+      document.getElementById("pending").innerHTML =
+        `<strong>This view is awaiting its data source.</strong><br>` +
+        (c && c.reason ? c.reason : "Curtailment data is not yet available.") +
+        `<br><br>Why: SMARD.de's public JSON API does <strong>not</strong> expose redispatch/curtailment volumes ` +
+        `(there is no filter ID for Einspeisemanagement/Ausfallarbeit). The machine-readable source is the ` +
+        `<strong>netztransparenz.de WebAPI</strong>, which needs free OAuth credentials. Once you register a client, ` +
+        `set <code>NETZTRANSPARENZ_CLIENT_ID</code> and <code>NETZTRANSPARENZ_CLIENT_SECRET</code> in <code>.env</code> ` +
+        `and run <code>python pipeline/build_curtailment.py</code> — this page will then render the chart below automatically. ` +
+        `We deliberately show nothing rather than fabricate a placeholder series.`;
+    }
+    function renderData(c, spread) {
+      document.getElementById("dataView").style.display = "";
+      const labels = c.days.map(d => d.date);
+      const curtail = c.days.map(d => d.curtailed_mwh);
+      // Relate to negative-price days from Spread (high-wind / negative-price coincidence).
+      let negSeries = null;
+      if (spread && spread.days) {
+        const neg = {}; spread.days.forEach(d => { neg[d.date] = d.negative_hours; });
+        negSeries = c.days.map(d => (d.date in neg ? neg[d.date] : null));
+      }
+      const datasets = [{ type: "bar", label: "Curtailed", yAxisID: "y", data: curtail, backgroundColor: "#3b6d11", borderWidth: 0 }];
+      if (negSeries) datasets.push({ type: "line", label: "Neg hours", yAxisID: "y2", data: negSeries,
+        borderColor: "#a32d2d", backgroundColor: "transparent", borderWidth: 1.5, pointRadius: 0, tension: 0.3, spanGaps: true });
+      new Chart(document.getElementById("curtailChart"), {
+        data: { labels, datasets },
+        options: { responsive: true, animation: false, interaction: { mode: "index", intersect: false },
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (ci) => ci.dataset.label === "Curtailed" ? `Curtailed: ${mwh(ci.parsed.y)}` : `${ci.parsed.y} neg-price hours` } } },
+          scales: { x: { type: "time", time: { unit: "month" }, ticks: { color: "#888780", font: { size: 10 } }, grid: { display: false } },
+            y: { position: "left", ticks: { color: "#3b6d11", font: { size: 10 }, callback: (v) => Math.round(v/1000) + "k" }, grid: { color: "rgba(0,0,0,0.05)" } },
+            y2: { position: "right", ticks: { color: "#a32d2d", font: { size: 10 } }, grid: { display: false } } } },
+      });
+      const total = curtail.reduce((a, v) => a + (v || 0), 0);
+      document.getElementById("kpis").innerHTML = [
+        { label: "Total curtailed", val: mwh(total) },
+        { label: "Days covered", val: c.days.length },
+        { label: "Units", val: "MWh/day" },
+      ].map(i => `<div class="kpi"><div class="label">${i.label}</div><div class="val">${i.val}</div></div>`).join("");
+      document.getElementById("srcNote").textContent = `Units: ${c.units}. Source: ${c.source}.`;
+      document.getElementById("chartMeta").textContent = "MWh/day";
+      document.getElementById("periodNote").textContent = `Data shown for ${fmtPeriod(c.period_start, c.period_end)}`;
+    }
+    (async function main() {
+      const status = document.getElementById("status");
+      const c = await loadJSON("curtailment.json");
+      if (!c) { showPending(null); status.style.display = "none"; return; }
+      if (c.status === "unavailable" || !c.days || !c.days.length) { showPending(c); status.style.display = "none"; return; }
+      const spread = await loadJSON("spread.json");
+      renderData(c, spread);
+      status.style.display = "none";
+    })();
+  </script>
+  <script src="nav.js"></script>
+  </main></div>
+</body>
+</html>

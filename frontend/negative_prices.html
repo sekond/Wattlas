@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Negative prices</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Calendar heatmap — GitHub-style contributions grid: 7 day-of-week rows
+       (Mon..Sun) flowing down each week column, one column per ISO week across
+       the whole period. grid-auto-flow:column fills top-to-bottom then wraps to
+       the next week. Every day in the range gets a cell (zero days are pale). */
+    .cal-grid { display: grid; grid-template-rows: repeat(7, 13px); grid-auto-flow: column; grid-auto-columns: 13px; gap: 2px; margin-top: 4px; overflow-x: auto; padding-bottom: 4px; }
+    .cal-cell { width: 13px; height: 13px; border-radius: 2px; background: #f1efe8; }
+    .cal-cell.empty { background: transparent; }
+    .cal-legend { font-size: 11px; color: #5f5e5a; margin-top: 12px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .cal-legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
+    .zone-seg { display: inline-flex; flex-wrap: wrap; gap: 6px; margin: 0 0 20px; }
+    .zone-seg button { font: inherit; font-size: 13px; padding: 5px 13px; border: 0.5px solid rgba(0,0,0,.2); border-radius: 8px; background: #fff; color: #2b2a27; cursor: pointer; }
+    .zone-seg button.on { background: #2b2a27; color: #faf9f5; border-color: #2b2a27; }
+  </style>
+</head>
+<body>
+  <div class="shell"><main class="main">
+  <div class="wrap">
+    <h1>When power costs less than nothing</h1>
+    <p class="sub">Sometimes there's so much wind and solar, and so little demand to soak it up, that the wholesale price falls below zero — producers pay to keep generating. Wattlas treats this as a first-class metric: how many hours a year, when they cluster, and how long each spell lasts.</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 24px;"></div>
+
+    <div class="zone-seg" id="zoneSeg"></div>
+
+    <div id="kpis" class="kpis"></div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">A year of negative hours</div>
+        <div class="meta">hours per day, last 12 months</div>
+      </div>
+      <p class="sub" style="margin:0 0 12px;">Each cell is one day across the whole period; the colour shows how many hours cleared below zero (pale = none). Negative days cluster in sunny, windy stretches.</p>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-legend">
+        <span>Negative hours/day</span>
+        <span style="display:flex;gap:3px;align-items:center" id="calLegend"></span>
+        <span id="calLegendMax"></span>
+      </div>
+      <div class="meta" style="margin-top:9px;">Counted on the canonical hourly grid (not 15-minute settlement periods), grouped by Europe/Berlin local calendar day, so day length varies across DST. Prices real (ENTSO-E).</div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">How long do they last?</div>
+        <div class="meta">episode duration</div>
+      </div>
+      <p class="sub" style="margin:0 0 12px;">A short dip is easy to ride through; a long one is what hurts. As midday solar grows, the negative spells stretch from an odd hour into long, continuous runs.</p>
+      <canvas id="durChart" height="120"></canvas>
+      <div class="meta" style="margin-top:8px;">An episode = a run of consecutive negative hours within the canonical hourly series, grouped in Europe/Berlin local time. Prices real (ENTSO-E).</div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">Which months go negative</div>
+        <div class="meta">negative hours per month</div>
+      </div>
+      <p class="sub" style="margin:0 0 12px;">Negative prices are largely a spring-and-summer story: long days, strong sun, mild demand. Dark winter months barely register.</p>
+      <canvas id="monChart" height="120"></canvas>
+      <div class="meta" style="margin-top:8px;">Counted on the canonical hourly grid (not 15-minute periods), grouped by Europe/Berlin local month. Prices real (ENTSO-E).</div>
+    </div>
+
+    <div id="status" class="loading">Loading data…</div>
+  </div>
+
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="util.js"></script>
+  <script>
+    // Pale -> amber -> red scale by negative-hour count per day.
+    const CAL_SCALE = ["#f1efe8", "#f7e7c8", "#f1cf93", "#e8a85f", "#d97b3f", "#a32d2d"];
+    function shade(h) {
+      if (h <= 0) return CAL_SCALE[0];
+      if (h <= 2) return CAL_SCALE[1];
+      if (h <= 4) return CAL_SCALE[2];
+      if (h <= 7) return CAL_SCALE[3];
+      if (h <= 10) return CAL_SCALE[4];
+      return CAL_SCALE[5];
+    }
+
+    async function loadJSON(name) {
+      const candidates = ["../data/" + name, "data/" + name, "/data/" + name];
+      for (const path of candidates) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) { /* try next */ }
+      }
+      throw new Error("could not load " + name);
+    }
+
+    let durChart = null, monChart = null;
+
+    function renderKPIs(z) {
+      const monthsNeg = z.by_month.filter(m => m.neg_hours > 0).length;
+      const items = [
+        { label: "Negative-price hours (12 mo)", val: Math.round(z.total_neg_hours), cls: "neg" },
+        { label: "Longest single episode", val: Math.round(z.longest_episode_h) + " h" },
+        { label: "Most in one day", val: Math.round(z.max_in_one_day) + " h" },
+        { label: "Months with negatives", val: monthsNeg },
+      ];
+      document.getElementById("kpis").innerHTML = items.map(i =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
+    }
+
+    // Parse a YYYY-MM-DD as a calendar date (UTC noon avoids DST/local shifts).
+    function parseDay(s) { const [y, m, d] = s.split("-").map(Number); return new Date(Date.UTC(y, m - 1, d, 12)); }
+    function fmtDay(dt) {
+      const y = dt.getUTCFullYear(), m = String(dt.getUTCMonth() + 1).padStart(2, "0"), d = String(dt.getUTCDate()).padStart(2, "0");
+      return y + "-" + m + "-" + d;
+    }
+    // Mon=0 .. Sun=6 (JS getUTCDay has Sun=0), so the grid rows read Mon..Sun.
+    function dowMon(dt) { return (dt.getUTCDay() + 6) % 7; }
+
+    function renderCalendar(z) {
+      const grid = document.getElementById("calGrid");
+      grid.innerHTML = "";
+
+      // Index recorded (non-zero) days by date; the rest default to 0.
+      const byDate = {};
+      let maxH = 0;
+      z.calendar.forEach(d => { byDate[d.date] = d.neg_hours; if (d.neg_hours > maxH) maxH = d.neg_hours; });
+
+      // Full date range: prefer period_start/end, else min/max of calendar dates.
+      const dates = z.calendar.map(d => d.date).sort();
+      const startStr = z.period_start || dates[0];
+      const endStr = z.period_end || dates[dates.length - 1];
+      if (!startStr || !endStr) return;
+      const start = parseDay(startStr), end = parseDay(endStr);
+
+      // Pad the first week so each column is a full Mon..Sun: emit empty cells
+      // for the weekdays before the period begins.
+      for (let i = 0; i < dowMon(start); i++) {
+        const pad = document.createElement("div");
+        pad.className = "cal-cell empty";
+        grid.appendChild(pad);
+      }
+
+      for (let dt = new Date(start); dt <= end; dt.setUTCDate(dt.getUTCDate() + 1)) {
+        const key = fmtDay(dt);
+        const h = byDate[key] || 0;
+        const cell = document.createElement("div");
+        cell.className = "cal-cell";
+        cell.style.background = shade(h);
+        cell.title = key + " — " + h + (h === 1 ? " negative hour" : " negative hours");
+        grid.appendChild(cell);
+      }
+      const leg = document.getElementById("calLegend");
+      leg.innerHTML = "";
+      CAL_SCALE.forEach(c => {
+        const s = document.createElement("span");
+        s.className = "sw";
+        s.style.background = c;
+        leg.appendChild(s);
+      });
+      document.getElementById("calLegendMax").textContent = "0 → " + Math.round(maxH) + " h";
+    }
+
+    // Bucket episode lengths into fixed duration bands.
+    function bucketEpisodes(episodes) {
+      const buckets = { "1 h": 0, "2 h": 0, "3–4 h": 0, "5–8 h": 0, "9 h+": 0 };
+      episodes.forEach(e => {
+        const L = e.length_hours, c = e.count;
+        if (L <= 1) buckets["1 h"] += c;
+        else if (L === 2) buckets["2 h"] += c;
+        else if (L <= 4) buckets["3–4 h"] += c;
+        else if (L <= 8) buckets["5–8 h"] += c;
+        else buckets["9 h+"] += c;
+      });
+      return buckets;
+    }
+
+    function renderDuration(z) {
+      const b = bucketEpisodes(z.episodes);
+      const labels = Object.keys(b);
+      if (durChart) durChart.destroy();
+      durChart = new Chart(document.getElementById("durChart"), {
+        type: "bar",
+        data: { labels, datasets: [{ data: labels.map(l => b[l]),
+          backgroundColor: ["#f1cf93", "#e8a85f", "#d97b3f", "#cf7a5a", "#a32d2d"], borderRadius: 3 }] },
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => c.parsed.y + " episodes" } } },
+          scales: { x: { grid: { display: false }, ticks: { color: "#888780", font: { size: 11 } } },
+                    y: { grid: { color: "rgba(0,0,0,0.05)" }, ticks: { color: "#888780", font: { size: 10 }, precision: 0 } } } },
+      });
+    }
+
+    function renderMonths(z) {
+      const labels = z.by_month.map(m => m.month);
+      if (monChart) monChart.destroy();
+      monChart = new Chart(document.getElementById("monChart"), {
+        type: "bar",
+        data: { labels, datasets: [{ data: z.by_month.map(m => Math.round(m.neg_hours)),
+          backgroundColor: "#cf7a5a", borderRadius: 2 }] },
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => c.parsed.y + " negative hours" } } },
+          scales: { x: { grid: { display: false }, ticks: { color: "#888780", font: { size: 10 }, maxRotation: 60 } },
+                    y: { grid: { color: "rgba(0,0,0,0.05)" }, ticks: { color: "#888780", font: { size: 10 }, precision: 0 } } } },
+      });
+    }
+
+    function renderZone(data, code) {
+      const z = data.zones[code];
+      document.getElementById("periodNote").textContent =
+        `${code.replace("_", "-")} · ${fmtPeriod(z.period_start, z.period_end)}`;
+      renderKPIs(z); renderCalendar(z); renderDuration(z); renderMonths(z);
+    }
+
+    function renderZoneSeg(data, current, onPick) {
+      const seg = document.getElementById("zoneSeg");
+      seg.innerHTML = (data.zones_available || []).map(c =>
+        `<button data-zone="${c}" class="${c === current ? 'on' : ''}">${c.replace("_", "-")}</button>`).join("");
+      seg.querySelectorAll("button").forEach(btn => {
+        btn.addEventListener("click", () => {
+          seg.querySelectorAll("button").forEach(b => b.classList.remove("on"));
+          btn.classList.add("on");
+          onPick(btn.dataset.zone);
+        });
+      });
+    }
+
+    (async function main() {
+      const status = document.getElementById("status");
+      let data = null;
+      try { data = await loadJSON("negative_prices.json"); } catch (e) { /* handled below */ }
+      if (!data || !data.zones) {
+        status.textContent = "Could not load data. Run `python pipeline/build_negative_prices.py` first, then serve the folder.";
+        return;
+      }
+      let current = data.zone_default || (data.zones_available && data.zones_available[0]);
+      renderZoneSeg(data, current, (code) => renderZone(data, code));
+      renderZone(data, current);
+      status.style.display = "none";
+    })();
+  </script>
+  <script src="ia.js"></script>
+  <script src="nav.js"></script>
+  </main></div>
+</body>
+</html>

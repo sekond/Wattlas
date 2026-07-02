@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wattlas — Marginal fuel (mockup)</title>
+<style>
+  body{margin:0;background:#faf9f5;color:#2b2a27;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+  .ww-wrap{max-width:960px;margin:0 auto;padding:24px 18px 56px}
+  .ww-frame{background:#faf9f5;color:#2b2a27;border:0.5px solid rgba(0,0,0,.18);border-radius:14px;overflow:hidden}
+  .ww-bbar{display:flex;gap:6px;align-items:center;padding:9px 14px;background:#f1efe8;border-bottom:0.5px solid rgba(0,0,0,.12)}
+  .ww-dot{width:10px;height:10px;border-radius:50%}
+  .ww-url{margin-left:10px;font-size:12px;color:#5f5e5a;background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:6px;padding:3px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ww-page{padding:18px 20px 24px}
+  .ww-nav{display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,.12);padding-bottom:9px;margin-bottom:15px;flex-wrap:wrap;gap:8px}
+  .ww-brand{font-size:15px;font-weight:500}
+  .ww-brand small{color:#888780;font-weight:400;margin-left:6px;font-size:12px}
+  .ww-links{display:flex;gap:13px;font-size:12px;color:#5f5e5a;flex-wrap:wrap}
+  .ww-links .on{color:#2b2a27;font-weight:500;border-bottom:2px solid #2b2a27;padding-bottom:6px}
+  .ww-banner{background:#fff7e0;border:0.5px solid #e7cf86;border-left:3px solid #b8860b;border-radius:8px;padding:9px 13px;font-size:12px;color:#6b520a;margin-bottom:15px}
+  .ww-h1{font-size:21px;font-weight:500;margin:0 0 4px}
+  .ww-sub{color:#5f5e5a;font-size:13px;margin:0 0 17px;max-width:74ch}
+  .ww-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:19px}
+  .ww-kpi{background:#f1efe8;border-radius:8px;padding:12px 13px}
+  .ww-kpi .l{font-size:12px;color:#5f5e5a;margin-bottom:5px}
+  .ww-kpi .v{font-size:22px;font-weight:500}
+  .ww-kpi .v.neg{color:#a32d2d}
+  .ww-card{background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:12px;padding:15px 17px;margin-bottom:15px}
+  .ww-ch{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;gap:10px;flex-wrap:wrap}
+  .ww-ct{font-size:15px;font-weight:500}
+  .ww-cm{font-size:12px;color:#888780}
+  .ww-pitch{font-size:12px;color:#5f5e5a;margin:0 0 12px;max-width:82ch}
+  .ww-seg{display:inline-flex;border:0.5px solid rgba(0,0,0,.18);border-radius:8px;overflow:hidden}
+  .ww-seg button{font:inherit;font-size:12px;padding:5px 13px;border:none;background:#fff;color:#2b2a27;cursor:pointer}
+  .ww-seg button.on{background:#2b2a27;color:#faf9f5}
+  .ww-legend{font-size:11px;color:#5f5e5a;margin-top:10px;display:flex;gap:13px;flex-wrap:wrap;align-items:center}
+  .ww-sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}
+  .ww-cap{font-size:11px;color:#888780;margin:9px 0 0;max-width:82ch}
+  .ww-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  @media(max-width:620px){.ww-kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="ww-wrap">
+<h2 class="ww-sr">Mockup of the Wattlas Marginal-fuel page: which fuel sets the wholesale price in each hour, inferred from a merit-order model of the generation mix and fuel costs — not measured. A stacked bar of the inferred price-setting fuel by hour of day, and the day-ahead price tracking an inferred gas-fired marginal cost. The marginal fuel is a modelled inference that depends on a gas and CO2 price feed; treat as context, not fact.</h2>
+
+<div class="ww-frame">
+  <div class="ww-bbar"><span class="ww-dot" style="background:#e2655a"></span><span class="ww-dot" style="background:#e6b54a"></span><span class="ww-dot" style="background:#6fae5f"></span><span class="ww-url">sekond.github.io/Wattlas/frontend/marginal_fuel.html</span></div>
+  <div class="ww-page">
+
+    <div class="ww-nav">
+      <div class="ww-brand">Wattlas <small>European electricity, explained</small></div>
+      <div class="ww-links"><span>Dashboard</span><span>Spread</span><span>Mix</span><span>Pulse</span><span>Carbon</span><span class="on">Marginal fuel</span></div>
+    </div>
+
+    <div class="ww-banner"><span style="font-weight:500">Mockup</span> — layout and story preview. The marginal fuel is an <strong>INFERENCE</strong> (a merit-order model), not a measurement; it depends on a free gas + CO2 price feed that may not exist licence-clean. Treat as context, not fact.</div>
+
+    <div class="ww-h1">Why the price is what it is: the fuel on the margin</div>
+    <div class="ww-sub">In most hours one fuel sets the wholesale price — the most expensive plant needed to meet demand. When renewables cover it, prices fall; when gas sets it, prices follow the gas (and CO2) cost. This overlay explains the geopolitics-as-price-driver story.</div>
+
+    <div class="ww-kpis">
+      <div class="ww-kpi"><div class="l">Hours price set by gas</div><div class="v">45%</div></div>
+      <div class="ww-kpi"><div class="l">Hours set by renewables</div><div class="v">31%</div></div>
+      <div class="ww-kpi"><div class="l">TTF gas</div><div class="v">€32/MWh</div></div>
+      <div class="ww-kpi"><div class="l">CO2 price</div><div class="v">€72/t</div></div>
+    </div>
+
+    <div class="ww-card">
+      <div class="ww-ch"><div class="ww-ct">1 · What sets the price, by hour of day</div><div class="ww-cm">inferred marginal fuel, share of hours</div></div>
+      <div class="ww-pitch">For each hour of the day, the share of hours where the model says renewables, gas, or coal/lignite set the price. Renewables dominate the solar-rich midday window; gas takes over morning and evening when demand climbs and the sun is gone.</div>
+      <div style="display:flex;gap:14px;font-size:11px;color:#5f5e5a;margin-bottom:6px"><span><span class="ww-sw" style="background:#6fae5f"></span>Renewables</span><span><span class="ww-sw" style="background:#9a8fb0"></span>Gas</span><span><span class="ww-sw" style="background:#7a6a5a"></span>Coal / lignite</span></div>
+      <div style="position:relative;height:240px"><canvas id="ww-mf" role="img" aria-label="Inferred price-setting fuel by hour of day: renewables dominate midday, gas dominates morning and evening, coal and lignite fill the rest. Illustrative placeholder.">Renewables set the price midday; gas sets it morning and evening.</canvas></div>
+      <div class="ww-cap">This is a merit-order <strong>INFERENCE</strong> from the generation mix and fuel costs — a model, not a measurement. Shares are illustrative placeholders; the live build would rank plants by short-run marginal cost (fuel + CO2) against the residual load each hour.</div>
+    </div>
+
+    <div class="ww-card">
+      <div class="ww-ch"><div class="ww-ct">2 · The price follows the gas</div><div class="ww-cm">DE-LU day-ahead vs gas-fired marginal cost</div></div>
+      <div class="ww-pitch">Average day-ahead price by hour against the inferred cost of running a gas plant (fuel + CO2). In non-solar hours the two track tightly — gas is on the margin, so the price <em>is</em> the gas cost. Around midday, solar pushes the price well below gas: renewables are setting the margin instead.</div>
+      <div style="display:flex;gap:14px;font-size:11px;color:#5f5e5a;margin-bottom:6px"><span><span class="ww-sw" style="background:#2b2a27"></span>Day-ahead price</span><span><span class="ww-sw" style="background:#9a8fb0"></span>Inferred gas marginal cost</span></div>
+      <div style="position:relative;height:240px"><canvas id="ww-gp" role="img" aria-label="Average day-ahead price by hour tracking an inferred gas-fired marginal cost: the two move together morning and evening, the price dips below gas around midday solar hours. Illustrative placeholder.">Price tracks gas cost except in midday solar hours, where it dips below.</canvas></div>
+      <div class="ww-cap">In negative-price hours renewables set the margin and the model says "renewable", not gas — the dashed gas line is what gas <em>would</em> cost to run, not what cleared. Gas marginal cost = (TTF ÷ efficiency) + (CO2 × emissions factor). Illustrative placeholder.</div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script src="vendor/chart.umd.min.js"></script>
+<script>
+(function(){
+  const hours=Array.from({length:24},function(_,h){return (h<10?"0":"")+h;});
+
+  // Inferred price-setting fuel, share of hours (illustrative). Each hour sums to 100%.
+  // Renewables peak midday (solar); gas dominates morning/evening; coal/lignite fills the rest.
+  const ren =[10,8,8,7,9,14,20,26,34,48,62,70,72,66,54,40,28,20,15,12,12,11,11,10];
+  const gas =[58,60,60,61,59,55,52,50,48,40,30,24,23,28,38,48,56,62,66,68,67,64,62,60];
+  const coal=[32,32,32,32,32,31,28,24,18,12,8,6,5,6,8,12,16,18,19,20,21,25,27,30];
+
+  new Chart(document.getElementById("ww-mf"),{type:"bar",data:{labels:hours,datasets:[
+    {label:"Renewables",data:ren,backgroundColor:"#6fae5f",stack:"s",borderWidth:0},
+    {label:"Gas",data:gas,backgroundColor:"#9a8fb0",stack:"s",borderWidth:0},
+    {label:"Coal / lignite",data:coal,backgroundColor:"#7a6a5a",stack:"s",borderWidth:0}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.dataset.label+": "+Math.round(c.parsed.y)+"%";}}}},scales:{x:{stacked:true,grid:{display:false},title:{display:true,text:"hour of day",font:{size:11}},ticks:{font:{size:9},autoSkip:true,maxTicksLimit:12}},y:{stacked:true,max:100,title:{display:true,text:"% of hours",font:{size:11}},grid:{color:"rgba(0,0,0,.06)"},ticks:{font:{size:10}}}}}});
+
+  // Average day-ahead price by hour (€/MWh) vs inferred gas-fired marginal cost.
+  // They track in non-solar hours; price dips below gas around midday solar peak.
+  const price=[58,54,51,49,50,55,68,82,86,80,62,44,36,42,58,74,88,99,104,98,86,76,68,62];
+  const gasMC=[78,77,77,76,77,79,82,85,86,85,84,83,83,84,85,86,88,90,91,89,87,84,82,80];
+
+  new Chart(document.getElementById("ww-gp"),{data:{labels:hours,datasets:[
+    {type:"line",label:"Day-ahead price",data:price,borderColor:"#2b2a27",backgroundColor:"rgba(43,42,39,.06)",borderWidth:2,tension:.3,pointRadius:0,fill:true},
+    {type:"line",label:"Inferred gas marginal cost",data:gasMC,borderColor:"#9a8fb0",borderWidth:2,borderDash:[5,4],tension:.3,pointRadius:0}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.dataset.label+": €"+Math.round(c.parsed.y)+"/MWh";}}}},scales:{y:{title:{display:true,text:"€/MWh",font:{size:11}},grid:{color:"rgba(0,0,0,.06)"},ticks:{font:{size:10}}},x:{grid:{display:false},title:{display:true,text:"hour of day",font:{size:11}},ticks:{font:{size:9},autoSkip:true,maxTicksLimit:12}}}}});
+})();
+</script>
+</body>
+</html>

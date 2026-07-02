@@ -1,5 +1,5 @@
 {
-"generated_at": "2026-06-23T09:09:06+00:00",
+"generated_at": "2026-06-24T08:59:22+00:00",
 "source": "SMARD (Bundesnetzagentur) — Realisierte Erzeugung & Netzlast",
 "unit": "GW",
 "note": "Average GW per day (SMARD MWh/day ÷24h). balance = generation − load. Net balance is the evidence for the intra-zone north–south bottleneck (no public inter-TSO flow series exists).",
@@ -10,27 +10,6 @@
 "TransnetBW"
 ],
 "days": [
-{
-"date": "2025-06-23",
-"generation_gw": {
-"50Hertz": 16.45,
-"TenneT": 21.93,
-"Amprion": 13.15,
-"TransnetBW": 5.49
-},
-"load_gw": {
-"50Hertz": 11.76,
-"TenneT": 16.37,
-"Amprion": 19.09,
-"TransnetBW": 6.58
-},
-"balance_gw": {
-"50Hertz": 4.69,
-"TenneT": 5.56,
-"Amprion": -5.94,
-"TransnetBW": -1.09
-}
-},
 {
 "date": "2025-06-24",
 "generation_gw": {
@@ -7665,14 +7644,35 @@
 "load_gw": {
 "50Hertz": 11.28,
 "TenneT": 15.88,
-"Amprion": 19.55,
-"TransnetBW": 7.57
+"Amprion": 19.47,
+"TransnetBW": 7.59
 },
 "balance_gw": {
 "50Hertz": 2.73,
 "TenneT": -0.5,
-"Amprion": -6.08,
-"TransnetBW": -1.98
+"Amprion": -6.0,
+"TransnetBW": -2.0
+}
+},
+{
+"date": "2026-06-23",
+"generation_gw": {
+"50Hertz": 13.64,
+"TenneT": 13.47,
+"Amprion": 14.47,
+"TransnetBW": 6.0
+},
+"load_gw": {
+"50Hertz": 11.43,
+"TenneT": 16.22,
+"Amprion": 19.86,
+"TransnetBW": 7.9
+},
+"balance_gw": {
+"50Hertz": 2.21,
+"TenneT": -2.75,
+"Amprion": -5.39,
+"TransnetBW": -1.9
 }
 }
 ]

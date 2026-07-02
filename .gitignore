@@ -8,8 +8,10 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 
-# Pipeline raw-data caches (regenerated; the committed data/*.json is the shipped data)
-data/_raw_*.parquet
+# Pipeline raw-data caches (regenerated; the committed data/*.json is the shipped data).
+# Broad _raw_ glob so JSON/parquet fetch caches are never committed (the refresh's
+# `git add data/*.json` skips gitignored files).
+data/_raw_*
 
 # OS / editor cruft
 .DS_Store

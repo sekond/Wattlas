@@ -46,6 +46,11 @@ const GeoMap = (function () {
     t.style.opacity = "1";
   }
   function _hideTip() { if (_tip) _tip.style.opacity = "0"; }
+  function _moveTip(x, y) {        // reposition without re-rendering (cheap on mousemove)
+    if (!_tip) return;
+    _tip.style.left = x + "px";
+    _tip.style.top = (y - 9) + "px";
+  }
 
   // Draw a choropleth of the Landkreise into `host`.
   //   host      : a DOM element to render into
@@ -89,7 +94,18 @@ const GeoMap = (function () {
       paths.attr("fill", (f) => fillFor(f.properties) || null);
     }
 
-    return { svg, projection, path, features: fc.features, recolor };
+    // Attach a rich floating tooltip (the same styled card as points()) to every
+    // district/zone/region, hovering just above the cursor. htmlFor(props) returns the
+    // tooltip HTML, or a falsy value to suppress the tip for that feature. Called by the
+    // page after its data has loaded (like recolor). Makes the choropleth interactive.
+    function hover(htmlFor) {
+      paths.style("cursor", "default")
+        .on("mouseenter.tip", function (ev, f) { const h = htmlFor(f.properties); if (h) _showTip(h, ev.clientX, ev.clientY); })
+        .on("mousemove.tip", function (ev) { _moveTip(ev.clientX, ev.clientY); })
+        .on("mouseleave.tip", _hideTip);
+    }
+
+    return { svg, projection, path, features: fc.features, recolor, hover };
   }
 
   // Plot lon/lat points over an existing map (plant points, demand centres).

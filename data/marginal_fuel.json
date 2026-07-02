@@ -1,0 +1,103 @@
+{
+  "generated_at": "2026-06-29T07:10:55+00:00",
+  "is_model_not_measurement": true,
+  "assumptions": {
+    "ccgt_efficiency": 0.52,
+    "ccgt_t_co2_per_mwh": 0.35,
+    "eua_eur_t": 76.0,
+    "eua_as_of": "2026-06"
+  },
+  "sources": {
+    "gas": "Yahoo Finance TTF=F (Dutch TTF front-month future, EUR/MWh) \u2014 convenience PROXY, not licence-clean for redistribution, and a future not day-ahead spot.",
+    "co2": "Curated EUA price from EEX primary auctions (slow-moving input, stated as-of).",
+    "wholesale": "ENTSO-E day-ahead (our spread.json, DE-LU)."
+  },
+  "note": "MODEL, not a measurement: the marginal fuel is INFERRED from the wholesale price vs a modelled CCGT marginal cost (gas/efficiency + EUA x intensity). Change the assumptions and the picture changes.",
+  "status": "ok",
+  "monthly": [
+    {
+      "month": "2025-06",
+      "gas_eur_mwh": 32.9,
+      "gas_marginal_cost": 89.9,
+      "wholesale_price": 102.4
+    },
+    {
+      "month": "2025-07",
+      "gas_eur_mwh": 33.9,
+      "gas_marginal_cost": 91.9,
+      "wholesale_price": 92.9
+    },
+    {
+      "month": "2025-08",
+      "gas_eur_mwh": 32.7,
+      "gas_marginal_cost": 89.5,
+      "wholesale_price": 85.0
+    },
+    {
+      "month": "2025-09",
+      "gas_eur_mwh": 32.3,
+      "gas_marginal_cost": 88.8,
+      "wholesale_price": 89.7
+    },
+    {
+      "month": "2025-10",
+      "gas_eur_mwh": 31.9,
+      "gas_marginal_cost": 88.0,
+      "wholesale_price": 97.8
+    },
+    {
+      "month": "2025-11",
+      "gas_eur_mwh": 30.9,
+      "gas_marginal_cost": 86.0,
+      "wholesale_price": 110.4
+    },
+    {
+      "month": "2025-12",
+      "gas_eur_mwh": 27.6,
+      "gas_marginal_cost": 79.7,
+      "wholesale_price": 95.8
+    },
+    {
+      "month": "2026-01",
+      "gas_eur_mwh": 34.1,
+      "gas_marginal_cost": 92.2,
+      "wholesale_price": 116.6
+    },
+    {
+      "month": "2026-02",
+      "gas_eur_mwh": 32.5,
+      "gas_marginal_cost": 89.1,
+      "wholesale_price": 101.7
+    },
+    {
+      "month": "2026-03",
+      "gas_eur_mwh": 52.9,
+      "gas_marginal_cost": 128.3,
+      "wholesale_price": 101.9
+    },
+    {
+      "month": "2026-04",
+      "gas_eur_mwh": 45.0,
+      "gas_marginal_cost": 113.1,
+      "wholesale_price": 92.5
+    },
+    {
+      "month": "2026-05",
+      "gas_eur_mwh": 47.3,
+      "gas_marginal_cost": 117.6,
+      "wholesale_price": 108.0
+    },
+    {
+      "month": "2026-06",
+      "gas_eur_mwh": 45.8,
+      "gas_marginal_cost": 114.8,
+      "wholesale_price": 120.6
+    }
+  ],
+  "inference": {
+    "days_classified": 249,
+    "gas_set_pct": 77,
+    "renewable_set_pct": 2,
+    "other_pct": 22
+  }
+}

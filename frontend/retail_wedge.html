@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Retail wedge</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell"><main class="main">
+  <div class="wrap">
+    <h1>Your electricity bill, decomposed</h1>
+    <p class="sub">The wholesale price is only a slice of what a household pays. This view splits the consumer price into three parts — wholesale energy &amp; supply, grid / network charges, and taxes &amp; levies — and tracks how the wedge moves.</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 16px;"></div>
+
+    <div class="meta" id="geoSelect" style="margin:0 0 20px;"></div>
+
+    <div id="kpis" class="kpis"></div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">The wedge over time</div>
+        <div class="meta" id="timeMeta"></div>
+      </div>
+      <canvas id="timeChart" height="120"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:#b07d10"></span>Energy &amp; supply</span>
+        <span><span class="swatch" style="background:#4aa6a0"></span>Network</span>
+        <span><span class="swatch" style="background:#9a8fb0"></span>Taxes &amp; levies</span>
+      </div>
+      <div class="meta" id="timeCap" style="margin-top:8px;"></div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">How countries compare</div>
+        <div class="meta" id="ctyMeta"></div>
+      </div>
+      <canvas id="ctyChart" height="120"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:#b07d10"></span>Energy &amp; supply</span>
+        <span><span class="swatch" style="background:#4aa6a0"></span>Network</span>
+        <span><span class="swatch" style="background:#9a8fb0"></span>Taxes &amp; levies</span>
+      </div>
+      <div class="meta" style="margin-top:8px;">Country-level Eurostat, latest available year. Source: Eurostat household electricity price components.</div>
+    </div>
+
+    <div id="status" class="loading">Loading data…</div>
+  </div>
+
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="util.js"></script>
+  <script>
+    const W = "#b07d10", N = "#4aa6a0", T = "#9a8fb0";
+    const CNAME = { DE: "Germany", ES: "Spain", FR: "France", NL: "Netherlands", NO: "Norway" };
+    const pct = (n) => Math.round(n) + "%";
+    const cname = (c) => CNAME[c] || c;
+
+    async function loadJSON(name) {
+      const candidates = ["../data/" + name, "data/" + name, "/data/" + name];
+      for (const path of candidates) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) { /* try next */ }
+      }
+      throw new Error("could not load " + name);
+    }
+
+    let DATA = null, SEL = null, timeChart = null, ctyChart = null;
+
+    function latest(rows) { return rows[rows.length - 1]; }
+
+    function renderKPIs() {
+      const rows = DATA.countries[SEL];
+      const r = latest(rows);
+      const items = [
+        { label: "Household price (" + SEL + ")", val: "€" + r.total.toFixed(2) + "/kWh" },
+        { label: "Energy &amp; supply share", val: pct(r.energy / r.total * 100) },
+        { label: "Network share", val: pct(r.network / r.total * 100) },
+        { label: "Taxes &amp; levies share", val: pct(r.taxes_levies / r.total * 100) },
+      ];
+      document.getElementById("kpis").innerHTML = items.map(i =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val">${i.val}</div></div>`).join("");
+    }
+
+    function stackedChart(canvasId, labels, energy, network, taxes) {
+      return new Chart(document.getElementById(canvasId), {
+        type: "bar",
+        data: { labels, datasets: [
+          { label: "Energy & supply", data: energy, backgroundColor: W, borderRadius: 2, stack: "s" },
+          { label: "Network", data: network, backgroundColor: N, borderRadius: 2, stack: "s" },
+          { label: "Taxes & levies", data: taxes, backgroundColor: T, borderRadius: 2, stack: "s" },
+        ]},
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${c.dataset.label}: €${c.parsed.y.toFixed(2)}/kWh` } } },
+          scales: {
+            x: { stacked: true, grid: { display: false }, ticks: { color: "#888780", font: { size: 10 }, maxRotation: 0, autoSkip: false } },
+            y: { stacked: true, grid: { color: "rgba(0,0,0,0.05)" },
+                 ticks: { color: "#888780", font: { size: 10 }, callback: (v) => "€" + v.toFixed(2) } } } },
+      });
+    }
+
+    function renderTime() {
+      const rows = DATA.countries[SEL];
+      const labels = rows.map(r => r.period);
+      if (timeChart) timeChart.destroy();
+      timeChart = stackedChart("timeChart", labels, rows.map(r => r.energy), rows.map(r => r.network), rows.map(r => r.taxes_levies));
+      document.getElementById("timeMeta").textContent = cname(SEL) + " · EUR/kWh by year";
+      document.getElementById("timeCap").textContent = DATA.note;
+    }
+
+    function renderCountries() {
+      const geos = DATA.geos_available;
+      const labels = geos.map(cname);
+      const energy = [], network = [], taxes = [];
+      geos.forEach(g => { const r = latest(DATA.countries[g]); energy.push(r.energy); network.push(r.network); taxes.push(r.taxes_levies); });
+      if (ctyChart) ctyChart.destroy();
+      ctyChart = stackedChart("ctyChart", labels, energy, network, taxes);
+      const yr = latest(DATA.countries[geos[0]]).period;
+      document.getElementById("ctyMeta").textContent = "Latest year (" + yr + ") · EUR/kWh";
+    }
+
+    function renderGeoSelect() {
+      const el = document.getElementById("geoSelect");
+      el.innerHTML = "Country: " + DATA.geos_available.map(g =>
+        `<button data-geo="${g}" class="geo-btn" style="font:inherit;font-size:12px;margin:0 4px 0 0;padding:4px 11px;border:0.5px solid rgba(0,0,0,.18);border-radius:7px;cursor:pointer;background:${g===SEL?'#2b2a27':'#fff'};color:${g===SEL?'#faf9f5':'#2b2a27'}">${g}</button>`).join("");
+      el.querySelectorAll(".geo-btn").forEach(b => b.addEventListener("click", () => {
+        SEL = b.dataset.geo; renderGeoSelect(); renderKPIs(); renderTime();
+      }));
+    }
+
+    (async function main() {
+      const status = document.getElementById("status");
+      try { DATA = await loadJSON("retail_wedge.json"); } catch (e) { /* handled below */ }
+      if (!DATA || DATA.status !== "ok") {
+        status.textContent = "Awaiting Eurostat data. Run the retail-wedge pipeline first, then serve the folder.";
+        return;
+      }
+      SEL = DATA.country_default || DATA.geos_available[0];
+      const anyRows = DATA.countries[SEL];
+      const first = anyRows[0].period, last = anyRows[anyRows.length - 1].period;
+      document.getElementById("periodNote").textContent = `Annual averages, ${first}–${last} · Eurostat household price components (${DATA.currency}).`;
+      renderGeoSelect(); renderKPIs(); renderTime(); renderCountries();
+      status.style.display = "none";
+    })();
+  </script>
+  <script src="ia.js"></script>
+  <script src="nav.js"></script>
+  </main></div>
+</body>
+</html>

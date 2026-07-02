@@ -29,77 +29,11 @@
     .split { display: flex; border-radius: var(--radius-sm); overflow: hidden; border: 0.5px solid var(--border); font-size: 12px; margin: 4px 0 10px; }
     .split > div { flex: 1; padding: 10px 12px; }
 
-    /* ---- Sidebar shell — mirrors the dashboard layout (dash/dash.css): a left
-       sidebar on desktop, a horizontal scroll-nav on mobile. Page-scoped so the
-       content keeps using styles.css; only the navigation chrome is added here. */
-    .shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh; }
-    .side { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column;
-      padding: 26px 18px 18px 22px; border-right: 0.5px solid var(--border); background: var(--bg); }
-    .side .brand { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; margin-left: 0; }
-    .side .brand small { display: block; color: var(--hint); font-weight: 400; font-size: 12px; margin: 2px 0 0; }
-    .sidenav { margin-top: 24px; display: flex; flex-direction: column; gap: 1px; }
-    .sidenav a { display: flex; align-items: baseline; gap: 8px; color: var(--muted); text-decoration: none;
-      font-size: 13.5px; padding: 7px 10px; border-radius: var(--radius-sm); border-left: 2px solid transparent; }
-    .sidenav a .n { font-variant-numeric: tabular-nums; font-size: 10.5px; color: var(--hint); width: 14px; }
-    .sidenav a:hover { color: var(--text); background: var(--surface-2); }
-    .sidenav a.active { color: var(--text); font-weight: 500; background: var(--surface-2); border-left-color: var(--amber); }
-    .side .foot { margin-top: auto; font-size: 11px; color: var(--hint); line-height: 1.6; }
-    .main { padding: 0 36px 80px; min-width: 0; }
-    .main-inner { max-width: 1060px; margin: 0 auto; padding-top: 26px; }
-    .topbar { display: none; }
-    @media (max-width: 900px) {
-      .shell { grid-template-columns: 1fr; }
-      .side { display: none; }
-      .topbar { display: block; position: sticky; top: 0; z-index: 40; background: var(--bg);
-        border-bottom: 0.5px solid var(--border); padding: 10px 16px 0; }
-      .topbar .brand { font-size: 16px; font-weight: 600; }
-      .topbar .brand small { color: var(--hint); font-weight: 400; font-size: 11px; margin-left: 8px; }
-      .topnav { display: flex; gap: 4px; overflow-x: auto; padding: 8px 0 10px; -webkit-overflow-scrolling: touch; }
-      .topnav a { font-size: 12px; color: var(--muted); text-decoration: none; white-space: nowrap;
-        padding: 6px 12px; border-radius: 999px; border: 0.5px solid transparent; }
-      .topnav a.active { color: var(--text); background: var(--surface-2); border-color: var(--border); }
-      .main { padding: 0 14px 60px; }
-    }
+    /* Site navigation (sidebar + mobile scroll-nav) is shared — see styles.css + nav.js. */
   </style>
 </head>
 <body>
-  <!-- Mobile top nav (hidden on desktop; the sidebar takes over there) -->
-  <header class="topbar">
-    <div class="brand">Wattlas <small>European electricity, explained</small></div>
-    <nav class="topnav">
-      <a href="dashboard.html">Dashboard</a>
-      <a href="index.html">Spread</a>
-      <a href="pulse.html">Pulse</a>
-      <a href="mix.html">Mix</a>
-      <a href="mismatch.html">Mismatch</a>
-      <a href="divergence.html">Divergence</a>
-      <a href="dashboard.html#carbon">Carbon</a>
-      <a href="curtailment.html">Curtailment</a>
-      <a href="history.html">History</a>
-      <a href="wasted_wind.html" class="active">North–south grid</a>
-      <a href="fr_nuclear.html">France nuclear</a>
-    </nav>
-  </header>
-
   <div class="shell">
-    <aside class="side">
-      <div class="brand">Wattlas <small>European electricity, explained</small></div>
-      <nav class="sidenav">
-        <a href="dashboard.html"><span class="n">⌂</span>Dashboard</a>
-        <a href="pulse.html"><span class="n">1</span>Pulse</a>
-        <a href="index.html"><span class="n">2</span>Spread</a>
-        <a href="mix.html"><span class="n">3</span>Mix</a>
-        <a href="mismatch.html"><span class="n">4</span>Mismatch</a>
-        <a href="divergence.html"><span class="n">5</span>Divergence</a>
-        <a href="dashboard.html#carbon"><span class="n">6</span>Carbon</a>
-        <a href="curtailment.html"><span class="n">7</span>Curtailment</a>
-        <a href="history.html"><span class="n">8</span>History</a>
-        <a href="wasted_wind.html" class="active"><span class="n">↗</span>North–south grid</a>
-        <a href="fr_nuclear.html"><span class="n">↗</span>France nuclear</a>
-      </nav>
-      <div class="foot">Open data from ENTSO-E, SMARD, MaStR and netztransparenz. Pre-computed and static — no live backend.</div>
-    </aside>
-
     <main class="main">
       <div class="main-inner">
 
@@ -119,7 +53,7 @@
           <button id="btnSolar" type="button">Solar</button>
         </div>
       </div>
-      <p class="block-pitch" id="pitch">Installed wind capacity by Landkreis (MaStR), with the 20 largest plants and major demand centres. Capacity clusters in the windy north; demand sits in the southern and western cities.</p>
+      <p class="block-pitch" id="pitch">Installed wind capacity by Landkreis (MaStR), with the largest plants and major demand centres. Capacity clusters in the windy north; demand sits in the southern and western cities.</p>
       <div class="row2">
         <div>
           <div id="map" class="map-host"><div class="nodata">Loading map…</div></div>
@@ -195,9 +129,9 @@
   <!-- D3 (geo/selection/scale) + topojson-client from CDN. New map dependency for
        this view; the time-series panels (Steps 5–6) will load Chart.js like the other
        pages. No map tiles — the committed TopoJSON is the only geo input. -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="vendor/d3.min.js"></script>
+  <script src="vendor/topojson-client.min.js"></script>
+  <script src="vendor/chart.umd.min.js"></script>
   <script src="fuels.js"></script>
   <script src="geo.js"></script>
   <script>
@@ -287,7 +221,7 @@
       map.svg.selectAll("g.plants").remove();
       const list = plantsByFuel[metric] || [];
       GeoMap.points(map, list, {
-        className: "plants", r: (d) => plantSize(d.mw),
+        className: "plants", r: (d) => plantSize[metric](d.mw),
         fill: (d) => fuelColor(d.fuel), stroke: "#faf9f5", strokeWidth: 0.7,
         title: (d) => `${enName(d.name)} · ${fmtMW(d.mw)} MW` + (d.units ? ` · ${d.units} ${d.fuel.toLowerCase()} units` : ` · ${d.fuel}`),
         html: (d) => {
@@ -368,8 +302,13 @@
         ? { wind: plants.wind || [], solar: plants.solar || [] }
         : { wind: ((plants && plants.plants) || []).filter((p) => /Wind/.test(p.fuel || "")),
             solar: ((plants && plants.plants) || []).filter((p) => p.fuel === "Solar") };
-      const allMw = [...plantsByFuel.wind, ...plantsByFuel.solar].map((p) => p.mw);
-      plantSize = d3.scaleSqrt().domain([0, Math.max(1, ...allMw)]).range([2.5, 9]);
+      // Size each fuel's clusters on ITS OWN max so the solar parks fill the same
+      // radius range as the wind clusters. On a single shared scale, solar (max
+      // ~0.5 GW) renders tiny beside wind (max ~2.6 GW); per-fuel keeps dots
+      // proportional within a fuel and visually comparable across the wind/solar toggle.
+      const sizeFor = (arr) =>
+        d3.scaleSqrt().domain([0, Math.max(1, ...arr.map((p) => p.mw))]).range([2.5, 9]);
+      plantSize = { wind: sizeFor(plantsByFuel.wind), solar: sizeFor(plantsByFuel.solar) };
       // (plotPlants() is called by setMetric so the points follow the wind/solar toggle)
 
       document.getElementById("capSrc").textContent =
@@ -459,5 +398,7 @@
     }
     buildPanel3();
   </script>
+  <script src="ia.js"></script>
+  <script src="nav.js"></script>
 </body>
 </html>

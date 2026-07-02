@@ -19,74 +19,11 @@
     .toprow .bar > span { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; }
     .toprow .v { width: 56px; text-align: right; color: var(--muted); }
 
-    /* ---- Sidebar shell — mirrors the dashboard layout (dash/dash.css). Page-scoped. */
-    .shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh; }
-    .side { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column;
-      padding: 26px 18px 18px 22px; border-right: 0.5px solid var(--border); background: var(--bg); }
-    .side .brand { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; margin-left: 0; }
-    .side .brand small { display: block; color: var(--hint); font-weight: 400; font-size: 12px; margin: 2px 0 0; }
-    .sidenav { margin-top: 24px; display: flex; flex-direction: column; gap: 1px; }
-    .sidenav a { display: flex; align-items: baseline; gap: 8px; color: var(--muted); text-decoration: none;
-      font-size: 13.5px; padding: 7px 10px; border-radius: var(--radius-sm); border-left: 2px solid transparent; }
-    .sidenav a .n { font-variant-numeric: tabular-nums; font-size: 10.5px; color: var(--hint); width: 14px; }
-    .sidenav a:hover { color: var(--text); background: var(--surface-2); }
-    .sidenav a.active { color: var(--text); font-weight: 500; background: var(--surface-2); border-left-color: var(--amber); }
-    .side .foot { margin-top: auto; font-size: 11px; color: var(--hint); line-height: 1.6; }
-    .main { padding: 0 36px 80px; min-width: 0; }
-    .main-inner { max-width: 1060px; margin: 0 auto; padding-top: 26px; }
-    .topbar { display: none; }
-    @media (max-width: 900px) {
-      .shell { grid-template-columns: 1fr; }
-      .side { display: none; }
-      .topbar { display: block; position: sticky; top: 0; z-index: 40; background: var(--bg);
-        border-bottom: 0.5px solid var(--border); padding: 10px 16px 0; }
-      .topbar .brand { font-size: 16px; font-weight: 600; }
-      .topbar .brand small { color: var(--hint); font-weight: 400; font-size: 11px; margin-left: 8px; }
-      .topnav { display: flex; gap: 4px; overflow-x: auto; padding: 8px 0 10px; -webkit-overflow-scrolling: touch; }
-      .topnav a { font-size: 12px; color: var(--muted); text-decoration: none; white-space: nowrap;
-        padding: 6px 12px; border-radius: 999px; border: 0.5px solid transparent; }
-      .topnav a.active { color: var(--text); background: var(--surface-2); border-color: var(--border); }
-      .main { padding: 0 14px 60px; }
-    }
+    /* Site navigation (sidebar + mobile scroll-nav) is shared — see styles.css + nav.js. */
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">Wattlas <small>European electricity, explained</small></div>
-    <nav class="topnav">
-      <a href="dashboard.html">Dashboard</a>
-      <a href="index.html">Spread</a>
-      <a href="pulse.html">Pulse</a>
-      <a href="mix.html">Mix</a>
-      <a href="mismatch.html">Mismatch</a>
-      <a href="divergence.html">Divergence</a>
-      <a href="dashboard.html#carbon">Carbon</a>
-      <a href="curtailment.html">Curtailment</a>
-      <a href="history.html">History</a>
-      <a href="wasted_wind.html">North–south grid</a>
-      <a href="fr_nuclear.html" class="active">France nuclear</a>
-    </nav>
-  </header>
-
   <div class="shell">
-    <aside class="side">
-      <div class="brand">Wattlas <small>European electricity, explained</small></div>
-      <nav class="sidenav">
-        <a href="dashboard.html"><span class="n">⌂</span>Dashboard</a>
-        <a href="pulse.html"><span class="n">1</span>Pulse</a>
-        <a href="index.html"><span class="n">2</span>Spread</a>
-        <a href="mix.html"><span class="n">3</span>Mix</a>
-        <a href="mismatch.html"><span class="n">4</span>Mismatch</a>
-        <a href="divergence.html"><span class="n">5</span>Divergence</a>
-        <a href="dashboard.html#carbon"><span class="n">6</span>Carbon</a>
-        <a href="curtailment.html"><span class="n">7</span>Curtailment</a>
-        <a href="history.html"><span class="n">8</span>History</a>
-        <a href="wasted_wind.html"><span class="n">↗</span>North–south grid</a>
-        <a href="fr_nuclear.html" class="active"><span class="n">↗</span>France nuclear</a>
-      </nav>
-      <div class="foot">Open data from ENTSO-E, RTE/ODRÉ, SMARD, MaStR and netztransparenz. Pre-computed and static — no live backend.</div>
-    </aside>
-
     <main class="main">
       <div class="main-inner">
 
@@ -181,9 +118,9 @@
     </main>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="vendor/d3.min.js"></script>
+  <script src="vendor/topojson-client.min.js"></script>
+  <script src="vendor/chart.umd.min.js"></script>
   <script src="fuels.js"></script>
   <script src="geo.js"></script>
   <script>
@@ -327,7 +264,9 @@
       // sync the (hidden) demand-line axis to the stacked-generation axis so the line
       // overlays at its true value instead of stacking on top of the bars.
       const totalGen = m.map((x) => stack.reduce((s, k) => s + x[k.key], 0));
-      const axisMax = Math.ceil(Math.max(Math.max(...totalGen), Math.max(...m.map((x) => x.demand_gw))) * 1.05);
+      const availVals = m.map((x) => x.available_gw).filter((v) => v != null);
+      const hasAvail = availVals.length > 0;
+      const axisMax = Math.ceil(Math.max(Math.max(...totalGen), Math.max(...m.map((x) => x.demand_gw)), ...(hasAvail ? availVals : [0])) * 1.05);
       const datasets = stack.map((s) => ({
         type: "bar", label: s.label, data: m.map((x) => x[s.key]),
         backgroundColor: s.color, stack: "gen", order: 2, categoryPercentage: 0.96, barPercentage: 0.98,
@@ -336,6 +275,17 @@
         type: "line", label: "Demand", data: m.map((x) => x.demand_gw), yAxisID: "y1",
         borderColor: "#2b2a27", backgroundColor: "#2b2a27", borderWidth: 2, tension: 0.3, pointRadius: 1.5, order: 1,
       });
+      // Nuclear available capacity (the "could-run" ceiling) — drawn only when the RTE
+      // OAuth feed is wired. Dashed line above the nuclear bar; the gap between them is
+      // capacity offline. spanGaps:false so any month the feed didn't cover shows a gap,
+      // never a fabricated value.
+      if (hasAvail) {
+        datasets.push({
+          type: "line", label: "Nuclear available", data: m.map((x) => x.available_gw), yAxisID: "y1",
+          borderColor: fuelColor("Nuclear"), backgroundColor: fuelColor("Nuclear"),
+          borderWidth: 2, borderDash: [5, 4], pointRadius: 0, tension: 0.3, order: 0, spanGaps: false,
+        });
+      }
       new Chart(document.getElementById("mixChart"), {
         data: { labels, datasets },
         options: {
@@ -351,10 +301,14 @@
       });
       document.getElementById("mixLegend").innerHTML =
         stack.map((s) => `<span><span class="swatch" style="background:${s.color}"></span>${s.label}</span>`).join("") +
-        '<span><span class="swatch" style="background:#2b2a27;border-radius:50%"></span>Demand</span>';
+        '<span><span class="swatch" style="background:#2b2a27;border-radius:50%"></span>Demand</span>' +
+        (hasAvail ? `<span><span class="swatch" style="background:${fuelColor("Nuclear")};opacity:.55"></span>Nuclear available (dashed)</span>` : "");
       const lo = m.reduce((a, b) => (b.nuclear_gw < a.nuclear_gw ? b : a));
+      const availNote = hasAvail
+        ? ` Dashed line = nuclear available capacity (installed − declared outages, an upper bound); the gap down to the nuclear bar is capacity offline for refuelling, maintenance and unplanned outages.`
+        : ` "Available capacity" needs the RTE OAuth feed (app not yet subscribed) — shown here is output only.`;
       document.getElementById("mixSrc").textContent =
-        `Monthly average, ${data.period_start} to ${data.period_end}, ${data.source}. Nuclear output bottoms near ${lo.nuclear_gw} GW in ${lo.month}; France stayed a net exporter every month (demand sits below total generation). "Available capacity" needs the RTE feed (pending) — shown here is output.`;
+        `Monthly average, ${data.period_start} to ${data.period_end}, ${data.source}. Nuclear output bottoms near ${lo.nuclear_gw} GW in ${lo.month}; France stayed a net exporter every month (demand sits below total generation).` + availNote;
     })();
 
     // --- Panel 4: cost comparison (curated, study-based) -------------------------
@@ -403,5 +357,7 @@
       setMode(false);
     })();
   </script>
+  <script src="ia.js"></script>
+  <script src="nav.js"></script>
 </body>
 </html>

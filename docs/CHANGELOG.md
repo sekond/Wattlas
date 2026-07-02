@@ -1,0 +1,160 @@
+# Changelog
+
+All notable changes to Wattlas. Format loosely follows
+[Keep a Changelog](https://keepachangelog.com/); dates are UTC.
+
+## [Unreleased]
+
+## [1.1.0] — 2026-06-29
+
+Everything below the bidding-zone line and beyond price, plus a navigation
+overhaul — the whole expansion since the v1.0.0 Spread release, now tagged. The
+data contract (`data/schema.md`) is unchanged; this is additive features plus a
+frontend/IA restructure.
+
+### Changed — Navigation & information architecture (UX restructure)
+- Regrouped the 26 destinations from build-history buckets ("The Eight Views /
+  Deep dives / Value layer") into **five question-led sections** — The Daily
+  Rhythm, What's on the Grid, Geography of Price, When the Grid is Tested, The
+  Bill. The mapping is authored once in `frontend/ia.js` (`WATTLAS_IA`) and reused
+  everywhere (sidebar, landing, hubs, footer).
+- Rewrote `frontend/nav.js`: desktop is now a grouped **accordion sidebar** (the
+  current section auto-expands); mobile gets a sticky top bar (☰ drawer / ‹ back)
+  plus a fixed **bottom tab bar** carrying the five sections. A site-wide footer
+  and a **"More in this question"** sibling rail (so view pages stop dead-ending)
+  are injected on every page.
+- New editorial **landing** (`dashboard.html`), templated **section hubs**
+  (`section.html?s=<id>`), **standard pages** (`page.html?p=<id>` — About, How it
+  works, Data sources, Privacy, Terms, Contact) and a **why-we-restructured audit**
+  (`audit.html`), all rendered from `ia.js` by `redesign.js` + `redesign.css`. The
+  old panel dashboard is preserved at `panels.html`.
+- Stayed static and storage-free: the prototype's iframe SPA router and its
+  `localStorage` nav-mode toggle were intentionally **dropped** (production is
+  multi-page; CLAUDE.md forbids browser storage). Design handoff archived under
+  `design-archive/ux_restructure_handoff/`.
+
+### Changed — Repository organisation
+- Moved loose top-level docs into a `docs/` tree (`runbooks/`, `roadmaps/`,
+  `slices/`, plus `SOURCES.md` plus this changelog); all cross-references updated.
+  `CLAUDE.md`, `README.md` and `RUN.md` stay at root (bootstrap + runbook entry).
+
+Below the bidding-zone line — the first **map-based** views, and a deliberate
+**diptych**: Germany can't ship its northern wind to southern demand; France can't
+always keep its centralised nuclear cool. Both stay static (pre-computed JSON +
+committed TopoJSON basemaps, D3-geo, **no map tiles, no backend**). Deployed to the
+live site; not yet tagged.
+
+### Added — North–south grid (Germany; the first map view)
+- A regional view of Germany's north–south grid bottleneck. Three panels: installed
+  wind/solar capacity by **Landkreis** (~400 districts, from **MaStR**) with the
+  top-20 plants and demand centres; per-**control-area** net balance from **SMARD**
+  (50Hertz/TenneT surplus vs Amprion/TransnetBW deficit) with a redispatch overlay;
+  and curtailment vs negative-price hours with an even-handed bidding-zone-split
+  explainer.
+- New map toolkit: a committed, pre-simplified Landkreise **TopoJSON** basemap +
+  `frontend/geo.js` (D3-geo choropleth/points), and a committed **NUTS-3 ↔ AGS**
+  crosswalk to join MaStR to the basemap. New isolated pipeline modules:
+  `de_fields.py` (German→English), `build_mastr_capacity.py` (MaStR bulk via
+  `open-mastr`; refreshed weekly in CI), `build_regional_balance.py` (SMARD; daily).
+
+### Added — France nuclear (the diptych's France half)
+- The matched France view: a map of the **13 metropolitan régions** shaded by hosted
+  nuclear capacity with the **~18 sites / 57 reactors / ~63 GW** fleet (incl.
+  Flamanville-3) as capacity-sized points; per-région net balance (the éCO2mix
+  *solde*) — nuclear-dense régions export, **Île-de-France** imports; and the monthly
+  nuclear **output** dip (spring/summer maintenance) with the generation mix, framed
+  honestly (France stays a net exporter through the dip; heatwave river-cooling is
+  event-scale, annotated not fabricated).
+- New isolated pipeline: `fr_fields.py` (French→English), `build_fr_nuclear_sites.py`,
+  `build_fr_regional.py`, `build_fr_nuclear_availability.py`; source **ODRÉ éCO2mix**
+  régional + national (open, no key). Reuses `geo.js`; committed régions TopoJSON
+  (NUTS-1).
+- **Nuclear available capacity wired (RTE OAuth).** Panel 3 now layers the nuclear
+  **available-capacity** ceiling (the "could-run vs did-run" distinction) over output:
+  `build_fr_nuclear_availability.py` authenticates to the **RTE Data Portal** (OAuth2
+  client-credentials, `RTE_CLIENT_ID`/`RTE_CLIENT_SECRET`), pulls the **Unavailability
+  Additional Information v6** feed, and computes monthly `available_gw` = installed −
+  mean declared unavailability (time-weighted, Europe/Paris; the feed omits fully-available
+  units, so we subtract outages from the installed fleet rather than summing reported
+  availability). Labelled a declared **upper bound**, never actual generation. The
+  frontend draws it as a dashed line above the nuclear bar. **Degrades cleanly** to
+  output-only (`available_gw: null`) when the credentials are absent or the app isn't
+  subscribed to that API — no fabricated series. Stdlib-only (`urllib`); offline unit
+  tests cover the OAuth-free pure aggregation.
+
+### Changed
+- **Unified site navigation (single source of truth).** Every page now shares one
+  injected navigation (`frontend/nav.js`), replacing the inconsistent hand-authored
+  per-page menus. Desktop shows a persistent left sidebar; under 900px it becomes a
+  sticky horizontal scroll-nav (active pill auto-scrolled into view). The eight views
+  are **nested under Dashboard**, and on the dashboard the menu is a **scroll-spy** —
+  clicking smooth-scrolls to that view's section and scrolling the page highlights the
+  section you're in, so moving through the dashboard moves through the menu. Off the
+  dashboard the same items open each view's full standalone page. The two map stories
+  are an amber-accented group. All nav markup, CSS, and active-state logic live in
+  `nav.js` alone; the duplicated nav chrome was removed from `dash/dash.css`. The
+  design-handoff bundle for this round is archived under
+  `design-archive/unified_nav_handoff/`.
+- The drill-down map pages adopt the **dashboard's left-sidebar layout** on desktop
+  (mobile keeps a top scroll-nav); both new views are linked from the dashboard and
+  cross-linked with each other.
+- **Curtailment framing moderated** across the app: curtailment is presented as a
+  managed grid-stability measure, not "clean energy thrown away."
+
+### Notes
+- New `data/*.json` shapes documented in `data/schema.md` in the same change; the two
+  open-source builders (éCO2mix, SMARD) join the daily refresh and degrade gracefully;
+  MaStR refreshes weekly. All metric/aggregation functions have offline unit tests.
+
+## [1.0.0] — 2026-06-10
+
+First tagged release. A static, pre-computed site (Python/pandas pipeline →
+`data/*.json` → vanilla-JS + Chart.js frontend → GitHub Pages) exploring the
+temporal and financial dimensions of European electricity markets, centred on the
+DE-LU bidding zone and its neighbours (FR, NL, BE, PL, AT). No backend, no
+database, no browser storage.
+
+### Views
+- **Pulse** — average day-ahead price by hour of day (weekday vs weekend).
+- **Spread** — daily cheapest↔priciest gap (TB1), negative-price days, and an
+  explicitly-labelled upper-bound battery-arbitrage figure.
+- **Divergence** — monthly price by bidding zone, the DE-FR gap, **plus physical
+  cross-border flows and congestion** (flagged where flow nears transmission
+  capacity; "no data" shown for flow-based borders that publish no NTC).
+- **Mismatch** — residual load (demand − wind − solar) by hour of day, **per zone**.
+- **Mix** — full generation breakdown by fuel for each zone, with two-zone
+  comparison and a single canonical fuel-colour palette.
+- **Carbon** — production-based grid carbon intensity (IPCC AR5 lifecycle factors)
+  computed from the generation mix; falls as renewable share rises.
+- **Curtailment** — wasted renewable energy from the German TSOs'
+  netztransparenz.de redispatch API, via an isolated pipeline module; degrades to
+  an honest "awaiting source" state if its credentials are absent.
+- **History** — multi-year daily spread with drag-to-zoom, a seasonal
+  (month-of-year) fold, and a real year-on-year trend.
+- **Dashboard** (landing page) — sidebar-navigated, story-driven layout unifying
+  all eight views: multi-zone comparison (up to six), a date-range brush with
+  presets, linked hover crosshair, data-computed headlines, and a phone-native
+  bottom-tab layout on mobile.
+
+### Pipeline
+- One `build_*.py` per view writing pre-aggregated JSON to `data/` (committed, so
+  the site works before the pipeline is ever run). Pure, offline-testable metric
+  functions in `pipeline/metrics.py`.
+- Per-zone generation, carbon, flows, multi-year history, per-zone Spread/Pulse,
+  and per-zone Mismatch builders added in the v2 expansion.
+- A daily GitHub Action (`refresh-data.yml`, 05:17 UTC) re-runs every builder and
+  commits refreshed JSON; GitHub Pages redeploys automatically.
+
+### Correctness & honesty
+- Mixed hourly/quarter-hourly data (Germany's Oct-2025 settlement change) resampled
+  to a single hourly grid; spreads are labelled a **conservative lower bound**.
+- All grouping in local time (Europe/Berlin), including 23- and 25-hour DST days.
+- Negative prices and negative residual load kept, never clipped; data gaps render
+  as gaps, never fabricated zeros.
+- The arbitrage figure is always labelled an unachievable **upper bound**; carbon
+  intensity states its production-based, lifecycle methodology.
+
+### Release housekeeping
+- `.gitignore` hardened (secrets, Python caches, raw-data parquet, OS/editor cruft).
+- The design-handoff bundle moved to `design-archive/` (reference only).
+- README reconciled with the shipped views, scripts, and structure; this changelog added.

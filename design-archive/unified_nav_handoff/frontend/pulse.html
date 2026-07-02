@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Pulse</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell"><main class="main">
+  <div class="wrap">
+    <h1>Pulse</h1>
+    <p class="sub">The daily rhythm — how the price of electricity rises and falls across the hours of an average day.</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 24px;"></div>
+
+    <div id="kpis" class="kpis"></div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">Average day-ahead price by hour of day — DE-LU</div>
+        <div class="meta" id="chartMeta"></div>
+      </div>
+      <canvas id="rhythmChart" height="120"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:#185fa5"></span>Weekday average (Mon–Fri)</span>
+        <span><span class="swatch" style="background:#3b6d11"></span>Weekend average (Sat–Sun)</span>
+      </div>
+      <div class="meta" style="margin-top:8px;">Averages use hourly-resampled prices grouped in local time (Europe/Berlin). Source: ENTSO-E.</div>
+    </div>
+    <div id="status" class="loading">Loading data…</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="util.js"></script>
+  <script>
+    const eur = (n) => "€" + Math.round(n);
+    const hh = (h) => String(h).padStart(2, "0") + ":00";
+    async function loadJSON(name) {
+      const candidates = ["../data/" + name, "data/" + name, "/data/" + name];
+      for (const path of candidates) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) { /* try next */ }
+      }
+      throw new Error("could not load " + name);
+    }
+    // argmax/argmin ignoring null slots
+    function extreme(arr, want) {
+      let idx = -1, val = want === "max" ? -Infinity : Infinity;
+      arr.forEach((v, i) => {
+        if (v == null) return;
+        if ((want === "max" && v > val) || (want === "min" && v < val)) { val = v; idx = i; }
+      });
+      return { idx, val };
+    }
+    function renderKPIs(p) {
+      const wd = p.weekday_mean;
+      const peak = extreme(wd, "max"), trough = extreme(wd, "min");
+      const ratio = (trough.val > 0) ? (peak.val / trough.val) : null;
+      const items = [
+        { label: "Priciest hour", val: peak.idx >= 0 ? hh(peak.idx) + " · " + eur(peak.val) + "/MWh" : "—" },
+        { label: "Cheapest hour", val: trough.idx >= 0 ? hh(trough.idx) + " · " + eur(trough.val) + "/MWh" : "—" },
+        { label: "Peak-to-trough", val: ratio == null ? "n/a" : ratio.toFixed(1) + "×", cls: "neg" },
+        { label: "Evening ramp", val: (peak.idx >= 0 && trough.idx >= 0) ? "+" + eur(peak.val - trough.val) + "/MWh" : "—" },
+      ];
+      document.getElementById("kpis").innerHTML = items.map(i =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
+    }
+    function renderChart(p) {
+      const labels = p.hours.map(hh);
+      new Chart(document.getElementById("rhythmChart"), {
+        type: "line",
+        data: { labels, datasets: [
+          { label: "Weekday", data: p.weekday_mean, borderColor: "#185fa5",
+            backgroundColor: "rgba(24,95,165,0.08)", fill: true, tension: 0.35, pointRadius: 0, borderWidth: 2, spanGaps: true },
+          { label: "Weekend", data: p.weekend_mean, borderColor: "#3b6d11",
+            backgroundColor: "transparent", fill: false, tension: 0.35, pointRadius: 0, borderWidth: 2, borderDash: [4,3], spanGaps: true } ]},
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${eur(c.parsed.y)}/MWh` } } },
+          scales: { x: { ticks: { maxTicksLimit: 12, color: "#888780", font: { size: 10 } }, grid: { display: false } },
+                    y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
+      });
+      document.getElementById("chartMeta").textContent = `€/MWh · source ENTSO-E`;
+    }
+    (async function main() {
+      const status = document.getElementById("status");
+      let pulse = null;
+      try { pulse = await loadJSON("pulse.json"); } catch (e) { /* handled below */ }
+      if (!pulse) {
+        status.textContent = "Could not load data. Run `python pipeline/build_pulse.py` first, then serve the folder.";
+        return;
+      }
+      document.getElementById("periodNote").textContent =
+        `Data shown for ${fmtPeriod(pulse.period_start, pulse.period_end)}`;
+      renderKPIs(pulse); renderChart(pulse);
+      status.style.display = "none";
+    })();
+  </script>
+  <script src="nav.js"></script>
+  </main></div>
+</body>
+</html>

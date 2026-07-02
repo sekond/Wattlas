@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — The Iberian blackout</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Sober styling — a real event that affected millions. Blue accent, no alarm colours. */
+    .frame-note { background: #eef2f6; border: 0.5px solid #c9d6e2; border-left: 3px solid var(--blue);
+      border-radius: var(--radius-sm); padding: 11px 14px; font-size: 12.5px; color: #233; line-height: 1.55; margin: 0 0 16px; }
+    .tl { list-style: none; margin: 4px 0 0; padding: 0; }
+    .tl li { display: flex; gap: 12px; padding: 7px 0; border-bottom: 0.5px solid var(--border); font-size: 12.5px; }
+    .tl li:last-child { border-bottom: 0; }
+    .tl .t { flex: none; width: 96px; font-variant-numeric: tabular-nums; color: var(--blue); font-weight: 600; }
+    .tl .l { color: var(--text); }
+    .raised { background: #f7f6f1; border: 0.5px solid rgba(0,0,0,0.10); border-radius: var(--radius-sm);
+      padding: 13px 15px; font-size: 12.5px; color: #444441; line-height: 1.6; }
+    .raised .q { font-style: italic; color: var(--text); border-left: 2px solid var(--blue); padding-left: 11px; margin: 10px 0; }
+    .raised a { color: var(--blue); }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <main class="main">
+      <div class="main-inner">
+
+        <h1>The Iberian blackout: the day the grid went dark</h1>
+        <p class="sub">On 28 April 2025 a large-scale blackout cut power across much of Spain and Portugal for hours. This view replays what the grid data recorded around the event and how the system was restored. It does not assign a cause — that is the work of the official investigation, which it links to.</p>
+
+        <!-- copy block A — frames the page, assigns no cause -->
+        <div class="frame-note" id="blockA"></div>
+
+        <div id="kpis" class="kpis"></div>
+
+        <!-- Panel 1 — the collapse and restoration. -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">1 · The collapse, hour by hour</div>
+            <div class="meta">actual load · GW · CEST</div>
+          </div>
+          <p class="block-pitch">Total load across Spain and Portugal through the day. A normal morning, a sudden collapse around 12:33, a trough near zero, and a staged recovery overnight. Spain's metered load is missing through the outage — the reporting itself went down — and is shown as a gap; Portugal's recorded load collapses to near zero and rebuilds in stages.</p>
+          <div class="legend" id="ibLegend" style="margin-bottom:6px;"></div>
+          <div id="ibWrap" class="chartbox" style="height:270px;"><canvas id="ibChart"></canvas></div>
+          <p class="cap" id="ibSrc"></p>
+        </div>
+
+        <!-- Panel 2 — the restoration (sourced milestones). -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">2 · The restoration</div>
+            <div class="meta">sourced milestones · CEST</div>
+          </div>
+          <p class="block-pitch">Supply was rebuilt over the following hours: black-start from hydro and a gas plant, then interconnections with France and Morocco re-energised, then the Spain–Portugal tie-lines, with full transmission restoration in the early hours of the 29th. Each step below is from the public record and the official report.</p>
+          <ul class="tl" id="milestones"></ul>
+          <p class="cap" id="mSrc"></p>
+        </div>
+
+        <!-- Panel 3 — what it raised (carefully). -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">3 · What it raised</div>
+            <div class="meta">the question, sourced — not a verdict</div>
+          </div>
+          <p class="block-pitch">The event renewed a hard engineering question about grid stability — examined by the official investigation, framed here as open and sourced, not as a Wattlas verdict.</p>
+          <!-- copy block B + the official conclusion, cited -->
+          <div class="raised" id="raised"></div>
+          <p class="cap" id="raisedSrc"></p>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="vendor/chart.umd.min.js"></script>
+  <script>
+    async function loadJSON(name) {
+      for (const base of ["../data/", "data/", "/data/"]) {
+        try { const r = await fetch(base + name); if (r.ok) return r.json(); } catch (e) {}
+      }
+      return null;
+    }
+    const ES_COL = "#a05a2c", PT_COL = "#185fa5";
+    const hhmm = (iso) => new Date(iso).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false });
+    const daytime = (iso) => new Date(iso).toLocaleString("en-GB", { weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false });
+
+    (async function main() {
+      const d = await loadJSON("iberian_blackout.json");
+      if (!d) { document.getElementById("ibWrap").innerHTML = '<div class="nodata">Blackout data unavailable.</div>'; return; }
+      const s = d.summary, off = d.official;
+
+      document.getElementById("blockA").innerHTML =
+        `On 28 April 2025 a large-scale blackout hit the Iberian Peninsula, cutting power to much of Spain and Portugal for hours. This view replays what the grid data recorded around the event and how the system was restored. It does not assign a cause — that is the work of the official investigation (<a href="${off.report_url}" target="_blank" rel="noopener">${off.report}</a>, published ${off.published}); it shows what the data shows.`;
+
+      // KPIs (sober)
+      document.getElementById("kpis").innerHTML = [
+        { label: "Date", val: "28 Apr 2025" },
+        { label: "Affected", val: "Spain & Portugal" },
+        { label: "Portugal trough", val: (s.trough_load_gw.PT ?? "—") + " GW" },
+        { label: "Cause", val: "multiple factors*" },
+      ].map((i) => `<div class="kpi"><div class="label">${i.label}</div><div class="val" style="font-size:${(i.val + "").length > 9 ? "15px" : "20px"}">${i.val}</div></div>`).join("");
+
+      // Panel 1: load timeline (ES gaps, PT collapse + recovery).
+      const tl = d.timeline;
+      new Chart(document.getElementById("ibChart"), {
+        type: "line",
+        data: { labels: tl.map((r) => r.t), datasets: [
+          { label: "Spain (ES)", data: tl.map((r) => r.es_load_gw), borderColor: ES_COL, backgroundColor: ES_COL, borderWidth: 2, pointRadius: 0, tension: 0.2, spanGaps: false },
+          { label: "Portugal (PT)", data: tl.map((r) => r.pt_load_gw), borderColor: PT_COL, backgroundColor: "rgba(24,95,165,.08)", borderWidth: 2, pointRadius: 0, tension: 0.2, spanGaps: false, fill: true },
+        ] },
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          interaction: { mode: "index", intersect: false },
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { title: (it) => daytime(tl[it[0].dataIndex].t),
+              label: (c) => `${c.dataset.label}: ${c.parsed.y == null ? "no data" : c.parsed.y + " GW"}` } } },
+          scales: {
+            y: { title: { display: true, text: "GW (load)", font: { size: 11 } }, grid: { color: "rgba(0,0,0,.06)" }, ticks: { font: { size: 10 } }, beginAtZero: true },
+            x: { type: "category", grid: { display: false },
+              ticks: { font: { size: 9 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 10,
+                callback: function (v) { const iso = tl[v] && tl[v].t; return iso ? (new Date(iso).getHours() % 6 === 0 ? hhmm(iso) : "") : ""; } } },
+          },
+        },
+      });
+      document.getElementById("ibLegend").innerHTML =
+        `<span><span class="swatch" style="background:${ES_COL}"></span>Spain (gap during outage)</span>` +
+        `<span><span class="swatch" style="background:${PT_COL}"></span>Portugal</span>`;
+      document.getElementById("ibSrc").textContent =
+        `Actual total load (ENTSO-E), ${d.tz}. Portugal pre-event ~${s.pre_event_load_gw.PT} GW → trough ~${s.trough_load_gw.PT} GW. ${s.official_loss} ${s.data_gap_note} Figures around an outage are provisional and revised.`;
+
+      // Panel 2: sourced milestones.
+      document.getElementById("milestones").innerHTML = d.milestones.map((m) => {
+        const dt = new Date(m.t); const day = dt.getDate() === 29 ? "29 Apr " : "";
+        return `<li><span class="t">${day}${hhmm(m.t)}</span><span class="l">${m.label}</span></li>`;
+      }).join("");
+      document.getElementById("mSrc").innerHTML = "Sources: " + d.sources.map((x) => `<a href="${x.url}" target="_blank" rel="noopener" style="color:var(--blue)">${x.label}</a>`).join(" · ") + ".";
+
+      // Panel 3: what it raised — copy block B + cited conclusion.
+      document.getElementById("raised").innerHTML =
+        `The event renewed a hard engineering question: as grids run on more inverter-based generation and less spinning, synchronous mass, they carry less <em>inertia</em> to resist sudden disturbances. Investigators examined system stability, the sequence of disconnections, and the role of interconnection. Wattlas presents these as open, sourced questions — not a verdict, and not a claim about any single technology.` +
+        `<div class="q">"${off.quote}"<br><span style="font-style:normal;color:var(--muted);font-size:11.5px">— ${off.quote_attrib}</span></div>` +
+        `The official investigation found: ${off.conclusion} <a href="${off.report_url}" target="_blank" rel="noopener">Read the ${off.report} (${off.published}) →</a>`;
+      document.getElementById("raisedSrc").textContent =
+        "Cause attribution is sourced to the official report and updated as findings are published — Wattlas shows what the data shows and what the report found. *See the investigation.";
+    })();
+  </script>
+  <script src="ia.js"></script>
+  <script src="nav.js"></script>
+</body>
+</html>

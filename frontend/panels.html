@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Wattlas — European electricity, explained</title>
+  <!-- One responsive shell: a sidebar + long-scroll of panels on desktop; a top
+       scroll-spy nav + the same vertical scroll on mobile (no bottom tab bar).
+       Charts render lazily as panels scroll into view (dash-boot.js). -->
+  <link rel="stylesheet" href="dash/dash.css?v=6" />
+</head>
+<body>
+  <!-- Navigation (desktop sidebar + mobile scroll-nav) is injected by nav.js,
+       the single source of nav truth shared across every page. The dashboard's
+       own .ctrl bar is static on mobile (dash.css), so no sticky collision. -->
+  <div class="shell">
+    <main class="main">
+      <div class="main-inner">
+
+        <!-- Landing framing + the two marquee map-story deep dives, surfaced up
+             front so first-time visitors meet the strongest material immediately
+             (they're also reachable from the sidebar's Map Stories group). -->
+        <header class="intro">
+          <h1>European electricity, explained</h1>
+          <p class="intro-sub">Open data on Europe's power markets — what a day of electricity costs, what generates it, how clean it is, and how neighbouring zones pull apart. The sharpest stories are structural and regional: start with the deep dives, then scan the eight views below. Pre-computed and static; every figure carries its source.</p>
+        </header>
+
+        <section class="deepdives" aria-label="Deep dives">
+          <div class="dd-head">Deep dives <span class="dd-sub">— the structural stories worth your time</span></div>
+          <div class="dd-grid">
+            <a class="dd-card" href="wasted_wind.html">
+              <span class="dd-badge">DE</span>
+              <span class="dd-body"><span class="dd-title">Germany North-South Grid <span class="dd-arrow">↗</span></span><span class="dd-hook">Wind piles up in the windy north while demand sits in the industrial south — so clean power gets curtailed and the grid pays to reroute it.</span></span>
+            </a>
+            <a class="dd-card" href="fr_nuclear.html">
+              <span class="dd-badge">FR</span>
+              <span class="dd-body"><span class="dd-title">France Nuclear <span class="dd-arrow">↗</span></span><span class="dd-hook">A centralised reactor fleet powers the country — and dips together for refuelling, maintenance, and, in heatwaves, warm rivers.</span></span>
+            </a>
+            <a class="dd-card" href="nordic_zones.html">
+              <span class="dd-badge">NZ</span>
+              <span class="dd-body"><span class="dd-title">Nordic Price Zones <span class="dd-arrow">↗</span></span><span class="dd-hook">Sweden, Norway, Denmark and Finland already run twelve price zones — a cheap hydro north and a dear, continent-coupled south. The split Germany debates, live.</span></span>
+            </a>
+            <a class="dd-card" href="uk_regional.html">
+              <span class="dd-badge">UK</span>
+              <span class="dd-body"><span class="dd-title">UK Regional Carbon <span class="dd-arrow">↗</span></span><span class="dd-hook">Scotland's wind is in the north, demand in the south — when the grid can't carry it, wind is paid to switch off. How clean each region is, and what the bottleneck costs.</span></span>
+            </a>
+            <a class="dd-card" href="dunkelflaute.html">
+              <span class="dd-badge">DF</span>
+              <span class="dd-body"><span class="dd-title">Dunkelflaute <span class="dd-arrow">↗</span></span><span class="dd-hook">The cold, dark, windless spells when wind and solar generate almost nothing for days and the grid leans entirely on firm power and imports. The worst one, auto-detected.</span></span>
+            </a>
+            <a class="dd-card" href="storage.html">
+              <span class="dd-badge">ST</span>
+              <span class="dd-body"><span class="dd-title">Storage <span class="dd-arrow">↗</span></span><span class="dd-hook">The batteries that charge when power is cheap and discharge when it's dear — living off the daily price spread, and arriving fast. The optimistic answer to volatility.</span></span>
+            </a>
+            <a class="dd-card" href="iberian_blackout.html">
+              <span class="dd-badge">IB</span>
+              <span class="dd-body"><span class="dd-title">Iberian Blackout <span class="dd-arrow">↗</span></span><span class="dd-hook">28 April 2025: the day Spain and Portugal went dark. What the grid data recorded, how it was restored, and what the official report found — no asserted cause.</span></span>
+            </a>
+          </div>
+        </section>
+
+        <section class="deepdives" aria-label="Value layer">
+          <div class="dd-head">The value layer <span class="dd-sub">— what the grid was worth, and who paid</span></div>
+          <div class="dd-grid">
+            <a class="dd-card" href="capture_price.html">
+              <span class="dd-badge">CP</span>
+              <span class="dd-body"><span class="dd-title">Capture Price <span class="dd-arrow">↗</span></span><span class="dd-hook">What a megawatt-hour of solar actually earns — and why it falls as more of it floods the same midday hours.</span></span>
+            </a>
+            <a class="dd-card" href="negative_prices.html">
+              <span class="dd-badge">NP</span>
+              <span class="dd-body"><span class="dd-title">Negative Prices <span class="dd-arrow">↗</span></span><span class="dd-hook">When power costs less than nothing: how many hours a year, when they cluster, and how long each spell lasts.</span></span>
+            </a>
+            <a class="dd-card" href="flexibility.html">
+              <span class="dd-badge">FX</span>
+              <span class="dd-body"><span class="dd-title">Flexibility <span class="dd-arrow">↗</span></span><span class="dd-hook">What a shiftable load — an EV, heat pump or battery — saves by charging in the cheapest hours. An honest upper bound.</span></span>
+            </a>
+            <a class="dd-card" href="locational_signal.html">
+              <span class="dd-badge">LO</span>
+              <span class="dd-body"><span class="dd-title">Locational Signal <span class="dd-arrow">↗</span></span><span class="dd-hook">The north–south congestion the single bidding zone hides — shown as evidence, with the split debate as a cited range, no simulated price.</span></span>
+            </a>
+            <a class="dd-card" href="retail_wedge.html">
+              <span class="dd-badge">RW</span>
+              <span class="dd-body"><span class="dd-title">Retail Wedge <span class="dd-arrow">↗</span></span><span class="dd-hook">Your bill, decomposed: wholesale energy vs grid charges vs taxes and levies — and how the wedge moves over time.</span></span>
+            </a>
+            <a class="dd-card" href="capacity_adequacy.html">
+              <span class="dd-badge">CA</span>
+              <span class="dd-body"><span class="dd-title">Capacity &amp; Adequacy <span class="dd-arrow">↗</span></span><span class="dd-hook">Paying to keep firm power on call for the windless days — a provisional, not-yet-law capacity cost, beside a Dunkelflaute stress read.</span></span>
+            </a>
+            <a class="dd-card" href="marginal_fuel.html">
+              <span class="dd-badge">MF</span>
+              <span class="dd-body"><span class="dd-title">Marginal Fuel <span class="dd-arrow">↗</span></span><span class="dd-hook">Why the price is what it is: a modelled gas marginal cost against the day-ahead price. A model, not a measurement.</span></span>
+            </a>
+            <a class="dd-card" href="industrial.html">
+              <span class="dd-badge">IC</span>
+              <span class="dd-body"><span class="dd-title">Industrial <span class="dd-arrow">↗</span></span><span class="dd-hook">How German industrial power prices compare with France, Spain and Norway — and where Wattlas honestly stops.</span></span>
+            </a>
+            <a class="dd-card" href="storage.html#cannibalization">
+              <span class="dd-badge">SC</span>
+              <span class="dd-body"><span class="dd-title">Storage Cannibalization <span class="dd-arrow">↗</span></span><span class="dd-hook">How more batteries thin the very spread they feed on — an illustrative, modelled curve (a section of the Storage view).</span></span>
+            </a>
+            <a class="dd-card" href="curtailment.html#cost">
+              <span class="dd-badge">C€</span>
+              <span class="dd-body"><span class="dd-title">Curtailment in € <span class="dd-arrow">↗</span></span><span class="dd-hook">What the curtailed wind would have been worth — a labelled estimate, not the billed compensation (a section of the Curtailment view).</span></span>
+            </a>
+          </div>
+        </section>
+
+        <div class="ctrl">
+          <div class="ctrl-card">
+            <div class="ctrl-row">
+              <span class="ctrl-label">Zones</span>
+              <div class="zone-chips" id="zoneChips"></div>
+              <span class="zone-hint" id="zoneHint"></span>
+            </div>
+            <div class="winrow">
+              <span class="ctrl-label">Window</span>
+              <span class="seg" id="winSeg">
+                <button data-days="30">30d</button>
+                <button data-days="90">90d</button>
+                <button data-days="180">6mo</button>
+                <button data-days="9999" class="active">All</button>
+              </span>
+              <div class="brush-wrap" id="brushWrap" title="Drag to select a date range; double-click to reset">
+                <canvas id="brushCanvas"></canvas>
+                <div class="brush-sel" id="brushSel" style="display:none;"></div>
+              </div>
+              <span class="period-note" id="periodNote"></span>
+            </div>
+          </div>
+        </div>
+
+        <div id="status" class="loading">Loading data…</div>
+
+        <section class="panel" id="pulse">
+          <div class="panel-kicker"><span class="k">1 · Pulse — the daily rhythm</span></div>
+          <h2 class="story" id="storyPulse"></h2>
+          <p class="explain">The average price at each hour of the day. The midday dip is solar flooding the market; the evening peak is solar fading while demand stays high.<button class="info" data-tip="pulse" aria-label="About Pulse">i</button></p>
+          <div class="chartwrap" id="boxPulse"><canvas id="cPulse"></canvas></div>
+          <div class="legend" id="legPulse"></div>
+          <div class="statrow" id="statsPulse"></div>
+          <p class="cap">€/MWh, local time, averaged over the whole period. Source: ENTSO-E.</p>
+        </section>
+
+        <section class="panel" id="spread">
+          <div class="panel-kicker"><span class="k">2 · Spread — the daily gap</span></div>
+          <h2 class="story" id="storySpread"></h2>
+          <p class="explain">The gap each day between the cheapest and the most expensive hour — the swing that batteries and demand-shifting live on.<button class="info" data-tip="tb1" aria-label="About Spread">i</button></p>
+          <div class="panel-tools">
+            <span class="seg" id="spreadSeg"><button data-s="bars" class="active">Bars</button><button data-s="heatmap">Calendar</button></span>
+          </div>
+          <div class="chartwrap" id="boxSpread"><canvas id="cSpread"></canvas></div>
+          <div class="statrow" id="statsSpread"></div>
+          <p class="cap" id="capSpread"></p>
+        </section>
+
+        <section class="panel" id="mix">
+          <div class="panel-kicker"><span class="k">3 · Mix — what makes the power</span><a href="mix.html">Full view ↗</a></div>
+          <h2 class="story" id="storyMix"></h2>
+          <p class="explain">What actually generates the electricity, fuel by fuel. France leans on flat nuclear; Germany rides volatile wind and solar.<button class="info" data-tip="mix" aria-label="About Mix">i</button></p>
+          <div class="panel-tools">
+            <span class="seg" id="mixSeg"><button data-v="daily" class="active">Day by day</button><button data-v="profile">Average day</button></span>
+            <span class="seg" id="mixUnit"><button data-u="absolute" class="active">GW</button><button data-u="share">% share</button></span>
+          </div>
+          <div class="chartwrap" id="boxMix"><canvas id="cMix"></canvas></div>
+          <div class="legend" id="legMix"></div>
+          <div class="statrow" id="statsMix"></div>
+          <p class="cap">Stacked average generation by fuel. Gaps render as breaks, never fabricated zeros. Source: ENTSO-E.</p>
+        </section>
+
+        <section class="panel" id="mismatch">
+          <div class="panel-kicker"><span class="k">4 · Mismatch — residual load</span></div>
+          <h2 class="story" id="storyMis"></h2>
+          <p class="explain">The demand left for conventional plants after wind and solar have done their bit. It dips midday and peaks in the evening — which is why prices peak then too.<button class="info" data-tip="residual" aria-label="About Mismatch">i</button></p>
+          <div class="chartwrap" id="boxMis"><canvas id="cMis"></canvas></div>
+          <div class="statrow" id="statsMis"></div>
+          <p class="cap">Residual load = demand − wind − solar (GW); the shaded band is covered by wind+solar. Hour-of-day average over the whole period. Source: ENTSO-E.</p>
+        </section>
+
+        <section class="panel" id="divergence">
+          <div class="panel-kicker"><span class="k">5 · Divergence — geography</span><a href="divergence.html">Full view ↗</a></div>
+          <h2 class="story" id="storyDiv"></h2>
+          <p class="explain">How far neighbouring zones' prices drift apart. When an interconnector fills up, the cheaper side can't rescue the dearer one and prices decouple.<button class="info" data-tip="divergence" aria-label="About Divergence">i</button></p>
+          <div class="panel-tools">
+            <span class="seg" id="divSeg"><button data-m="prices" class="active">Prices by zone</button><button data-m="flows">Flow vs price gap</button></span>
+          </div>
+          <div class="chartwrap" id="boxDiv"><canvas id="cDiv"></canvas></div>
+          <div class="statrow" id="statsDiv"></div>
+          <p class="cap" id="capDiv"></p>
+        </section>
+
+        <section class="panel" id="carbon">
+          <div class="panel-kicker"><span class="k">6 · Carbon — how clean each hour is</span></div>
+          <h2 class="story" id="storyCarbon"></h2>
+          <p class="explain">Grid carbon intensity falls as wind and solar rise — and France's nuclear reads far cleaner than coal-heavy hours.<button class="info" data-tip="carbon" aria-label="About Carbon">i</button></p>
+          <div class="panel-tools">
+            <span class="seg" id="carbonSeg"><button data-c="time" class="active">Timeline</button><button data-c="scatter">vs renewables</button></span>
+          </div>
+          <div class="chartwrap" id="boxCarbon"><canvas id="cCarbon"></canvas></div>
+          <div class="statrow" id="statsCarbon"></div>
+          <p class="cap" id="capCarbon"></p>
+        </section>
+
+        <section class="panel" id="curtailment">
+          <div class="panel-kicker"><span class="k">7 · Curtailment — clean power the grid can't move</span><a href="curtailment.html">Full view ↗</a></div>
+          <h2 class="story" id="storyCurtail"></h2>
+          <p class="explain">Wind and solar curtailed when the grid can't absorb or move it — a cost of Germany's north–south bottleneck.<button class="info" data-tip="curtail" aria-label="About Curtailment">i</button></p>
+          <div class="chartwrap" id="boxCurtail"><canvas id="cCurtail"></canvas></div>
+          <div class="statrow" id="statsCurtail"></div>
+          <p class="cap">Green bars = curtailed renewable energy (MWh/day); red line = negative-price hours that day. Germany. Source: netztransparenz.de.</p>
+        </section>
+
+        <section class="panel" id="history">
+          <div class="panel-kicker"><span class="k">8 · History — the long view</span><a href="history.html">Full view ↗</a></div>
+          <h2 class="story" id="storyHist"></h2>
+          <p class="explain">Years of daily spread at once. Drag across the chart to zoom; fold every year onto twelve months; read the year-on-year trend. Germany; not affected by the window control.<button class="info" data-tip="history" aria-label="About History">i</button></p>
+          <div class="panel-tools">
+            <span class="seg" id="histSeg"><button data-m="multi" class="active">Multi-year</button><button data-m="season">Seasonal</button><button data-m="yearly">Year on year</button></span>
+          </div>
+          <div class="chartwrap" id="boxHist"><canvas id="cHist"></canvas></div>
+          <div class="statrow" id="statsHist"></div>
+          <p class="cap" id="capHist"></p>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="vendor/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <script src="vendor/chartjs-plugin-zoom.min.js"></script>
+  <script src="util.js"></script>
+  <script src="fuels.js"></script>
+  <script src="dash/dash-core.js?v=5"></script>
+  <script src="dash/dash-panels-a.js?v=5"></script>
+  <script src="dash/dash-panels-b.js?v=5"></script>
+  <script src="dash/dash-boot.js?v=5"></script>
+  <script src="ia.js"></script>
+  <script src="nav.js"></script>
+</body>
+</html>

@@ -438,3 +438,189 @@ def negative_hours_by_month(daily: pd.DataFrame) -> list[dict]:
         {"month": str(period), "hours": int(hours)}
         for period, hours in monthly.items()
     ]
+
+
+# ----------------------------------------------------------------------------
+# v10 "Value Layer" metrics — capture price, negative-price episodes, flexibility.
+# All pure, tz-aware, resolution-break-safe and DST-safe like the functions above.
+# ----------------------------------------------------------------------------
+
+def capture_metrics(
+    gen_fuel_hourly_mw: pd.DataFrame,
+    price: pd.Series,
+    groups: dict | None = None,
+    local_tz: str = "Europe/Berlin",
+) -> dict:
+    """Generation-weighted capture price, baseload, value factor and negative-price
+    generation share per renewable group, overall and by local month.
+
+    capture  = Σ(gen·price) / Σ(gen) — the average price a fuel actually earns,
+               weighted by how much it produces each hour.
+    baseload = the simple (time-weighted) mean price over ALL hours of the period —
+               what a flat baseload generator earns. The denominator is the whole
+               period, not just generating hours, so solar's daytime cannibalization
+               is not hidden.
+    value_factor  = capture / baseload (below 1.0 = earns less than average because
+                    it produces when everyone else does).
+    neg_gen_share = share of the fuel's generation in hours with price < 0, percent.
+
+    Generation and price are resampled to canonical hourly (landmine #3) and aligned
+    on their common index. Negative prices are kept (landmine #6). Months are
+    local-calendar (landmine #4). Returns {} if there is no overlap.
+
+    `groups` maps an output label to the fuel columns to sum, e.g.
+    {"solar": ["Solar"], "wind": ["Wind onshore", "Wind offshore"]} (the default).
+    """
+    groups = groups or {"solar": ["Solar"], "wind": ["Wind onshore", "Wind offshore"]}
+    out: dict = {}
+    if gen_fuel_hourly_mw.empty or price.empty:
+        return out
+    ph = to_hourly(price)
+    gh = gen_fuel_hourly_mw
+    if getattr(gh.index, "tz", None) is None:
+        raise ValueError("generation index must be timezone-aware")
+    gh = gh.resample(CANONICAL_FREQ).mean()
+    idx = gh.index.intersection(ph.index)
+    if len(idx) == 0:
+        return out
+    ph = ph.reindex(idx)
+    gh = gh.reindex(idx)
+    months = ph.index.tz_convert(local_tz).tz_localize(None).to_period("M")
+
+    def _stats(gen: pd.Series, pser: pd.Series) -> dict | None:
+        baseload = float(pser.mean()) if pser.notna().any() else None
+        g = gen.clip(lower=0)
+        m = g.notna() & pser.notna() & (g > 0)
+        if baseload is None or not bool(m.any()):
+            return None
+        gg, pp = g[m], pser[m]
+        gen_sum = float(gg.sum())
+        if gen_sum <= 0:
+            return None
+        capture = float((gg * pp).sum() / gen_sum)
+        neg_share = float(gg[pp < 0].sum() / gen_sum * 100.0)
+        vf = capture / baseload if baseload != 0 else None
+        return {
+            "capture": round(capture, 1),
+            "baseload": round(baseload, 1),
+            "value_factor": round(vf, 3) if vf is not None else None,
+            "neg_gen_share": round(neg_share, 1),
+        }
+
+    for label, cols in groups.items():
+        present = [c for c in cols if c in gh.columns]
+        if not present:
+            continue
+        gen = gh[present].clip(lower=0).sum(axis=1, min_count=1)
+        overall = _stats(gen, ph)
+        if overall is None:
+            continue
+        monthly = []
+        for period in pd.unique(months):
+            mask = (months == period)
+            st = _stats(gen[mask], ph[mask])
+            if st is not None:
+                monthly.append({"month": str(period), **st})
+        out[label] = {**overall, "monthly": monthly}
+    return out
+
+
+def negative_price_episodes(prices: pd.Series, local_tz: str = "Europe/Berlin") -> dict:
+    """Promote negative prices to a first-class metric: hours per month, a calendar
+    of hours-per-day, and the run-length of consecutive negative hours (episodes).
+
+    Counting is on the canonical hourly grid (landmine #3) — quarter-hourly periods
+    are collapsed first, so "hours" means hours, not 15-minute slots. Days/months
+    are local-calendar (landmine #4). An episode is a run of consecutive negative
+    hours one hour apart (a gap or a non-negative hour ends it).
+
+    Returns {by_month, calendar, episodes:[{length_hours,count}], total_neg_hours,
+    longest_episode_h, max_in_one_day}.
+    """
+    from collections import Counter
+
+    out = {
+        "by_month": [], "calendar": [], "episodes": [],
+        "total_neg_hours": 0, "longest_episode_h": 0, "max_in_one_day": 0,
+    }
+    hourly = to_hourly(prices)
+    if hourly.empty:
+        return out
+    local = hourly.tz_convert(local_tz)
+    neg = local[local < 0]
+    out["total_neg_hours"] = int(len(neg))
+    if neg.empty:
+        return out
+
+    by_date = neg.groupby(neg.index.date).size()
+    out["calendar"] = [{"date": str(d), "neg_hours": int(c)} for d, c in by_date.items()]
+    out["max_in_one_day"] = int(by_date.max())
+
+    by_month = neg.groupby(neg.index.tz_localize(None).to_period("M")).size()
+    out["by_month"] = [{"month": str(p), "neg_hours": int(c)} for p, c in by_month.items()]
+
+    runs, run = [], 1
+    idx = neg.index
+    for i in range(1, len(idx)):
+        if (idx[i] - idx[i - 1]) == pd.Timedelta(hours=1):
+            run += 1
+        else:
+            runs.append(run)
+            run = 1
+    runs.append(run)
+    out["longest_episode_h"] = int(max(runs))
+    out["episodes"] = [
+        {"length_hours": int(L), "count": int(c)} for L, c in sorted(Counter(runs).items())
+    ]
+    return out
+
+
+def cheapest_n_hours_savings(
+    prices: pd.Series,
+    kwh_per_day: float = 10.0,
+    n: int = 4,
+    local_tz: str = "Europe/Berlin",
+) -> dict:
+    """Annual saving from running a shiftable load (kwh_per_day) in the cheapest
+    `n` hours of each local day instead of paying a flat tariff (the period's mean
+    price).
+
+    UPPER BOUND (landmine #7): assumes perfect foresight of which hours are
+    cheapest, exactly like the battery arbitrage figure. Prices are €/MWh; the load
+    is converted kWh -> MWh. Resampled to canonical hourly (landmine #3); days are
+    local-calendar (landmine #4); negative prices are kept (landmine #6), so a load
+    can be paid to consume. Annualised to 365 days from the observed days.
+
+    Returns {annual_saving_eur, flat_cost_eur, optimized_cost_eur, days, n, kwh_per_day}.
+    """
+    zero = {
+        "annual_saving_eur": 0.0, "flat_cost_eur": 0.0, "optimized_cost_eur": 0.0,
+        "days": 0, "n": int(n), "kwh_per_day": round(float(kwh_per_day), 1),
+    }
+    hourly = to_hourly(prices)
+    if hourly.empty:
+        return zero
+    local = hourly.tz_convert(local_tz)
+    flat_price = float(local.mean())  # €/MWh, time-weighted over the period
+    mwh_per_day = kwh_per_day / 1000.0
+    df = local.to_frame("price")
+    df["date"] = df.index.date
+
+    opt_total, days = 0.0, 0
+    for _, grp in df.groupby("date"):
+        p = grp["price"].sort_values()
+        if len(p) < n:
+            continue
+        opt_total += float(p.iloc[:n].mean()) * mwh_per_day
+        days += 1
+    if days == 0:
+        return zero
+    opt_per_day = opt_total / days
+    flat_per_day = flat_price * mwh_per_day
+    saving_per_day = flat_per_day - opt_per_day
+    return {
+        "annual_saving_eur": round(saving_per_day * 365.0, 2),
+        "flat_cost_eur": round(flat_per_day * 365.0, 2),
+        "optimized_cost_eur": round(opt_per_day * 365.0, 2),
+        "days": int(days), "n": int(n), "kwh_per_day": round(float(kwh_per_day), 1),
+    }
