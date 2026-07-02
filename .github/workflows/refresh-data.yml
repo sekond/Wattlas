@@ -48,6 +48,7 @@ jobs:
           # and don't persist between runs.
           python pipeline/build_spread.py
           python pipeline/build_pulse.py
+          python pipeline/build_storage.py || echo "storage build skipped/failed — continuing"   # pure: reads spread.json + pulse.json
           python pipeline/build_divergence.py
           python pipeline/build_mismatch.py
           python pipeline/build_mix.py
@@ -56,6 +57,31 @@ jobs:
           python pipeline/build_flows.py
           python pipeline/build_zone_views.py        # reads the zone-price cache from build_divergence
           python pipeline/build_history.py --years 3
+          # v10 "Value Layer" slices. These read the zone-price cache (build_divergence)
+          # and the per-zone generation cache (build_mix) produced above — no new fetch.
+          # Non-fatal so a value-layer hiccup can't break the core refresh.
+          python pipeline/build_negative_prices.py || echo "negative-prices build skipped/failed — continuing"
+          python pipeline/build_flex_savings.py || echo "flex-savings build skipped/failed — continuing"
+          python pipeline/build_capture_price.py || echo "capture-price build skipped/failed — continuing"
+          # v10 batch 2 — assemble from committed artefacts (regional balance, curtailment,
+          # mismatch, dunkelflaute) built above; no new fetch. (build_storage already runs
+          # earlier and now also writes the cannibalization block.)
+          python pipeline/build_locational_signal.py || echo "locational-signal build skipped/failed — continuing"
+          python pipeline/build_capacity_adequacy.py || echo "capacity-adequacy build skipped/failed — continuing"
+          # v10 slice 7 — NEW isolated source: Eurostat household price components (open, no key).
+          python pipeline/build_retail_wedge.py || echo "retail-wedge (Eurostat) build skipped/failed — continuing"
+          # v10 slice 10 — thin industrial-price layer (Eurostat nrg_pc_205_c, open, no key).
+          python pipeline/build_industrial_prices.py || echo "industrial-prices (Eurostat) build skipped/failed — continuing"
+          # v10 slice 9 — marginal-fuel MODEL overlay (Yahoo TTF gas proxy + curated EUA + our
+          # day-ahead price). Non-fatal; a Yahoo hiccup writes status:"unavailable".
+          python pipeline/build_marginal_fuel.py || echo "marginal-fuel build skipped/failed — continuing"
+          # Nordic price-zones slice (v5): day-ahead prices for the 12 Nordic bidding
+          # zones (ENTSO-E). Isolated builder; non-fatal so a Nordic fetch hiccup
+          # can't break the core refresh.
+          python pipeline/build_nordic_zones.py || echo "Nordic zones build skipped/failed — continuing"
+          # Dunkelflaute slice (v7): low-renewable spell detection from ENTSO-E generation
+          # + load + price (DE-LU). Non-fatal.
+          python pipeline/build_dunkelflaute.py || echo "Dunkelflaute build skipped/failed — continuing"
           # New external sources (isolated): never let one fail the whole refresh.
           python pipeline/build_curtailment.py --years 2 || echo "curtailment build skipped/failed — continuing"
           # Wasted-wind Panel 2: per-control-area net balance from SMARD (open, no key).
@@ -66,6 +92,11 @@ jobs:
           python pipeline/build_fr_costs.py || echo "FR costs build skipped/failed — continuing"
           python pipeline/build_fr_regional.py || echo "FR régional (éCO2mix) build skipped/failed — continuing"
           python pipeline/build_fr_nuclear_availability.py || echo "FR availability (éCO2mix) build skipped/failed — continuing"
+          # UK regional slice (v6): NESO Carbon Intensity (regional consumption-based carbon)
+          # + NESO Constraint Breakdown (Scottish wind constraint payments). Open APIs (no
+          # key), isolated, non-fatal — a UK source hiccup must not break the refresh.
+          python pipeline/build_uk_regional_carbon.py || echo "UK regional carbon (NESO) build skipped/failed — continuing"
+          python pipeline/build_uk_constraints.py || echo "UK constraints (NESO) build skipped/failed — continuing"
 
       - name: Build MaStR capacity (weekly — heavy bulk download)
         run: |
@@ -79,6 +110,14 @@ jobs:
           else
             echo "MaStR capacity refreshes weekly (Mondays); skipping today."
           fi
+
+      - name: Write "data last updated" manifest
+        run: |
+          # After all builders: record the freshest generated_at across data/*.json
+          # into data/last_updated.json, which the frontend (nav.js) shows site-wide.
+          # Reads committed JSON only — no network — so it always runs, and runs last
+          # so the stamp reflects this refresh.
+          python pipeline/build_last_updated.py
 
       - name: Commit refreshed data (only if changed)
         run: |

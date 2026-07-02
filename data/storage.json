@@ -1,0 +1,377 @@
+{
+  "generated_at": "2026-06-29T05:57:52+00:00",
+  "zone": "DE_LU",
+  "currency": "EUR",
+  "unit_power": "MW (power)",
+  "unit_energy": "MWh (energy)",
+  "battery": {
+    "power_mw": 1,
+    "duration_h": 2,
+    "round_trip": 0.85,
+    "foresight": "perfect (upper bound)"
+  },
+  "note": "Captured-arbitrage figures assume perfect foresight and an 85% round-trip efficiency \u2014 an UPPER BOUND, like the Spread view. Real revenue is lower (round-trip losses, cycling wear, and cannibalisation as more storage flattens the very spread it feeds on).",
+  "day": {
+    "hours": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "price": [
+      93.6,
+      88.3,
+      85.3,
+      84.3,
+      85.5,
+      90.8,
+      103.3,
+      113.8,
+      108.9,
+      91.2,
+      73.6,
+      60.8,
+      51.2,
+      46.0,
+      50.3,
+      64.1,
+      81.8,
+      105.9,
+      125.9,
+      139.5,
+      134.6,
+      121.0,
+      109.9,
+      97.6
+    ],
+    "charge_mw": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      -1,
+      -1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "discharge_mw": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0.85,
+      0.85,
+      0,
+      0,
+      0
+    ],
+    "charge_hours": [
+      13,
+      14
+    ],
+    "discharge_hours": [
+      19,
+      20
+    ],
+    "captured_eur": 136.7
+  },
+  "spread": {
+    "mean_tb2_eur_mwh": 118.3,
+    "period_start": "2025-06-24",
+    "period_end": "2026-06-23",
+    "monthly_tb2": [
+      {
+        "month": "2025-06",
+        "mean_tb2": 152.8
+      },
+      {
+        "month": "2025-07",
+        "mean_tb2": 105.2
+      },
+      {
+        "month": "2025-08",
+        "mean_tb2": 130.8
+      },
+      {
+        "month": "2025-09",
+        "mean_tb2": 155.5
+      },
+      {
+        "month": "2025-10",
+        "mean_tb2": 102.1
+      },
+      {
+        "month": "2025-11",
+        "mean_tb2": 80.0
+      },
+      {
+        "month": "2025-12",
+        "mean_tb2": 57.5
+      },
+      {
+        "month": "2026-01",
+        "mean_tb2": 69.3
+      },
+      {
+        "month": "2026-02",
+        "mean_tb2": 59.9
+      },
+      {
+        "month": "2026-03",
+        "mean_tb2": 148.6
+      },
+      {
+        "month": "2026-04",
+        "mean_tb2": 170.9
+      },
+      {
+        "month": "2026-05",
+        "mean_tb2": 173.1
+      },
+      {
+        "month": "2026-06",
+        "mean_tb2": 165.2
+      }
+    ]
+  },
+  "cannibalization": {
+    "note": "ILLUSTRATIVE parametric model, not a forecast: how the arbitrageable daily spread (and the per-MW revenue on it) compresses as more battery capacity competes for it. The decline is modelled, not measured.",
+    "base_gw": 4.5,
+    "base_spread_eur_mwh": 118.3,
+    "compression_per_gw": 0.03,
+    "scenarios": [
+      {
+        "assumed_gw": 5,
+        "modelled_spread": 116.5,
+        "per_mw_arbitrage_eur_yr": 49152
+      },
+      {
+        "assumed_gw": 10,
+        "modelled_spread": 100.3,
+        "per_mw_arbitrage_eur_yr": 42306
+      },
+      {
+        "assumed_gw": 15,
+        "modelled_spread": 86.3,
+        "per_mw_arbitrage_eur_yr": 36413
+      },
+      {
+        "assumed_gw": 20,
+        "modelled_spread": 74.3,
+        "per_mw_arbitrage_eur_yr": 31341
+      },
+      {
+        "assumed_gw": 30,
+        "modelled_spread": 55.0,
+        "per_mw_arbitrage_eur_yr": 23218
+      },
+      {
+        "assumed_gw": 40,
+        "modelled_spread": 40.8,
+        "per_mw_arbitrage_eur_yr": 17200
+      },
+      {
+        "assumed_gw": 50,
+        "modelled_spread": 30.2,
+        "per_mw_arbitrage_eur_yr": 12742
+      }
+    ],
+    "remuneration_note": "As arbitrage erodes, storage revenue shifts toward capacity/availability payments (capacity market, ancillary services) \u2014 a structural shift this toy model does not capture."
+  },
+  "capacity": [
+    {
+      "country": "GB",
+      "year": 2021,
+      "power_gw": 1.6
+    },
+    {
+      "country": "GB",
+      "year": 2022,
+      "power_gw": 2.4
+    },
+    {
+      "country": "GB",
+      "year": 2023,
+      "power_gw": 3.5
+    },
+    {
+      "country": "GB",
+      "year": 2024,
+      "power_gw": 4.5
+    },
+    {
+      "country": "GB",
+      "year": 2025,
+      "power_gw": 5.9
+    },
+    {
+      "country": "GB",
+      "year": 2026,
+      "power_gw": 6.9
+    },
+    {
+      "country": "DE",
+      "year": 2021,
+      "power_gw": 0.6
+    },
+    {
+      "country": "DE",
+      "year": 2022,
+      "power_gw": 0.8
+    },
+    {
+      "country": "DE",
+      "year": 2023,
+      "power_gw": 1.1
+    },
+    {
+      "country": "DE",
+      "year": 2024,
+      "power_gw": 1.8
+    },
+    {
+      "country": "DE",
+      "year": 2025,
+      "power_gw": 2.8
+    },
+    {
+      "country": "DE",
+      "year": 2026,
+      "power_gw": 4.5
+    },
+    {
+      "country": "IT",
+      "year": 2021,
+      "power_gw": 0.2
+    },
+    {
+      "country": "IT",
+      "year": 2022,
+      "power_gw": 0.5
+    },
+    {
+      "country": "IT",
+      "year": 2023,
+      "power_gw": 0.8
+    },
+    {
+      "country": "IT",
+      "year": 2024,
+      "power_gw": 1.3
+    },
+    {
+      "country": "IT",
+      "year": 2025,
+      "power_gw": 2.0
+    },
+    {
+      "country": "IT",
+      "year": 2026,
+      "power_gw": 3.5
+    },
+    {
+      "country": "Rest of Europe",
+      "year": 2021,
+      "power_gw": 1.5
+    },
+    {
+      "country": "Rest of Europe",
+      "year": 2022,
+      "power_gw": 2.3
+    },
+    {
+      "country": "Rest of Europe",
+      "year": 2023,
+      "power_gw": 3.6
+    },
+    {
+      "country": "Rest of Europe",
+      "year": 2024,
+      "power_gw": 5.4
+    },
+    {
+      "country": "Rest of Europe",
+      "year": 2025,
+      "power_gw": 8.3
+    },
+    {
+      "country": "Rest of Europe",
+      "year": 2026,
+      "power_gw": 10.1
+    }
+  ],
+  "capacity_note": "Curated from published market reports (SolarPower Europe, Wood Mackenzie, Modo Energy, LCP Delta); approximate operational grid-scale battery POWER (GW). Energy (GWh) differs by duration (~1.5\u20132h typical, rising). Pumped hydro not included.",
+  "eu_energy_gwh": [
+    {
+      "year": 2021,
+      "gwh": 8
+    },
+    {
+      "year": 2022,
+      "gwh": 15
+    },
+    {
+      "year": 2023,
+      "gwh": 30
+    },
+    {
+      "year": 2024,
+      "gwh": 49
+    },
+    {
+      "year": 2025,
+      "gwh": 77
+    }
+  ]
+}

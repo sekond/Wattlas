@@ -2,7 +2,7 @@
 via ODRÉ, RTE). The SINGLE place where French field names, generation-type labels and
 région identifiers are mapped to English / canonical fuels and the basemap join key.
 
-Why this exists (CLAUDE.md landmines 9 & 11; SLICE_FR_NUCLEAR.md §4): éCO2mix publishes
+Why this exists (CLAUDE.md landmines 9 & 11; docs/slices/SLICE_FR_NUCLEAR.md §4): éCO2mix publishes
 French labels ("nucléaire", "hydraulique", "éolien", "consommation", "ech_physiques")
 and identifies régions by French name or INSEE code. NO French string is allowed to
 reach the frontend or the other pipelines; every French-source builder translates

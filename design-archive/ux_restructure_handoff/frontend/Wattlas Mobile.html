@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="design_doc_mode" content="canvas">
+<title>Wattlas — Mobile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#e7e4dc}
+  .titleblk{position:absolute;left:80px;top:60px;width:520px}
+  .titleblk .ey{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#8a8880;margin:0 0 14px}
+  .titleblk h1{font-family:"Newsreader",Georgia,serif;font-weight:500;font-size:46px;line-height:1.05;letter-spacing:-.015em;color:#2b2a27;margin:0 0 16px}
+  .titleblk p{font-size:16px;line-height:1.6;color:#5f5e5a;margin:0;max-width:48ch}
+  .titleblk .meta{margin-top:18px;font-size:13px;color:#8a8880}
+  .titleblk .meta b{color:#2b2a27;font-weight:600}
+
+  .phone{position:absolute;width:414px}
+  .device{width:414px;height:872px;background:#1c1b19;border-radius:54px;padding:13px;
+    box-shadow:0 30px 70px rgba(0,0,0,.22),0 6px 18px rgba(0,0,0,.14),inset 0 0 0 2px #34322e}
+  .screen{position:relative;width:388px;height:846px;background:#faf9f5;border-radius:42px;overflow:hidden}
+  .screen iframe{width:388px;height:846px;border:0;display:block}
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:128px;height:30px;
+    background:#1c1b19;border-radius:0 0 18px 18px;z-index:10}
+  .caption{margin-top:22px;text-align:center}
+  .caption .cn{font-size:12px;font-variant-numeric:tabular-nums;font-weight:600;letter-spacing:.1em;color:#b07d12}
+  .caption .ct{font-family:"Newsreader",Georgia,serif;font-size:22px;font-weight:500;color:#2b2a27;margin:3px 0 4px}
+  .caption .cd{font-size:13px;color:#5f5e5a;max-width:36ch;margin:0 auto;line-height:1.5}
+</style>
+</head>
+<body>
+  <div class="titleblk">
+    <p class="ey">Wattlas · proposed mobile experience</p>
+    <h1>Phone-native, with the five questions as bottom tabs.</h1>
+    <p>The same question-led structure, sized for a thumb. A bottom tab bar carries the five sections; a section opens its list of views; a view loads the real, live page full-bleed. Tap a frame to interact — these are the actual responsive build, not flat mockups.</p>
+    <p class="meta"><b>Try it:</b> tap the bottom tabs, open a view, use ‹ to go back. Pan/zoom this canvas to compare screens.</p>
+  </div>
+
+  <div class="phone" style="left:80px;top:500px">
+    <div class="device"><div class="screen"><div class="notch"></div>
+      <iframe src="Wattlas Redesign.html#/home" title="Home"></iframe></div></div>
+    <div class="caption"><div class="cn">SCREEN 01</div><div class="ct">Home</div>
+      <div class="cd">Editorial entry — the five questions as cards, each opening a section.</div></div>
+  </div>
+
+  <div class="phone" style="left:560px;top:500px">
+    <div class="device"><div class="screen"><div class="notch"></div>
+      <iframe src="Wattlas Redesign.html#/s/place" title="Section"></iframe></div></div>
+    <div class="caption"><div class="cn">SCREEN 02</div><div class="ct">A section</div>
+      <div class="cd">“Geography of Price” — its views as cards, with a headline stat each.</div></div>
+  </div>
+
+  <div class="phone" style="left:1040px;top:500px">
+    <div class="device"><div class="screen"><div class="notch"></div>
+      <iframe src="Wattlas Redesign.html#/v/fr_nuclear" title="Wired view"></iframe></div></div>
+    <div class="caption"><div class="cn">SCREEN 03</div><div class="ct">A wired view</div>
+      <div class="cd">France Nuclear — the real map page, live data, framed in the new chrome.</div></div>
+  </div>
+
+  <div class="phone" style="left:1520px;top:500px">
+    <div class="device"><div class="screen"><div class="notch"></div>
+      <iframe src="Wattlas Redesign.html#/audit" title="Audit"></iframe></div></div>
+    <div class="caption"><div class="cn">SCREEN 04</div><div class="ct">Why this changed</div>
+      <div class="cd">The before/after audit, stacked for the small screen.</div></div>
+  </div>
+</body>
+</html>

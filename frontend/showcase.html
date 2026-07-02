@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wattlas — showcase</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  /* Showcase deck — reuses the project's design tokens (styles.css :root).
+     Act I is the product tour, regrouped to match the live information
+     architecture: FIVE question-led sections (The Daily Rhythm, What's on the
+     Grid, Geography of Price, When the Grid is Tested, The Bill), each in its own
+     accent. Act II is purely technical (build, CI/CD, data sources). No chart lib. */
+  :root {
+    --accent: var(--amber); --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    /* the five section accents (mirror frontend/redesign.css / nav.js) */
+    --s-blue: oklch(.50 .10 248); --s-green: oklch(.50 .10 150); --s-amber: oklch(.55 .10 75);
+    --s-red: oklch(.52 .12 28); --s-plum: oklch(.50 .10 312);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-snap-type: y mandatory; scroll-behavior: smooth; overflow-x: clip; }
+  body.deck { margin: 0; background: var(--bg); color: var(--text); overflow-x: clip;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.5; }
+
+  /* presentation chrome */
+  .progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; background: transparent; z-index: 60; }
+  .progress i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .15s ease; }
+  .counter { position: fixed; top: 12px; right: 16px; z-index: 60; font-family: var(--mono);
+    font-size: 11px; color: var(--muted); background: var(--surface); border: 0.5px solid var(--border);
+    border-radius: 999px; padding: 3px 10px; }
+  .dots { position: fixed; right: 14px; top: 50%; transform: translateY(-50%); z-index: 60;
+    display: flex; flex-direction: column; gap: 7px; }
+  .dots button { width: 7px; height: 7px; border-radius: 50%; border: 0; padding: 0; cursor: pointer;
+    background: rgba(0,0,0,.18); transition: background .15s, transform .15s; }
+  .dots button:hover { background: rgba(0,0,0,.4); }
+  .dots button[aria-current="true"] { background: var(--accent); transform: scale(1.5); }
+  .dots button.sec { background: rgba(0,0,0,.34); }   /* section openers stand out on the rail */
+
+  /* slides — each fits one viewport (svh avoids mobile URL-bar clipping) */
+  .slide { height: 100svh; scroll-snap-align: start; scroll-snap-stop: always;
+    display: flex; align-items: center; justify-content: center; padding: 54px 24px 38px; }
+  .inner { width: 100%; max-width: 980px; display: flex; flex-direction: column; height: 100%;
+    justify-content: center; gap: clamp(11px, 2.2vh, 22px); }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--hint);
+    text-transform: uppercase; }
+  .eyebrow .tag { color: var(--accent); }
+  h1.hero { font-size: clamp(34px, 7vw, 76px); font-weight: 600; letter-spacing: -.02em; margin: 0; }
+  h2.title { font-size: clamp(21px, 3.4vw, 34px); font-weight: 600; letter-spacing: -.01em; margin: 0; }
+  .lede { font-size: clamp(13.5px, 1.8vw, 18px); color: var(--muted); max-width: 58ch; margin: 0; }
+  .lede strong { color: var(--text); font-weight: 600; }
+  .takeaway { display: flex; align-items: center; gap: 9px; font-size: clamp(13px, 1.7vw, 16px);
+    color: var(--text); margin-top: auto; padding-top: 6px; }
+  .takeaway.flush { margin-top: 0; }
+  .takeaway .tick { flex: none; width: 7px; height: 14px; border-radius: 2px; background: var(--accent); }
+  .muted { color: var(--muted); } .hint { color: var(--hint); }
+  /* section opener: a question above the title, in the section accent */
+  .sec-q { font-size: clamp(13px, 1.7vw, 16px); font-weight: 600; color: var(--accent); margin: 0; }
+
+  /* tooltip — explains the deck to itself */
+  .tip { position: relative; cursor: help; border-bottom: 1px dotted var(--hint); outline: none; }
+  .tip::after { content: attr(data-tip); position: absolute; bottom: 132%; left: 50%; transform: translateX(-50%);
+    background: var(--text); color: var(--bg); font-size: 11px; line-height: 1.45; padding: 7px 10px;
+    border-radius: 7px; width: max-content; max-width: min(250px, 80vw); opacity: 0; pointer-events: none;
+    transition: opacity .12s ease; z-index: 70; box-shadow: 0 4px 14px rgba(0,0,0,.18); }
+  .tip:hover::after, .tip:focus-visible::after { opacity: 1; }
+
+  /* framed screenshots — browser chrome; flex row that shrinks (min-width:0) */
+  .stage { display: flex; align-items: flex-end; justify-content: center; min-width: 0; }
+  .frame { min-width: 0; flex: 0 1 auto; --shot-h: min(48vh, 380px);
+    border: 0.5px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface);
+    box-shadow: 0 8px 30px rgba(40,36,20,.10); }
+  .frame .bar { display: flex; align-items: center; gap: 6px; padding: 6px 11px; background: var(--surface-2);
+    border-bottom: 0.5px solid var(--border); }
+  .frame .bar i { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .frame .bar .u { margin-left: 8px; font-size: 10.5px; color: var(--hint); background: var(--bg);
+    border: 0.5px solid var(--border); border-radius: 5px; padding: 2px 9px; max-width: 72%;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .shot { width: calc(var(--shot-h) * 1.5); height: var(--shot-h); max-width: 88vw; background: var(--surface-2);
+    position: relative; }
+  /* show the WHOLE screen, never cropped — contain (centered) on a tinted mat */
+  .shot img { width: 100%; height: 100%; object-fit: contain; object-position: center top; display: block;
+    background: var(--surface-2); }
+  .shot.ph::after { content: attr(data-label) " — capture pending"; position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center; text-align: center; padding: 18px;
+    font-family: var(--mono); font-size: 11px; color: var(--hint);
+    background: repeating-linear-gradient(45deg, var(--surface-2), var(--surface-2) 10px, #ece9e0 10px, #ece9e0 20px); }
+
+  /* two-column scene layout (text + visual) */
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 4vw, 46px); align-items: center; width: 100%; }
+  .two .col { min-width: 0; display: flex; flex-direction: column; gap: clamp(10px, 1.8vh, 16px); }
+  @media (max-width: 720px) { .two { grid-template-columns: 1fr; gap: 16px; } }
+
+  /* one item per page — a feature: a big screenshot beside its question + answer */
+  .feat .frame { width: 100%; --shot-h: min(60vh, 480px); }
+  .feat .frame .shot { width: 100%; }
+  .feat .q { font-size: clamp(15px, 2vw, 21px); margin-bottom: 1px; }
+  .feat .d { font-size: clamp(12.5px, 1.5vw, 15px); }
+  .feat.flip { direction: rtl; }                 /* alternate the screenshot's side on desktop */
+  .feat.flip > .col { direction: ltr; }
+  @media (max-width: 720px) { .feat.flip { direction: ltr; } }   /* on mobile, keep source order */
+  /* question-led micro-pitch: the question the view answers, then what you see */
+  .vtag { display: inline-block; font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .05em;
+    text-transform: uppercase; color: var(--accent); }
+  .q { font-size: clamp(12.5px, 1.55vw, 14.5px); color: var(--text); font-style: italic; line-height: 1.4; }
+  .d { font-size: clamp(12px, 1.4vw, 14px); color: var(--muted); line-height: 1.5; }
+  .stat-row { display: flex; align-items: baseline; gap: 8px; font-size: clamp(12px, 1.5vw, 14px); margin-top: 2px; }
+  .stat-row b { font-family: var(--mono); font-size: clamp(15px, 2vw, 20px); font-weight: 700; color: var(--accent); }
+  .stat-row span { color: var(--hint); font-size: 11.5px; }
+
+  /* section opener — each view, briefly introduced (the question it answers) */
+  .storylist { display: flex; flex-direction: column; gap: 0; width: 100%; max-width: 860px; }
+  .sl { display: grid; grid-template-columns: minmax(150px, 200px) 1fr; gap: 16px; align-items: baseline;
+    padding: 8px 0; border-top: 0.5px solid var(--border); }
+  .sl:first-child { border-top: 0; }
+  .sl b { font-weight: 600; font-size: 13.5px; }
+  .sl span { color: var(--muted); font-size: 12.5px; line-height: 1.4; }
+  @media (max-width: 640px) { .sl { grid-template-columns: 1fr; gap: 1px; padding: 6px 0; } }
+
+  /* CSS-only diagrams (no chart lib) */
+  .flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; justify-content: center; }
+  .flow .node { border: 0.5px solid var(--border); background: var(--surface); border-radius: 9px;
+    padding: 11px 14px; text-align: center; min-width: 0; }
+  .flow .node.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .flow .node .k { font-weight: 600; font-size: 13px; } .flow .node .v { font-size: 11px; color: var(--hint); margin-top: 2px; }
+  .flow .arr { display: flex; align-items: center; color: var(--hint); padding: 0 10px; font-size: 16px; }
+  @media (max-width: 640px) { .flow .arr { transform: rotate(90deg); padding: 4px 0; } .flow { flex-direction: column; align-items: center; } }
+
+  /* data-source catalogue */
+  .srcgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; max-width: 900px; }
+  .src { border: 0.5px solid var(--border); background: var(--surface); border-radius: 9px; padding: 11px 13px; min-width: 0; }
+  .src .nm { font-weight: 600; font-size: 13.5px; }
+  .src .wt { font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.42; }
+  .src .ac { font-family: var(--mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--hint); margin-top: 6px; }
+
+  /* principle ledger */
+  .ledger { width: 100%; max-width: 740px; border: 0.5px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .ledger .row { display: grid; grid-template-columns: 0.8fr 1.5fr; gap: 14px; padding: 10px 15px;
+    font-size: 13px; border-bottom: 0.5px solid var(--border); }
+  .ledger .row:last-child { border-bottom: 0; }
+  .ledger .row .c { color: var(--text); font-weight: 600; } .ledger .row .h { color: var(--muted); }
+  .ledger .row .h b { color: #6b520a; font-weight: 600; }
+
+  .stats { display: flex; flex-wrap: wrap; gap: 14px; }
+  .stat { border: 0.5px solid var(--border); background: var(--surface); border-radius: 10px; padding: 13px 16px; min-width: 0; }
+  .stat .n { font-size: clamp(20px, 2.8vw, 28px); font-weight: 600; letter-spacing: -.01em; }
+  .stat .l { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .cta-links { display: flex; gap: 12px; flex-wrap: wrap; }
+  .cta-links a { text-decoration: none; font-size: 14px; font-weight: 500; border-radius: 999px;
+    padding: 9px 18px; border: 0.5px solid var(--border); }
+  .cta-links a.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .cta-links a.ghost { color: var(--text); }
+
+  .divider .inner { align-items: center; text-align: center; }
+  .divider h2 { font-size: clamp(26px, 5vw, 48px); }
+
+  @media (max-width: 760px) {
+    .dots { display: none; }
+    .slide { padding: 50px 15px 26px; }
+    .srcgrid { grid-template-columns: 1fr 1fr; gap: 6px; }
+    .src { padding: 6px 9px; }
+    .src .nm { font-size: 12.5px; }
+    .src .wt { font-size: 10px; line-height: 1.3; margin-top: 2px; }
+    .src .ac { margin-top: 3px; }
+    .ledger .row { grid-template-columns: 1fr; gap: 2px; }
+  }
+</style>
+</head>
+<body class="deck">
+<div class="progress"><i id="pbar"></i></div>
+<div class="counter" id="counter">01 / 01</div>
+<nav class="dots" id="dots" aria-label="Go to slide"></nav>
+
+<main id="deck">
+
+  <!-- 01 HOOK -->
+  <section class="slide" data-tag="HOOK">
+    <div class="inner" style="justify-content:center;gap:clamp(10px,2.2vh,20px);align-items:center;text-align:center">
+      <div class="eyebrow"><span class="num"></span> · <span class="tag">HOOK</span></div>
+      <h1 class="hero">Wattlas</h1>
+      <p class="lede" style="font-size:clamp(15px,2.2vw,21px);margin:0 auto">European electricity, explained. Open data on how and when the price of power moves across the continent — pre-computed into views you can actually read, and rebuilt every day.</p>
+      <div class="stage" style="margin-top:2px">
+        <div class="frame" style="--shot-h:min(44vh,340px)">
+          <div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">sekond.github.io/Wattlas · Pulse</span></div>
+          <div class="shot" data-label="Pulse"><img alt="The Pulse view — average price by hour of day" src="public/showcase/pulse.png" onerror="this.closest('.shot').classList.add('ph')"></div>
+        </div>
+      </div>
+      <div class="takeaway flush"><span class="tick"></span> A working tool you can open right now, not a pitch.</div>
+    </div>
+  </section>
+
+  <!-- 02 OVERVIEW — the five questions -->
+  <section class="slide" data-tag="THE IDEA" data-section>
+    <div class="inner">
+      <div class="eyebrow"><span class="num"></span> · <span class="tag">26 VIEWS · FIVE QUESTIONS</span></div>
+      <h2 class="title">Not eight tools in a menu — five questions about power</h2>
+      <p class="lede">An editorial landing routes you into one of five plain-language questions; each opens a section of views that answer it. Every view can still compare up to <strong>six bidding zones</strong> at once — here Germany against France, the Netherlands and Austria.</p>
+      <div class="two" style="align-items:center">
+        <div class="col">
+          <div class="storylist">
+            <div class="sl"><b style="color:var(--s-blue)">01 · The Daily Rhythm</b><span>When does power move?</span></div>
+            <div class="sl"><b style="color:var(--s-green)">02 · What's on the Grid</b><span>What's flowing through the wires?</span></div>
+            <div class="sl"><b style="color:var(--s-amber)">03 · Geography of Price</b><span>Where does power flow — and why do prices split?</span></div>
+            <div class="sl"><b style="color:var(--s-red)">04 · When the Grid is Tested</b><span>What happens when supply runs tight?</span></div>
+            <div class="sl"><b style="color:var(--s-plum)">05 · The Bill</b><span>What does it cost, and who pays?</span></div>
+          </div>
+        </div>
+        <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">panels.html · zone compare</span></div><div class="shot" data-label="Dashboard"><img alt="Wattlas comparing four bidding zones" src="public/showcase/dashboard-multi.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+      </div>
+      <div class="takeaway"><span class="tick"></span> Grouped by the question you came to answer, not by how it was built.</div>
+    </div>
+  </section>
+
+  <!-- ============================ SECTION 01 — THE DAILY RHYTHM ============================ -->
+  <section class="slide" data-tag="THE DAILY RHYTHM" data-section style="--accent:var(--s-blue)">
+    <div class="inner">
+      <div class="eyebrow"><span class="num"></span> · <span class="tag">SECTION 01</span></div>
+      <p class="sec-q">When does power move?</p>
+      <h2 class="title">The Daily Rhythm</h2>
+      <p class="lede">Electricity has no single price — it has a price every hour. This is how it swings between cheap and expensive, day to day and year to year.</p>
+      <div class="storylist">
+        <div class="sl"><b>Pulse</b><span>The duck curve — prices crater at midday when solar floods in, then spike after dark.</span></div>
+        <div class="sl"><b>Spread</b><span>The daily gap between the cheapest and dearest hour — the signal storage lives on.</span></div>
+        <div class="sl"><b>Negative Prices</b><span>The hours the grid pays you to consume, promoted to a metric of their own.</span></div>
+        <div class="sl"><b>Capture Price</b><span>What a solar or wind MWh actually earns once it's worth least when there's most of it.</span></div>
+        <div class="sl"><b>History</b><span>Several years of daily spread, free to roam — zoom, fold onto a season, read the trend.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-tag="THE DAILY RHYTHM" style="--accent:var(--s-blue)">
+    <div class="inner"><div class="two feat">
+      <div class="col">
+        <span class="vtag">Chart · 1 of 5</span>
+        <h2 class="title">Pulse</h2>
+        <div class="q">When is power cheapest, and when does it cost the most?</div>
+        <div class="d">Average day-ahead price by hour of day — the duck curve. Solar floods the midday hours and drags the price toward (and often below) zero; then it spikes after sunset as demand peaks and solar drops out. Weekday against weekend, per zone.</div>
+        <div class="stat-row"><b>−€18 → €142</b><span>midday vs evening, average hour</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">pulse.html</span></div><div class="shot" data-label="Pulse"><img alt="Pulse view" src="public/showcase/pulse.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="THE DAILY RHYTHM" style="--accent:var(--s-blue)">
+    <div class="inner"><div class="two feat flip">
+      <div class="col">
+        <span class="vtag">Chart · 2 of 5</span>
+        <h2 class="title">Spread</h2>
+        <div class="q">How wide is the gap between the cheapest and dearest hour each day?</div>
+        <div class="d">The daily top-to-bottom spread — the signal a battery lives on — averaging roughly €96/MWh. Negative-price days are flagged, and a perfect-foresight arbitrage figure is shown, always labelled an <em>unachievable upper bound</em>, never a revenue promise.</div>
+        <div class="stat-row"><b>€96/MWh</b><span>average daily top–bottom spread</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">index.html</span></div><div class="shot" data-label="Spread"><img alt="Spread view" src="public/showcase/spread.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="THE DAILY RHYTHM" style="--accent:var(--s-blue)">
+    <div class="inner"><div class="two feat">
+      <div class="col">
+        <span class="vtag">Chart · 3 of 5</span>
+        <h2 class="title">Negative Prices</h2>
+        <div class="q">How often does the grid pay you to consume?</div>
+        <div class="d">The hours the wholesale price falls below zero — promoted from a footnote to a metric of its own, with ~468 of them in the last twelve months. Counts the sub-zero hours per day, the longest episodes, and a calendar of when oversupply tips the price negative. They are kept, never clipped.</div>
+        <div class="stat-row"><b>468 h</b><span>below zero, last 12 months</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">negative_prices.html</span></div><div class="shot" data-label="Negative Prices"><img alt="Negative prices view" src="public/showcase/negative_prices.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="THE DAILY RHYTHM" style="--accent:var(--s-blue)">
+    <div class="inner"><div class="two feat flip">
+      <div class="col">
+        <span class="vtag">Chart · 4 of 5</span>
+        <h2 class="title">Capture Price</h2>
+        <div class="q">What does a megawatt-hour of solar or wind actually earn?</div>
+        <div class="d">Generation-weighted capture price ÷ baseload = the value factor. German solar captures only ~0.55× the average price, because it is worth least exactly when there is most of it — cannibalization, computed from real data with the anchors cited, not assumed.</div>
+        <div class="stat-row"><b>0.55×</b><span>DE solar value factor</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">capture_price.html</span></div><div class="shot" data-label="Capture Price"><img alt="Capture price view" src="public/showcase/capture_price.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="THE DAILY RHYTHM" style="--accent:var(--s-blue)">
+    <div class="inner"><div class="two feat">
+      <div class="col">
+        <span class="vtag">Chart · 5 of 5</span>
+        <h2 class="title">History</h2>
+        <div class="q">Is the daily spread widening over the years?</div>
+        <div class="d">Three years of daily spread, free to roam — zoom into a week, fold the series onto a seasonal curve, and read the longer-run trend. The volatility that storage and flexible demand are racing to monetise, laid out in one long series.</div>
+        <div class="stat-row"><b>3 yr</b><span>of daily data</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">history.html</span></div><div class="shot" data-label="History"><img alt="History view" src="public/showcase/history.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <!-- ============================ SECTION 02 — WHAT'S ON THE GRID ============================ -->
+  <section class="slide" data-tag="WHAT'S ON THE GRID" data-section style="--accent:var(--s-green)">
+    <div class="inner">
+      <div class="eyebrow"><span class="num"></span> · <span class="tag">SECTION 02</span></div>
+      <p class="sec-q">What's flowing through the wires?</p>
+      <h2 class="title">What's on the Grid</h2>
+      <p class="lede">Behind every price is a physical mix of fuels. This is what generates Europe's power hour to hour — and how clean, or dirty, each hour really is.</p>
+      <div class="storylist">
+        <div class="sl"><b>Generation Mix</b><span>Full generation by fuel for any zone — France's nuclear against Germany's wind and solar.</span></div>
+        <div class="sl"><b>Carbon Intensity</b><span>How many grams of CO₂ each kilowatt-hour carries, computed from the live mix.</span></div>
+        <div class="sl"><b>Residual Load</b><span>Demand minus wind and solar — the load conventional plant and batteries must still cover.</span></div>
+        <div class="sl"><b>Marginal Fuel</b><span>A model of when gas sets the price — CCGT cost against the day-ahead, hour by hour.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-tag="WHAT'S ON THE GRID" style="--accent:var(--s-green)">
+    <div class="inner"><div class="two feat">
+      <div class="col">
+        <span class="vtag">Chart · 1 of 4</span>
+        <h2 class="title">Generation Mix</h2>
+        <div class="q">What actually generates the power, and how do countries differ?</div>
+        <div class="d">Full generation by fuel for any zone, two side by side — France's flat nuclear baseload against Germany's volatile wind and solar. Gaps in the upstream data render as gaps, never fabricated zeros, and the fuel palette is identical in every view.</div>
+        <div class="stat-row"><b>2-zone</b><span>side-by-side compare</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">mix.html</span></div><div class="shot" data-label="Mix"><img alt="Generation mix view" src="public/showcase/mix.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="WHAT'S ON THE GRID" style="--accent:var(--s-green)">
+    <div class="inner"><div class="two feat flip">
+      <div class="col">
+        <span class="vtag">Chart · 2 of 4</span>
+        <h2 class="title">Carbon Intensity</h2>
+        <div class="q">How clean is each hour of the grid?</div>
+        <div class="d">Production-based carbon intensity computed from the live mix — from ~30 gCO₂/kWh on a renewable-heavy French hour to ~550 on a coal-heavy Polish one. Low when wind and solar peak, high when fossil plant sets the margin. The lifecycle methodology is stated, not buried.</div>
+        <div class="stat-row"><b>30 → 550</b><span>gCO₂/kWh, FR vs PL</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">carbon.html</span></div><div class="shot" data-label="Carbon"><img alt="Carbon intensity view" src="public/showcase/carbon.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="WHAT'S ON THE GRID" style="--accent:var(--s-green)">
+    <div class="inner"><div class="two feat">
+      <div class="col">
+        <span class="vtag">Chart · 3 of 4</span>
+        <h2 class="title">Residual Load</h2>
+        <div class="q">How much load is left once wind and solar have run?</div>
+        <div class="d">Demand minus wind and solar — the residual that dispatchable plant and batteries must still cover. It peaks in the evening, when solar has gone but demand hasn't: the gap a weather-dependent grid has to plan around, hour by hour and zone by zone.</div>
+        <div class="stat-row"><b>evening</b><span>peak residual hour</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">mismatch.html</span></div><div class="shot" data-label="Residual Load"><img alt="Residual load (mismatch) view" src="public/showcase/mismatch.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="WHAT'S ON THE GRID" style="--accent:var(--s-green)">
+    <div class="inner"><div class="two feat flip">
+      <div class="col">
+        <span class="vtag">Model · 4 of 4</span>
+        <h2 class="title">Marginal Fuel</h2>
+        <div class="q">Why is the price what it is?</div>
+        <div class="d">A model, not a measurement: modelled CCGT marginal cost against the day-ahead price shows gas setting it on roughly 77% of days. The gas input is a labelled proxy and the inference is flagged as a model — the view never claims to have measured the marginal unit directly.</div>
+        <div class="stat-row"><b>~77%</b><span>of days gas is marginal</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">marginal_fuel.html</span></div><div class="shot" data-label="Marginal Fuel"><img alt="Marginal fuel view" src="public/showcase/marginal_fuel.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <!-- ============================ SECTION 03 — GEOGRAPHY OF PRICE ============================ -->
+  <section class="slide" data-tag="GEOGRAPHY OF PRICE" data-section style="--accent:var(--s-amber)">
+    <div class="inner">
+      <div class="eyebrow"><span class="num"></span> · <span class="tag">SECTION 03</span></div>
+      <p class="sec-q">Where does power flow — and why do prices split?</p>
+      <h2 class="title">Geography of Price</h2>
+      <p class="lede">One country, one price — until the grid can't carry the power across it. Four countries, four answers to the same congestion problem, on the map.</p>
+      <div class="storylist">
+        <div class="sl"><b>Divergence</b><span>How far neighbouring zones' prices drift apart — and the flow that explains it.</span></div>
+        <div class="sl"><b>Germany North–South</b><span>Wind in the north, demand in the south, one price — so clean power gets curtailed.</span></div>
+        <div class="sl"><b>France Nuclear</b><span>The centralised mirror: 57 reactors, who exports, who imports, what it costs.</span></div>
+        <div class="sl"><b>Nordic Price Zones</b><span>The split Germany debates, already live — a cheap hydro north, a dear south.</span></div>
+        <div class="sl"><b>UK Regional</b><span>Britain's answer: keep one price, pay Scottish wind ~£2 bn a year to switch off.</span></div>
+        <div class="sl"><b>Curtailment</b><span>Clean power the grid can't move — the cost of the bottleneck, in MWh and €.</span></div>
+        <div class="sl"><b>Locational Signal</b><span>The internal north–south congestion made legible; the single-zone debate, even-handed.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-tag="GEOGRAPHY OF PRICE" style="--accent:var(--s-amber)">
+    <div class="inner"><div class="two feat">
+      <div class="col">
+        <span class="vtag">Chart · 1 of 7</span>
+        <h2 class="title">Divergence</h2>
+        <div class="q">How far do neighbouring zones' prices drift apart, and why?</div>
+        <div class="d">Monthly price gaps between adjacent zones, alongside the physical cross-border flow that explains them, with congestion flagged. The headline is DE↔FR: when the interconnector saturates, one price becomes two.</div>
+        <div class="stat-row"><b>DE↔FR</b><span>the headline price gap</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">divergence.html</span></div><div class="shot" data-label="Divergence"><img alt="Divergence view" src="public/showcase/divergence.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="GEOGRAPHY OF PRICE" style="--accent:var(--s-amber)">
+    <div class="inner"><div class="two feat flip">
+      <div class="col">
+        <span class="vtag">Map · 2 of 7</span>
+        <h2 class="title">Germany North–South</h2>
+        <div class="q">Why is northern wind stranded from the demand down south?</div>
+        <div class="d">Wind in the windy north, industry in the south, one price between them — so clean power gets curtailed and the grid pays to reroute it. ~400 Landkreise mapped by installed capacity, the control-area balance, and the single-zone debate laid out even-handedly.</div>
+        <div class="stat-row"><b>~400</b><span>Landkreise mapped</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">wasted_wind.html</span></div><div class="shot" data-label="Germany North–South"><img alt="Germany North-South grid story" src="public/showcase/wasted_wind.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="GEOGRAPHY OF PRICE" style="--accent:var(--s-amber)">
+    <div class="inner"><div class="two feat">
+      <div class="col">
+        <span class="vtag">Map · 3 of 7</span>
+        <h2 class="title">France Nuclear</h2>
+        <div class="q">Where does France's centralised fleet sit, and when does it dip?</div>
+        <div class="d">The centralised mirror of the German story: ~63 GW across ~18 sites and 57 reactors, mapped by région, with the spring/summer maintenance dip, who exports and who imports, and the declared availability ceiling drawn over actual output.</div>
+        <div class="stat-row"><b>~63 GW</b><span>nuclear fleet, ~18 sites</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">fr_nuclear.html</span></div><div class="shot" data-label="France Nuclear"><img alt="France nuclear story" src="public/showcase/fr_nuclear.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="GEOGRAPHY OF PRICE" style="--accent:var(--s-amber)">
+    <div class="inner"><div class="two feat flip">
+      <div class="col">
+        <span class="vtag">Map · 4 of 7</span>
+        <h2 class="title">Nordic Price Zones</h2>
+        <div class="q">What does the split-zone market Germany debates actually look like?</div>
+        <div class="d">The split Germany argues about, already running: twelve zones from a cheap hydro north (~€26/MWh) to a dear, continent-coupled south (~€90). The within-country divergence, shaded on the map — the lesson next door.</div>
+        <div class="stat-row"><b>12 zones</b><span>€26 → €90/MWh</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">nordic_zones.html</span></div><div class="shot" data-label="Nordic Price Zones"><img alt="Nordic price zones story" src="public/showcase/nordic.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="GEOGRAPHY OF PRICE" style="--accent:var(--s-amber)">
+    <div class="inner"><div class="two feat">
+      <div class="col">
+        <span class="vtag">Map · 5 of 7</span>
+        <h2 class="title">UK Regional</h2>
+        <div class="q">What does keeping one price across Britain cost?</div>
+        <div class="d">Britain's answer to the same problem: keep one national price and pay Scottish wind around £2 bn a year to switch off when the grid can't carry it south. Carbon intensity region by region, and the constraint bill that one price hides.</div>
+        <div class="stat-row"><b>£2 bn/yr</b><span>constraint payments</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">uk_regional.html</span></div><div class="shot" data-label="UK Regional"><img alt="UK regional story" src="public/showcase/uk_regional.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="GEOGRAPHY OF PRICE" style="--accent:var(--s-amber)">
+    <div class="inner"><div class="two feat flip">
+      <div class="col">
+        <span class="vtag">Chart · 6 of 7</span>
+        <h2 class="title">Curtailment</h2>
+        <div class="q">How much clean power does the grid throw away — and why?</div>
+        <div class="d">Curtailed renewable energy the grid couldn't move, spiking on stormy, negative-price hours — presented as a managed grid-stability measure, in MWh and €. Fails open to "awaiting source" if the upstream feed is down, rather than guessing.</div>
+        <div class="stat-row"><b>stormy days</b><span>spikes on neg-price hours</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">curtailment.html</span></div><div class="shot" data-label="Curtailment"><img alt="Curtailment view" src="public/showcase/curtailment.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="GEOGRAPHY OF PRICE" style="--accent:var(--s-amber)">
+    <div class="inner"><div class="two feat">
+      <div class="col">
+        <span class="vtag">Chart · 7 of 7</span>
+        <h2 class="title">Locational Signal</h2>
+        <div class="q">Why does the north–south split show in neither flows nor prices?</div>
+        <div class="d">The bottleneck is internal to the single DE-LU bidding zone, so it is invisible to both cross-border flow and the one price. Shown as congestion evidence — with no simulated split price; the contested split-zone case is presented as a cited range, annotated, not asserted.</div>
+        <div class="stat-row"><b>1 zone</b><span>DE-LU, debate annotated</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">locational_signal.html</span></div><div class="shot" data-label="Locational Signal"><img alt="Locational signal view" src="public/showcase/locational_signal.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <!-- ============================ SECTION 04 — WHEN THE GRID IS TESTED ============================ -->
+  <section class="slide" data-tag="WHEN THE GRID IS TESTED" data-section style="--accent:var(--s-red)">
+    <div class="inner">
+      <div class="eyebrow"><span class="num"></span> · <span class="tag">SECTION 04</span></div>
+      <p class="sec-q">What happens when supply runs tight?</p>
+      <h2 class="title">When the Grid is Tested</h2>
+      <p class="lede">A renewable grid's hardest hours — the windless, sunless spells it must plan for, the batteries that ride the gap, and the day the lights actually went out.</p>
+      <div class="storylist">
+        <div class="sl"><b>Dunkelflaute</b><span>The cold, dark, windless spells when wind and solar all but vanish and the price climbs.</span></div>
+        <div class="sl"><b>Storage</b><span>The batteries that live off the daily spread — charging cheap midday, discharging into the peak.</span></div>
+        <div class="sl"><b>Capacity &amp; Adequacy</b><span>Can firm capacity cover the worst residual-load hours — and what the policy to ensure it costs.</span></div>
+        <div class="sl"><b>Iberian Blackout</b><span>A sober, sourced replay of 28 April 2025 — what the grid data recorded, asserting no cause.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-tag="WHEN THE GRID IS TESTED" style="--accent:var(--s-red)">
+    <div class="inner"><div class="two feat">
+      <div class="col">
+        <span class="vtag">Chart · 1 of 4</span>
+        <h2 class="title">Dunkelflaute</h2>
+        <div class="q">What happens when wind and solar vanish for days at a time?</div>
+        <div class="d">The cold, dark, windless spells when renewables all but disappear — down to ~1.5% of demand in the worst November-2025 spell. It auto-detects the worst stretch, then shows the firm-power and import stack and the price climb the drought forces.</div>
+        <div class="stat-row"><b>~1.5%</b><span>renewables of demand, Nov '25</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">dunkelflaute.html</span></div><div class="shot" data-label="Dunkelflaute"><img alt="Dunkelflaute story" src="public/showcase/dunkelflaute.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="WHEN THE GRID IS TESTED" style="--accent:var(--s-red)">
+    <div class="inner"><div class="two feat flip">
+      <div class="col">
+        <span class="vtag">Chart · 2 of 4</span>
+        <h2 class="title">Storage</h2>
+        <div class="q">Can a battery earn off the daily price swing?</div>
+        <div class="d">The batteries that live off the spread — charging cheap at midday, discharging into the evening peak. A transparent arbitrage model labelled an <em>upper bound</em>, alongside where grid storage is actually being built (~6× the capacity since 2021).</div>
+        <div class="stat-row"><b>~6×</b><span>grid storage since 2021</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">storage.html</span></div><div class="shot" data-label="Storage"><img alt="Storage story" src="public/showcase/storage.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="WHEN THE GRID IS TESTED" style="--accent:var(--s-red)">
+    <div class="inner"><div class="two feat">
+      <div class="col">
+        <span class="vtag">Chart · 3 of 4</span>
+        <h2 class="title">Capacity &amp; Adequacy</h2>
+        <div class="q">Can firm capacity cover the worst hours — and what does ensuring it cost?</div>
+        <div class="d">Whether dependable capacity can meet the toughest residual-load hours, and the policy written to guarantee it — Germany's provisional ~12 GW gas tender. The adequacy question a weather-dependent grid can't dodge, with its price tag flagged as provisional.</div>
+        <div class="stat-row"><b>12 GW</b><span>gas tender, provisional</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">capacity_adequacy.html</span></div><div class="shot" data-label="Capacity & Adequacy"><img alt="Capacity and adequacy view" src="public/showcase/capacity_adequacy.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="WHEN THE GRID IS TESTED" style="--accent:var(--s-red)">
+    <div class="inner"><div class="two feat flip">
+      <div class="col">
+        <span class="vtag">Historical · 4 of 4</span>
+        <h2 class="title">Iberian Blackout</h2>
+        <div class="q">How does a national grid go dark within seconds, and come back?</div>
+        <div class="d">28 April 2025, replayed from the record: Portuguese load to the floor (~0.1 GW), then the sourced, hour-by-hour restoration. A deliberately sober account that cites the official ENTSO-E investigation and asserts no cause of its own.</div>
+        <div class="stat-row"><b>~0.1 GW</b><span>PT load at the floor</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">iberian_blackout.html</span></div><div class="shot" data-label="Iberian Blackout"><img alt="Iberian blackout story" src="public/showcase/iberian.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <!-- ============================ SECTION 05 — THE BILL ============================ -->
+  <section class="slide" data-tag="THE BILL" data-section style="--accent:var(--s-plum)">
+    <div class="inner">
+      <div class="eyebrow"><span class="num"></span> · <span class="tag">SECTION 05</span></div>
+      <p class="sec-q">What does it cost, and who pays?</p>
+      <h2 class="title">The Bill</h2>
+      <p class="lede">The wholesale price is only the start. This is the economic and consumer half — what flexibility is worth, and how a megawatt-hour becomes your monthly bill.</p>
+      <div class="storylist">
+        <div class="sl"><b>Flexibility</b><span>What a shiftable load — EV, heat pump, battery — saves charging in the cheapest hours.</span></div>
+        <div class="sl"><b>Retail Wedge</b><span>Your bill decomposed: wholesale, grid fees, levies and taxes — and how it has shifted.</span></div>
+        <div class="sl"><b>Industrial Prices</b><span>What heavy industry pays — DE against France, Spain and Norway, honestly bounded.</span></div>
+        <div class="sl"><b>Curtailment in €</b><span>The price tag on wasted wind: curtailed MWh × a reference rate, a labelled estimate.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-tag="THE BILL" style="--accent:var(--s-plum)">
+    <div class="inner"><div class="two feat">
+      <div class="col">
+        <span class="vtag">Chart · 1 of 4</span>
+        <h2 class="title">Flexibility</h2>
+        <div class="q">What does shifting load to the cheapest hours save?</div>
+        <div class="d">What a shiftable load — an EV, a heat pump, a home battery — saves over a year by charging in the cheapest hours instead of on a flat tariff. A labelled <em>upper bound</em> (perfect foresight, no losses), framed as the ceiling on the prize, not a guaranteed cut to your bill.</div>
+        <div class="stat-row"><b>upper bound</b><span>€/yr vs flat tariff</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">flexibility.html</span></div><div class="shot" data-label="Flexibility"><img alt="Flexibility view" src="public/showcase/flexibility.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="THE BILL" style="--accent:var(--s-plum)">
+    <div class="inner"><div class="two feat flip">
+      <div class="col">
+        <span class="vtag">Chart · 2 of 4</span>
+        <h2 class="title">Retail Wedge</h2>
+        <div class="q">What is actually in your electricity bill?</div>
+        <div class="d">The wholesale price is a minority of it. Your bill split into energy &amp; supply, network charges, and taxes &amp; levies — Germany ~€0.39/kWh, only ~40% energy. Eurostat, annual, country-level, and how the wedge has shifted over time. Stated plainly: EUR/kWh ≠ our €/MWh.</div>
+        <div class="stat-row"><b>3 parts</b><span>wholesale · grid · taxes</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">retail_wedge.html</span></div><div class="shot" data-label="Retail Wedge"><img alt="Retail wedge view" src="public/showcase/retail_wedge.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="THE BILL" style="--accent:var(--s-plum)">
+    <div class="inner"><div class="two feat">
+      <div class="col">
+        <span class="vtag">Chart · 3 of 4</span>
+        <h2 class="title">Industrial Prices</h2>
+        <div class="q">What does heavy industry pay — and where does Wattlas stop?</div>
+        <div class="d">Industrial electricity prices, Germany against France, Spain and Norway, country-level from Eurostat. Honestly bounded: it is a country-level comparison, not a plant-level one — and the view says exactly that rather than implying a precision the data can't carry.</div>
+        <div class="stat-row"><b>DE vs FR/ES/NO</b><span>Eurostat, country-level</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">industrial.html</span></div><div class="shot" data-label="Industrial Prices"><img alt="Industrial prices view" src="public/showcase/industrial.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="slide" data-tag="THE BILL" style="--accent:var(--s-plum)">
+    <div class="inner"><div class="two feat flip">
+      <div class="col">
+        <span class="vtag">Chart · 4 of 4</span>
+        <h2 class="title">Curtailment in €</h2>
+        <div class="q">What does thrown-away wind cost?</div>
+        <div class="d">The price tag on curtailment: curtailed MWh × a reference rate, a running annual estimate — labelled an <em>estimate</em>, not the actual bill. The economic shadow of the north–south bottleneck, the same data from the Geography section taken one question further.</div>
+        <div class="stat-row"><b>€ est.</b><span>running annual total</span></div>
+      </div>
+      <div class="col"><div class="frame"><div class="bar"><i style="background:#e2655a"></i><i style="background:#e6b54a"></i><i style="background:#6fae5f"></i><span class="u">curtailment.html#cost</span></div><div class="shot" data-label="Curtailment in €"><img alt="Curtailment cost view" src="public/showcase/curtailment.png" onerror="this.closest('.shot').classList.add('ph')"></div></div></div>
+    </div></div>
+  </section>
+
+  <!-- DIVIDER — Act II -->
+  <section class="slide divider" data-tag="HOW IT'S BUILT" data-section>
+    <div class="inner" style="gap:14px">
+      <div class="eyebrow"><span class="num"></span> · <span class="tag">ACT II · HOW IT'S BUILT</span></div>
+      <h2 class="title">How it's built</h2>
+      <p class="lede" style="margin:0 auto">The product stands on its own. What follows is purely technical: the build, the pipeline, and the data sources behind it.</p>
+      <div class="hint" style="font-family:var(--mono);font-size:11px">↓ scroll for the engineering</div>
+    </div>
+  </section>
+
+  <!-- BUILD — Claude + GitHub -->
+  <section class="slide" data-tag="BUILD">
+    <div class="inner">
+      <div class="eyebrow"><span class="num"></span> · <span class="tag">BUILD · CLAUDE + GITHUB</span></div>
+      <h2 class="title">Built with Claude Code, shipped through GitHub</h2>
+      <p class="lede">Each view was built as a small vertical slice: a prompt stating the goal and success criteria, then code with an offline test, then a pull request. A human approved every step before it merged.</p>
+      <div class="flow">
+        <div class="node"><div class="k">Prompt</div><div class="v">goal + success criteria</div></div>
+        <div class="arr">→</div>
+        <div class="node on"><div class="k">Claude Code</div><div class="v">pipeline · test · frontend</div></div>
+        <div class="arr">→</div>
+        <div class="node"><div class="k">Pull request</div><div class="v">to GitHub</div></div>
+        <div class="arr">→</div>
+        <div class="node"><div class="k">Review</div><div class="v">human approval</div></div>
+        <div class="arr">→</div>
+        <div class="node"><div class="k">Merge</div><div class="v">to main</div></div>
+      </div>
+      <p class="lede hint" style="font-size:13px">The same flow as its sibling project, StockScore: small steps, each gated, each reviewable in a diff.</p>
+      <div class="takeaway"><span class="tick"></span> The model did the typing; the gates, tests and review kept it honest.</div>
+    </div>
+  </section>
+
+  <!-- CI/CD — GitHub Actions + Pages -->
+  <section class="slide" data-tag="CI/CD">
+    <div class="inner">
+      <div class="eyebrow"><span class="num"></span> · <span class="tag">CI/CD · GITHUB</span></div>
+      <h2 class="title">A cron, a commit, a redeploy</h2>
+      <p class="lede">The pipeline is the only code that touches the APIs; it writes small JSON the frontend reads directly. A GitHub Action reruns it daily and commits the data; GitHub Pages redeploys. No backend, no database.</p>
+      <div class="flow">
+        <div class="node"><div class="k">Open-data APIs</div><div class="v">ENTSO-E, NESO, MaStR…</div></div>
+        <div class="arr">→</div>
+        <div class="node"><div class="k">Pipeline</div><div class="v">Python / pandas</div></div>
+        <div class="arr">→</div>
+        <div class="node"><div class="k">data/*.json</div><div class="v">pre-aggregated, committed</div></div>
+        <div class="arr">→</div>
+        <div class="node on"><div class="k">GitHub Pages</div><div class="v">static, no backend</div></div>
+      </div>
+      <p class="lede hint" style="font-size:13px">Daily at <span class="tip" tabindex="0" data-tip="05:17 UTC = 06:17 CET / 07:17 CEST — after the previous trading day has closed and published. The job commits only the JSON that actually changed.">05:17 UTC</span> the Refresh-data workflow rebuilds every view and commits only what changed. The heavy MaStR bulk download runs weekly, isolated and non-fatal.</p>
+      <div class="takeaway"><span class="tick"></span> The whole "backend" is a scheduled job that writes files.</div>
+    </div>
+  </section>
+
+  <!-- DATA SOURCES — the catalogue -->
+  <section class="slide" data-tag="DATA SOURCES">
+    <div class="inner">
+      <div class="eyebrow"><span class="num"></span> · <span class="tag">DATA SOURCES</span></div>
+      <h2 class="title">Seven open feeds, plus a gas proxy and a curated table</h2>
+      <p class="lede">A stack of public sources, each with its own auth, units, lag and <strong>refresh cadence</strong>, reconciled to one canonical shape — anything not licence-clean is flagged.</p>
+      <div class="srcgrid">
+        <div class="src"><div class="nm">ENTSO-E</div><div class="wt">Day-ahead prices, generation, load and cross-border flows for every EU bidding zone.</div><div class="ac">Daily · API token</div></div>
+        <div class="src"><div class="nm">NESO</div><div class="wt">Great Britain regional carbon intensity, plus Scottish wind constraint payments.</div><div class="ac">Daily · Open API</div></div>
+        <div class="src"><div class="nm">MaStR</div><div class="wt">Germany's Marktstammdatenregister: every individual wind and solar installation.</div><div class="ac">Weekly · Open bulk export</div></div>
+        <div class="src"><div class="nm">SMARD</div><div class="wt">Bundesnetzagentur: per-control-area generation and net balance (German field names).</div><div class="ac">Daily · Open API</div></div>
+        <div class="src"><div class="nm">ODRÉ / RTE</div><div class="wt">France's éCO2mix régional and national generation, plus an RTE nuclear-availability overlay (currently paused — awaiting Unavailability-API access).</div><div class="ac">Daily · Open API + OAuth</div></div>
+        <div class="src"><div class="nm">netztransparenz</div><div class="wt">German TSOs: curtailed (abgeregelt) renewable energy by period.</div><div class="ac">Daily · OAuth client</div></div>
+        <div class="src"><div class="nm">Eurostat</div><div class="wt">Household &amp; industrial electricity price components (energy / network / taxes).</div><div class="ac">Daily (annual data) · Open API</div></div>
+        <div class="src"><div class="nm">Yahoo TTF</div><div class="wt">Dutch TTF gas front-month, for the marginal-fuel model — a proxy, not licence-clean.</div><div class="ac">Daily · Proxy ⚠</div></div>
+        <div class="src"><div class="nm">EEX EUA</div><div class="wt">EU carbon (EUA) price from primary auctions — curated, slow-moving, stated as-of.</div><div class="ac">On edit · Curated</div></div>
+      </div>
+      <p class="lede hint" style="font-size:13px">Cadence varies by source — most daily at 05:17 UTC, MaStR weekly, the RTE overlay paused, Eurostat annual, the curated tables on edit. Plus Eurostat GISCO map boundaries.</p>
+    </div>
+  </section>
+
+  <!-- DATA MANAGEMENT — how the sources are kept honest -->
+  <section class="slide" data-tag="DATA MANAGEMENT">
+    <div class="inner">
+      <div class="eyebrow"><span class="num"></span> · <span class="tag">DATA MANAGEMENT</span></div>
+      <h2 class="title">How the sources are kept honest</h2>
+      <div class="ledger">
+        <div class="row"><span class="c">Isolation</span><span class="h">Each source is its <b>own pipeline module</b>; one failure can't break the others.</span></div>
+        <div class="row"><span class="c">Fail open</span><span class="h">A missing key writes <b>status:"unavailable"</b> and the view shows "awaiting source" (netztransparenz, RTE, Eurostat, Yahoo, UK constraints); the core ENTSO-E builders instead stop the run rather than commit a half-empty file.</span></div>
+        <div class="row"><span class="c">Landmines</span><span class="h">The non-obvious traps are documented and coded around: the <b>Oct-2025 resolution break</b>, the 23/25-hour DST days, zones that aren't regions.</span></div>
+        <div class="row"><span class="c">Units stated</span><span class="h">MWh vs GWh, gCO₂/kWh, <b>production- vs consumption-based</b> carbon — labelled in code and on screen.</span></div>
+        <div class="row"><span class="c">Tested offline</span><span class="h">Pure metric functions run on inline fixtures — <b>130 offline tests</b> across 20 files, no network needed.</span></div>
+      </div>
+      <div class="takeaway"><span class="tick"></span> Resampled to hourly, grouped in local time, every join written down.</div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="slide" data-tag="OPEN IT">
+    <div class="inner" style="justify-content:center;gap:18px">
+      <div class="eyebrow"><span class="num"></span> · <span class="tag">OPEN IT</span></div>
+      <h2 class="title">Open it. Read the code.</h2>
+      <p class="lede">Everything here is live and public. Explore the five sections and their views, or read how each number is computed.</p>
+      <div class="cta-links">
+        <a class="primary" href="https://sekond.github.io/Wattlas/" target="_blank" rel="noopener">Open the live site →</a>
+        <a class="ghost" href="https://github.com/sekond/Wattlas" target="_blank" rel="noopener">Read the code on GitHub</a>
+      </div>
+      <div class="takeaway"><span class="tick"></span> European electricity, explained and verifiable.</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  (function () {
+    const slides = [...document.querySelectorAll(".slide")];
+    const total = slides.length;
+    const counter = document.getElementById("counter");
+    const pbar = document.getElementById("pbar");
+    const dotsWrap = document.getElementById("dots");
+    const pad = (n) => String(n).padStart(2, "0");
+
+    // dot rail + fill each eyebrow's "NN / total" from its position (no hand-numbering)
+    slides.forEach((s, i) => {
+      const num = s.querySelector(".eyebrow .num");
+      if (num) num.textContent = pad(i + 1) + " / " + pad(total);
+      const b = document.createElement("button");
+      if (s.hasAttribute("data-section")) b.classList.add("sec");
+      b.setAttribute("aria-label", "Slide " + (i + 1) + ": " + (s.dataset.tag || ""));
+      b.addEventListener("click", () => s.scrollIntoView({ behavior: "smooth" }));
+      dotsWrap.appendChild(b);
+    });
+    const dots = [...dotsWrap.children];
+
+    let active = -1;
+    function setActive(i) {
+      if (i === active) return;
+      active = i;
+      counter.textContent = pad(i + 1) + " / " + pad(total);
+      pbar.style.width = ((i) / (total - 1) * 100) + "%";
+      dots.forEach((d, k) => d.setAttribute("aria-current", k === i ? "true" : "false"));
+    }
+
+    // center-band observer (NOT a threshold — thresholds fail when a slide exceeds the viewport)
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) setActive(slides.indexOf(e.target)); });
+    }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
+    slides.forEach((s) => io.observe(s));
+    setActive(0);
+
+    // present with the keyboard
+    function go(delta) {
+      const next = Math.max(0, Math.min(total - 1, active + delta));
+      slides[next].scrollIntoView({ behavior: "smooth" });
+    }
+    addEventListener("keydown", (e) => {
+      if (e.target.matches("a, button")) return;
+      switch (e.key) {
+        case "ArrowDown": case "ArrowRight": case "PageDown": case " ": e.preventDefault(); go(1); break;
+        case "ArrowUp": case "ArrowLeft": case "PageUp": e.preventDefault(); go(-1); break;
+        case "Home": e.preventDefault(); slides[0].scrollIntoView({ behavior: "smooth" }); break;
+        case "End": e.preventDefault(); slides[total - 1].scrollIntoView({ behavior: "smooth" }); break;
+      }
+    });
+  })();
+</script>
+</body>
+</html>

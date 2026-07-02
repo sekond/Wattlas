@@ -1,5 +1,5 @@
 """Build the MaStR capacity aggregates for the "Wasted wind" Panel 1:
-installed wind/solar capacity per Landkreis + the top-20 largest plants.
+installed wind/solar capacity per Landkreis + the largest plants (TOP_N_PLANTS per fuel).
 
     python pipeline/build_mastr_capacity.py            (download via open-mastr, then aggregate)
     python pipeline/build_mastr_capacity.py --use-cache (skip download; use the local MaStR DB)
@@ -25,7 +25,7 @@ to its NUTS-3 code so the AGS-keyed capacity joins the NUTS-keyed basemap
 
 OFFSHORE: offshore wind sits in the Exclusive Economic Zone and has no Landkreis
 (no AGS). Such units are excluded from the per-Landkreis roll-up (they belong to no
-Kreis) but kept in the national total and eligible for the top-20 plant points.
+Kreis) but kept in the national total and eligible for the largest-plant points.
 
 Attribution: data © Bundesnetzagentur (Marktstammdatenregister), open licence.
 """
@@ -51,7 +51,7 @@ CROSSWALK_PATH = PIPELINE_DIR / "de_kreis_nuts.json"
 BASEMAP_PATH = ROOT / "frontend" / "geo" / "landkreise.topo.json"
 
 SOURCE = "MaStR (Bundesnetzagentur)"
-TOP_N_PLANTS = 12   # per fuel (wind, solar)
+TOP_N_PLANTS = 24   # per fuel (wind, solar) — the largest clusters shown as map points
 
 # Columns we read from the open-mastr *_extended tables (shared schema).
 _UNIT_COLS = [

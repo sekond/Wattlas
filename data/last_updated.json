@@ -1,0 +1,5 @@
+{
+  "generated_at": "2026-06-29T07:10:55+00:00",
+  "sources_counted": 33,
+  "note": "Most recent generated_at across data/*.json \u2014 the site-wide 'data last updated' stamp read by the frontend (nav.js)."
+}

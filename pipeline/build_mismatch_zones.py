@@ -41,12 +41,12 @@ def load_cache_path(zone: str):
 
 def fetch_load(zone: str, start: pd.Timestamp, end: pd.Timestamp) -> pd.Series:
     """Actual total load for a zone (MW, tz-aware). Cached per zone for offline re-runs."""
-    from entsoe import EntsoePandasClient
+    from entsoe_client import make_entsoe_client  # retrying client (transient-5xx safe)
 
     token = os.environ.get("ENTSOE_API_TOKEN")
     if not token:
         sys.exit("ENTSOE_API_TOKEN not set. Copy .env.example to .env and fill it in.")
-    client = EntsoePandasClient(api_key=token)
+    client = make_entsoe_client(token)
     logger.info("[%s] fetching load", zone)
     load = client.query_load(zone, start=start, end=end)
     # query_load returns a DataFrame with an 'Actual Load' column (or a Series).

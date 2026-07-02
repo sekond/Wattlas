@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — UK regional</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Page-scoped map styling (the region map is unique to this view). */
+    .map-host { width: 100%; max-width: 360px; margin: 0 auto; }
+    /* Default region fill = the "no data / awaiting data" state, kept visually
+       distinct from a real shaded value (a Panel 1 acceptance criterion). */
+    .region { fill: #e3e1d8; stroke: var(--bg); stroke-width: 0.5; }
+    .region:hover { stroke: var(--text); stroke-width: 1.0; }
+    .rlabel { font-size: 9px; font-weight: 600; fill: var(--muted); pointer-events: none;
+      paint-order: stroke; stroke: var(--bg); stroke-width: 2.2px; }
+    /* Honest caveat: Great Britain only, NESO consumption-based carbon. */
+    .gb-note { background: #fff7e0; border: 0.5px solid #e7cf86; border-left: 3px solid var(--amber);
+      border-radius: var(--radius-sm); padding: 9px 13px; font-size: 12px; color: #6b520a; margin: 0 0 14px; }
+    .gb-note strong { font-weight: 600; }
+    .ramp-legend { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: 11px; color: var(--muted); margin-top: 10px; align-items: center; }
+    .ramp-legend .sw { width: 13px; height: 11px; border-radius: 2px; display: inline-block; }
+    /* Panel 3 — three fixes for one congested-grid problem. */
+    .cmp3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 4px 0 12px; }
+    .cmp3 > div { border-radius: var(--radius-sm); padding: 12px 13px; font-size: 12px; }
+    .cmp3 .h { font-weight: 600; margin-bottom: 4px; }
+    .cmp3 .b { color: var(--muted); }
+    .cmp3 a.lnk { display: inline-block; margin-top: 8px; font-size: 11.5px; text-decoration: none; font-weight: 500; }
+    .cmp3 a.lnk:hover { text-decoration: underline; }
+    .cmp-de2 { background: #f5efe9; } .cmp-de2 .h, .cmp-de2 a.lnk { color: #7a3d12; }
+    .cmp-no2 { background: #e7f1ef; } .cmp-no2 .h, .cmp-no2 a.lnk { color: #0f6e56; }
+    .cmp-gb2 { background: #eef0f5; } .cmp-gb2 .h { color: var(--blue); }
+    @media (max-width: 620px) { .cmp3 { grid-template-columns: 1fr; } }
+
+    /* Site navigation (sidebar + mobile scroll-nav) is shared — see nav.js. */
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <main class="main">
+      <div class="main-inner">
+
+        <h1>Britain's wind is in the north — and it's paid to switch off</h1>
+        <p class="sub">Scotland makes far more clean power than it can use; when the grid south of it is full, wind farms are paid to stop. This view shows how clean each region is, what the bottleneck costs, and how Britain's fix compares with Germany's and the Nordics'. The British member of the three congested-grid stories.</p>
+
+        <p class="cap" style="margin:-8px 0 22px; color:var(--muted); font-size:12px;">Regional carbon intensity comes from the NESO Carbon Intensity API; it is <em>consumption-based</em> and covers <em>Great Britain</em> (not Northern Ireland, which is on the all-island market). Region boundaries are the 14 GB DNO licence areas. Pre-computed and static — no live backend.</p>
+
+        <div id="kpis" class="kpis"></div>
+
+        <!-- Panel 1 — the carbon-intensity region map (shading wired in Step 3). -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">1 · How clean each region is</div>
+            <div class="meta">grid carbon intensity · gCO₂/kWh</div>
+          </div>
+          <p class="block-pitch">Grid carbon intensity by region. Wind-rich Scotland and the nuclear/hydro north read far cleaner than gas-heavy regions — the same north-clean / south-constrained split that drives the wind-curtailment problem below.</p>
+          <div class="gb-note"><strong>Great Britain, consumption-based.</strong> NESO's regional figures are <em>consumption-based</em> (the carbon of the electricity used in a region, imports included) — not the site's production-based carbon view — and cover Great Britain only, excluding Northern Ireland.</div>
+          <div class="row2">
+            <div>
+              <div id="map" class="map-host"><div class="nodata">Loading region map…</div></div>
+            </div>
+            <div>
+              <div class="meta" style="margin-bottom:6px;">Regions</div>
+              <div id="regionList" class="meta" style="color:var(--muted);">Awaiting regional carbon (Step 2).</div>
+              <div class="ramp-legend" id="rampLegend"></div>
+            </div>
+          </div>
+          <p class="cap" id="mapSrc" style="margin-top:14px;">Shell preview — the 14 GB DNO regions render from the committed boundary asset; carbon shading is wired in a later step. Source: NESO Carbon Intensity API (regional, consumption-based); boundaries: NESO GB DNO licence areas.</p>
+        </div>
+
+        <!-- Panel 2 — Scottish wind constraint payments over time (built in Step 5). -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">2 · Scottish wind, paid to stop</div>
+            <div class="meta">curtailed wind (GWh) + cost (£)</div>
+          </div>
+          <p class="block-pitch">When the grid can't carry Scottish wind south (the B6 boundary between Scotland and England), the system operator pays wind farms to turn down — and other plants to turn up — to keep the system stable. The "constraint" bill spikes in windy, low-demand months: the British equivalent of Germany's redispatch, with a transparent price.</p>
+          <div class="legend" id="conLegend" style="margin-bottom:6px;"></div>
+          <div id="conWrap" class="chartbox" style="height:250px;"><canvas id="conChart"></canvas></div>
+          <!-- copy block B — verbatim, what a constraint payment is -->
+          <p class="cap" id="conSrc">A constraint payment is a managed grid-stability cost — wind paid to turn down (and other plants to turn up), not energy discarded by choice — the British equivalent of Germany's redispatch, a real, published cost consumers ultimately pay.</p>
+        </div>
+
+        <!-- Panel 3 — same problem, three fixes (built in Step 6). -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">3 · Same problem, three fixes</div>
+            <div class="meta">GB vs Germany vs the Nordics</div>
+          </div>
+          <p class="block-pitch">Germany, the Nordics and Britain all have renewable-rich regions a congested grid can't fully serve. Germany keeps one price and curtails + redispatches; the Nordics split into price zones; Britain keeps one price and pays constraints. Each has trade-offs.</p>
+          <div class="cmp3">
+            <div class="cmp-de2">
+              <div class="h">Germany</div>
+              <div class="b">One national price; the north–south gap shows up as curtailment and redispatch, not in the price.</div>
+              <a class="lnk" href="wasted_wind.html">North–south grid story →</a>
+            </div>
+            <div class="cmp-no2">
+              <div class="h">The Nordics</div>
+              <div class="b">Split into many price zones; the gap shows up as a price difference between regions.</div>
+              <a class="lnk" href="nordic_zones.html">Nordic price zones story →</a>
+            </div>
+            <div class="cmp-gb2">
+              <div class="h">Britain</div>
+              <div class="b">One national price; the gap shows up as constraint payments — <span id="gbCostHook">a managed cost.</span></div>
+            </div>
+          </div>
+          <!-- copy block C — verbatim, non-advocacy -->
+          <p class="cap" id="blockC">Germany, the Nordics and Britain all face renewable-rich regions a congested grid can't fully serve. Germany keeps one price and curtails + redispatches; the Nordics split into price zones; Britain pays constraints. Each has trade-offs; Wattlas shows the mechanism, not a verdict.</p>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="vendor/d3.min.js"></script>
+  <script src="vendor/topojson-client.min.js"></script>
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="fuels.js"></script>
+  <script src="geo.js"></script>
+  <script>
+    async function loadGeo() {
+      for (const p of ["geo/uk_dno.topo.json", "../frontend/geo/uk_dno.topo.json", "/frontend/geo/uk_dno.topo.json"]) {
+        try { const r = await fetch(p); if (r.ok) return r.json(); } catch (e) {}
+      }
+      return null;
+    }
+    async function loadJSON(name) {
+      for (const base of ["../data/", "data/", "/data/"]) {
+        try { const r = await fetch(base + name); if (r.ok) return r.json(); } catch (e) {}
+      }
+      return null;
+    }
+
+    // clean -> dirty sequential ramp (the approved mockup palette): green -> red.
+    const RAMP = ["#cfe9df", "#d8e6b8", "#ecdfae", "#efc59a", "#eca79a"];
+
+    (async function main() {
+      const host = document.getElementById("map");
+      const [topo, carbon, constraints] = await Promise.all([loadGeo(), loadJSON("uk_regional_carbon.json"), loadJSON("uk_constraints.json")]);
+      if (!topo || !topo.objects || !topo.objects.regions) {
+        host.innerHTML = '<div class="nodata">Region map asset unavailable.</div>'; return;
+      }
+
+      // regionid -> intensity (null where a region reported no data -> "no data").
+      const regionData = (carbon && carbon.regions) ? carbon.regions : [];
+      const intensity = {}, byId = {};
+      regionData.forEach((r) => { intensity[r.regionid] = r.intensity; byId[r.regionid] = r; });
+      const vals = regionData.map((r) => r.intensity).filter((v) => v != null);
+
+      // A conic conformal centred on ~4°W reads well for Great Britain (incl. the
+      // Scottish islands). geo.js fits it to the basemap.
+      const projection = d3.geoConicConformal().parallels([50, 58]).rotate([4.4, 0]);
+      const map = GeoMap.choropleth(host, {
+        topo, object: "regions", width: 360, height: 500, className: "region", projection,
+        ariaLabel: "Map of Great Britain's 14 DNO regions shaded by grid carbon intensity — clean wind-rich Scotland and the north vs gas-heavy southern regions. Consumption-based, gCO2/kWh.",
+      });
+
+      // Sequential clean->dirty shade; a region with no data returns null -> CSS
+      // "no data" fill, kept distinct from a real low value (Panel-1 criterion).
+      const lo = vals.length ? Math.min(...vals) : 0;
+      const hi = vals.length ? Math.max(...vals) : 1;
+      const color = d3.scaleQuantize().domain([lo, hi]).range(RAMP);
+      map.recolor((props) => (intensity[props.regionid] != null ? color(intensity[props.regionid]) : null));
+
+      // Short region labels + native hover (intensity + renewable %).
+      map.svg.append("g").selectAll("text").data(map.features).join("text")
+        .attr("class", "rlabel")
+        .attr("x", (f) => map.path.centroid(f)[0])
+        .attr("y", (f) => map.path.centroid(f)[1] + 3)
+        .attr("text-anchor", "middle")
+        .text((f) => f.properties.short);
+      // Rich hover context per region (floats above the cursor): name, DNO operator,
+      // carbon intensity, renewable share and the two dominant fuels.
+      map.hover((props) => {
+        const dno = props.dno ? `<br><span class="gt-sub">${props.dno}</span>` : "";
+        const r = byId[props.regionid];
+        if (!r || r.intensity == null) return `<b>${props.name}</b>${dno}<br><span class="gt-sub">no carbon data</span>`;
+        const top = Object.entries(r.mix || {}).sort((a, b) => b[1] - a[1]).slice(0, 2)
+          .map(([f, p]) => `${f} ${Math.round(p)}%`).join(", ");
+        return `<b>${props.name}</b>${dno}<br>${Math.round(r.intensity)} gCO₂/kWh · ${Math.round(r.renewable_pct)}% renewable`
+          + (top ? `<br><span class="gt-sub">mostly ${top}</span>` : "");
+      });
+
+      // KPIs from the real data.
+      const withVal = regionData.filter((r) => r.intensity != null);
+      const cleanest = withVal.length ? withVal.reduce((a, b) => (b.intensity < a.intensity ? b : a)) : null;
+      const dirtiest = withVal.length ? withVal.reduce((a, b) => (b.intensity > a.intensity ? b : a)) : null;
+      const SHORT = {}; map.features.forEach((f) => { SHORT[f.properties.regionid] = f.properties.short; });
+      // Headline constraint cost (last 12 months) from the constraints artefact.
+      let costKpi = "—";
+      if (constraints && constraints.status === "ok" && constraints.months && constraints.months.length) {
+        const last12 = constraints.months.slice(-12);
+        costKpi = "£" + (last12.reduce((s, m) => s + m.cost_gbp_m, 0) / 1000).toFixed(1) + "bn";
+      }
+      document.getElementById("kpis").innerHTML = [
+        { label: "GB regions", val: String(map.features.length) },
+        { label: "Cleanest", val: cleanest ? `${SHORT[cleanest.regionid]} · ${Math.round(cleanest.intensity)}g` : "—" },
+        { label: "Highest", val: dirtiest ? `${SHORT[dirtiest.regionid]} · ${Math.round(dirtiest.intensity)}g` : "—" },
+        { label: "Constraint cost", val: costKpi, sub: "12 mo" },
+      ].map((i) => `<div class="kpi"><div class="label">${i.label}${i.sub ? ` <span style="color:var(--hint)">(${i.sub})</span>` : ""}</div><div class="val" style="font-size:${i.val.length > 9 ? "16px" : "22px"}">${i.val}</div></div>`).join("");
+
+      // Right column: regions clean -> dirty, each with its colour + intensity.
+      document.getElementById("regionList").innerHTML = regionData.slice()
+        .sort((a, b) => (a.intensity ?? 1e9) - (b.intensity ?? 1e9))
+        .map((r) => {
+          const sw = r.intensity != null ? color(r.intensity) : "#e3e1d8";
+          const val = r.intensity != null ? Math.round(r.intensity) + " g" : "n/a";
+          return `<div style="display:flex;align-items:center;gap:7px;margin:2px 0;"><span style="width:10px;height:10px;border-radius:2px;background:${sw};flex:none;"></span><span style="flex:1;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.name}</span><span style="color:var(--muted);">${val}</span></div>`;
+        }).join("");
+
+      // Ramp legend (clean -> dirty) + a distinct "no data" swatch.
+      document.getElementById("rampLegend").innerHTML =
+        `<span>clean ${Math.round(lo)}</span>` +
+        '<span style="display:inline-flex;height:11px;border-radius:2px;overflow:hidden;">' +
+        RAMP.map((c) => `<span class="sw" style="background:${c};width:14px;border-radius:0;"></span>`).join("") +
+        `</span><span>${Math.round(hi)} dirty · gCO₂/kWh</span>` +
+        '<span style="display:inline-flex;align-items:center;gap:4px;"><span class="sw" style="background:#e3e1d8"></span>no data</span>';
+
+      // copy block A — methodology; replaces the shell caption.
+      if (carbon) document.getElementById("mapSrc").textContent =
+        `Mean grid carbon intensity by region, ${carbon.period_start} to ${carbon.period_end} (NESO). ` +
+        `Consumption-based (the carbon of electricity used in each region, imports included) — not the site's production-based view — and Great Britain only, excluding Northern Ireland. ` +
+        `${cleanest ? "Cleanest " + SHORT[cleanest.regionid] + " " + Math.round(cleanest.intensity) + "g; " : ""}${dirtiest ? "highest " + SHORT[dirtiest.regionid] + " " + Math.round(dirtiest.intensity) + "g." : ""} Regional values are forecast-based.`;
+    })();
+
+    // --- Panel 2: Scottish wind constraint payments over time (volume + cost) ---
+    (async function buildPanel2() {
+      const data = await loadJSON("uk_constraints.json");
+      const wrap = document.getElementById("conWrap");
+      if (!data || data.status !== "ok" || !data.months || !data.months.length) {
+        wrap.innerHTML = '<div class="nodata">Constraint data unavailable — awaiting NESO source.</div>'; return;
+      }
+      const m = data.months;
+      const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const mlabel = (ym) => { const [y, mm] = ym.split("-"); return MON[+mm - 1] + " " + y.slice(2); };
+      const labels = m.map((x) => mlabel(x.month));
+      const VOL = "#4aa6a0", COST = "#b8860b";
+      new Chart(document.getElementById("conChart"), {
+        data: { labels, datasets: [
+          { type: "bar", label: "Constraint volume (GWh)", data: m.map((x) => x.volume_gwh),
+            backgroundColor: VOL, borderRadius: 1, yAxisID: "y", order: 2 },
+          { type: "line", label: "Cost (£m)", data: m.map((x) => x.cost_gbp_m),
+            borderColor: COST, backgroundColor: COST, borderWidth: 2, tension: 0.3, pointRadius: 1.5, yAxisID: "y1", order: 1 },
+        ] },
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          interaction: { mode: "index", intersect: false },
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => c.dataset.label.startsWith("Cost")
+              ? `Cost: £${Math.round(c.parsed.y)}m` : `Volume: ${Math.round(c.parsed.y)} GWh` } } },
+          scales: {
+            y: { position: "left", title: { display: true, text: "GWh (down-regulation)", font: { size: 11 } },
+              grid: { color: "rgba(0,0,0,.06)" }, ticks: { font: { size: 10 } }, beginAtZero: true },
+            y1: { position: "right", title: { display: true, text: "£m", font: { size: 11 } },
+              grid: { drawOnChartArea: false }, ticks: { font: { size: 10 } }, beginAtZero: true },
+            x: { grid: { display: false }, ticks: { font: { size: 9 }, maxRotation: 0, autoSkip: true } },
+          },
+        },
+      });
+      document.getElementById("conLegend").innerHTML =
+        `<span><span class="swatch" style="background:${VOL}"></span>Constraint volume (GWh)</span>` +
+        `<span><span class="swatch" style="background:${COST};border-radius:50%"></span>Cost (£m)</span>` +
+        `<span style="color:var(--hint)">£${(data.totals.cost_gbp_m / 1000).toFixed(1)}bn over ${m.length} months · peak £${Math.round(data.totals.peak_cost_gbp_m)}m in ${mlabel(data.totals.peak_month)}</span>`;
+      document.getElementById("conSrc").textContent =
+        `A constraint payment is a managed grid-stability cost — wind paid to turn down (and other plants to turn up), not energy discarded by choice — the British equivalent of Germany's redispatch. Monthly thermal-constraint volume and cost (the B6 Scotland–England boundary dominates), ${data.period_start} to ${data.period_end}. Source: ${data.source}.`;
+    })();
+
+    // --- Panel 3: ground Britain's cell in the live constraint cost ---
+    (async function buildPanel3() {
+      const data = await loadJSON("uk_constraints.json");
+      const el = document.getElementById("gbCostHook");
+      if (!el || !data || data.status !== "ok" || !data.months || !data.months.length) return;
+      const last12 = data.months.slice(-12).reduce((s, m) => s + m.cost_gbp_m, 0);
+      el.textContent = `about £${(last12 / 1000).toFixed(1)}bn in the last year.`;
+    })();
+  </script>
+  <script src="ia.js"></script>
+  <script src="nav.js"></script>
+</body>
+</html>

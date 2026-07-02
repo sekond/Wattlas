@@ -51,13 +51,12 @@ def fetch_generation(zone: str, start: pd.Timestamp, end: pd.Timestamp) -> pd.Da
     build_mismatch). Each chunk is collapsed immediately to keep memory + cache
     small and avoid parquet MultiIndex issues.
     """
-    from entsoe import EntsoePandasClient
+    from entsoe_client import make_entsoe_client  # retrying client (transient-5xx safe)
 
     token = os.environ.get("ENTSOE_API_TOKEN")
     if not token:
         sys.exit("ENTSOE_API_TOKEN not set. Copy .env.example to .env and fill it in.")
-    client = EntsoePandasClient(api_key=token)
-
+    client = make_entsoe_client(token)
     frames = []
     a = start
     while a < end:

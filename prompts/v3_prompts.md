@@ -1,9 +1,9 @@
 # v3 prompts — the "wasted wind" slice
 
 Detailed prompts for each step of the Germany north–south slice. Execute via
-`RUN_V3.md`, one step at a time, with confirmation between steps. Full rationale,
+`../docs/runbooks/RUN_V3.md`, one step at a time, with confirmation between steps. Full rationale,
 panel definitions, JSON shapes, acceptance criteria, and verbatim copy blocks live
-in `SLICE_DE_WASTED_WIND.md` — trust it; don't re-derive. `CLAUDE.md` (with the v2
+in `../docs/slices/SLICE_DE_WASTED_WIND.md` — trust it; don't re-derive. `CLAUDE.md` (with the v2
 data landmines) is loaded automatically.
 
 Prime directive: **stay static** (pre-computed JSON + committed TopoJSON, no backend,
@@ -16,7 +16,7 @@ displayed number is rounded.
 ## Prompt 0 — Pre-flight + orientation
 
 > **Goal:** load the slice into working memory before touching code.
-> **Inputs:** `CLAUDE.md`, `SLICE_DE_WASTED_WIND.md`, `SOURCES.md`, `data/schema.md`.
+> **Inputs:** `CLAUDE.md`, `../docs/slices/SLICE_DE_WASTED_WIND.md`, `../docs/SOURCES.md`, `data/schema.md`.
 > **Build:** read those files; produce a single <200-word summary of the slice's one
 > question, its three panels, the datasets feeding each, and the new pipeline
 > modules. Change nothing.
@@ -90,7 +90,7 @@ displayed number is rounded.
 > 2. Extract the **top-20 plants by MW** (utility-scale, ≥30 kW, so coordinates are
 >    public) with name, fuel, MW, lat/lon, Landkreis.
 > 3. Write `data/de_capacity_by_landkreis.json` and `data/de_top_plants.json` (shapes
->    in `SLICE_DE_WASTED_WIND.md` §5); **update `data/schema.md` in the same change.**
+>    in `../docs/slices/SLICE_DE_WASTED_WIND.md` §5); **update `data/schema.md` in the same change.**
 > 4. Unit-test the aggregation on a small inline fixture (no network).
 > **Domain landmines:** millions of units (mostly rooftop solar) — commit **only the
 > aggregates**, never raw points. Watch kW vs MW. Drop decommissioned units. Carry the
@@ -195,6 +195,6 @@ displayed number is rounded.
 > **Domain landmines:** stay static; a large basemap or multi-year growth gets split,
 > not backended. Don't let a missing MaStR/SMARD run crash the action.
 > **Output:** updated workflow, polished `frontend/wasted_wind.html`, green tests.
-> **Success criteria:** the definition of done in `SLICE_DE_WASTED_WIND.md` §11 is met
+> **Success criteria:** the definition of done in `../docs/slices/SLICE_DE_WASTED_WIND.md` §11 is met
 > — three panels render from committed JSON, English-only, rounded, caveated, static,
 > tests passing, refresh wired.

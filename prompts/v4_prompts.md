@@ -1,8 +1,8 @@
 # v4 prompts — the France nuclear slice
 
-Detailed prompts for each step of the France nuclear slice. Execute via `RUN_V4.md`,
+Detailed prompts for each step of the France nuclear slice. Execute via `../docs/runbooks/RUN_V4.md`,
 one step at a time, with confirmation between steps. Full rationale, panel definitions,
-JSON shapes, acceptance criteria, and verbatim copy blocks live in `SLICE_FR_NUCLEAR.md`
+JSON shapes, acceptance criteria, and verbatim copy blocks live in `../docs/slices/SLICE_FR_NUCLEAR.md`
 — trust it; don't re-derive. `CLAUDE.md` (with the v2 data landmines) is loaded
 automatically.
 
@@ -16,7 +16,7 @@ no French label reaches the frontend; every displayed number is rounded.
 ## Prompt 0 — Pre-flight + orientation
 
 > **Goal:** load the slice into working memory before touching code.
-> **Inputs:** `CLAUDE.md`, `SLICE_FR_NUCLEAR.md`, `SOURCES.md`, `data/schema.md`.
+> **Inputs:** `CLAUDE.md`, `../docs/slices/SLICE_FR_NUCLEAR.md`, `../docs/SOURCES.md`, `data/schema.md`.
 > **Build:** read those files; produce a single <200-word summary of the slice's one
 > question, its three panels (fleet map, exporter/importer régions, availability/
 > fragility), the datasets feeding each, and the new pipeline modules. Change nothing.
@@ -73,7 +73,7 @@ no French label reaches the frontend; every displayed number is rounded.
 > **Build:**
 > 1. Add `pipeline/build_fr_nuclear_sites.py` (its **own** isolated module): produce per
 >    site — name, reactors, capacity (MW), région, river/coast, lat/lon — →
->    `data/fr_nuclear_sites.json` (shape in `SLICE_FR_NUCLEAR.md` §5); **update
+>    `data/fr_nuclear_sites.json` (shape in `../docs/slices/SLICE_FR_NUCLEAR.md` §5); **update
 >    `schema.md` in the same change.**
 > 2. Unit-test on a small fixture (no network).
 > **Domain landmines:** confirm the live reactor count and capacity rather than
@@ -195,6 +195,6 @@ no French label reaches the frontend; every displayed number is rounded.
 > 3. Confirm offline tests pass and the page opens statically with no network calls.
 > **Domain landmines:** stay static; don't let a missing RTE/éCO2mix run crash the action.
 > **Output:** updated workflow, polished `frontend/fr_nuclear.html`, green tests.
-> **Success criteria:** the definition of done in `SLICE_FR_NUCLEAR.md` §11 is met —
+> **Success criteria:** the definition of done in `../docs/slices/SLICE_FR_NUCLEAR.md` §11 is met —
 > three panels render from committed JSON, English-only, rounded, caveated, static, tests
 > passing, refresh wired.

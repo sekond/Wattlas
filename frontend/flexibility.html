@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Flexibility</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell"><main class="main">
+  <div class="wrap">
+    <h1>What you'd save by shifting load to the cheapest hours</h1>
+    <p class="sub">A dynamic tariff prices each hour at wholesale; a shiftable load — an EV, a heat pump, a home battery — that runs in the cheapest N hours per day beats a flat tariff. This calculator shows how much, per zone.</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 14px;"></div>
+
+    <div class="meta" id="caveat" style="background:#fff7e0;border:0.5px solid #e7cf86;border-left:3px solid #b8860b;border-radius:8px;padding:9px 13px;color:#6b520a;margin-bottom:18px;">
+      <strong>Perfect-foresight upper bound.</strong> Savings assume the load charges in the cheapest hours, known in advance — an upper bound, exactly like the Wattlas battery model. Real savings are lower.
+    </div>
+
+    <div id="kpis" class="kpis"></div>
+
+    <div class="card" id="dayCard" style="display:none;">
+      <div class="head">
+        <div class="title">A day, and its cheapest window</div>
+        <div class="meta">DE-LU average weekday, € / MWh by hour</div>
+      </div>
+      <canvas id="dayChart" height="120"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:#9a988f"></span>Average hourly price</span>
+        <span><span class="swatch" style="background:#e3a82a"></span>Cheapest <span id="winLabel"></span> — charging window</span>
+      </div>
+      <div class="meta" style="margin-top:8px;">The calculator picks the cheapest N hours <strong>with hindsight</strong> (perfect foresight) — the honest upper bound. Real schedulers act on a day-ahead forecast and capture less. Hourly-resampled prices, local time (Europe/Berlin). Source: ENTSO-E.</div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">Yearly saving by load and zone</div>
+        <div class="meta">€ saved vs a flat tariff</div>
+      </div>
+      <canvas id="zoneChart" height="140"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:#2f7d78"></span>EV</span>
+        <span><span class="swatch" style="background:#e3a82a"></span>Heat pump</span>
+        <span><span class="swatch" style="background:#cf7a5a"></span>Home battery</span>
+      </div>
+      <div class="meta" style="margin-top:8px;">Flat-tariff baseline = the period mean price; savings scale with the daily spread and the load's shiftable energy. Upper bound under perfect foresight — real savings are lower. Source: ENTSO-E.</div>
+    </div>
+    <div id="status" class="loading">Loading data…</div>
+  </div>
+
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="util.js"></script>
+  <script>
+    const eur = (n) => "€" + Math.round(n);
+    const hh = (h) => String(h).padStart(2, "0") + ":00";
+    const LOADS = ["EV", "Heat pump", "Home battery"];
+    const LOAD_COLORS = { "EV": "#2f7d78", "Heat pump": "#e3a82a", "Home battery": "#cf7a5a" };
+    async function loadJSON(name) {
+      const candidates = ["../data/" + name, "data/" + name, "/data/" + name];
+      for (const path of candidates) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) { /* try next */ }
+      }
+      throw new Error("could not load " + name);
+    }
+    const zoneLabel = (z) => z.replace("_", "-");
+    const presetByName = (zone, name) => zone.presets.find(p => p.name === name);
+
+    function renderKPIs(deZone) {
+      const items = deZone.presets.map(p => ({
+        label: p.name,
+        val: eur(p.annual_saving_eur) + "/yr",
+      }));
+      document.getElementById("kpis").innerHTML = items.map(i =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val">${i.val}</div></div>`).join("");
+    }
+
+    // Card 1 — DE-LU average weekday curve with the cheapest N hours highlighted.
+    // N comes from the EV preset; the window is picked with hindsight (perfect foresight).
+    function renderDayChart(zonePulse, evN) {
+      const labels = zonePulse.hours.map(hh);
+      const price = zonePulse.weekday_mean;
+      // Find the indices of the N cheapest hours (perfect foresight, not contiguous).
+      const ranked = price
+        .map((v, i) => ({ v, i }))
+        .filter(o => o.v != null)
+        .sort((a, b) => a.v - b.v)
+        .slice(0, evN)
+        .map(o => o.i);
+      const cheap = new Set(ranked);
+      const windowPrice = price.map((p, i) => cheap.has(i) ? p : null);
+      document.getElementById("winLabel").textContent = evN + " h";
+      new Chart(document.getElementById("dayChart"), {
+        data: { labels, datasets: [
+          { type: "line", label: "Average price", data: price, borderColor: "#9a988f",
+            backgroundColor: "rgba(154,152,143,0.08)", borderWidth: 2, tension: 0.35,
+            pointRadius: 0, fill: true, order: 2, spanGaps: true },
+          { type: "bar", label: "Charging window", data: windowPrice,
+            backgroundColor: "rgba(227,168,42,0.32)", borderColor: "#e3a82a", borderWidth: 1,
+            borderRadius: 2, barPercentage: 1, categoryPercentage: 1, order: 1 } ]},
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${eur(c.parsed.y)}/MWh` } } },
+          scales: { x: { ticks: { maxTicksLimit: 12, color: "#888780", font: { size: 10 } }, grid: { display: false } },
+                    y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
+      });
+      document.getElementById("dayCard").style.display = "";
+    }
+
+    function renderZoneChart(flex) {
+      const zones = flex.zones_available;
+      const labels = zones.map(zoneLabel);
+      const datasets = LOADS.map(name => ({
+        label: name,
+        data: zones.map(z => {
+          const p = presetByName(flex.zones[z], name);
+          return p ? Math.round(p.annual_saving_eur) : null;
+        }),
+        backgroundColor: LOAD_COLORS[name],
+        borderRadius: 3,
+      }));
+      new Chart(document.getElementById("zoneChart"), {
+        type: "bar",
+        data: { labels, datasets },
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${eur(c.parsed.y)}/yr` } } },
+          scales: { x: { ticks: { color: "#888780", font: { size: 11 } }, grid: { display: false } },
+                    y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => eur(v) }, grid: { color: "rgba(0,0,0,0.05)" } } } },
+      });
+    }
+
+    (async function main() {
+      const status = document.getElementById("status");
+      let flex = null;
+      try { flex = await loadJSON("flex_savings.json"); } catch (e) { /* handled below */ }
+      if (!flex) {
+        status.textContent = "Could not load data. Run the pipeline to build data/flex_savings.json, then serve the folder.";
+        return;
+      }
+      const deZone = flex.zones[flex.zone_default];
+      document.getElementById("periodNote").textContent =
+        `Data shown for ${fmtPeriod(deZone.period_start, deZone.period_end)}`;
+      renderKPIs(deZone);
+      renderZoneChart(flex);
+
+      // Optional day-curve illustration; hide gracefully if pulse data is unavailable.
+      try {
+        const pulse = await loadJSON("pulse_by_zone.json");
+        const zp = pulse.zones && pulse.zones[flex.zone_default];
+        const evPreset = presetByName(deZone, "EV");
+        if (zp && zp.weekday_mean && evPreset) renderDayChart(zp, evPreset.n);
+      } catch (e) { /* card stays hidden */ }
+
+      status.style.display = "none";
+    })();
+  </script>
+  <script src="ia.js"></script>
+  <script src="nav.js"></script>
+  </main></div>
+</body>
+</html>
