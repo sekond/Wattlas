@@ -128,7 +128,7 @@ body:not([data-wx-tokens]){--surface-3:#ece9df; --border-2:rgba(43,42,39,.08)}
 .sitefoot .foot-bot{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;
   padding:18px 0 6px;border-top:.5px solid var(--border-2);font-size:11.5px;color:var(--hint);line-height:1.6}
 .sitefoot .foot-bot .fb-meta{max-width:64ch}
-.sitefoot .foot-bot .fb-copy{white-space:nowrap}
+.sitefoot .foot-bot .fb-copy,.sitefoot .foot-bot .fb-updated{white-space:nowrap}
 @media (max-width:760px){.sitefoot .foot-top{grid-template-columns:1fr 1fr;gap:22px}.sitefoot .foot-brand{grid-column:1 / -1}}
 
 /* Mobile chrome */
@@ -286,6 +286,7 @@ body:not([data-wx-tokens]){--surface-3:#ece9df; --border-2:rgba(43,42,39,.08)}
         cols +
       "</div>" +
       '<div class="foot-bot"><span class="fb-meta">' + esc(ft.meta) + "</span>" +
+        '<span class="fb-updated" id="wx-data-updated"></span>' +
         '<span class="fb-copy">© ' + year + " Wattlas · open data</span></div>";
     return footer;
   }
@@ -307,6 +308,58 @@ body:not([data-wx-tokens]){--surface-3:#ece9df; --border-2:rgba(43,42,39,.08)}
           '</span><span class="ro-o">' + esc(x.one) + "</span></a>";
       }).join("") + "</div>";
     return wrap;
+  }
+
+  // ---- Footer "Data updated <date>" -----------------------------------------
+  // On a data VIEW, report the freshest generated_at across the data/*.json THIS
+  // page actually loaded — so the stamp reflects the view's real data (a view on
+  // weekly MaStR data won't claim daily freshness). Pages that load no data of
+  // their own fall back to data/last_updated.json (the site-wide freshest, written
+  // by the daily job). Automatic — no hand-edited date; all first-party fetches.
+  var _updatedMax = 0;
+  function applyUpdated(iso) {
+    var el = document.getElementById("wx-data-updated");
+    if (!el || !iso) return;
+    var t = new Date(iso).getTime();
+    if (isNaN(t) || t <= _updatedMax) return;  // keep the freshest; never downgrade
+    _updatedMax = t;
+    el.textContent = "Data updated " +
+      new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  }
+  function noteGeneratedAt(url) {  // re-read the (cached) data file just for its stamp
+    fetch(url).then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { if (j && j.generated_at) applyUpdated(j.generated_at); })
+      .catch(function () {});
+  }
+  // Watch which data/*.json this page loads (buffered:true also replays ones already
+  // fetched before we start), then re-read each for generated_at.
+  function observeDataFreshness() {
+    if (!window.fetch) return;
+    var seen = {};
+    function consider(name) {
+      if (!/\/data\/[a-z0-9_]+\.json/i.test(name) || /last_updated\.json/.test(name)) return;
+      var key = name.split("?")[0];
+      if (seen[key]) return;
+      seen[key] = 1;
+      noteGeneratedAt(name);
+    }
+    try { performance.getEntriesByType("resource").forEach(function (e) { consider(e.name); }); } catch (e) {}
+    if (window.PerformanceObserver) {
+      try {
+        new PerformanceObserver(function (list) { list.getEntries().forEach(function (e) { consider(e.name); }); })
+          .observe({ type: "resource", buffered: true });
+      } catch (e) {}
+    }
+  }
+  function loadManifest() {  // site-wide fallback for pages that load no data
+    if (!window.fetch) return;
+    var paths = ["../data/last_updated.json", "data/last_updated.json", "/data/last_updated.json"];
+    (function tryNext(i) {
+      if (i >= paths.length) return;
+      fetch(paths[i]).then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (j) { if (j && j.generated_at) applyUpdated(j.generated_at); })
+        .catch(function () { tryNext(i + 1); });
+    })(0);
   }
 
   // ---- Parent route (mobile back button) ------------------------------------
@@ -344,6 +397,10 @@ body:not([data-wx-tokens]){--surface-3:#ece9df; --border-2:rgba(43,42,39,.08)}
       var ro = buildReadon();
       if (ro) mainEl.appendChild(ro);
       mainEl.appendChild(buildFooter());
+      // Footer "Data updated": data views report their own files' dates; pages that
+      // load no data of their own use the site-wide manifest.
+      if (route.name === "view" || route.name === "other") observeDataFreshness();
+      else loadManifest();
     }
 
     // Mobile: show the back button on any non-home route (hides the ☰ then).
