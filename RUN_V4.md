@@ -109,4 +109,13 @@ the hidden-cost adders — and study-based, not a live feed.
 **Gate:** the toggle works; every figure shows a source and a range; framing is
 symmetric/non-advocacy; stays static.
 
-### Step 8 
+### Step 8 — Integrate, polish, lock in
+Execute **Prompt 8**: English-only / rounding / caveat pass; optional dashboard panel;
+add the new builders to `.github/workflows/refresh-data.yml` (degrade gracefully if a
+source is missing); confirm offline tests pass and the page opens statically.
+**Gate:** definition of done in `SLICE_FR_NUCLEAR.md` §11 met.
+
+## Between steps — the move that matters
+Each panel is a sensible stopping point and a chance to show the slice — and the
+Germany/France diptych — to a field person. Their reaction should re-order what's left.
+Build → show → re-prioritise.

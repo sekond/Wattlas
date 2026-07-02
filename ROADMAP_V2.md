@@ -111,3 +111,28 @@ You've shown this to one person. Each phase is a chance to show a sharpened
 version to one or two field people and ask "which view would make you open this
 weekly?" Their answers should re-order these phases. Build → show → re-prioritise
 beats building all six on spec.
+
+---
+
+## Beyond v2 — the regional slices (v3)
+
+v2 took the app from four views to a consolidated, multi-zone European dashboard. The
+next evolution goes **below the bidding-zone line** — the one place the global
+incumbents (Electricity Maps, Ember) don't go — with map-based regional slices,
+Germany first.
+
+- **Slice 1 — DE "wasted wind" (Germany north–south).** Why the windy north's clean
+  power gets curtailed because the grid can't ship it to the demand-heavy south, and
+  what that implies for pricing the country as one bidding zone. Three panels:
+  capacity-vs-demand choropleth (MaStR → Landkreis), surplus/deficit by control area
+  (SMARD), curtailment vs negative prices + the split debate. New, isolated pipeline
+  modules; new map dependency (D3-geo + pre-simplified TopoJSON); **still static, no
+  tiles**. Spec in `SLICE_DE_WASTED_WIND.md`, driven by `RUN_V3.md` +
+  `prompts/v3_prompts.md`; sources in `SOURCES.md`.
+- **Slice 2 — FR regional (deferred).** Nuclear-fleet location vs demand centres,
+  régional import/export, commune-level consumption — reusing Slice 1's map machinery,
+  after it validates.
+
+Same discipline as v2: build one slice, show it to a field person, let their reaction
+re-order what's next. Same architectural line: pre-computed JSON + committed TopoJSON,
+no backend, no tiles — flag, don't cross, the live-backend ceiling.

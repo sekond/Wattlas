@@ -170,4 +170,31 @@ no French label reaches the frontend; every displayed number is rounded.
 > 2. Render Panel 4: a stacked €/MWh bar per technology with a **toggle** — "sticker
 >    price" shows plant only; "full system cost" stacks all adders on every technology —
 >    a takeaway that updates with the toggle, visible citations, and copy block E.
-> **Domain landmines:** symmetric or it's advocacy — the hidden-cost le
+> **Domain landmines:** symmetric or it's advocacy — the hidden-cost lens applies to all
+> technologies, never nuclear alone. Nuclear back-end is large in total but small per MWh
+> and is *provisioned* (critique adequacy, don't say "ignored"). Renewables' system costs
+> rise with share. Show ranges; note source lean (Lazard = US new-build; NEA = Nuclear
+> Energy Agency). Curated estimates — never present as "the truth".
+> **Output:** `pipeline/build_fr_costs.py`, `data/fr_costs.json`, schema update, Panel 4.
+> **Success criteria:** (1) toggle switches plant-only ↔ full stack for all techs and the
+> takeaway updates; (2) every figure shows a source + range; (3) existing vs new nuclear
+> distinct; (4) framing symmetric/non-advocacy; (5) stays static (curated JSON).
+
+---
+
+## Prompt 8 — Integrate, polish, lock in
+
+> **Goal:** make the slice production-clean and keep it fresh automatically.
+> **Inputs:** the three panels; `.github/workflows/refresh-data.yml`; the test suite.
+> **Build:**
+> 1. Final pass: round every number, units labelled, **no French labels** in the UI, all
+>    copy-block caveats present; optional dashboard panel/link (keep the standalone page).
+> 2. Add `build_fr_nuclear_sites.py`, `build_fr_regional.py`,
+>    `build_fr_nuclear_availability.py` to the daily refresh action; each degrades (log +
+>    continue) if its source is unavailable.
+> 3. Confirm offline tests pass and the page opens statically with no network calls.
+> **Domain landmines:** stay static; don't let a missing RTE/éCO2mix run crash the action.
+> **Output:** updated workflow, polished `frontend/fr_nuclear.html`, green tests.
+> **Success criteria:** the definition of done in `SLICE_FR_NUCLEAR.md` §11 is met —
+> three panels render from committed JSON, English-only, rounded, caveated, static, tests
+> passing, refresh wired.

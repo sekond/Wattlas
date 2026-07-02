@@ -271,4 +271,95 @@ Curated cost dataset (Panel 4 — **not a live feed**):
 
 **Block C — one bidding zone (Panel 2):**
 > France is a single bidding zone: one wholesale price nationwide. A région's surplus
-> or deficit here is a physical balance (generation − consumption), not a 
+> or deficit here is a physical balance (generation − consumption), not a regional
+> price — the same reason Germany's north–south split doesn't show up in prices.
+
+**Block D — data vintage (footer):**
+> Régional generation, consumption and balance come from RTE's éCO2mix via ODRÉ
+> (production-based; French fields translated once in `fr_fields.py`). Nuclear site
+> locations are public. Counts (reactors, capacity) and endpoints change — verify
+> during the build.
+
+---
+
+**Block E — the cost comparison (Panel 4):**
+> Plant-level cost is only the sticker price. This view adds the costs headline figures
+> leave out — waste &amp; decommissioning, the system cost of running a grid on variable
+> renewables, and implicit public support — applied to every technology, not just one.
+> Nuclear's waste and decommissioning are large in total (the Cigéo repository ≈ €33–37bn)
+> but small per MWh, and they are *provisioned* and already in France's official cost
+> figures; the real question is whether the provisions are adequate. Renewables' system
+> costs rise as their share grows. Figures are illustrative central values from published
+> studies (Lazard, Cour des comptes, ANDRA, OECD-NEA, IRENA), each with a wide,
+> assumption-dependent range — curated estimates, not a live feed. It takes no side; the
+> point is that the ranking depends on what you count.
+
+---
+
+## 8. Open risks & data-quality caveats
+
+- **French field names & language** — all translated once in `fr_fields.py`; never
+  leaked to the UI.
+- **Inter-régional flows are thin** — use the published régional net balance (*solde*),
+  not a fabricated région-to-région flow.
+- **RTE OAuth** — the unavailability feed needs registered credentials; degrade to
+  éCO2mix-derived output if absent.
+- **Fleet count drifts** — Fessenheim closed (2020), Flamanville-3 commissioning;
+  confirm the live reactor count and capacity rather than hardcoding.
+- **Heatwave constraints aren't a clean dataset** — show the observable output dip and
+  annotate the cause; don't fabricate a per-reactor cooling series.
+- **One bidding zone** — no sub-national price (block C).
+- **Metropolitan France only** — DROM/overseas excluded for v1; state it.
+- **Stay static** — pre-computed JSON + committed TopoJSON; no backend, no tiles.
+
+---
+
+## 9. Out of scope for this slice
+
+- **Germany** (slice 1, `SLICE_DE_WASTED_WIND.md`).
+- **Per-reactor real-time telemetry** and live outage tracking.
+- **Forecasting**, consumption-based carbon, map tiles, any backend/database.
+- **Commune/IRIS demand** beyond an optional Panel 1 overlay (Enedis) — deeper local
+  demand is a later increment.
+- **Overseas territories.**
+
+---
+
+## 10. Build sequence (gated steps — one per turn, per RUN protocol)
+
+1. **Map shell (régions).** Add `frontend/geo/regions_fr.topo.json`; render an empty
+   13-région choropleth via the existing `geo.js`. (Add D3 here only if the Germany
+   slice hasn't already.) *Ship test:* the map of France draws, no data.
+2. **Translation module.** `pipeline/fr_fields.py` + unit tests.
+3. **Nuclear fleet.** `build_fr_nuclear_sites.py` → `fr_nuclear_sites.json`; update
+   `schema.md`; test. **🧑 USER sanity-checks** the fleet totals (~18 sites, ~56
+   reactors, ~61 GW; biggest sites e.g. Gravelines, Paluel, Cattenom).
+4. **Panel 1.** Régions choropleth + nuclear site points + consumption overlay +
+   copy block A.
+5. **Regional coverage.** `build_fr_regional.py` (éCO2mix régional) → `fr_regional.json`;
+   Panel 2 (exporter/importer régions) + copy block C.
+6. **Availability & fragility.** `build_fr_nuclear_availability.py` →
+   `fr_nuclear_availability.json`; Panel 3 (availability/output + gap-fillers) + the
+   diptych punchline + copy block B. *(🧑 RTE OAuth credentials if the unavailability
+   feed is used.)*
+7. **Panel 4 — true cost.** `build_fr_costs.py` writes a curated, sourced cost dataset
+   (plant + back-end + system + support, with ranges) → `fr_costs.json`; render the
+   stacked €/MWh bar with the sticker ↔ full-cost toggle, dynamic takeaway, visible
+   sources, and copy block E. Symmetric; study-based, not a feed.
+8. **Integrate & polish.** English-only / rounding / caveat pass; optional dashboard
+   panel; add builders to `refresh-data.yml`; confirm offline tests and static open.
+
+---
+
+## 11. Definition of done
+
+- `build_fr_nuclear_sites.py`, `build_fr_regional.py`, `build_fr_nuclear_availability.py`
+  produce their JSON; the page renders all three panels from committed JSON with no
+  network calls.
+- Every number rounded and unit-labelled; **no French labels** in the UI; copy blocks
+  A–D present with their caveats.
+- New JSON shapes documented in `schema.md` in the same change; new builders in the
+  daily refresh; all degrade gracefully if a source is missing.
+- Aggregation functions have offline unit tests that pass.
+- Reuses `geo.js`; the page opens as a static file — no backend, no tiles, no browser
+  storage.

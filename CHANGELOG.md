@@ -3,6 +3,18 @@
 All notable changes to Wattlas. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); dates are UTC.
 
+## [Unreleased]
+
+### Planned — regional deep-dive slices (v3, spec stage; not yet built)
+- **DE "wasted wind" slice** — the first map-based view and the first to go *below*
+  the bidding-zone line: a Landkreis capacity-vs-demand choropleth (MaStR), a
+  north-surplus / south-deficit panel by control area (SMARD), and a
+  curtailment-vs-negative-price panel with an evenhanded bidding-zone-split explainer.
+  New isolated pipeline modules (`build_mastr_capacity.py`, `build_regional_balance.py`,
+  `de_fields.py`); new map dependency (D3-geo + pre-simplified TopoJSON). Stays static
+  — no backend, no tiles. Spec: `SLICE_DE_WASTED_WIND.md`; build via `RUN_V3.md` +
+  `prompts/v3_prompts.md`; sources in `SOURCES.md`. France regional layer to follow.
+
 ## [1.0.0] — 2026-06-10
 
 First tagged release. A static, pre-computed site (Python/pandas pipeline →

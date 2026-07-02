@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wattlas — Nordic price zones (mockup)</title>
+<style>
+  body{margin:0;background:#faf9f5;color:#2b2a27;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+  .ww-wrap{max-width:880px;margin:0 auto;padding:24px 18px 56px}
+  .ww-frame{background:#faf9f5;color:#2b2a27;border:0.5px solid rgba(0,0,0,.18);border-radius:14px;overflow:hidden}
+  .ww-bbar{display:flex;gap:6px;align-items:center;padding:9px 14px;background:#f1efe8;border-bottom:0.5px solid rgba(0,0,0,.12)}
+  .ww-dot{width:10px;height:10px;border-radius:50%}
+  .ww-url{margin-left:10px;font-size:12px;color:#5f5e5a;background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:6px;padding:3px 10px}
+  .ww-page{padding:18px 20px 24px}
+  .ww-nav{display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,.12);padding-bottom:9px;margin-bottom:15px;flex-wrap:wrap;gap:8px}
+  .ww-brand{font-size:15px;font-weight:500}
+  .ww-brand small{color:#888780;font-weight:400;margin-left:6px;font-size:12px}
+  .ww-links{display:flex;gap:13px;font-size:12px;color:#5f5e5a;flex-wrap:wrap}
+  .ww-links .on{color:#2b2a27;font-weight:500;border-bottom:2px solid #2b2a27;padding-bottom:6px}
+  .ww-banner{background:#fff7e0;border:0.5px solid #e7cf86;border-left:3px solid #b8860b;border-radius:8px;padding:9px 13px;font-size:12px;color:#6b520a;margin-bottom:15px}
+  .ww-h1{font-size:21px;font-weight:500;margin:0 0 4px}
+  .ww-sub{color:#5f5e5a;font-size:13px;margin:0 0 17px;max-width:74ch}
+  .ww-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:19px}
+  .ww-kpi{background:#f1efe8;border-radius:8px;padding:12px 13px}
+  .ww-kpi .l{font-size:12px;color:#5f5e5a;margin-bottom:5px}
+  .ww-kpi .v{font-size:22px;font-weight:500}
+  .ww-card{background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:12px;padding:15px 17px;margin-bottom:15px}
+  .ww-ct{font-size:15px;font-weight:500}
+  .ww-pitch{font-size:12px;color:#5f5e5a;margin:6px 0 12px;max-width:84ch}
+  .ww-sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}
+  .ww-leg{display:flex;gap:13px;font-size:11px;color:#5f5e5a;margin:2px 0 6px;flex-wrap:wrap;align-items:center}
+  .ww-cap{font-size:11px;color:#888780;margin:9px 0 0;max-width:84ch}
+  .ww-cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0 10px}
+  .ww-cmp>div{border-radius:8px;padding:11px 13px;font-size:12px}
+  .ww-zbox{position:relative;width:320px;height:286px;margin:4px auto 0}
+  .ww-z{position:absolute;width:68px;height:40px;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;font-weight:500;border:0.5px solid rgba(0,0,0,.08)}
+  .ww-z span{font-size:10px;font-weight:400;color:#5f5e5a}
+  @media(max-width:620px){.ww-kpis{grid-template-columns:repeat(2,1fr)}.ww-cmp{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="ww-wrap">
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Mockup of a Wattlas page on Nordic electricity price zones: a schematic map of the 12 zones shaded by average price showing a cheap hydro north and a dearer south, a chart of how Sweden's SE1 and SE4 prices diverge over the year, and a comparison with Germany's single bidding zone. Prices are illustrative.</h2>
+<div class="ww-frame">
+  <div class="ww-bbar"><span class="ww-dot" style="background:#e2655a"></span><span class="ww-dot" style="background:#e6b54a"></span><span class="ww-dot" style="background:#6fae5f"></span><span class="ww-url">sekond.github.io/Wattlas/frontend/nordic_zones.html</span></div>
+  <div class="ww-page">
+    <div class="ww-nav">
+      <div class="ww-brand">Wattlas <small>European electricity, explained</small></div>
+      <div class="ww-links"><span>Dashboard</span><span>Carbon</span><span>North–south grid</span><span>France nuclear</span><span class="on">Nordic zones</span></div>
+    </div>
+    <div class="ww-banner"><span style="font-weight:500">Mockup</span> — layout and story preview. Prices are illustrative; the zone map is schematic (Nordic price zones are not administrative regions). Panel 2 will use ENTSO-E day-ahead prices the site already pulls.</div>
+    <div class="ww-h1">The Nordics already split the price zone Germany debates</div>
+    <div class="ww-sub">Sweden, Norway, Denmark and Finland run not one price but twelve — a cheap, hydro-rich north and a demand-heavy, continent-connected south. Here's what living with split zones looks like, and what it teaches the German single-zone question.</div>
+    <div class="ww-kpis">
+      <div class="ww-kpi"><div class="l">Nordic price zones</div><div class="v">12</div></div>
+      <div class="ww-kpi"><div class="l">Cheapest (north)</div><div class="v">NO4 ~€18</div></div>
+      <div class="ww-kpi"><div class="l">Dearest (south)</div><div class="v">DK2 ~€88</div></div>
+      <div class="ww-kpi"><div class="l">Germany</div><div class="v">1 zone</div></div>
+    </div>
+    <div class="ww-card">
+      <div class="ww-ct">1 · The map of zones</div>
+      <div class="ww-pitch">Average day-ahead price by bidding zone. The hydro-rich north (NO4, SE1, SE2) clears cheap; the demand-heavy, interconnected south (SE4, DK1/DK2) clears dear. The split lets the price say <em>where</em> the grid is tight.</div>
+      <div class="ww-zbox">
+        <div class="ww-z" style="left:36px;top:6px;background:#d9ece9;color:#0f6e56">NO4<span>€18</span></div>
+        <div class="ww-z" style="left:130px;top:6px;background:#d9ece9;color:#0f6e56">SE1<span>€20</span></div>
+        <div class="ww-z" style="left:238px;top:6px;height:120px;background:#ecdfae;color:#6b5510">FI<span>€45</span></div>
+        <div class="ww-z" style="left:42px;top:56px;background:#b8ddd5;color:#0f6e56">NO3<span>€25</span></div>
+        <div class="ww-z" style="left:136px;top:56px;background:#d9ece9;color:#0f6e56">SE2<span>€24</span></div>
+        <div class="ww-z" style="left:12px;top:108px;background:#b8ddd5;color:#0f6e56">NO5<span>€35</span></div>
+        <div class="ww-z" style="left:90px;top:108px;background:#ecdfae;color:#6b5510">NO1<span>€42</span></div>
+        <div class="ww-z" style="left:170px;top:108px;background:#ecdfae;color:#6b5510">SE3<span>€58</span></div>
+        <div class="ww-z" style="left:84px;top:160px;background:#efc59a;color:#8a4a18">NO2<span>€70</span></div>
+        <div class="ww-z" style="left:170px;top:160px;background:#eca79a;color:#8a2d20">SE4<span>€78</span></div>
+        <div class="ww-z" style="left:92px;top:220px;background:#eca79a;color:#8a2d20">DK1<span>€82</span></div>
+        <div class="ww-z" style="left:174px;top:220px;background:#eca79a;color:#8a2d20">DK2<span>€88</span></div>
+      </div>
+      <div class="ww-leg" style="justify-content:center"><span>cheap</span><span class="ww-sw" style="background:#d9ece9"></span><span class="ww-sw" style="background:#b8ddd5"></span><span class="ww-sw" style="background:#ecdfae"></span><span class="ww-sw" style="background:#efc59a"></span><span class="ww-sw" style="background:#eca79a"></span><span>dear · avg €/MWh</span></div>
+      <div class="ww-cap">Schematic — zones are grouped by where the grid constrains flows, not by administrative borders, so positions are approximate. Prices illustrative; the live build shades real zones by ENTSO-E day-ahead averages.</div>
+    </div>
+    <div class="ww-card">
+      <div class="ww-ct">2 · How far prices diverge</div>
+      <div class="ww-pitch">Sweden's far-north SE1 and far-south SE4 are one country, two prices. They track together in mild months and split hard in winter, when the south leans on expensive imports while the north still has hydro — the localised signal a single zone would average away.</div>
+      <div class="ww-leg"><span><span class="ww-sw" style="background:#2f7d78"></span>SE1 — north</span><span><span class="ww-sw" style="background:#d98c3f"></span>SE4 — south</span></div>
+      <div style="position:relative;height:230px"><canvas id="ww-div" role="img" aria-label="Monthly day-ahead price for Sweden zones SE1 (north) and SE4 (south). They stay close in spring and summer and diverge sharply in winter, SE4 far above SE1. Illustrative.">SE1 vs SE4 monthly price: close in summer, far apart in winter.</canvas></div>
+      <div class="ww-cap">Within-country price gap (illustrative). Norway (NO4 vs NO2) shows the same pattern. The live build computes this from ENTSO-E day-ahead prices per zone. Hydro-driven, so wet/dry years matter.</div>
+    </div>
+    <div class="ww-card">
+      <div class="ww-ct">3 · The lesson for Germany</div>
+      <div class="ww-pitch">Germany has the same physical split — windy north, demand-heavy south — but clears at one price and manages the gap with curtailment and redispatch. The Nordics priced the split instead.</div>
+      <div class="ww-cmp">
+        <div style="background:#f5efe9;color:#7a3d12"><span style="font-weight:500">Germany · one zone</span><br><span style="color:#5f5e5a">One price nationwide; the north–south gap shows up as curtailment + redispatch, not in the price.</span></div>
+        <div style="background:#e7f1ef;color:#0f6e56"><span style="font-weight:500">Nordics · twelve zones</span><br><span style="color:#5f5e5a">Prices diverge by region, signalling where the grid is tight and where to build.</span></div>
+      </div>
+      <div class="ww-cap">The Nordics are split into many price zones, so a windy, hydro-rich north can clear cheaper than a demand-heavy south — the prices reflect where the grid is constrained. This is the live version of the split Germany debates. Supporters say zonal prices steer investment where it's needed; critics say they push structurally higher prices onto some regions and add complexity. Wattlas takes no side — it shows what splitting looks like in a system that already did it.</div>
+    </div>
+  </div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){
+const M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const SE1=[22,20,18,16,15,14,16,18,20,24,28,30];
+const SE4=[85,78,60,45,40,42,52,60,68,80,90,95];
+new Chart(document.getElementById("ww-div"),{type:"line",data:{labels:M,datasets:[
+ {label:"SE1 — north",data:SE1,borderColor:"#2f7d78",backgroundColor:"#2f7d78",borderWidth:2,tension:.3,pointRadius:2,order:2},
+ {label:"SE4 — south",data:SE4,borderColor:"#d98c3f",backgroundColor:"rgba(217,140,63,.12)",borderWidth:2,tension:.3,pointRadius:2,fill:"-1",order:1}]},
+ options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:"€/MWh",font:{size:11}},grid:{color:"rgba(0,0,0,.06)"},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:10}}}}}});
+})();
+</script>
+</body>
+</html>

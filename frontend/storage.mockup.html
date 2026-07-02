@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wattlas — Storage (mockup)</title>
+<style>
+ body{margin:0;background:#faf9f5;color:#2b2a27;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+ .ww-wrap{max-width:880px;margin:0 auto;padding:24px 18px 56px}
+ .ww-frame{background:#faf9f5;border:0.5px solid rgba(0,0,0,.18);border-radius:14px;overflow:hidden}
+ .ww-bbar{display:flex;gap:6px;align-items:center;padding:9px 14px;background:#f1efe8;border-bottom:0.5px solid rgba(0,0,0,.12)}
+ .ww-dot{width:10px;height:10px;border-radius:50%}.ww-url{margin-left:10px;font-size:12px;color:#5f5e5a;background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:6px;padding:3px 10px}
+ .ww-page{padding:18px 20px 24px}
+ .ww-h1{font-size:21px;font-weight:500;margin:8px 0 4px}.ww-sub{color:#5f5e5a;font-size:13px;margin:0 0 17px;max-width:74ch}
+ .ww-banner{background:#fff7e0;border:0.5px solid #e7cf86;border-left:3px solid #b8860b;border-radius:8px;padding:9px 13px;font-size:12px;color:#6b520a;margin-bottom:15px}
+ .ww-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:19px}
+ .ww-kpi{background:#f1efe8;border-radius:8px;padding:12px 13px}.ww-kpi .l{font-size:12px;color:#5f5e5a;margin-bottom:5px}.ww-kpi .v{font-size:20px;font-weight:500}
+ .ww-card{background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:12px;padding:15px 17px;margin-bottom:15px}
+ .ww-ct{font-size:15px;font-weight:500}.ww-pitch{font-size:12px;color:#5f5e5a;margin:6px 0 12px;max-width:84ch}
+ .ww-sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}
+ .ww-leg{display:flex;gap:12px;font-size:11px;color:#5f5e5a;margin:2px 0 6px;flex-wrap:wrap;align-items:center}
+ .ww-cap{font-size:11px;color:#888780;margin:9px 0 0;max-width:84ch}
+ @media(max-width:620px){.ww-kpis{grid-template-columns:repeat(2,1fr)}}
+</style></head><body><div class="ww-wrap">
+<div class="ww-frame"><div class="ww-bbar"><span class="ww-dot" style="background:#e2655a"></span><span class="ww-dot" style="background:#e6b54a"></span><span class="ww-dot" style="background:#6fae5f"></span><span class="ww-url">sekond.github.io/Wattlas/frontend/storage.html</span></div>
+<div class="ww-page">
+ <div class="ww-banner"><span style="font-weight:500">Mockup</span> — illustrative; the live build runs a transparent battery model over real ENTSO-E prices and a committed capacity series. The arbitrage figure is an upper bound.</div>
+ <div class="ww-h1">Storage: the batteries that live off the spread</div>
+ <div class="ww-sub">Grid-scale batteries and pumped hydro charge when power is cheap and discharge when it's dear — soaking up the daily price swing the Spread view measures. Here's how that works and how fast they're arriving.</div>
+ <div class="ww-kpis"><div class="ww-kpi"><div class="l">Spread captured / cycle</div><div class="v">~€140/MWh*</div></div><div class="ww-kpi"><div class="l">Round-trip efficiency</div><div class="v">85%</div></div><div class="ww-kpi"><div class="l">EU battery power (2026)</div><div class="v">~28 GW</div></div><div class="ww-kpi"><div class="l">Growth since 2021</div><div class="v">~7×</div></div></div>
+ <div class="ww-card"><div class="ww-ct">1 · A day in the life of a battery</div>
+  <div class="ww-pitch">The day-ahead price (line) dips at midday when solar floods the grid and peaks in the evening. A battery charges in the cheap hours (bars below) and discharges into the peak (bars above) — buy low, sell high.</div>
+  <div class="ww-leg"><span><span class="ww-sw" style="background:#a32d2d;border-radius:50%"></span>Day-ahead price</span><span><span class="ww-sw" style="background:#6fa8c7"></span>Charge (−) / discharge (+)</span></div>
+  <div style="position:relative;height:240px"><canvas id="ww-bat" role="img" aria-label="Day-ahead price across 24 hours, low at midday and high in the evening, with battery charging bars at midday and discharging bars in the evening peak. Illustrative.">Battery charges midday cheap, discharges evening peak.</canvas></div>
+  <div class="ww-cap">*Captured spread assumes perfect foresight and 85% round-trip efficiency — an upper bound, like the Spread view's arbitrage figure. Real revenue is lower (losses, cycling wear, more storage flattening the spread).</div></div>
+ <div class="ww-card"><div class="ww-ct">2 · Where storage is being built</div>
+  <div class="ww-pitch">Installed grid-scale battery power has grown several-fold in a few years, led by Germany and Britain — the supply-side answer to renewable volatility, and the optimistic counterpart to Dunkelflaute.</div>
+  <div class="ww-leg"><span><span class="ww-sw" style="background:#4aa6a0"></span>Germany</span><span><span class="ww-sw" style="background:#185fa5"></span>Great Britain</span><span><span class="ww-sw" style="background:#bdbbb3"></span>Rest of Europe</span></div>
+  <div style="position:relative;height:200px"><canvas id="ww-cap" role="img" aria-label="Stacked bars of battery capacity in gigawatts by year from 2021 to 2026, rising from about 4 to about 28, led by Germany and Great Britain. Illustrative.">Battery capacity rises from ~4 GW (2021) to ~28 GW (2026).</canvas></div>
+  <div class="ww-cap">Installed power (GW); energy capacity (GWh) differs by duration. Illustrative; the live build uses MaStR (DE) and other registries. Pumped hydro shown separately in the full build.</div></div>
+</div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){const lab=[];for(let h=0;h<24;h++)lab.push((h<10?("0"+h):h));
+const price=[78,72,70,72,80,95,120,130,115,80,55,45,42,44,52,70,110,160,195,185,150,120,98,85];
+const batt=[0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,1,1,0,0,0,0];
+new Chart(document.getElementById("ww-bat"),{data:{labels:lab,datasets:[{type:"bar",label:"Battery (MW)",data:batt,backgroundColor:batt.map(v=>v<0?"#3a7ca5":"#6fa8c7"),yAxisID:"y",order:2},{type:"line",label:"Price",data:price,borderColor:"#a32d2d",backgroundColor:"#a32d2d",borderWidth:2,pointRadius:0,tension:.3,yAxisID:"y1",order:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{position:"left",title:{display:true,text:"charge − / discharge + (MW)",font:{size:10}},grid:{color:"rgba(0,0,0,.06)"},ticks:{font:{size:10}},suggestedMin:-2,suggestedMax:2},y1:{position:"right",title:{display:true,text:"€/MWh",font:{size:11}},grid:{drawOnChartArea:false},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:10},maxTicksLimit:12}}}}});
+const yrs=["2021","2022","2023","2024","2025","2026"],de=[1.0,1.8,3.5,6.0,9.0,12.0],gb=[1.6,2.4,3.2,4.5,5.8,7.0],rest=[1.4,2.3,3.8,5.5,7.7,9.5];
+new Chart(document.getElementById("ww-cap"),{type:"bar",data:{labels:yrs,datasets:[{label:"Germany",data:de,backgroundColor:"#4aa6a0",stack:"s",borderRadius:2},{label:"Great Britain",data:gb,backgroundColor:"#185fa5",stack:"s",borderRadius:2},{label:"Rest of Europe",data:rest,backgroundColor:"#bdbbb3",stack:"s",borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:10}}},y:{stacked:true,title:{display:true,text:"GW",font:{size:11}},grid:{color:"rgba(0,0,0,.06)"},ticks:{font:{size:10}}}}}});
+})();
+</script></body></html>
