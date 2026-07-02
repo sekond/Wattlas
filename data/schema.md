@@ -6,6 +6,24 @@ All prices are in EUR/MWh. All dates are ISO `YYYY-MM-DD` in the Europe/Berlin c
 
 ---
 
+## `last_updated.json`
+
+A tiny meta file (not a view). Records the most recent `generated_at` across all
+other `data/*.json`, written by `pipeline/build_last_updated.py` at the end of the
+daily refresh (reads committed JSON only, no network). The frontend (`nav.js`)
+fetches it to show a site-wide "Data updated &lt;date&gt;" footer stamp that tracks
+the refresh automatically.
+
+```json
+{
+  "generated_at": "2026-06-29T07:10:55+00:00",  // max generated_at across data/*.json
+  "sources_counted": 33,                          // files that carried a generated_at
+  "note": "…"
+}
+```
+
+---
+
 ## `spread.json`
 
 One row per calendar day.

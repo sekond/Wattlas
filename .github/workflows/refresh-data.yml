@@ -111,6 +111,14 @@ jobs:
             echo "MaStR capacity refreshes weekly (Mondays); skipping today."
           fi
 
+      - name: Write "data last updated" manifest
+        run: |
+          # After all builders: record the freshest generated_at across data/*.json
+          # into data/last_updated.json, which the frontend (nav.js) shows site-wide.
+          # Reads committed JSON only — no network — so it always runs, and runs last
+          # so the stamp reflects this refresh.
+          python pipeline/build_last_updated.py
+
       - name: Commit refreshed data (only if changed)
         run: |
           git config user.name "github-actions[bot]"
