@@ -2,2529 +2,3181 @@
   "source": "netztransparenz.de redispatch WebAPI \u2014 renewable curtailment (measures reducing feed-in of renewable plants, GESAMTE_ARBEIT_MWH)",
   "units": "MWh per day (curtailed renewable energy)",
   "methodology": "Each measure's total energy attributed to its start day, grouped in Europe/Berlin local time.",
-  "generated_at": "2026-06-10T11:39:17+00:00",
-  "period_start": "2024-06-10",
-  "period_end": "2026-06-10",
+  "generated_at": "2026-06-29T06:41:25+00:00",
+  "period_start": "2024-06-29",
+  "period_end": "2026-06-28",
+  "cost_estimate": {
+    "method": "ESTIMATE \u2014 curtailed MWh \u00d7 a reference compensation rate. The redispatch feed reports volume, not EinsMan compensation cost, which varies by plant and year; this is an order-of-magnitude proxy, not the billed figure.",
+    "reference_eur_per_mwh": 80,
+    "total_eur": 983225302,
+    "eu_context_2024_eur_bn": 7.2,
+    "eu_context_note": "EU 2024 curtailment cost ~\u20ac7.2bn across 7 countries \u2014 external context, a different scope; not this DE-only series."
+  },
   "days": [
     {
-      "date": "2024-06-10",
-      "curtailed_mwh": 12730.5
-    },
-    {
-      "date": "2024-06-11",
-      "curtailed_mwh": 35434.2
-    },
-    {
-      "date": "2024-06-12",
-      "curtailed_mwh": 13249.1
-    },
-    {
-      "date": "2024-06-14",
-      "curtailed_mwh": 4787.6
-    },
-    {
-      "date": "2024-06-15",
-      "curtailed_mwh": 843.8
-    },
-    {
-      "date": "2024-06-16",
-      "curtailed_mwh": 1020.0
-    },
-    {
-      "date": "2024-06-18",
-      "curtailed_mwh": 15370.5
-    },
-    {
-      "date": "2024-06-19",
-      "curtailed_mwh": 4052.8
-    },
-    {
-      "date": "2024-06-20",
-      "curtailed_mwh": 2634.0
-    },
-    {
-      "date": "2024-06-21",
-      "curtailed_mwh": 965.0
-    },
-    {
-      "date": "2024-06-22",
-      "curtailed_mwh": 8808.0
-    },
-    {
-      "date": "2024-06-23",
-      "curtailed_mwh": 9169.0
-    },
-    {
-      "date": "2024-06-25",
-      "curtailed_mwh": 617.5
-    },
-    {
-      "date": "2024-06-27",
-      "curtailed_mwh": 355.8
-    },
-    {
-      "date": "2024-06-28",
-      "curtailed_mwh": 8464.2
-    },
-    {
       "date": "2024-06-29",
-      "curtailed_mwh": 3000.0
+      "curtailed_mwh": 3000.0,
+      "cost_estimate_eur": 240000
     },
     {
       "date": "2024-06-30",
-      "curtailed_mwh": 8768.0
+      "curtailed_mwh": 8768.0,
+      "cost_estimate_eur": 701440
     },
     {
       "date": "2024-07-01",
-      "curtailed_mwh": 2902.5
+      "curtailed_mwh": 2902.5,
+      "cost_estimate_eur": 232200
     },
     {
       "date": "2024-07-02",
-      "curtailed_mwh": 625.8
+      "curtailed_mwh": 625.8,
+      "cost_estimate_eur": 50060
     },
     {
       "date": "2024-07-04",
-      "curtailed_mwh": 32478.2
+      "curtailed_mwh": 32478.2,
+      "cost_estimate_eur": 2598260
     },
     {
       "date": "2024-07-05",
-      "curtailed_mwh": 43743.4
+      "curtailed_mwh": 43743.4,
+      "cost_estimate_eur": 3499472
     },
     {
       "date": "2024-07-06",
-      "curtailed_mwh": 29177.4
+      "curtailed_mwh": 29177.4,
+      "cost_estimate_eur": 2334191
     },
     {
       "date": "2024-07-07",
-      "curtailed_mwh": 6054.5
+      "curtailed_mwh": 6054.5,
+      "cost_estimate_eur": 484360
     },
     {
       "date": "2024-07-08",
-      "curtailed_mwh": 500.0
+      "curtailed_mwh": 500.0,
+      "cost_estimate_eur": 40000
     },
     {
       "date": "2024-07-09",
-      "curtailed_mwh": 120.0
+      "curtailed_mwh": 120.0,
+      "cost_estimate_eur": 9600
     },
     {
       "date": "2024-07-10",
-      "curtailed_mwh": 2555.2
+      "curtailed_mwh": 2555.2,
+      "cost_estimate_eur": 204420
     },
     {
       "date": "2024-07-12",
-      "curtailed_mwh": 7017.1
+      "curtailed_mwh": 7017.1,
+      "cost_estimate_eur": 561370
     },
     {
       "date": "2024-07-13",
-      "curtailed_mwh": 20963.7
+      "curtailed_mwh": 20963.7,
+      "cost_estimate_eur": 1677097
     },
     {
       "date": "2024-07-14",
-      "curtailed_mwh": 6240.0
+      "curtailed_mwh": 6240.0,
+      "cost_estimate_eur": 499200
     },
     {
       "date": "2024-07-15",
-      "curtailed_mwh": 8448.2
+      "curtailed_mwh": 8448.2,
+      "cost_estimate_eur": 675857
     },
     {
       "date": "2024-07-16",
-      "curtailed_mwh": 1786.0
+      "curtailed_mwh": 1786.0,
+      "cost_estimate_eur": 142880
     },
     {
       "date": "2024-07-17",
-      "curtailed_mwh": 9853.2
+      "curtailed_mwh": 9853.2,
+      "cost_estimate_eur": 788260
     },
     {
       "date": "2024-07-18",
-      "curtailed_mwh": 306.0
+      "curtailed_mwh": 306.0,
+      "cost_estimate_eur": 24480
     },
     {
       "date": "2024-07-19",
-      "curtailed_mwh": 972.0
+      "curtailed_mwh": 972.0,
+      "cost_estimate_eur": 77760
     },
     {
       "date": "2024-07-20",
-      "curtailed_mwh": 687.2
+      "curtailed_mwh": 687.2,
+      "cost_estimate_eur": 54979
     },
     {
       "date": "2024-07-21",
-      "curtailed_mwh": 6844.7
+      "curtailed_mwh": 6844.7,
+      "cost_estimate_eur": 547576
     },
     {
       "date": "2024-07-22",
-      "curtailed_mwh": 2758.0
+      "curtailed_mwh": 2758.0,
+      "cost_estimate_eur": 220640
     },
     {
       "date": "2024-07-23",
-      "curtailed_mwh": 900.0
+      "curtailed_mwh": 900.0,
+      "cost_estimate_eur": 72000
     },
     {
       "date": "2024-07-24",
-      "curtailed_mwh": 3482.2
+      "curtailed_mwh": 3482.2,
+      "cost_estimate_eur": 278574
     },
     {
       "date": "2024-07-25",
-      "curtailed_mwh": 2396.5
+      "curtailed_mwh": 2396.5,
+      "cost_estimate_eur": 191720
     },
     {
       "date": "2024-07-26",
-      "curtailed_mwh": 412.5
+      "curtailed_mwh": 412.5,
+      "cost_estimate_eur": 33000
     },
     {
       "date": "2024-07-28",
-      "curtailed_mwh": 180.0
+      "curtailed_mwh": 180.0,
+      "cost_estimate_eur": 14400
     },
     {
       "date": "2024-07-29",
-      "curtailed_mwh": 15244.0
+      "curtailed_mwh": 15244.0,
+      "cost_estimate_eur": 1219520
     },
     {
       "date": "2024-07-30",
-      "curtailed_mwh": 3000.0
+      "curtailed_mwh": 3000.0,
+      "cost_estimate_eur": 240000
     },
     {
       "date": "2024-07-31",
-      "curtailed_mwh": 3931.5
+      "curtailed_mwh": 3931.5,
+      "cost_estimate_eur": 314520
     },
     {
       "date": "2024-08-01",
-      "curtailed_mwh": 1000.0
+      "curtailed_mwh": 1000.0,
+      "cost_estimate_eur": 80000
     },
     {
       "date": "2024-08-02",
-      "curtailed_mwh": 434.0
+      "curtailed_mwh": 434.0,
+      "cost_estimate_eur": 34720
     },
     {
       "date": "2024-08-04",
-      "curtailed_mwh": 747.2
+      "curtailed_mwh": 747.2,
+      "cost_estimate_eur": 59779
     },
     {
       "date": "2024-08-05",
-      "curtailed_mwh": 1125.0
+      "curtailed_mwh": 1125.0,
+      "cost_estimate_eur": 90000
     },
     {
       "date": "2024-08-06",
-      "curtailed_mwh": 2050.0
+      "curtailed_mwh": 2050.0,
+      "cost_estimate_eur": 164000
     },
     {
       "date": "2024-08-07",
-      "curtailed_mwh": 1812.0
+      "curtailed_mwh": 1812.0,
+      "cost_estimate_eur": 144960
     },
     {
       "date": "2024-08-08",
-      "curtailed_mwh": 245.0
+      "curtailed_mwh": 245.0,
+      "cost_estimate_eur": 19600
     },
     {
       "date": "2024-08-09",
-      "curtailed_mwh": 45082.8
+      "curtailed_mwh": 45082.8,
+      "cost_estimate_eur": 3606620
     },
     {
       "date": "2024-08-10",
-      "curtailed_mwh": 7012.0
+      "curtailed_mwh": 7012.0,
+      "cost_estimate_eur": 560960
     },
     {
       "date": "2024-08-11",
-      "curtailed_mwh": 2058.0
+      "curtailed_mwh": 2058.0,
+      "cost_estimate_eur": 164640
     },
     {
       "date": "2024-08-12",
-      "curtailed_mwh": 12654.5
+      "curtailed_mwh": 12654.5,
+      "cost_estimate_eur": 1012360
     },
     {
       "date": "2024-08-13",
-      "curtailed_mwh": 11567.5
+      "curtailed_mwh": 11567.5,
+      "cost_estimate_eur": 925400
     },
     {
       "date": "2024-08-14",
-      "curtailed_mwh": 10837.0
+      "curtailed_mwh": 10837.0,
+      "cost_estimate_eur": 866960
     },
     {
       "date": "2024-08-15",
-      "curtailed_mwh": 1861.8
+      "curtailed_mwh": 1861.8,
+      "cost_estimate_eur": 148940
     },
     {
       "date": "2024-08-16",
-      "curtailed_mwh": 3958.5
+      "curtailed_mwh": 3958.5,
+      "cost_estimate_eur": 316680
     },
     {
       "date": "2024-08-17",
-      "curtailed_mwh": 700.0
+      "curtailed_mwh": 700.0,
+      "cost_estimate_eur": 56000
     },
     {
       "date": "2024-08-20",
-      "curtailed_mwh": 3359.3
+      "curtailed_mwh": 3359.3,
+      "cost_estimate_eur": 268742
     },
     {
       "date": "2024-08-21",
-      "curtailed_mwh": 47237.5
+      "curtailed_mwh": 47237.5,
+      "cost_estimate_eur": 3778997
     },
     {
       "date": "2024-08-22",
-      "curtailed_mwh": 11437.8
+      "curtailed_mwh": 11437.8,
+      "cost_estimate_eur": 915020
     },
     {
       "date": "2024-08-23",
-      "curtailed_mwh": 36692.2
+      "curtailed_mwh": 36692.2,
+      "cost_estimate_eur": 2935380
     },
     {
       "date": "2024-08-24",
-      "curtailed_mwh": 2530.0
+      "curtailed_mwh": 2530.0,
+      "cost_estimate_eur": 202400
     },
     {
       "date": "2024-08-25",
-      "curtailed_mwh": 10142.4
+      "curtailed_mwh": 10142.4,
+      "cost_estimate_eur": 811391
     },
     {
       "date": "2024-08-26",
-      "curtailed_mwh": 16829.1
+      "curtailed_mwh": 16829.1,
+      "cost_estimate_eur": 1346325
     },
     {
       "date": "2024-08-27",
-      "curtailed_mwh": 2541.5
+      "curtailed_mwh": 2541.5,
+      "cost_estimate_eur": 203320
     },
     {
       "date": "2024-08-28",
-      "curtailed_mwh": 6199.5
+      "curtailed_mwh": 6199.5,
+      "cost_estimate_eur": 495960
     },
     {
       "date": "2024-08-29",
-      "curtailed_mwh": 3165.0
+      "curtailed_mwh": 3165.0,
+      "cost_estimate_eur": 253200
     },
     {
       "date": "2024-08-30",
-      "curtailed_mwh": 1350.0
+      "curtailed_mwh": 1350.0,
+      "cost_estimate_eur": 108000
     },
     {
       "date": "2024-08-31",
-      "curtailed_mwh": 1899.8
+      "curtailed_mwh": 1899.8,
+      "cost_estimate_eur": 151980
     },
     {
       "date": "2024-09-01",
-      "curtailed_mwh": 15986.8
+      "curtailed_mwh": 15986.8,
+      "cost_estimate_eur": 1278940
     },
     {
       "date": "2024-09-02",
-      "curtailed_mwh": 8150.1
+      "curtailed_mwh": 8150.1,
+      "cost_estimate_eur": 652009
     },
     {
       "date": "2024-09-03",
-      "curtailed_mwh": 3500.0
+      "curtailed_mwh": 3500.0,
+      "cost_estimate_eur": 280000
     },
     {
       "date": "2024-09-04",
-      "curtailed_mwh": 8944.0
+      "curtailed_mwh": 8944.0,
+      "cost_estimate_eur": 715520
     },
     {
       "date": "2024-09-05",
-      "curtailed_mwh": 118231.6
+      "curtailed_mwh": 118231.6,
+      "cost_estimate_eur": 9458526
     },
     {
       "date": "2024-09-06",
-      "curtailed_mwh": 124720.6
+      "curtailed_mwh": 124720.6,
+      "cost_estimate_eur": 9977647
     },
     {
       "date": "2024-09-07",
-      "curtailed_mwh": 5349.5
+      "curtailed_mwh": 5349.5,
+      "cost_estimate_eur": 427960
     },
     {
       "date": "2024-09-08",
-      "curtailed_mwh": 5662.2
+      "curtailed_mwh": 5662.2,
+      "cost_estimate_eur": 452980
     },
     {
       "date": "2024-09-09",
-      "curtailed_mwh": 2765.8
+      "curtailed_mwh": 2765.8,
+      "cost_estimate_eur": 221260
     },
     {
       "date": "2024-09-10",
-      "curtailed_mwh": 28982.4
+      "curtailed_mwh": 28982.4,
+      "cost_estimate_eur": 2318594
     },
     {
       "date": "2024-09-11",
-      "curtailed_mwh": 7656.2
+      "curtailed_mwh": 7656.2,
+      "cost_estimate_eur": 612500
     },
     {
       "date": "2024-09-13",
-      "curtailed_mwh": 1758.0
+      "curtailed_mwh": 1758.0,
+      "cost_estimate_eur": 140640
     },
     {
       "date": "2024-09-14",
-      "curtailed_mwh": 39493.6
+      "curtailed_mwh": 39493.6,
+      "cost_estimate_eur": 3159484
     },
     {
       "date": "2024-09-15",
-      "curtailed_mwh": 45426.4
+      "curtailed_mwh": 45426.4,
+      "cost_estimate_eur": 3634111
     },
     {
       "date": "2024-09-17",
-      "curtailed_mwh": 585.0
+      "curtailed_mwh": 585.0,
+      "cost_estimate_eur": 46800
     },
     {
       "date": "2024-09-18",
-      "curtailed_mwh": 3287.0
+      "curtailed_mwh": 3287.0,
+      "cost_estimate_eur": 262960
     },
     {
       "date": "2024-09-19",
-      "curtailed_mwh": 2272.5
+      "curtailed_mwh": 2272.5,
+      "cost_estimate_eur": 181800
     },
     {
       "date": "2024-09-20",
-      "curtailed_mwh": 7257.5
+      "curtailed_mwh": 7257.5,
+      "cost_estimate_eur": 580600
     },
     {
       "date": "2024-09-21",
-      "curtailed_mwh": 7035.5
+      "curtailed_mwh": 7035.5,
+      "cost_estimate_eur": 562837
     },
     {
       "date": "2024-09-22",
-      "curtailed_mwh": 18353.0
+      "curtailed_mwh": 18353.0,
+      "cost_estimate_eur": 1468242
     },
     {
       "date": "2024-09-23",
-      "curtailed_mwh": 3466.5
+      "curtailed_mwh": 3466.5,
+      "cost_estimate_eur": 277320
     },
     {
       "date": "2024-09-24",
-      "curtailed_mwh": 1142.4
+      "curtailed_mwh": 1142.4,
+      "cost_estimate_eur": 91393
     },
     {
       "date": "2024-09-25",
-      "curtailed_mwh": 15811.2
+      "curtailed_mwh": 15811.2,
+      "cost_estimate_eur": 1264893
     },
     {
       "date": "2024-09-26",
-      "curtailed_mwh": 33417.5
+      "curtailed_mwh": 33417.5,
+      "cost_estimate_eur": 2673398
     },
     {
       "date": "2024-09-27",
-      "curtailed_mwh": 60770.0
+      "curtailed_mwh": 60770.0,
+      "cost_estimate_eur": 4861598
     },
     {
       "date": "2024-09-28",
-      "curtailed_mwh": 23079.2
+      "curtailed_mwh": 23079.2,
+      "cost_estimate_eur": 1846340
     },
     {
       "date": "2024-09-29",
-      "curtailed_mwh": 12019.5
+      "curtailed_mwh": 12019.5,
+      "cost_estimate_eur": 961560
     },
     {
       "date": "2024-09-30",
-      "curtailed_mwh": 118247.8
+      "curtailed_mwh": 118247.8,
+      "cost_estimate_eur": 9459824
     },
     {
       "date": "2024-10-01",
-      "curtailed_mwh": 29731.8
+      "curtailed_mwh": 29731.8,
+      "cost_estimate_eur": 2378540
     },
     {
       "date": "2024-10-02",
-      "curtailed_mwh": 22324.0
+      "curtailed_mwh": 22324.0,
+      "cost_estimate_eur": 1785920
     },
     {
       "date": "2024-10-05",
-      "curtailed_mwh": 4.0
+      "curtailed_mwh": 4.0,
+      "cost_estimate_eur": 320
     },
     {
       "date": "2024-10-06",
-      "curtailed_mwh": 3725.8
+      "curtailed_mwh": 3725.8,
+      "cost_estimate_eur": 298060
     },
     {
       "date": "2024-10-07",
-      "curtailed_mwh": 15123.0
+      "curtailed_mwh": 15123.0,
+      "cost_estimate_eur": 1209840
     },
     {
       "date": "2024-10-08",
-      "curtailed_mwh": 3294.0
+      "curtailed_mwh": 3294.0,
+      "cost_estimate_eur": 263520
     },
     {
       "date": "2024-10-09",
-      "curtailed_mwh": 4213.0
+      "curtailed_mwh": 4213.0,
+      "cost_estimate_eur": 337040
     },
     {
       "date": "2024-10-10",
-      "curtailed_mwh": 77305.2
+      "curtailed_mwh": 77305.2,
+      "cost_estimate_eur": 6184420
     },
     {
       "date": "2024-10-11",
-      "curtailed_mwh": 3634.8
+      "curtailed_mwh": 3634.8,
+      "cost_estimate_eur": 290780
     },
     {
       "date": "2024-10-12",
-      "curtailed_mwh": 10512.2
+      "curtailed_mwh": 10512.2,
+      "cost_estimate_eur": 840980
     },
     {
       "date": "2024-10-13",
-      "curtailed_mwh": 71808.0
+      "curtailed_mwh": 71808.0,
+      "cost_estimate_eur": 5744640
     },
     {
       "date": "2024-10-14",
-      "curtailed_mwh": 14456.2
+      "curtailed_mwh": 14456.2,
+      "cost_estimate_eur": 1156500
     },
     {
       "date": "2024-10-15",
-      "curtailed_mwh": 6610.8
+      "curtailed_mwh": 6610.8,
+      "cost_estimate_eur": 528860
     },
     {
       "date": "2024-10-16",
-      "curtailed_mwh": 149427.1
+      "curtailed_mwh": 149427.1,
+      "cost_estimate_eur": 11954169
     },
     {
       "date": "2024-10-17",
-      "curtailed_mwh": 38449.0
+      "curtailed_mwh": 38449.0,
+      "cost_estimate_eur": 3075920
     },
     {
       "date": "2024-10-18",
-      "curtailed_mwh": 1020.0
+      "curtailed_mwh": 1020.0,
+      "cost_estimate_eur": 81600
     },
     {
       "date": "2024-10-19",
-      "curtailed_mwh": 3375.0
+      "curtailed_mwh": 3375.0,
+      "cost_estimate_eur": 270000
     },
     {
       "date": "2024-10-20",
-      "curtailed_mwh": 47288.2
+      "curtailed_mwh": 47288.2,
+      "cost_estimate_eur": 3783060
     },
     {
       "date": "2024-10-21",
-      "curtailed_mwh": 47731.6
+      "curtailed_mwh": 47731.6,
+      "cost_estimate_eur": 3818531
     },
     {
       "date": "2024-10-22",
-      "curtailed_mwh": 21679.0
+      "curtailed_mwh": 21679.0,
+      "cost_estimate_eur": 1734324
     },
     {
       "date": "2024-10-24",
-      "curtailed_mwh": 741.0
+      "curtailed_mwh": 741.0,
+      "cost_estimate_eur": 59280
     },
     {
       "date": "2024-10-26",
-      "curtailed_mwh": 0.2
+      "curtailed_mwh": 0.2,
+      "cost_estimate_eur": 20
     },
     {
       "date": "2024-10-27",
-      "curtailed_mwh": 2.0
+      "curtailed_mwh": 2.0,
+      "cost_estimate_eur": 160
     },
     {
       "date": "2024-10-28",
-      "curtailed_mwh": 3774.2
+      "curtailed_mwh": 3774.2,
+      "cost_estimate_eur": 301940
     },
     {
       "date": "2024-10-30",
-      "curtailed_mwh": 2365.0
+      "curtailed_mwh": 2365.0,
+      "cost_estimate_eur": 189200
     },
     {
       "date": "2024-10-31",
-      "curtailed_mwh": 62074.2
+      "curtailed_mwh": 62074.2,
+      "cost_estimate_eur": 4965936
     },
     {
       "date": "2024-11-01",
-      "curtailed_mwh": 49404.9
+      "curtailed_mwh": 49404.9,
+      "cost_estimate_eur": 3952390
     },
     {
       "date": "2024-11-02",
-      "curtailed_mwh": 5516.4
+      "curtailed_mwh": 5516.4,
+      "cost_estimate_eur": 441309
     },
     {
       "date": "2024-11-08",
-      "curtailed_mwh": 62.5
+      "curtailed_mwh": 62.5,
+      "cost_estimate_eur": 5000
     },
     {
       "date": "2024-11-11",
-      "curtailed_mwh": 18698.8
+      "curtailed_mwh": 18698.8,
+      "cost_estimate_eur": 1495900
     },
     {
       "date": "2024-11-12",
-      "curtailed_mwh": 100.0
+      "curtailed_mwh": 100.0,
+      "cost_estimate_eur": 8000
     },
     {
       "date": "2024-11-13",
-      "curtailed_mwh": 1945.5
+      "curtailed_mwh": 1945.5,
+      "cost_estimate_eur": 155640
     },
     {
       "date": "2024-11-14",
-      "curtailed_mwh": 5215.5
+      "curtailed_mwh": 5215.5,
+      "cost_estimate_eur": 417240
     },
     {
       "date": "2024-11-15",
-      "curtailed_mwh": 16741.2
+      "curtailed_mwh": 16741.2,
+      "cost_estimate_eur": 1339300
     },
     {
       "date": "2024-11-16",
-      "curtailed_mwh": 63458.0
+      "curtailed_mwh": 63458.0,
+      "cost_estimate_eur": 5076643
     },
     {
       "date": "2024-11-17",
-      "curtailed_mwh": 81632.2
+      "curtailed_mwh": 81632.2,
+      "cost_estimate_eur": 6530574
     },
     {
       "date": "2024-11-18",
-      "curtailed_mwh": 39836.2
+      "curtailed_mwh": 39836.2,
+      "cost_estimate_eur": 3186900
     },
     {
       "date": "2024-11-21",
-      "curtailed_mwh": 3166.0
+      "curtailed_mwh": 3166.0,
+      "cost_estimate_eur": 253280
     },
     {
       "date": "2024-11-22",
-      "curtailed_mwh": 10237.2
+      "curtailed_mwh": 10237.2,
+      "cost_estimate_eur": 818980
     },
     {
       "date": "2024-11-23",
-      "curtailed_mwh": 46208.2
+      "curtailed_mwh": 46208.2,
+      "cost_estimate_eur": 3696660
     },
     {
       "date": "2024-11-24",
-      "curtailed_mwh": 68571.5
+      "curtailed_mwh": 68571.5,
+      "cost_estimate_eur": 5485718
     },
     {
       "date": "2024-11-25",
-      "curtailed_mwh": 114747.4
+      "curtailed_mwh": 114747.4,
+      "cost_estimate_eur": 9179790
     },
     {
       "date": "2024-11-26",
-      "curtailed_mwh": 64926.7
+      "curtailed_mwh": 64926.7,
+      "cost_estimate_eur": 5194136
     },
     {
       "date": "2024-11-27",
-      "curtailed_mwh": 19001.2
+      "curtailed_mwh": 19001.2,
+      "cost_estimate_eur": 1520100
     },
     {
       "date": "2024-11-28",
-      "curtailed_mwh": 59291.5
+      "curtailed_mwh": 59291.5,
+      "cost_estimate_eur": 4743320
     },
     {
       "date": "2024-11-29",
-      "curtailed_mwh": 1311.8
+      "curtailed_mwh": 1311.8,
+      "cost_estimate_eur": 104940
     },
     {
       "date": "2024-11-30",
-      "curtailed_mwh": 5135.8
+      "curtailed_mwh": 5135.8,
+      "cost_estimate_eur": 410860
     },
     {
       "date": "2024-12-01",
-      "curtailed_mwh": 4133.0
+      "curtailed_mwh": 4133.0,
+      "cost_estimate_eur": 330640
     },
     {
       "date": "2024-12-02",
-      "curtailed_mwh": 10139.8
+      "curtailed_mwh": 10139.8,
+      "cost_estimate_eur": 811180
     },
     {
       "date": "2024-12-03",
-      "curtailed_mwh": 6656.0
+      "curtailed_mwh": 6656.0,
+      "cost_estimate_eur": 532480
     },
     {
       "date": "2024-12-05",
-      "curtailed_mwh": 34673.2
+      "curtailed_mwh": 34673.2,
+      "cost_estimate_eur": 2773860
     },
     {
       "date": "2024-12-06",
-      "curtailed_mwh": 5292.2
+      "curtailed_mwh": 5292.2,
+      "cost_estimate_eur": 423380
     },
     {
       "date": "2024-12-07",
-      "curtailed_mwh": 8543.5
+      "curtailed_mwh": 8543.5,
+      "cost_estimate_eur": 683480
     },
     {
       "date": "2024-12-08",
-      "curtailed_mwh": 9127.5
+      "curtailed_mwh": 9127.5,
+      "cost_estimate_eur": 730202
     },
     {
       "date": "2024-12-09",
-      "curtailed_mwh": 50542.0
+      "curtailed_mwh": 50542.0,
+      "cost_estimate_eur": 4043359
     },
     {
       "date": "2024-12-10",
-      "curtailed_mwh": 6566.0
+      "curtailed_mwh": 6566.0,
+      "cost_estimate_eur": 525280
     },
     {
       "date": "2024-12-14",
-      "curtailed_mwh": 1624.2
+      "curtailed_mwh": 1624.2,
+      "cost_estimate_eur": 129940
     },
     {
       "date": "2024-12-15",
-      "curtailed_mwh": 111091.7
+      "curtailed_mwh": 111091.7,
+      "cost_estimate_eur": 8887337
     },
     {
       "date": "2024-12-16",
-      "curtailed_mwh": 188598.7
+      "curtailed_mwh": 188598.7,
+      "cost_estimate_eur": 15087897
     },
     {
       "date": "2024-12-17",
-      "curtailed_mwh": 110302.3
+      "curtailed_mwh": 110302.3,
+      "cost_estimate_eur": 8824182
     },
     {
       "date": "2024-12-18",
-      "curtailed_mwh": 81129.1
+      "curtailed_mwh": 81129.1,
+      "cost_estimate_eur": 6490330
     },
     {
       "date": "2024-12-19",
-      "curtailed_mwh": 64050.4
+      "curtailed_mwh": 64050.4,
+      "cost_estimate_eur": 5124034
     },
     {
       "date": "2024-12-20",
-      "curtailed_mwh": 73041.6
+      "curtailed_mwh": 73041.6,
+      "cost_estimate_eur": 5843330
     },
     {
       "date": "2024-12-21",
-      "curtailed_mwh": 65720.0
+      "curtailed_mwh": 65720.0,
+      "cost_estimate_eur": 5257601
     },
     {
       "date": "2024-12-22",
-      "curtailed_mwh": 14402.5
+      "curtailed_mwh": 14402.5,
+      "cost_estimate_eur": 1152200
     },
     {
       "date": "2024-12-23",
-      "curtailed_mwh": 54939.1
+      "curtailed_mwh": 54939.1,
+      "cost_estimate_eur": 4395130
     },
     {
       "date": "2024-12-24",
-      "curtailed_mwh": 1239.0
+      "curtailed_mwh": 1239.0,
+      "cost_estimate_eur": 99120
     },
     {
       "date": "2024-12-29",
-      "curtailed_mwh": 24914.2
+      "curtailed_mwh": 24914.2,
+      "cost_estimate_eur": 1993140
     },
     {
       "date": "2024-12-30",
-      "curtailed_mwh": 160934.9
+      "curtailed_mwh": 160934.9,
+      "cost_estimate_eur": 12874795
     },
     {
       "date": "2024-12-31",
-      "curtailed_mwh": 145760.0
+      "curtailed_mwh": 145760.0,
+      "cost_estimate_eur": 11660798
     },
     {
       "date": "2025-01-01",
-      "curtailed_mwh": 91229.5
+      "curtailed_mwh": 91229.5,
+      "cost_estimate_eur": 7298363
     },
     {
       "date": "2025-01-02",
-      "curtailed_mwh": 18508.8
+      "curtailed_mwh": 18508.8,
+      "cost_estimate_eur": 1480700
     },
     {
       "date": "2025-01-03",
-      "curtailed_mwh": 102956.6
+      "curtailed_mwh": 102956.6,
+      "cost_estimate_eur": 8236526
     },
     {
       "date": "2025-01-04",
-      "curtailed_mwh": 300.0
+      "curtailed_mwh": 300.0,
+      "cost_estimate_eur": 24000
     },
     {
       "date": "2025-01-05",
-      "curtailed_mwh": 11805.0
+      "curtailed_mwh": 11805.0,
+      "cost_estimate_eur": 944400
     },
     {
       "date": "2025-01-06",
-      "curtailed_mwh": 73385.1
+      "curtailed_mwh": 73385.1,
+      "cost_estimate_eur": 5870808
     },
     {
       "date": "2025-01-07",
-      "curtailed_mwh": 102963.9
+      "curtailed_mwh": 102963.9,
+      "cost_estimate_eur": 8237111
     },
     {
       "date": "2025-01-08",
-      "curtailed_mwh": 91321.1
+      "curtailed_mwh": 91321.1,
+      "cost_estimate_eur": 7305685
     },
     {
       "date": "2025-01-09",
-      "curtailed_mwh": 1268.0
+      "curtailed_mwh": 1268.0,
+      "cost_estimate_eur": 101440
     },
     {
       "date": "2025-01-10",
-      "curtailed_mwh": 4495.2
+      "curtailed_mwh": 4495.2,
+      "cost_estimate_eur": 359620
     },
     {
       "date": "2025-01-11",
-      "curtailed_mwh": 45721.9
+      "curtailed_mwh": 45721.9,
+      "cost_estimate_eur": 3657752
     },
     {
       "date": "2025-01-12",
-      "curtailed_mwh": 2757.5
+      "curtailed_mwh": 2757.5,
+      "cost_estimate_eur": 220598
     },
     {
       "date": "2025-01-13",
-      "curtailed_mwh": 18819.5
+      "curtailed_mwh": 18819.5,
+      "cost_estimate_eur": 1505560
     },
     {
       "date": "2025-01-14",
-      "curtailed_mwh": 32827.3
+      "curtailed_mwh": 32827.3,
+      "cost_estimate_eur": 2626184
     },
     {
       "date": "2025-01-15",
-      "curtailed_mwh": 98.0
+      "curtailed_mwh": 98.0,
+      "cost_estimate_eur": 7840
     },
     {
       "date": "2025-01-19",
-      "curtailed_mwh": 87.5
+      "curtailed_mwh": 87.5,
+      "cost_estimate_eur": 7000
     },
     {
       "date": "2025-01-21",
-      "curtailed_mwh": 3230.2
+      "curtailed_mwh": 3230.2,
+      "cost_estimate_eur": 258420
     },
     {
       "date": "2025-01-22",
-      "curtailed_mwh": 270.0
+      "curtailed_mwh": 270.0,
+      "cost_estimate_eur": 21600
     },
     {
       "date": "2025-01-23",
-      "curtailed_mwh": 44015.5
+      "curtailed_mwh": 44015.5,
+      "cost_estimate_eur": 3521240
     },
     {
       "date": "2025-01-24",
-      "curtailed_mwh": 66375.0
+      "curtailed_mwh": 66375.0,
+      "cost_estimate_eur": 5310000
     },
     {
       "date": "2025-01-25",
-      "curtailed_mwh": 9664.8
+      "curtailed_mwh": 9664.8,
+      "cost_estimate_eur": 773181
     },
     {
       "date": "2025-01-26",
-      "curtailed_mwh": 5519.2
+      "curtailed_mwh": 5519.2,
+      "cost_estimate_eur": 441540
     },
     {
       "date": "2025-01-27",
-      "curtailed_mwh": 52309.5
+      "curtailed_mwh": 52309.5,
+      "cost_estimate_eur": 4184760
     },
     {
       "date": "2025-01-28",
-      "curtailed_mwh": 10603.8
+      "curtailed_mwh": 10603.8,
+      "cost_estimate_eur": 848300
     },
     {
       "date": "2025-01-29",
-      "curtailed_mwh": 21703.0
+      "curtailed_mwh": 21703.0,
+      "cost_estimate_eur": 1736244
     },
     {
       "date": "2025-01-30",
-      "curtailed_mwh": 16388.5
+      "curtailed_mwh": 16388.5,
+      "cost_estimate_eur": 1311079
     },
     {
       "date": "2025-01-31",
-      "curtailed_mwh": 1837.5
+      "curtailed_mwh": 1837.5,
+      "cost_estimate_eur": 147000
     },
     {
       "date": "2025-02-03",
-      "curtailed_mwh": 50.0
+      "curtailed_mwh": 50.0,
+      "cost_estimate_eur": 4000
     },
     {
       "date": "2025-02-04",
-      "curtailed_mwh": 6381.2
+      "curtailed_mwh": 6381.2,
+      "cost_estimate_eur": 510500
     },
     {
       "date": "2025-02-05",
-      "curtailed_mwh": 6715.0
+      "curtailed_mwh": 6715.0,
+      "cost_estimate_eur": 537200
     },
     {
       "date": "2025-02-07",
-      "curtailed_mwh": 32738.0
+      "curtailed_mwh": 32738.0,
+      "cost_estimate_eur": 2619042
     },
     {
       "date": "2025-02-08",
-      "curtailed_mwh": 35423.6
+      "curtailed_mwh": 35423.6,
+      "cost_estimate_eur": 2833885
     },
     {
       "date": "2025-02-09",
-      "curtailed_mwh": 13390.0
+      "curtailed_mwh": 13390.0,
+      "cost_estimate_eur": 1071200
     },
     {
       "date": "2025-02-10",
-      "curtailed_mwh": 84393.9
+      "curtailed_mwh": 84393.9,
+      "cost_estimate_eur": 6751510
     },
     {
       "date": "2025-02-11",
-      "curtailed_mwh": 153191.4
+      "curtailed_mwh": 153191.4,
+      "cost_estimate_eur": 12255308
     },
     {
       "date": "2025-02-12",
-      "curtailed_mwh": 5168.8
+      "curtailed_mwh": 5168.8,
+      "cost_estimate_eur": 413500
     },
     {
       "date": "2025-02-17",
-      "curtailed_mwh": 487.5
+      "curtailed_mwh": 487.5,
+      "cost_estimate_eur": 39000
     },
     {
       "date": "2025-02-18",
-      "curtailed_mwh": 2866.0
+      "curtailed_mwh": 2866.0,
+      "cost_estimate_eur": 229280
     },
     {
       "date": "2025-02-19",
-      "curtailed_mwh": 22898.3
+      "curtailed_mwh": 22898.3,
+      "cost_estimate_eur": 1831868
     },
     {
       "date": "2025-02-20",
-      "curtailed_mwh": 12624.4
+      "curtailed_mwh": 12624.4,
+      "cost_estimate_eur": 1009950
     },
     {
       "date": "2025-02-21",
-      "curtailed_mwh": 18795.5
+      "curtailed_mwh": 18795.5,
+      "cost_estimate_eur": 1503640
     },
     {
       "date": "2025-02-22",
-      "curtailed_mwh": 10659.8
+      "curtailed_mwh": 10659.8,
+      "cost_estimate_eur": 852780
     },
     {
       "date": "2025-02-23",
-      "curtailed_mwh": 7211.4
+      "curtailed_mwh": 7211.4,
+      "cost_estimate_eur": 576914
     },
     {
       "date": "2025-02-24",
-      "curtailed_mwh": 21794.8
+      "curtailed_mwh": 21794.8,
+      "cost_estimate_eur": 1743581
     },
     {
       "date": "2025-02-25",
-      "curtailed_mwh": 51.0
+      "curtailed_mwh": 51.0,
+      "cost_estimate_eur": 4080
     },
     {
       "date": "2025-03-02",
-      "curtailed_mwh": 3625.0
+      "curtailed_mwh": 3625.0,
+      "cost_estimate_eur": 290000
     },
     {
       "date": "2025-03-03",
-      "curtailed_mwh": 10940.0
+      "curtailed_mwh": 10940.0,
+      "cost_estimate_eur": 875202
     },
     {
       "date": "2025-03-04",
-      "curtailed_mwh": 17638.0
+      "curtailed_mwh": 17638.0,
+      "cost_estimate_eur": 1411038
     },
     {
       "date": "2025-03-05",
-      "curtailed_mwh": 80721.7
+      "curtailed_mwh": 80721.7,
+      "cost_estimate_eur": 6457738
     },
     {
       "date": "2025-03-06",
-      "curtailed_mwh": 13982.8
+      "curtailed_mwh": 13982.8,
+      "cost_estimate_eur": 1118623
     },
     {
       "date": "2025-03-07",
-      "curtailed_mwh": 1812.8
+      "curtailed_mwh": 1812.8,
+      "cost_estimate_eur": 145020
     },
     {
       "date": "2025-03-08",
-      "curtailed_mwh": 1812.5
+      "curtailed_mwh": 1812.5,
+      "cost_estimate_eur": 145000
     },
     {
       "date": "2025-03-09",
-      "curtailed_mwh": 1636.8
+      "curtailed_mwh": 1636.8,
+      "cost_estimate_eur": 130940
     },
     {
       "date": "2025-03-10",
-      "curtailed_mwh": 1223.0
+      "curtailed_mwh": 1223.0,
+      "cost_estimate_eur": 97840
     },
     {
       "date": "2025-03-16",
-      "curtailed_mwh": 4924.5
+      "curtailed_mwh": 4924.5,
+      "cost_estimate_eur": 393960
     },
     {
       "date": "2025-03-17",
-      "curtailed_mwh": 6547.1
+      "curtailed_mwh": 6547.1,
+      "cost_estimate_eur": 523770
     },
     {
       "date": "2025-03-18",
-      "curtailed_mwh": 5061.0
+      "curtailed_mwh": 5061.0,
+      "cost_estimate_eur": 404880
     },
     {
       "date": "2025-03-19",
-      "curtailed_mwh": 5374.5
+      "curtailed_mwh": 5374.5,
+      "cost_estimate_eur": 429960
     },
     {
       "date": "2025-03-20",
-      "curtailed_mwh": 2947.9
+      "curtailed_mwh": 2947.9,
+      "cost_estimate_eur": 235835
     },
     {
       "date": "2025-03-21",
-      "curtailed_mwh": 28260.0
+      "curtailed_mwh": 28260.0,
+      "cost_estimate_eur": 2260802
     },
     {
       "date": "2025-03-22",
-      "curtailed_mwh": 120808.9
+      "curtailed_mwh": 120808.9,
+      "cost_estimate_eur": 9664714
     },
     {
       "date": "2025-03-23",
-      "curtailed_mwh": 24841.8
+      "curtailed_mwh": 24841.8,
+      "cost_estimate_eur": 1987340
     },
     {
       "date": "2025-03-24",
-      "curtailed_mwh": 0.8
+      "curtailed_mwh": 0.8,
+      "cost_estimate_eur": 62
     },
     {
       "date": "2025-03-25",
-      "curtailed_mwh": 6087.8
+      "curtailed_mwh": 6087.8,
+      "cost_estimate_eur": 487020
     },
     {
       "date": "2025-03-26",
-      "curtailed_mwh": 12164.9
+      "curtailed_mwh": 12164.9,
+      "cost_estimate_eur": 973195
     },
     {
       "date": "2025-03-27",
-      "curtailed_mwh": 1823.0
+      "curtailed_mwh": 1823.0,
+      "cost_estimate_eur": 145840
     },
     {
       "date": "2025-03-28",
-      "curtailed_mwh": 6904.5
+      "curtailed_mwh": 6904.5,
+      "cost_estimate_eur": 552360
     },
     {
       "date": "2025-03-29",
-      "curtailed_mwh": 503.5
+      "curtailed_mwh": 503.5,
+      "cost_estimate_eur": 40280
     },
     {
       "date": "2025-03-30",
-      "curtailed_mwh": 44483.0
+      "curtailed_mwh": 44483.0,
+      "cost_estimate_eur": 3558641
     },
     {
       "date": "2025-03-31",
-      "curtailed_mwh": 1186.5
+      "curtailed_mwh": 1186.5,
+      "cost_estimate_eur": 94920
     },
     {
       "date": "2025-04-01",
-      "curtailed_mwh": 1704.0
+      "curtailed_mwh": 1704.0,
+      "cost_estimate_eur": 136320
     },
     {
       "date": "2025-04-02",
-      "curtailed_mwh": 1800.0
+      "curtailed_mwh": 1800.0,
+      "cost_estimate_eur": 144000
     },
     {
       "date": "2025-04-03",
-      "curtailed_mwh": 1094.2
+      "curtailed_mwh": 1094.2,
+      "cost_estimate_eur": 87540
     },
     {
       "date": "2025-04-04",
-      "curtailed_mwh": 1536.0
+      "curtailed_mwh": 1536.0,
+      "cost_estimate_eur": 122880
     },
     {
       "date": "2025-04-05",
-      "curtailed_mwh": 7726.2
+      "curtailed_mwh": 7726.2,
+      "cost_estimate_eur": 618100
     },
     {
       "date": "2025-04-06",
-      "curtailed_mwh": 2349.0
+      "curtailed_mwh": 2349.0,
+      "cost_estimate_eur": 187920
     },
     {
       "date": "2025-04-07",
-      "curtailed_mwh": 772.0
+      "curtailed_mwh": 772.0,
+      "cost_estimate_eur": 61760
     },
     {
       "date": "2025-04-10",
-      "curtailed_mwh": 19497.4
+      "curtailed_mwh": 19497.4,
+      "cost_estimate_eur": 1559795
     },
     {
       "date": "2025-04-11",
-      "curtailed_mwh": 63211.9
+      "curtailed_mwh": 63211.9,
+      "cost_estimate_eur": 5056950
     },
     {
       "date": "2025-04-12",
-      "curtailed_mwh": 7378.5
+      "curtailed_mwh": 7378.5,
+      "cost_estimate_eur": 590280
     },
     {
       "date": "2025-04-13",
-      "curtailed_mwh": 19515.6
+      "curtailed_mwh": 19515.6,
+      "cost_estimate_eur": 1561251
     },
     {
       "date": "2025-04-14",
-      "curtailed_mwh": 1192.0
+      "curtailed_mwh": 1192.0,
+      "cost_estimate_eur": 95360
     },
     {
       "date": "2025-04-15",
-      "curtailed_mwh": 56997.3
+      "curtailed_mwh": 56997.3,
+      "cost_estimate_eur": 4559782
     },
     {
       "date": "2025-04-16",
-      "curtailed_mwh": 19446.0
+      "curtailed_mwh": 19446.0,
+      "cost_estimate_eur": 1555680
     },
     {
       "date": "2025-04-17",
-      "curtailed_mwh": 3658.0
+      "curtailed_mwh": 3658.0,
+      "cost_estimate_eur": 292638
     },
     {
       "date": "2025-04-19",
-      "curtailed_mwh": 462.2
+      "curtailed_mwh": 462.2,
+      "cost_estimate_eur": 36980
     },
     {
       "date": "2025-04-20",
-      "curtailed_mwh": 17925.0
+      "curtailed_mwh": 17925.0,
+      "cost_estimate_eur": 1434000
     },
     {
       "date": "2025-04-21",
-      "curtailed_mwh": 7329.3
+      "curtailed_mwh": 7329.3,
+      "cost_estimate_eur": 586344
     },
     {
       "date": "2025-04-22",
-      "curtailed_mwh": 1065.0
+      "curtailed_mwh": 1065.0,
+      "cost_estimate_eur": 85200
     },
     {
       "date": "2025-04-23",
-      "curtailed_mwh": 3484.5
+      "curtailed_mwh": 3484.5,
+      "cost_estimate_eur": 278760
     },
     {
       "date": "2025-04-24",
-      "curtailed_mwh": 400.0
+      "curtailed_mwh": 400.0,
+      "cost_estimate_eur": 32000
     },
     {
       "date": "2025-04-25",
-      "curtailed_mwh": 470.0
+      "curtailed_mwh": 470.0,
+      "cost_estimate_eur": 37600
     },
     {
       "date": "2025-04-26",
-      "curtailed_mwh": 11072.0
+      "curtailed_mwh": 11072.0,
+      "cost_estimate_eur": 885760
     },
     {
       "date": "2025-04-27",
-      "curtailed_mwh": 13237.4
+      "curtailed_mwh": 13237.4,
+      "cost_estimate_eur": 1058992
     },
     {
       "date": "2025-04-28",
-      "curtailed_mwh": 5181.0
+      "curtailed_mwh": 5181.0,
+      "cost_estimate_eur": 414480
     },
     {
       "date": "2025-04-29",
-      "curtailed_mwh": 4487.0
+      "curtailed_mwh": 4487.0,
+      "cost_estimate_eur": 358960
     },
     {
       "date": "2025-04-30",
-      "curtailed_mwh": 2845.0
+      "curtailed_mwh": 2845.0,
+      "cost_estimate_eur": 227600
     },
     {
       "date": "2025-05-01",
-      "curtailed_mwh": 235.0
+      "curtailed_mwh": 235.0,
+      "cost_estimate_eur": 18800
     },
     {
       "date": "2025-05-02",
-      "curtailed_mwh": 4975.0
+      "curtailed_mwh": 4975.0,
+      "cost_estimate_eur": 398000
     },
     {
       "date": "2025-05-03",
-      "curtailed_mwh": 2975.8
+      "curtailed_mwh": 2975.8,
+      "cost_estimate_eur": 238060
     },
     {
       "date": "2025-05-04",
-      "curtailed_mwh": 11236.2
+      "curtailed_mwh": 11236.2,
+      "cost_estimate_eur": 898900
     },
     {
       "date": "2025-05-05",
-      "curtailed_mwh": 958.0
+      "curtailed_mwh": 958.0,
+      "cost_estimate_eur": 76640
     },
     {
       "date": "2025-05-06",
-      "curtailed_mwh": 696.5
+      "curtailed_mwh": 696.5,
+      "cost_estimate_eur": 55720
     },
     {
       "date": "2025-05-07",
-      "curtailed_mwh": 2550.0
+      "curtailed_mwh": 2550.0,
+      "cost_estimate_eur": 204000
     },
     {
       "date": "2025-05-08",
-      "curtailed_mwh": 0.1
+      "curtailed_mwh": 0.1,
+      "cost_estimate_eur": 7
     },
     {
       "date": "2025-05-09",
-      "curtailed_mwh": 3196.3
+      "curtailed_mwh": 3196.3,
+      "cost_estimate_eur": 255702
     },
     {
       "date": "2025-05-10",
-      "curtailed_mwh": 3125.0
+      "curtailed_mwh": 3125.0,
+      "cost_estimate_eur": 250000
     },
     {
       "date": "2025-05-11",
-      "curtailed_mwh": 3972.8
+      "curtailed_mwh": 3972.8,
+      "cost_estimate_eur": 317820
     },
     {
       "date": "2025-05-12",
-      "curtailed_mwh": 3550.3
+      "curtailed_mwh": 3550.3,
+      "cost_estimate_eur": 284021
     },
     {
       "date": "2025-05-13",
-      "curtailed_mwh": 359.0
+      "curtailed_mwh": 359.0,
+      "cost_estimate_eur": 28720
     },
     {
       "date": "2025-05-14",
-      "curtailed_mwh": 1766.5
+      "curtailed_mwh": 1766.5,
+      "cost_estimate_eur": 141320
     },
     {
       "date": "2025-05-15",
-      "curtailed_mwh": 5250.0
+      "curtailed_mwh": 5250.0,
+      "cost_estimate_eur": 420000
     },
     {
       "date": "2025-05-16",
-      "curtailed_mwh": 705.2
+      "curtailed_mwh": 705.2,
+      "cost_estimate_eur": 56420
     },
     {
       "date": "2025-05-17",
-      "curtailed_mwh": 4650.0
+      "curtailed_mwh": 4650.0,
+      "cost_estimate_eur": 372000
     },
     {
       "date": "2025-05-19",
-      "curtailed_mwh": 109.0
+      "curtailed_mwh": 109.0,
+      "cost_estimate_eur": 8720
     },
     {
       "date": "2025-05-20",
-      "curtailed_mwh": 1442.0
+      "curtailed_mwh": 1442.0,
+      "cost_estimate_eur": 115360
     },
     {
       "date": "2025-05-21",
-      "curtailed_mwh": 50345.8
+      "curtailed_mwh": 50345.8,
+      "cost_estimate_eur": 4027660
     },
     {
       "date": "2025-05-22",
-      "curtailed_mwh": 71110.5
+      "curtailed_mwh": 71110.5,
+      "cost_estimate_eur": 5688838
     },
     {
       "date": "2025-05-23",
-      "curtailed_mwh": 874.8
+      "curtailed_mwh": 874.8,
+      "cost_estimate_eur": 69983
     },
     {
       "date": "2025-05-24",
-      "curtailed_mwh": 4573.8
+      "curtailed_mwh": 4573.8,
+      "cost_estimate_eur": 365900
     },
     {
       "date": "2025-05-25",
-      "curtailed_mwh": 11365.8
+      "curtailed_mwh": 11365.8,
+      "cost_estimate_eur": 909260
     },
     {
       "date": "2025-05-26",
-      "curtailed_mwh": 4206.1
+      "curtailed_mwh": 4206.1,
+      "cost_estimate_eur": 336486
     },
     {
       "date": "2025-05-27",
-      "curtailed_mwh": 38181.7
+      "curtailed_mwh": 38181.7,
+      "cost_estimate_eur": 3054532
     },
     {
       "date": "2025-05-28",
-      "curtailed_mwh": 0.3
+      "curtailed_mwh": 0.3,
+      "cost_estimate_eur": 26
     },
     {
       "date": "2025-05-29",
-      "curtailed_mwh": 3928.2
+      "curtailed_mwh": 3928.2,
+      "cost_estimate_eur": 314253
     },
     {
       "date": "2025-05-30",
-      "curtailed_mwh": 17158.5
+      "curtailed_mwh": 17158.5,
+      "cost_estimate_eur": 1372681
     },
     {
       "date": "2025-05-31",
-      "curtailed_mwh": 5115.0
+      "curtailed_mwh": 5115.0,
+      "cost_estimate_eur": 409200
     },
     {
       "date": "2025-06-02",
-      "curtailed_mwh": 1799.5
+      "curtailed_mwh": 1799.5,
+      "cost_estimate_eur": 143959
     },
     {
       "date": "2025-06-03",
-      "curtailed_mwh": 7453.8
+      "curtailed_mwh": 7453.8,
+      "cost_estimate_eur": 596300
     },
     {
       "date": "2025-06-04",
-      "curtailed_mwh": 2320.7
+      "curtailed_mwh": 2320.7,
+      "cost_estimate_eur": 185658
     },
     {
       "date": "2025-06-05",
-      "curtailed_mwh": 165.8
+      "curtailed_mwh": 165.8,
+      "cost_estimate_eur": 13260
     },
     {
       "date": "2025-06-06",
-      "curtailed_mwh": 16285.2
+      "curtailed_mwh": 16285.2,
+      "cost_estimate_eur": 1302818
     },
     {
       "date": "2025-06-08",
-      "curtailed_mwh": 7220.4
+      "curtailed_mwh": 7220.4,
+      "cost_estimate_eur": 577631
     },
     {
       "date": "2025-06-09",
-      "curtailed_mwh": 1506.0
+      "curtailed_mwh": 1506.0,
+      "cost_estimate_eur": 120480
     },
     {
       "date": "2025-06-10",
-      "curtailed_mwh": 16908.1
+      "curtailed_mwh": 16908.1,
+      "cost_estimate_eur": 1352651
     },
     {
       "date": "2025-06-11",
-      "curtailed_mwh": 15304.4
+      "curtailed_mwh": 15304.4,
+      "cost_estimate_eur": 1224352
     },
     {
       "date": "2025-06-12",
-      "curtailed_mwh": 12452.2
+      "curtailed_mwh": 12452.2,
+      "cost_estimate_eur": 996180
     },
     {
       "date": "2025-06-13",
-      "curtailed_mwh": 43312.1
+      "curtailed_mwh": 43312.1,
+      "cost_estimate_eur": 3464964
     },
     {
       "date": "2025-06-14",
-      "curtailed_mwh": 23182.3
+      "curtailed_mwh": 23182.3,
+      "cost_estimate_eur": 1854585
     },
     {
       "date": "2025-06-15",
-      "curtailed_mwh": 23097.2
+      "curtailed_mwh": 23097.2,
+      "cost_estimate_eur": 1847773
     },
     {
       "date": "2025-06-16",
-      "curtailed_mwh": 832.0
+      "curtailed_mwh": 832.0,
+      "cost_estimate_eur": 66560
     },
     {
       "date": "2025-06-17",
-      "curtailed_mwh": 2000.0
+      "curtailed_mwh": 2000.0,
+      "cost_estimate_eur": 160000
     },
     {
       "date": "2025-06-18",
-      "curtailed_mwh": 8087.8
+      "curtailed_mwh": 8087.8,
+      "cost_estimate_eur": 647024
     },
     {
       "date": "2025-06-19",
-      "curtailed_mwh": 4231.8
+      "curtailed_mwh": 4231.8,
+      "cost_estimate_eur": 338546
     },
     {
       "date": "2025-06-20",
-      "curtailed_mwh": 8515.5
+      "curtailed_mwh": 8515.5,
+      "cost_estimate_eur": 681242
     },
     {
       "date": "2025-06-21",
-      "curtailed_mwh": 7368.0
+      "curtailed_mwh": 7368.0,
+      "cost_estimate_eur": 589440
     },
     {
       "date": "2025-06-22",
-      "curtailed_mwh": 8439.0
+      "curtailed_mwh": 8439.0,
+      "cost_estimate_eur": 675120
     },
     {
       "date": "2025-06-23",
-      "curtailed_mwh": 61248.5
+      "curtailed_mwh": 61248.5,
+      "cost_estimate_eur": 4899878
     },
     {
       "date": "2025-06-24",
-      "curtailed_mwh": 76662.9
+      "curtailed_mwh": 76662.9,
+      "cost_estimate_eur": 6133030
     },
     {
       "date": "2025-06-25",
-      "curtailed_mwh": 46759.9
+      "curtailed_mwh": 46759.9,
+      "cost_estimate_eur": 3740795
     },
     {
       "date": "2025-06-26",
-      "curtailed_mwh": 5312.4
+      "curtailed_mwh": 5312.4,
+      "cost_estimate_eur": 424995
     },
     {
       "date": "2025-06-27",
-      "curtailed_mwh": 21779.9
+      "curtailed_mwh": 21779.9,
+      "cost_estimate_eur": 1742395
     },
     {
       "date": "2025-06-28",
-      "curtailed_mwh": 6264.7
+      "curtailed_mwh": 6264.7,
+      "cost_estimate_eur": 501178
     },
     {
       "date": "2025-06-29",
-      "curtailed_mwh": 12028.9
+      "curtailed_mwh": 12028.9,
+      "cost_estimate_eur": 962315
     },
     {
       "date": "2025-06-30",
-      "curtailed_mwh": 14951.3
+      "curtailed_mwh": 14951.3,
+      "cost_estimate_eur": 1196103
     },
     {
       "date": "2025-07-01",
-      "curtailed_mwh": 18078.3
+      "curtailed_mwh": 18078.3,
+      "cost_estimate_eur": 1446263
     },
     {
       "date": "2025-07-02",
-      "curtailed_mwh": 18338.0
+      "curtailed_mwh": 18338.0,
+      "cost_estimate_eur": 1467041
     },
     {
       "date": "2025-07-03",
-      "curtailed_mwh": 27670.5
+      "curtailed_mwh": 27670.5,
+      "cost_estimate_eur": 2213640
     },
     {
       "date": "2025-07-04",
-      "curtailed_mwh": 5042.8
+      "curtailed_mwh": 5042.8,
+      "cost_estimate_eur": 403420
     },
     {
       "date": "2025-07-05",
-      "curtailed_mwh": 44220.5
+      "curtailed_mwh": 44220.5,
+      "cost_estimate_eur": 3537638
     },
     {
       "date": "2025-07-06",
-      "curtailed_mwh": 7176.0
+      "curtailed_mwh": 7176.0,
+      "cost_estimate_eur": 574080
     },
     {
       "date": "2025-07-07",
-      "curtailed_mwh": 608.8
+      "curtailed_mwh": 608.8,
+      "cost_estimate_eur": 48700
     },
     {
       "date": "2025-07-08",
-      "curtailed_mwh": 4414.2
+      "curtailed_mwh": 4414.2,
+      "cost_estimate_eur": 353140
     },
     {
       "date": "2025-07-09",
-      "curtailed_mwh": 392.5
+      "curtailed_mwh": 392.5,
+      "cost_estimate_eur": 31400
     },
     {
       "date": "2025-07-10",
-      "curtailed_mwh": 2639.8
+      "curtailed_mwh": 2639.8,
+      "cost_estimate_eur": 211180
     },
     {
       "date": "2025-07-11",
-      "curtailed_mwh": 5490.0
+      "curtailed_mwh": 5490.0,
+      "cost_estimate_eur": 439197
     },
     {
       "date": "2025-07-13",
-      "curtailed_mwh": 5679.0
+      "curtailed_mwh": 5679.0,
+      "cost_estimate_eur": 454320
     },
     {
       "date": "2025-07-14",
-      "curtailed_mwh": 2000.7
+      "curtailed_mwh": 2000.7,
+      "cost_estimate_eur": 160058
     },
     {
       "date": "2025-07-15",
-      "curtailed_mwh": 3405.0
+      "curtailed_mwh": 3405.0,
+      "cost_estimate_eur": 272400
     },
     {
       "date": "2025-07-16",
-      "curtailed_mwh": 238.0
+      "curtailed_mwh": 238.0,
+      "cost_estimate_eur": 19040
     },
     {
       "date": "2025-07-17",
-      "curtailed_mwh": 162.0
+      "curtailed_mwh": 162.0,
+      "cost_estimate_eur": 12960
     },
     {
       "date": "2025-07-19",
-      "curtailed_mwh": 8409.0
+      "curtailed_mwh": 8409.0,
+      "cost_estimate_eur": 672721
     },
     {
       "date": "2025-07-20",
-      "curtailed_mwh": 9619.5
+      "curtailed_mwh": 9619.5,
+      "cost_estimate_eur": 769560
     },
     {
       "date": "2025-07-22",
-      "curtailed_mwh": 2821.8
+      "curtailed_mwh": 2821.8,
+      "cost_estimate_eur": 225740
     },
     {
       "date": "2025-07-23",
-      "curtailed_mwh": 16845.4
+      "curtailed_mwh": 16845.4,
+      "cost_estimate_eur": 1347630
     },
     {
       "date": "2025-07-28",
-      "curtailed_mwh": 5762.5
+      "curtailed_mwh": 5762.5,
+      "cost_estimate_eur": 461003
     },
     {
       "date": "2025-07-29",
-      "curtailed_mwh": 5648.5
+      "curtailed_mwh": 5648.5,
+      "cost_estimate_eur": 451878
     },
     {
       "date": "2025-07-30",
-      "curtailed_mwh": 11131.4
+      "curtailed_mwh": 11131.4,
+      "cost_estimate_eur": 890509
     },
     {
       "date": "2025-07-31",
-      "curtailed_mwh": 1380.0
+      "curtailed_mwh": 1380.0,
+      "cost_estimate_eur": 110400
     },
     {
       "date": "2025-08-02",
-      "curtailed_mwh": 880.0
+      "curtailed_mwh": 880.0,
+      "cost_estimate_eur": 70400
     },
     {
       "date": "2025-08-03",
-      "curtailed_mwh": 2154.3
+      "curtailed_mwh": 2154.3,
+      "cost_estimate_eur": 172346
     },
     {
       "date": "2025-08-04",
-      "curtailed_mwh": 12344.4
+      "curtailed_mwh": 12344.4,
+      "cost_estimate_eur": 987552
     },
     {
       "date": "2025-08-05",
-      "curtailed_mwh": 23685.2
+      "curtailed_mwh": 23685.2,
+      "cost_estimate_eur": 1894814
     },
     {
       "date": "2025-08-06",
-      "curtailed_mwh": 17383.6
+      "curtailed_mwh": 17383.6,
+      "cost_estimate_eur": 1390691
     },
     {
       "date": "2025-08-07",
-      "curtailed_mwh": 5158.5
+      "curtailed_mwh": 5158.5,
+      "cost_estimate_eur": 412680
     },
     {
       "date": "2025-08-08",
-      "curtailed_mwh": 6427.0
+      "curtailed_mwh": 6427.0,
+      "cost_estimate_eur": 514160
     },
     {
       "date": "2025-08-09",
-      "curtailed_mwh": 6023.0
+      "curtailed_mwh": 6023.0,
+      "cost_estimate_eur": 481840
     },
     {
       "date": "2025-08-10",
-      "curtailed_mwh": 9344.0
+      "curtailed_mwh": 9344.0,
+      "cost_estimate_eur": 747520
     },
     {
       "date": "2025-08-11",
-      "curtailed_mwh": 8012.0
+      "curtailed_mwh": 8012.0,
+      "cost_estimate_eur": 640960
     },
     {
       "date": "2025-08-12",
-      "curtailed_mwh": 21143.5
+      "curtailed_mwh": 21143.5,
+      "cost_estimate_eur": 1691480
     },
     {
       "date": "2025-08-13",
-      "curtailed_mwh": 18227.5
+      "curtailed_mwh": 18227.5,
+      "cost_estimate_eur": 1458200
     },
     {
       "date": "2025-08-14",
-      "curtailed_mwh": 14115.6
+      "curtailed_mwh": 14115.6,
+      "cost_estimate_eur": 1129252
     },
     {
       "date": "2025-08-15",
-      "curtailed_mwh": 7240.0
+      "curtailed_mwh": 7240.0,
+      "cost_estimate_eur": 579200
     },
     {
       "date": "2025-08-16",
-      "curtailed_mwh": 1922.0
+      "curtailed_mwh": 1922.0,
+      "cost_estimate_eur": 153758
     },
     {
       "date": "2025-08-17",
-      "curtailed_mwh": 579.0
+      "curtailed_mwh": 579.0,
+      "cost_estimate_eur": 46320
     },
     {
       "date": "2025-08-18",
-      "curtailed_mwh": 6340.8
+      "curtailed_mwh": 6340.8,
+      "cost_estimate_eur": 507266
     },
     {
       "date": "2025-08-19",
-      "curtailed_mwh": 10438.2
+      "curtailed_mwh": 10438.2,
+      "cost_estimate_eur": 835057
     },
     {
       "date": "2025-08-20",
-      "curtailed_mwh": 15477.4
+      "curtailed_mwh": 15477.4,
+      "cost_estimate_eur": 1238190
     },
     {
       "date": "2025-08-21",
-      "curtailed_mwh": 33.0
+      "curtailed_mwh": 33.0,
+      "cost_estimate_eur": 2640
     },
     {
       "date": "2025-08-22",
-      "curtailed_mwh": 8776.6
+      "curtailed_mwh": 8776.6,
+      "cost_estimate_eur": 702131
     },
     {
       "date": "2025-08-23",
-      "curtailed_mwh": 7369.0
+      "curtailed_mwh": 7369.0,
+      "cost_estimate_eur": 589520
     },
     {
       "date": "2025-08-24",
-      "curtailed_mwh": 18720.8
+      "curtailed_mwh": 18720.8,
+      "cost_estimate_eur": 1497662
     },
     {
       "date": "2025-08-25",
-      "curtailed_mwh": 28583.9
+      "curtailed_mwh": 28583.9,
+      "cost_estimate_eur": 2286710
     },
     {
       "date": "2025-08-26",
-      "curtailed_mwh": 8423.7
+      "curtailed_mwh": 8423.7,
+      "cost_estimate_eur": 673894
     },
     {
       "date": "2025-08-27",
-      "curtailed_mwh": 3463.0
+      "curtailed_mwh": 3463.0,
+      "cost_estimate_eur": 277040
     },
     {
       "date": "2025-08-28",
-      "curtailed_mwh": 2700.0
+      "curtailed_mwh": 2700.0,
+      "cost_estimate_eur": 216000
     },
     {
       "date": "2025-08-30",
-      "curtailed_mwh": 1800.0
+      "curtailed_mwh": 1800.0,
+      "cost_estimate_eur": 144000
     },
     {
       "date": "2025-08-31",
-      "curtailed_mwh": 7433.4
+      "curtailed_mwh": 7433.4,
+      "cost_estimate_eur": 594672
     },
     {
       "date": "2025-09-01",
-      "curtailed_mwh": 21322.2
+      "curtailed_mwh": 21322.2,
+      "cost_estimate_eur": 1705774
     },
     {
       "date": "2025-09-03",
-      "curtailed_mwh": 28145.0
+      "curtailed_mwh": 28145.0,
+      "cost_estimate_eur": 2251600
     },
     {
       "date": "2025-09-04",
-      "curtailed_mwh": 15173.6
+      "curtailed_mwh": 15173.6,
+      "cost_estimate_eur": 1213888
     },
     {
       "date": "2025-09-06",
-      "curtailed_mwh": 1100.0
+      "curtailed_mwh": 1100.0,
+      "cost_estimate_eur": 88000
     },
     {
       "date": "2025-09-07",
-      "curtailed_mwh": 8732.1
+      "curtailed_mwh": 8732.1,
+      "cost_estimate_eur": 698571
     },
     {
       "date": "2025-09-08",
-      "curtailed_mwh": 17927.7
+      "curtailed_mwh": 17927.7,
+      "cost_estimate_eur": 1434214
     },
     {
       "date": "2025-09-09",
-      "curtailed_mwh": 5949.0
+      "curtailed_mwh": 5949.0,
+      "cost_estimate_eur": 475920
     },
     {
       "date": "2025-09-10",
-      "curtailed_mwh": 2112.1
+      "curtailed_mwh": 2112.1,
+      "cost_estimate_eur": 168967
     },
     {
       "date": "2025-09-11",
-      "curtailed_mwh": 9562.0
+      "curtailed_mwh": 9562.0,
+      "cost_estimate_eur": 764960
     },
     {
       "date": "2025-09-12",
-      "curtailed_mwh": 19868.9
+      "curtailed_mwh": 19868.9,
+      "cost_estimate_eur": 1589510
     },
     {
       "date": "2025-09-13",
-      "curtailed_mwh": 3821.8
+      "curtailed_mwh": 3821.8,
+      "cost_estimate_eur": 305740
     },
     {
       "date": "2025-09-14",
-      "curtailed_mwh": 980.0
+      "curtailed_mwh": 980.0,
+      "cost_estimate_eur": 78400
     },
     {
       "date": "2025-09-15",
-      "curtailed_mwh": 47584.9
+      "curtailed_mwh": 47584.9,
+      "cost_estimate_eur": 3806793
     },
     {
       "date": "2025-09-16",
-      "curtailed_mwh": 50441.4
+      "curtailed_mwh": 50441.4,
+      "cost_estimate_eur": 4035315
     },
     {
       "date": "2025-09-17",
-      "curtailed_mwh": 57432.5
+      "curtailed_mwh": 57432.5,
+      "cost_estimate_eur": 4594603
     },
     {
       "date": "2025-09-18",
-      "curtailed_mwh": 26146.0
+      "curtailed_mwh": 26146.0,
+      "cost_estimate_eur": 2091677
     },
     {
       "date": "2025-09-19",
-      "curtailed_mwh": 6898.6
+      "curtailed_mwh": 6898.6,
+      "cost_estimate_eur": 551886
     },
     {
       "date": "2025-09-20",
-      "curtailed_mwh": 13781.3
+      "curtailed_mwh": 13781.3,
+      "cost_estimate_eur": 1102502
     },
     {
       "date": "2025-09-21",
-      "curtailed_mwh": 51864.1
+      "curtailed_mwh": 51864.1,
+      "cost_estimate_eur": 4149127
     },
     {
       "date": "2025-09-22",
-      "curtailed_mwh": 2338.8
+      "curtailed_mwh": 2338.8,
+      "cost_estimate_eur": 187100
     },
     {
       "date": "2025-09-24",
-      "curtailed_mwh": 26432.4
+      "curtailed_mwh": 26432.4,
+      "cost_estimate_eur": 2114594
     },
     {
       "date": "2025-09-25",
-      "curtailed_mwh": 60739.1
+      "curtailed_mwh": 60739.1,
+      "cost_estimate_eur": 4859128
     },
     {
       "date": "2025-09-26",
-      "curtailed_mwh": 28665.7
+      "curtailed_mwh": 28665.7,
+      "cost_estimate_eur": 2293254
     },
     {
       "date": "2025-09-27",
-      "curtailed_mwh": 18637.1
+      "curtailed_mwh": 18637.1,
+      "cost_estimate_eur": 1490969
     },
     {
       "date": "2025-09-28",
-      "curtailed_mwh": 2024.4
+      "curtailed_mwh": 2024.4,
+      "cost_estimate_eur": 161950
     },
     {
       "date": "2025-09-29",
-      "curtailed_mwh": 3008.0
+      "curtailed_mwh": 3008.0,
+      "cost_estimate_eur": 240640
     },
     {
       "date": "2025-09-30",
-      "curtailed_mwh": 1348.7
+      "curtailed_mwh": 1348.7,
+      "cost_estimate_eur": 107893
     },
     {
       "date": "2025-10-01",
-      "curtailed_mwh": 1695.5
+      "curtailed_mwh": 1695.5,
+      "cost_estimate_eur": 135640
     },
     {
       "date": "2025-10-02",
-      "curtailed_mwh": 3560.8
+      "curtailed_mwh": 3560.8,
+      "cost_estimate_eur": 284860
     },
     {
       "date": "2025-10-03",
-      "curtailed_mwh": 33346.8
+      "curtailed_mwh": 33346.8,
+      "cost_estimate_eur": 2667748
     },
     {
       "date": "2025-10-04",
-      "curtailed_mwh": 40239.8
+      "curtailed_mwh": 40239.8,
+      "cost_estimate_eur": 3219181
     },
     {
       "date": "2025-10-05",
-      "curtailed_mwh": 42413.0
+      "curtailed_mwh": 42413.0,
+      "cost_estimate_eur": 3393043
     },
     {
       "date": "2025-10-06",
-      "curtailed_mwh": 49263.4
+      "curtailed_mwh": 49263.4,
+      "cost_estimate_eur": 3941071
     },
     {
       "date": "2025-10-09",
-      "curtailed_mwh": 12605.5
+      "curtailed_mwh": 12605.5,
+      "cost_estimate_eur": 1008439
     },
     {
       "date": "2025-10-10",
-      "curtailed_mwh": 21518.2
+      "curtailed_mwh": 21518.2,
+      "cost_estimate_eur": 1721458
     },
     {
       "date": "2025-10-11",
-      "curtailed_mwh": 17523.7
+      "curtailed_mwh": 17523.7,
+      "cost_estimate_eur": 1401894
     },
     {
       "date": "2025-10-12",
-      "curtailed_mwh": 3907.2
+      "curtailed_mwh": 3907.2,
+      "cost_estimate_eur": 312580
     },
     {
       "date": "2025-10-13",
-      "curtailed_mwh": 960.0
+      "curtailed_mwh": 960.0,
+      "cost_estimate_eur": 76800
     },
     {
       "date": "2025-10-15",
-      "curtailed_mwh": 728.3
+      "curtailed_mwh": 728.3,
+      "cost_estimate_eur": 58264
     },
     {
       "date": "2025-10-16",
-      "curtailed_mwh": 10492.2
+      "curtailed_mwh": 10492.2,
+      "cost_estimate_eur": 839374
     },
     {
       "date": "2025-10-17",
-      "curtailed_mwh": 2732.0
+      "curtailed_mwh": 2732.0,
+      "cost_estimate_eur": 218560
     },
     {
       "date": "2025-10-18",
-      "curtailed_mwh": 1642.5
+      "curtailed_mwh": 1642.5,
+      "cost_estimate_eur": 131400
     },
     {
       "date": "2025-10-19",
-      "curtailed_mwh": 9138.1
+      "curtailed_mwh": 9138.1,
+      "cost_estimate_eur": 731049
     },
     {
       "date": "2025-10-20",
-      "curtailed_mwh": 29117.6
+      "curtailed_mwh": 29117.6,
+      "cost_estimate_eur": 2329409
     },
     {
       "date": "2025-10-21",
-      "curtailed_mwh": 42168.3
+      "curtailed_mwh": 42168.3,
+      "cost_estimate_eur": 3373463
     },
     {
       "date": "2025-10-22",
-      "curtailed_mwh": 12305.0
+      "curtailed_mwh": 12305.0,
+      "cost_estimate_eur": 984403
     },
     {
       "date": "2025-10-23",
-      "curtailed_mwh": 37840.6
+      "curtailed_mwh": 37840.6,
+      "cost_estimate_eur": 3027245
     },
     {
       "date": "2025-10-24",
-      "curtailed_mwh": 83706.6
+      "curtailed_mwh": 83706.6,
+      "cost_estimate_eur": 6696526
     },
     {
       "date": "2025-10-25",
-      "curtailed_mwh": 83964.7
+      "curtailed_mwh": 83964.7,
+      "cost_estimate_eur": 6717176
     },
     {
       "date": "2025-10-26",
-      "curtailed_mwh": 93675.4
+      "curtailed_mwh": 93675.4,
+      "cost_estimate_eur": 7494034
     },
     {
       "date": "2025-10-27",
-      "curtailed_mwh": 34775.8
+      "curtailed_mwh": 34775.8,
+      "cost_estimate_eur": 2782068
     },
     {
       "date": "2025-10-28",
-      "curtailed_mwh": 62797.6
+      "curtailed_mwh": 62797.6,
+      "cost_estimate_eur": 5023806
     },
     {
       "date": "2025-10-29",
-      "curtailed_mwh": 27067.6
+      "curtailed_mwh": 27067.6,
+      "cost_estimate_eur": 2165409
     },
     {
       "date": "2025-10-30",
-      "curtailed_mwh": 62231.9
+      "curtailed_mwh": 62231.9,
+      "cost_estimate_eur": 4978551
     },
     {
       "date": "2025-10-31",
-      "curtailed_mwh": 3079.3
+      "curtailed_mwh": 3079.3,
+      "cost_estimate_eur": 246345
     },
     {
       "date": "2025-11-01",
-      "curtailed_mwh": 23529.6
+      "curtailed_mwh": 23529.6,
+      "cost_estimate_eur": 1882371
     },
     {
       "date": "2025-11-02",
-      "curtailed_mwh": 18402.3
+      "curtailed_mwh": 18402.3,
+      "cost_estimate_eur": 1472188
     },
     {
       "date": "2025-11-03",
-      "curtailed_mwh": 64022.9
+      "curtailed_mwh": 64022.9,
+      "cost_estimate_eur": 5121830
     },
     {
       "date": "2025-11-04",
-      "curtailed_mwh": 61756.1
+      "curtailed_mwh": 61756.1,
+      "cost_estimate_eur": 4940490
     },
     {
       "date": "2025-11-05",
-      "curtailed_mwh": 8315.0
+      "curtailed_mwh": 8315.0,
+      "cost_estimate_eur": 665198
     },
     {
       "date": "2025-11-07",
-      "curtailed_mwh": 2237.0
+      "curtailed_mwh": 2237.0,
+      "cost_estimate_eur": 178960
     },
     {
       "date": "2025-11-10",
-      "curtailed_mwh": 950.0
+      "curtailed_mwh": 950.0,
+      "cost_estimate_eur": 76000
     },
     {
       "date": "2025-11-11",
-      "curtailed_mwh": 2287.5
+      "curtailed_mwh": 2287.5,
+      "cost_estimate_eur": 183000
     },
     {
       "date": "2025-11-12",
-      "curtailed_mwh": 63029.6
+      "curtailed_mwh": 63029.6,
+      "cost_estimate_eur": 5042370
     },
     {
       "date": "2025-11-13",
-      "curtailed_mwh": 75335.6
+      "curtailed_mwh": 75335.6,
+      "cost_estimate_eur": 6026846
     },
     {
       "date": "2025-11-14",
-      "curtailed_mwh": 9255.2
+      "curtailed_mwh": 9255.2,
+      "cost_estimate_eur": 740418
     },
     {
       "date": "2025-11-15",
-      "curtailed_mwh": 45292.6
+      "curtailed_mwh": 45292.6,
+      "cost_estimate_eur": 3623406
     },
     {
       "date": "2025-11-16",
-      "curtailed_mwh": 316.2
+      "curtailed_mwh": 316.2,
+      "cost_estimate_eur": 25300
     },
     {
       "date": "2025-11-17",
-      "curtailed_mwh": 7275.7
+      "curtailed_mwh": 7275.7,
+      "cost_estimate_eur": 582058
     },
     {
       "date": "2025-11-18",
-      "curtailed_mwh": 2843.0
+      "curtailed_mwh": 2843.0,
+      "cost_estimate_eur": 227443
     },
     {
       "date": "2025-11-20",
-      "curtailed_mwh": 451.0
+      "curtailed_mwh": 451.0,
+      "cost_estimate_eur": 36080
     },
     {
       "date": "2025-11-22",
-      "curtailed_mwh": 21595.8
+      "curtailed_mwh": 21595.8,
+      "cost_estimate_eur": 1727667
     },
     {
       "date": "2025-11-23",
-      "curtailed_mwh": 60902.4
+      "curtailed_mwh": 60902.4,
+      "cost_estimate_eur": 4872192
     },
     {
       "date": "2025-11-24",
-      "curtailed_mwh": 11978.2
+      "curtailed_mwh": 11978.2,
+      "cost_estimate_eur": 958254
     },
     {
       "date": "2025-11-27",
-      "curtailed_mwh": 38517.4
+      "curtailed_mwh": 38517.4,
+      "cost_estimate_eur": 3081394
     },
     {
       "date": "2025-11-28",
-      "curtailed_mwh": 28080.2
+      "curtailed_mwh": 28080.2,
+      "cost_estimate_eur": 2246414
     },
     {
       "date": "2025-11-29",
-      "curtailed_mwh": 7413.5
+      "curtailed_mwh": 7413.5,
+      "cost_estimate_eur": 593082
     },
     {
       "date": "2025-11-30",
-      "curtailed_mwh": 38261.7
+      "curtailed_mwh": 38261.7,
+      "cost_estimate_eur": 3060933
     },
     {
       "date": "2025-12-01",
-      "curtailed_mwh": 37440.0
+      "curtailed_mwh": 37440.0,
+      "cost_estimate_eur": 2995198
     },
     {
       "date": "2025-12-02",
-      "curtailed_mwh": 25467.2
+      "curtailed_mwh": 25467.2,
+      "cost_estimate_eur": 2037375
     },
     {
       "date": "2025-12-05",
-      "curtailed_mwh": 41.5
+      "curtailed_mwh": 41.5,
+      "cost_estimate_eur": 3320
     },
     {
       "date": "2025-12-06",
-      "curtailed_mwh": 1566.1
+      "curtailed_mwh": 1566.1,
+      "cost_estimate_eur": 125286
     },
     {
       "date": "2025-12-07",
-      "curtailed_mwh": 3094.7
+      "curtailed_mwh": 3094.7,
+      "cost_estimate_eur": 247576
     },
     {
       "date": "2025-12-08",
-      "curtailed_mwh": 59956.9
+      "curtailed_mwh": 59956.9,
+      "cost_estimate_eur": 4796556
     },
     {
       "date": "2025-12-09",
-      "curtailed_mwh": 9397.7
+      "curtailed_mwh": 9397.7,
+      "cost_estimate_eur": 751814
     },
     {
       "date": "2025-12-10",
-      "curtailed_mwh": 45156.7
+      "curtailed_mwh": 45156.7,
+      "cost_estimate_eur": 3612532
     },
     {
       "date": "2025-12-11",
-      "curtailed_mwh": 34419.0
+      "curtailed_mwh": 34419.0,
+      "cost_estimate_eur": 2753522
     },
     {
       "date": "2025-12-12",
-      "curtailed_mwh": 200.0
+      "curtailed_mwh": 200.0,
+      "cost_estimate_eur": 16000
     },
     {
       "date": "2025-12-13",
-      "curtailed_mwh": 10987.8
+      "curtailed_mwh": 10987.8,
+      "cost_estimate_eur": 879025
     },
     {
       "date": "2025-12-14",
-      "curtailed_mwh": 35939.8
+      "curtailed_mwh": 35939.8,
+      "cost_estimate_eur": 2875184
     },
     {
       "date": "2025-12-15",
-      "curtailed_mwh": 18463.7
+      "curtailed_mwh": 18463.7,
+      "cost_estimate_eur": 1477094
     },
     {
       "date": "2025-12-16",
-      "curtailed_mwh": 37.5
+      "curtailed_mwh": 37.5,
+      "cost_estimate_eur": 3000
     },
     {
       "date": "2025-12-18",
-      "curtailed_mwh": 42590.9
+      "curtailed_mwh": 42590.9,
+      "cost_estimate_eur": 3407275
     },
     {
       "date": "2025-12-19",
-      "curtailed_mwh": 31576.7
+      "curtailed_mwh": 31576.7,
+      "cost_estimate_eur": 2526132
     },
     {
       "date": "2025-12-20",
-      "curtailed_mwh": 1959.6
+      "curtailed_mwh": 1959.6,
+      "cost_estimate_eur": 156768
     },
     {
       "date": "2025-12-21",
-      "curtailed_mwh": 6447.1
+      "curtailed_mwh": 6447.1,
+      "cost_estimate_eur": 515766
     },
     {
       "date": "2025-12-22",
-      "curtailed_mwh": 14080.0
+      "curtailed_mwh": 14080.0,
+      "cost_estimate_eur": 1126397
     },
     {
       "date": "2025-12-23",
-      "curtailed_mwh": 8056.5
+      "curtailed_mwh": 8056.5,
+      "cost_estimate_eur": 644523
     },
     {
       "date": "2025-12-24",
-      "curtailed_mwh": 1711.0
+      "curtailed_mwh": 1711.0,
+      "cost_estimate_eur": 136880
     },
     {
       "date": "2025-12-25",
-      "curtailed_mwh": 738.0
+      "curtailed_mwh": 738.0,
+      "cost_estimate_eur": 59044
     },
     {
       "date": "2025-12-27",
-      "curtailed_mwh": 17038.7
+      "curtailed_mwh": 17038.7,
+      "cost_estimate_eur": 1363092
     },
     {
       "date": "2025-12-28",
-      "curtailed_mwh": 9895.2
+      "curtailed_mwh": 9895.2,
+      "cost_estimate_eur": 791620
     },
     {
       "date": "2025-12-29",
-      "curtailed_mwh": 21961.3
+      "curtailed_mwh": 21961.3,
+      "cost_estimate_eur": 1756908
     },
     {
       "date": "2025-12-30",
-      "curtailed_mwh": 6038.0
+      "curtailed_mwh": 6038.0,
+      "cost_estimate_eur": 483040
     },
     {
       "date": "2025-12-31",
-      "curtailed_mwh": 47162.2
+      "curtailed_mwh": 47162.2,
+      "cost_estimate_eur": 3772977
     },
     {
       "date": "2026-01-01",
-      "curtailed_mwh": 213651.4
+      "curtailed_mwh": 213651.4,
+      "cost_estimate_eur": 17092114
     },
     {
       "date": "2026-01-02",
-      "curtailed_mwh": 169889.9
+      "curtailed_mwh": 169889.9,
+      "cost_estimate_eur": 13591193
     },
     {
       "date": "2026-01-03",
-      "curtailed_mwh": 13974.9
+      "curtailed_mwh": 13974.9,
+      "cost_estimate_eur": 1117994
     },
     {
       "date": "2026-01-04",
-      "curtailed_mwh": 671.7
+      "curtailed_mwh": 671.7,
+      "cost_estimate_eur": 53736
     },
     {
       "date": "2026-01-06",
-      "curtailed_mwh": 1616.5
+      "curtailed_mwh": 1616.5,
+      "cost_estimate_eur": 129320
     },
     {
       "date": "2026-01-07",
-      "curtailed_mwh": 38434.6
+      "curtailed_mwh": 38434.6,
+      "cost_estimate_eur": 3074766
     },
     {
       "date": "2026-01-08",
-      "curtailed_mwh": 427.0
+      "curtailed_mwh": 427.0,
+      "cost_estimate_eur": 34160
     },
     {
       "date": "2026-01-09",
-      "curtailed_mwh": 69372.5
+      "curtailed_mwh": 69372.5,
+      "cost_estimate_eur": 5549798
     },
     {
       "date": "2026-01-10",
-      "curtailed_mwh": 29510.8
+      "curtailed_mwh": 29510.8,
+      "cost_estimate_eur": 2360867
     },
     {
       "date": "2026-01-11",
-      "curtailed_mwh": 3478.8
+      "curtailed_mwh": 3478.8,
+      "cost_estimate_eur": 278300
     },
     {
       "date": "2026-01-12",
-      "curtailed_mwh": 8569.3
+      "curtailed_mwh": 8569.3,
+      "cost_estimate_eur": 685543
     },
     {
       "date": "2026-01-13",
-      "curtailed_mwh": 1904.8
+      "curtailed_mwh": 1904.8,
+      "cost_estimate_eur": 152380
     },
     {
       "date": "2026-01-14",
-      "curtailed_mwh": 7373.7
+      "curtailed_mwh": 7373.7,
+      "cost_estimate_eur": 589894
     },
     {
       "date": "2026-01-15",
-      "curtailed_mwh": 4337.0
+      "curtailed_mwh": 4337.0,
+      "cost_estimate_eur": 346960
     },
     {
       "date": "2026-01-16",
-      "curtailed_mwh": 52039.6
+      "curtailed_mwh": 52039.6,
+      "cost_estimate_eur": 4163166
     },
     {
       "date": "2026-01-18",
-      "curtailed_mwh": 4148.5
+      "curtailed_mwh": 4148.5,
+      "cost_estimate_eur": 331880
     },
     {
       "date": "2026-01-19",
-      "curtailed_mwh": 650.0
+      "curtailed_mwh": 650.0,
+      "cost_estimate_eur": 52000
     },
     {
       "date": "2026-01-20",
-      "curtailed_mwh": 30.0
+      "curtailed_mwh": 30.0,
+      "cost_estimate_eur": 2400
     },
     {
       "date": "2026-01-21",
-      "curtailed_mwh": 22262.5
+      "curtailed_mwh": 22262.5,
+      "cost_estimate_eur": 1781000
     },
     {
       "date": "2026-01-22",
-      "curtailed_mwh": 45931.7
+      "curtailed_mwh": 45931.7,
+      "cost_estimate_eur": 3674533
     },
     {
       "date": "2026-01-23",
-      "curtailed_mwh": 44770.9
+      "curtailed_mwh": 44770.9,
+      "cost_estimate_eur": 3581670
     },
     {
       "date": "2026-01-24",
-      "curtailed_mwh": 3971.0
+      "curtailed_mwh": 3971.0,
+      "cost_estimate_eur": 317683
     },
     {
       "date": "2026-01-25",
-      "curtailed_mwh": 600.0
+      "curtailed_mwh": 600.0,
+      "cost_estimate_eur": 48000
     },
     {
       "date": "2026-01-26",
-      "curtailed_mwh": 28346.8
+      "curtailed_mwh": 28346.8,
+      "cost_estimate_eur": 2267744
     },
     {
       "date": "2026-01-27",
-      "curtailed_mwh": 13362.5
+      "curtailed_mwh": 13362.5,
+      "cost_estimate_eur": 1068998
     },
     {
       "date": "2026-01-28",
-      "curtailed_mwh": 20447.8
+      "curtailed_mwh": 20447.8,
+      "cost_estimate_eur": 1635823
     },
     {
       "date": "2026-01-29",
-      "curtailed_mwh": 10788.1
+      "curtailed_mwh": 10788.1,
+      "cost_estimate_eur": 863046
     },
     {
       "date": "2026-01-30",
-      "curtailed_mwh": 11970.9
+      "curtailed_mwh": 11970.9,
+      "cost_estimate_eur": 957672
     },
     {
       "date": "2026-01-31",
-      "curtailed_mwh": 26575.1
+      "curtailed_mwh": 26575.1,
+      "cost_estimate_eur": 2126006
     },
     {
       "date": "2026-02-01",
-      "curtailed_mwh": 12064.2
+      "curtailed_mwh": 12064.2,
+      "cost_estimate_eur": 965140
     },
     {
       "date": "2026-02-02",
-      "curtailed_mwh": 15856.2
+      "curtailed_mwh": 15856.2,
+      "cost_estimate_eur": 1268494
     },
     {
       "date": "2026-02-03",
-      "curtailed_mwh": 48968.1
+      "curtailed_mwh": 48968.1,
+      "cost_estimate_eur": 3917446
     },
     {
       "date": "2026-02-04",
-      "curtailed_mwh": 22940.0
+      "curtailed_mwh": 22940.0,
+      "cost_estimate_eur": 1835202
     },
     {
       "date": "2026-02-05",
-      "curtailed_mwh": 9618.2
+      "curtailed_mwh": 9618.2,
+      "cost_estimate_eur": 769460
     },
     {
       "date": "2026-02-09",
-      "curtailed_mwh": 2.5
+      "curtailed_mwh": 2.5,
+      "cost_estimate_eur": 200
     },
     {
       "date": "2026-02-12",
-      "curtailed_mwh": 1616.1
+      "curtailed_mwh": 1616.1,
+      "cost_estimate_eur": 129286
     },
     {
       "date": "2026-02-15",
-      "curtailed_mwh": 8533.8
+      "curtailed_mwh": 8533.8,
+      "cost_estimate_eur": 682700
     },
     {
       "date": "2026-02-16",
-      "curtailed_mwh": 5412.5
+      "curtailed_mwh": 5412.5,
+      "cost_estimate_eur": 433000
     },
     {
       "date": "2026-02-19",
-      "curtailed_mwh": 12191.3
+      "curtailed_mwh": 12191.3,
+      "cost_estimate_eur": 975306
     },
     {
       "date": "2026-02-20",
-      "curtailed_mwh": 17901.8
+      "curtailed_mwh": 17901.8,
+      "cost_estimate_eur": 1432140
     },
     {
       "date": "2026-02-21",
-      "curtailed_mwh": 20969.6
+      "curtailed_mwh": 20969.6,
+      "cost_estimate_eur": 1677568
     },
     {
       "date": "2026-02-22",
-      "curtailed_mwh": 9262.5
+      "curtailed_mwh": 9262.5,
+      "cost_estimate_eur": 741000
     },
     {
       "date": "2026-02-23",
-      "curtailed_mwh": 18218.0
+      "curtailed_mwh": 18218.0,
+      "cost_estimate_eur": 1457442
     },
     {
       "date": "2026-02-24",
-      "curtailed_mwh": 500.0
+      "curtailed_mwh": 500.0,
+      "cost_estimate_eur": 40000
     },
     {
       "date": "2026-02-25",
-      "curtailed_mwh": 3290.2
+      "curtailed_mwh": 3290.2,
+      "cost_estimate_eur": 263220
     },
     {
       "date": "2026-02-26",
-      "curtailed_mwh": 29216.4
+      "curtailed_mwh": 29216.4,
+      "cost_estimate_eur": 2337314
     },
     {
       "date": "2026-02-27",
-      "curtailed_mwh": 13100.0
+      "curtailed_mwh": 13100.0,
+      "cost_estimate_eur": 1048000
     },
     {
       "date": "2026-02-28",
-      "curtailed_mwh": 14214.4
+      "curtailed_mwh": 14214.4,
+      "cost_estimate_eur": 1137152
     },
     {
       "date": "2026-03-01",
-      "curtailed_mwh": 9461.3
+      "curtailed_mwh": 9461.3,
+      "cost_estimate_eur": 756906
     },
     {
       "date": "2026-03-02",
-      "curtailed_mwh": 155.0
+      "curtailed_mwh": 155.0,
+      "cost_estimate_eur": 12400
     },
     {
       "date": "2026-03-03",
-      "curtailed_mwh": 4305.0
+      "curtailed_mwh": 4305.0,
+      "cost_estimate_eur": 344400
     },
     {
       "date": "2026-03-04",
-      "curtailed_mwh": 3971.0
+      "curtailed_mwh": 3971.0,
+      "cost_estimate_eur": 317680
     },
     {
       "date": "2026-03-05",
-      "curtailed_mwh": 21131.8
+      "curtailed_mwh": 21131.8,
+      "cost_estimate_eur": 1690540
     },
     {
       "date": "2026-03-06",
-      "curtailed_mwh": 8182.1
+      "curtailed_mwh": 8182.1,
+      "cost_estimate_eur": 654565
     },
     {
       "date": "2026-03-07",
-      "curtailed_mwh": 19032.0
+      "curtailed_mwh": 19032.0,
+      "cost_estimate_eur": 1522560
     },
     {
       "date": "2026-03-08",
-      "curtailed_mwh": 7628.0
+      "curtailed_mwh": 7628.0,
+      "cost_estimate_eur": 610240
     },
     {
       "date": "2026-03-09",
-      "curtailed_mwh": 5311.5
+      "curtailed_mwh": 5311.5,
+      "cost_estimate_eur": 424920
     },
     {
       "date": "2026-03-10",
-      "curtailed_mwh": 11093.0
+      "curtailed_mwh": 11093.0,
+      "cost_estimate_eur": 887440
     },
     {
       "date": "2026-03-11",
-      "curtailed_mwh": 14635.8
+      "curtailed_mwh": 14635.8,
+      "cost_estimate_eur": 1170863
     },
     {
       "date": "2026-03-12",
-      "curtailed_mwh": 62970.9
+      "curtailed_mwh": 62970.9,
+      "cost_estimate_eur": 5037675
     },
     {
       "date": "2026-03-13",
-      "curtailed_mwh": 86925.5
+      "curtailed_mwh": 86925.5,
+      "cost_estimate_eur": 6954037
     },
     {
       "date": "2026-03-14",
-      "curtailed_mwh": 6521.0
+      "curtailed_mwh": 6521.0,
+      "cost_estimate_eur": 521680
     },
     {
       "date": "2026-03-15",
-      "curtailed_mwh": 7111.1
+      "curtailed_mwh": 7111.1,
+      "cost_estimate_eur": 568892
     },
     {
       "date": "2026-03-16",
-      "curtailed_mwh": 8281.1
+      "curtailed_mwh": 8281.1,
+      "cost_estimate_eur": 662487
     },
     {
       "date": "2026-03-18",
-      "curtailed_mwh": 5564.0
+      "curtailed_mwh": 5564.0,
+      "cost_estimate_eur": 445120
     },
     {
       "date": "2026-03-19",
-      "curtailed_mwh": 4437.0
+      "curtailed_mwh": 4437.0,
+      "cost_estimate_eur": 354960
     },
     {
       "date": "2026-03-20",
-      "curtailed_mwh": 2137.5
+      "curtailed_mwh": 2137.5,
+      "cost_estimate_eur": 171000
     },
     {
       "date": "2026-03-21",
-      "curtailed_mwh": 296.0
+      "curtailed_mwh": 296.0,
+      "cost_estimate_eur": 23680
     },
     {
       "date": "2026-03-22",
-      "curtailed_mwh": 10646.8
+      "curtailed_mwh": 10646.8,
+      "cost_estimate_eur": 851740
     },
     {
       "date": "2026-03-23",
-      "curtailed_mwh": 7526.0
+      "curtailed_mwh": 7526.0,
+      "cost_estimate_eur": 602080
     },
     {
       "date": "2026-03-24",
-      "curtailed_mwh": 43891.8
+      "curtailed_mwh": 43891.8,
+      "cost_estimate_eur": 3511347
     },
     {
       "date": "2026-03-25",
-      "curtailed_mwh": 82470.2
+      "curtailed_mwh": 82470.2,
+      "cost_estimate_eur": 6597615
     },
     {
       "date": "2026-03-26",
-      "curtailed_mwh": 40930.3
+      "curtailed_mwh": 40930.3,
+      "cost_estimate_eur": 3274425
     },
     {
       "date": "2026-03-27",
-      "curtailed_mwh": 4391.8
+      "curtailed_mwh": 4391.8,
+      "cost_estimate_eur": 351340
     },
     {
       "date": "2026-03-28",
-      "curtailed_mwh": 4911.8
+      "curtailed_mwh": 4911.8,
+      "cost_estimate_eur": 392940
     },
     {
       "date": "2026-03-29",
-      "curtailed_mwh": 27332.2
+      "curtailed_mwh": 27332.2,
+      "cost_estimate_eur": 2186580
     },
     {
       "date": "2026-03-30",
-      "curtailed_mwh": 56836.0
+      "curtailed_mwh": 56836.0,
+      "cost_estimate_eur": 4546878
     },
     {
       "date": "2026-03-31",
-      "curtailed_mwh": 12669.8
+      "curtailed_mwh": 12669.8,
+      "cost_estimate_eur": 1013580
     },
     {
       "date": "2026-04-01",
-      "curtailed_mwh": 6813.0
+      "curtailed_mwh": 6813.0,
+      "cost_estimate_eur": 545040
     },
     {
       "date": "2026-04-02",
-      "curtailed_mwh": 1524.0
+      "curtailed_mwh": 1524.0,
+      "cost_estimate_eur": 121920
     },
     {
       "date": "2026-04-03",
-      "curtailed_mwh": 15131.9
+      "curtailed_mwh": 15131.9,
+      "cost_estimate_eur": 1210550
     },
     {
       "date": "2026-04-04",
-      "curtailed_mwh": 38783.5
+      "curtailed_mwh": 38783.5,
+      "cost_estimate_eur": 3102680
     },
     {
       "date": "2026-04-05",
-      "curtailed_mwh": 20556.6
+      "curtailed_mwh": 20556.6,
+      "cost_estimate_eur": 1644528
     },
     {
       "date": "2026-04-06",
-      "curtailed_mwh": 8918.2
+      "curtailed_mwh": 8918.2,
+      "cost_estimate_eur": 713460
     },
     {
       "date": "2026-04-07",
-      "curtailed_mwh": 13532.0
+      "curtailed_mwh": 13532.0,
+      "cost_estimate_eur": 1082560
     },
     {
       "date": "2026-04-08",
-      "curtailed_mwh": 5226.9
+      "curtailed_mwh": 5226.9,
+      "cost_estimate_eur": 418155
     },
     {
       "date": "2026-04-09",
-      "curtailed_mwh": 27561.0
+      "curtailed_mwh": 27561.0,
+      "cost_estimate_eur": 2204880
     },
     {
       "date": "2026-04-10",
-      "curtailed_mwh": 17045.7
+      "curtailed_mwh": 17045.7,
+      "cost_estimate_eur": 1363658
     },
     {
       "date": "2026-04-11",
-      "curtailed_mwh": 38801.1
+      "curtailed_mwh": 38801.1,
+      "cost_estimate_eur": 3104088
     },
     {
       "date": "2026-04-12",
-      "curtailed_mwh": 1604.8
+      "curtailed_mwh": 1604.8,
+      "cost_estimate_eur": 128380
     },
     {
       "date": "2026-04-13",
-      "curtailed_mwh": 16366.0
+      "curtailed_mwh": 16366.0,
+      "cost_estimate_eur": 1309280
     },
     {
       "date": "2026-04-15",
-      "curtailed_mwh": 2080.8
+      "curtailed_mwh": 2080.8,
+      "cost_estimate_eur": 166460
     },
     {
       "date": "2026-04-16",
-      "curtailed_mwh": 400.0
+      "curtailed_mwh": 400.0,
+      "cost_estimate_eur": 32000
     },
     {
       "date": "2026-04-17",
-      "curtailed_mwh": 16232.0
+      "curtailed_mwh": 16232.0,
+      "cost_estimate_eur": 1298560
     },
     {
       "date": "2026-04-18",
-      "curtailed_mwh": 28627.8
+      "curtailed_mwh": 28627.8,
+      "cost_estimate_eur": 2290228
     },
     {
       "date": "2026-04-20",
-      "curtailed_mwh": 44304.3
+      "curtailed_mwh": 44304.3,
+      "cost_estimate_eur": 3544346
     },
     {
       "date": "2026-04-21",
-      "curtailed_mwh": 4065.0
+      "curtailed_mwh": 4065.0,
+      "cost_estimate_eur": 325200
     },
     {
       "date": "2026-04-22",
-      "curtailed_mwh": 10545.0
+      "curtailed_mwh": 10545.0,
+      "cost_estimate_eur": 843600
     },
     {
       "date": "2026-04-23",
-      "curtailed_mwh": 29142.4
+      "curtailed_mwh": 29142.4,
+      "cost_estimate_eur": 2331390
     },
     {
       "date": "2026-04-24",
-      "curtailed_mwh": 20796.9
+      "curtailed_mwh": 20796.9,
+      "cost_estimate_eur": 1663750
     },
     {
       "date": "2026-04-25",
-      "curtailed_mwh": 50923.2
+      "curtailed_mwh": 50923.2,
+      "cost_estimate_eur": 4073855
     },
     {
       "date": "2026-04-26",
-      "curtailed_mwh": 11314.1
+      "curtailed_mwh": 11314.1,
+      "cost_estimate_eur": 905130
     },
     {
       "date": "2026-04-27",
-      "curtailed_mwh": 15678.0
+      "curtailed_mwh": 15678.0,
+      "cost_estimate_eur": 1254240
     },
     {
       "date": "2026-04-28",
-      "curtailed_mwh": 8534.0
+      "curtailed_mwh": 8534.0,
+      "cost_estimate_eur": 682720
     },
     {
       "date": "2026-04-29",
-      "curtailed_mwh": 3813.2
+      "curtailed_mwh": 3813.2,
+      "cost_estimate_eur": 305054
     },
     {
       "date": "2026-04-30",
-      "curtailed_mwh": 4033.0
+      "curtailed_mwh": 4033.0,
+      "cost_estimate_eur": 322640
     },
     {
       "date": "2026-05-01",
-      "curtailed_mwh": 4125.0
+      "curtailed_mwh": 4125.0,
+      "cost_estimate_eur": 330000
     },
     {
       "date": "2026-05-02",
-      "curtailed_mwh": 5946.0
+      "curtailed_mwh": 5946.0,
+      "cost_estimate_eur": 475680
     },
     {
       "date": "2026-05-03",
-      "curtailed_mwh": 26129.9
+      "curtailed_mwh": 26129.9,
+      "cost_estimate_eur": 2090392
     },
     {
       "date": "2026-05-04",
-      "curtailed_mwh": 23140.5
+      "curtailed_mwh": 23140.5,
+      "cost_estimate_eur": 1851240
     },
     {
       "date": "2026-05-05",
-      "curtailed_mwh": 3000.0
+      "curtailed_mwh": 3000.0,
+      "cost_estimate_eur": 240000
     },
     {
       "date": "2026-05-06",
-      "curtailed_mwh": 2855.0
+      "curtailed_mwh": 2855.0,
+      "cost_estimate_eur": 228400
     },
     {
       "date": "2026-05-07",
-      "curtailed_mwh": 560.0
+      "curtailed_mwh": 560.0,
+      "cost_estimate_eur": 44800
     },
     {
       "date": "2026-05-08",
-      "curtailed_mwh": 2620.0
+      "curtailed_mwh": 2620.0,
+      "cost_estimate_eur": 209600
     },
     {
       "date": "2026-05-10",
-      "curtailed_mwh": 4350.0
+      "curtailed_mwh": 4350.0,
+      "cost_estimate_eur": 348000
     },
     {
       "date": "2026-05-11",
-      "curtailed_mwh": 5526.8
+      "curtailed_mwh": 8442.2,
+      "cost_estimate_eur": 675380
     },
     {
       "date": "2026-05-12",
-      "curtailed_mwh": 6910.0
+      "curtailed_mwh": 6910.0,
+      "cost_estimate_eur": 552799
     },
     {
       "date": "2026-05-13",
-      "curtailed_mwh": 4193.0
+      "curtailed_mwh": 3952.8,
+      "cost_estimate_eur": 316226
     },
     {
       "date": "2026-05-14",
-      "curtailed_mwh": 4524.0
+      "curtailed_mwh": 4524.0,
+      "cost_estimate_eur": 361920
     },
     {
       "date": "2026-05-15",
-      "curtailed_mwh": 4782.3
+      "curtailed_mwh": 4782.3,
+      "cost_estimate_eur": 382582
     },
     {
       "date": "2026-05-16",
-      "curtailed_mwh": 19297.7
+      "curtailed_mwh": 19297.7,
+      "cost_estimate_eur": 1543818
     },
     {
       "date": "2026-05-17",
-      "curtailed_mwh": 2593.0
+      "curtailed_mwh": 2593.0,
+      "cost_estimate_eur": 207440
     },
     {
       "date": "2026-05-18",
-      "curtailed_mwh": 16439.0
+      "curtailed_mwh": 16439.0,
+      "cost_estimate_eur": 1315120
     },
     {
       "date": "2026-05-19",
-      "curtailed_mwh": 2689.0
+      "curtailed_mwh": 2689.0,
+      "cost_estimate_eur": 215120
     },
     {
       "date": "2026-05-20",
-      "curtailed_mwh": 1241.0
+      "curtailed_mwh": 1241.0,
+      "cost_estimate_eur": 99277
     },
     {
       "date": "2026-05-21",
-      "curtailed_mwh": 2858.5
+      "curtailed_mwh": 2858.5,
+      "cost_estimate_eur": 228680
     },
     {
       "date": "2026-05-22",
-      "curtailed_mwh": 6556.0
+      "curtailed_mwh": 6556.0,
+      "cost_estimate_eur": 524478
     },
     {
       "date": "2026-05-23",
-      "curtailed_mwh": 8150.2
+      "curtailed_mwh": 8150.2,
+      "cost_estimate_eur": 652016
     },
     {
       "date": "2026-05-24",
-      "curtailed_mwh": 7160.2
+      "curtailed_mwh": 7160.2,
+      "cost_estimate_eur": 572816
     },
     {
       "date": "2026-05-25",
-      "curtailed_mwh": 11526.2
+      "curtailed_mwh": 11526.2,
+      "cost_estimate_eur": 922094
     },
     {
       "date": "2026-05-26",
-      "curtailed_mwh": 20876.6
+      "curtailed_mwh": 20876.6,
+      "cost_estimate_eur": 1670126
     },
     {
       "date": "2026-05-27",
-      "curtailed_mwh": 17795.2
+      "curtailed_mwh": 17795.2,
+      "cost_estimate_eur": 1423617
     },
     {
       "date": "2026-05-28",
-      "curtailed_mwh": 16854.2
+      "curtailed_mwh": 16854.2,
+      "cost_estimate_eur": 1348332
     },
     {
       "date": "2026-05-29",
-      "curtailed_mwh": 24777.5
+      "curtailed_mwh": 24777.5,
+      "cost_estimate_eur": 1982197
     },
     {
       "date": "2026-05-30",
-      "curtailed_mwh": 14095.8
+      "curtailed_mwh": 14095.8,
+      "cost_estimate_eur": 1127661
     },
     {
       "date": "2026-05-31",
-      "curtailed_mwh": 8947.7
+      "curtailed_mwh": 8947.7,
+      "cost_estimate_eur": 715813
     },
     {
       "date": "2026-06-01",
-      "curtailed_mwh": 335.8
+      "curtailed_mwh": 335.8,
+      "cost_estimate_eur": 26862
     },
     {
       "date": "2026-06-02",
-      "curtailed_mwh": 16015.9
+      "curtailed_mwh": 16015.9,
+      "cost_estimate_eur": 1281272
     },
     {
       "date": "2026-06-03",
-      "curtailed_mwh": 5038.3
+      "curtailed_mwh": 5038.3,
+      "cost_estimate_eur": 403061
     },
     {
       "date": "2026-06-04",
-      "curtailed_mwh": 19487.0
+      "curtailed_mwh": 19487.0,
+      "cost_estimate_eur": 1558962
     },
     {
       "date": "2026-06-05",
-      "curtailed_mwh": 5020.1
+      "curtailed_mwh": 5020.1,
+      "cost_estimate_eur": 401607
     },
     {
       "date": "2026-06-06",
-      "curtailed_mwh": 7752.0
+      "curtailed_mwh": 7752.0,
+      "cost_estimate_eur": 620158
     },
     {
       "date": "2026-06-07",
-      "curtailed_mwh": 6045.0
+      "curtailed_mwh": 6045.0,
+      "cost_estimate_eur": 483602
     },
     {
       "date": "2026-06-08",
-      "curtailed_mwh": 28138.6
+      "curtailed_mwh": 28138.6,
+      "cost_estimate_eur": 2251090
     },
     {
       "date": "2026-06-09",
-      "curtailed_mwh": 29978.4
+      "curtailed_mwh": 29978.4,
+      "cost_estimate_eur": 2398273
     },
     {
       "date": "2026-06-10",
-      "curtailed_mwh": 7885.2
+      "curtailed_mwh": 7985.2,
+      "cost_estimate_eur": 638815
+    },
+    {
+      "date": "2026-06-11",
+      "curtailed_mwh": 3630.2,
+      "cost_estimate_eur": 290418
+    },
+    {
+      "date": "2026-06-12",
+      "curtailed_mwh": 16970.7,
+      "cost_estimate_eur": 1357654
+    },
+    {
+      "date": "2026-06-13",
+      "curtailed_mwh": 45538.6,
+      "cost_estimate_eur": 3643085
+    },
+    {
+      "date": "2026-06-14",
+      "curtailed_mwh": 55730.9,
+      "cost_estimate_eur": 4458470
+    },
+    {
+      "date": "2026-06-15",
+      "curtailed_mwh": 72597.4,
+      "cost_estimate_eur": 5807795
+    },
+    {
+      "date": "2026-06-16",
+      "curtailed_mwh": 8554.9,
+      "cost_estimate_eur": 684389
+    },
+    {
+      "date": "2026-06-17",
+      "curtailed_mwh": 16206.9,
+      "cost_estimate_eur": 1296551
+    },
+    {
+      "date": "2026-06-18",
+      "curtailed_mwh": 17177.0,
+      "cost_estimate_eur": 1374164
+    },
+    {
+      "date": "2026-06-19",
+      "curtailed_mwh": 14613.0,
+      "cost_estimate_eur": 1169040
+    },
+    {
+      "date": "2026-06-20",
+      "curtailed_mwh": 8730.2,
+      "cost_estimate_eur": 698420
+    },
+    {
+      "date": "2026-06-21",
+      "curtailed_mwh": 18935.5,
+      "cost_estimate_eur": 1514840
+    },
+    {
+      "date": "2026-06-22",
+      "curtailed_mwh": 8520.3,
+      "cost_estimate_eur": 681625
+    },
+    {
+      "date": "2026-06-23",
+      "curtailed_mwh": 23259.7,
+      "cost_estimate_eur": 1860778
+    },
+    {
+      "date": "2026-06-24",
+      "curtailed_mwh": 19841.2,
+      "cost_estimate_eur": 1587293
+    },
+    {
+      "date": "2026-06-25",
+      "curtailed_mwh": 16387.5,
+      "cost_estimate_eur": 1310996
+    },
+    {
+      "date": "2026-06-26",
+      "curtailed_mwh": 18707.7,
+      "cost_estimate_eur": 1496613
+    },
+    {
+      "date": "2026-06-27",
+      "curtailed_mwh": 18276.0,
+      "cost_estimate_eur": 1462080
+    },
+    {
+      "date": "2026-06-28",
+      "curtailed_mwh": 15068.5,
+      "cost_estimate_eur": 1205480
     }
   ]
 }

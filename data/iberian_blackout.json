@@ -1,0 +1,236 @@
+{
+  "generated_at": "2026-06-24T20:16:35+00:00",
+  "event_date": "2025-04-28",
+  "zones": [
+    "ES",
+    "PT"
+  ],
+  "tz": "Europe/Madrid (CEST)",
+  "resolution": "hourly",
+  "note": "Actual total load (ENTSO-E) for Spain and Portugal around the fixed window of 28 April 2025. Spain's metered load is largely missing through the outage \u2014 the reporting itself went down \u2014 and is shown as a gap; Portugal's load fell to near zero. Figures around an outage are provisional and revised. Times are CEST (Madrid). This view shows what the data records and what the official report found \u2014 it does not assert a cause.",
+  "sources": [
+    {
+      "label": "ENTSO-E \u2014 28 April 2025 Iberian blackout (data + final report)",
+      "url": "https://www.entsoe.eu/publications/blackout/28-april-2025-iberian-blackout/"
+    },
+    {
+      "label": "Red El\u00e9ctrica de Espa\u00f1a (REE)",
+      "url": "https://www.ree.es/en"
+    },
+    {
+      "label": "REN (Portugal)",
+      "url": "https://datahub.ren.pt/en/"
+    }
+  ],
+  "timeline": [
+    {
+      "t": "2025-04-28T00:00:00+02:00",
+      "es_load_gw": 22.12,
+      "pt_load_gw": 5.09
+    },
+    {
+      "t": "2025-04-28T01:00:00+02:00",
+      "es_load_gw": 21.01,
+      "pt_load_gw": 4.76
+    },
+    {
+      "t": "2025-04-28T02:00:00+02:00",
+      "es_load_gw": 20.2,
+      "pt_load_gw": 4.5
+    },
+    {
+      "t": "2025-04-28T03:00:00+02:00",
+      "es_load_gw": 19.73,
+      "pt_load_gw": 4.3
+    },
+    {
+      "t": "2025-04-28T04:00:00+02:00",
+      "es_load_gw": 19.62,
+      "pt_load_gw": 4.21
+    },
+    {
+      "t": "2025-04-28T05:00:00+02:00",
+      "es_load_gw": 20.15,
+      "pt_load_gw": 4.2
+    },
+    {
+      "t": "2025-04-28T06:00:00+02:00",
+      "es_load_gw": 22.42,
+      "pt_load_gw": 4.32
+    },
+    {
+      "t": "2025-04-28T07:00:00+02:00",
+      "es_load_gw": 25.47,
+      "pt_load_gw": 4.69
+    },
+    {
+      "t": "2025-04-28T08:00:00+02:00",
+      "es_load_gw": 27.21,
+      "pt_load_gw": 5.27
+    },
+    {
+      "t": "2025-04-28T09:00:00+02:00",
+      "es_load_gw": 26.93,
+      "pt_load_gw": 5.88
+    },
+    {
+      "t": "2025-04-28T10:00:00+02:00",
+      "es_load_gw": 26.18,
+      "pt_load_gw": 5.94
+    },
+    {
+      "t": "2025-04-28T11:00:00+02:00",
+      "es_load_gw": 25.45,
+      "pt_load_gw": 5.81
+    },
+    {
+      "t": "2025-04-28T12:00:00+02:00",
+      "es_load_gw": 24.91,
+      "pt_load_gw": 3.3
+    },
+    {
+      "t": "2025-04-28T13:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 0.09
+    },
+    {
+      "t": "2025-04-28T14:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 0.09
+    },
+    {
+      "t": "2025-04-28T15:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 0.1
+    },
+    {
+      "t": "2025-04-28T16:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 0.1
+    },
+    {
+      "t": "2025-04-28T17:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 0.12
+    },
+    {
+      "t": "2025-04-28T18:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 0.15
+    },
+    {
+      "t": "2025-04-28T19:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 0.28
+    },
+    {
+      "t": "2025-04-28T20:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 0.47
+    },
+    {
+      "t": "2025-04-28T21:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 1.17
+    },
+    {
+      "t": "2025-04-28T22:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 2.64
+    },
+    {
+      "t": "2025-04-28T23:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 3.9
+    },
+    {
+      "t": "2025-04-29T00:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 4.4
+    },
+    {
+      "t": "2025-04-29T01:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 4.39
+    },
+    {
+      "t": "2025-04-29T02:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 4.12
+    },
+    {
+      "t": "2025-04-29T03:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 3.92
+    },
+    {
+      "t": "2025-04-29T04:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 3.89
+    },
+    {
+      "t": "2025-04-29T05:00:00+02:00",
+      "es_load_gw": null,
+      "pt_load_gw": 3.88
+    }
+  ],
+  "milestones": [
+    {
+      "t": "2025-04-28T12:33:00",
+      "label": "Grid collapse \u2014 Spain loses ~60% of generation (~15 GW) in seconds; cascade to Portugal"
+    },
+    {
+      "t": "2025-04-28T12:35:00",
+      "label": "Black-start sequence begins"
+    },
+    {
+      "t": "2025-04-28T12:44:00",
+      "label": "First France\u2013Spain 400 kV line (west) re-energised; Portugal black-start (Castelo do Bode hydro, Tapada do Outeiro)"
+    },
+    {
+      "t": "2025-04-28T13:04:00",
+      "label": "Spain\u2013Morocco interconnection re-energised"
+    },
+    {
+      "t": "2025-04-28T13:35:00",
+      "label": "Eastern France\u2013Spain interconnection re-energised"
+    },
+    {
+      "t": "2025-04-28T18:36:00",
+      "label": "First Spain\u2013Portugal 220 kV tie-line re-energised"
+    },
+    {
+      "t": "2025-04-28T21:35:00",
+      "label": "Southern Spain\u2013Portugal 400 kV tie-line re-energised"
+    },
+    {
+      "t": "2025-04-29T00:22:00",
+      "label": "Portugal transmission grid restored"
+    },
+    {
+      "t": "2025-04-29T04:00:00",
+      "label": "Spain restoration completed"
+    }
+  ],
+  "official": {
+    "report": "ENTSO-E Expert Panel \u2014 Final Report on the Grid Incident in Spain and Portugal on 28 April 2025",
+    "published": "2026-03-20",
+    "conclusion": "The final report attributes the blackout to a combination of many interacting factors \u2014 gaps in voltage and reactive-power control, oscillations, differing voltage-regulation practices, and rapid generator disconnections in Spain that cascaded \u2014 rather than a single cause or a single technology.",
+    "quote": "The problem is not renewable energy, but voltage control, regardless of the type of generation.",
+    "quote_attrib": "Dami\u00e1n Cortinas, Chair, ENTSO-E Board of Directors (final-report briefing)",
+    "report_url": "https://www.entsoe.eu/news/2026/03/20/entso-e-publishes-expert-panel-final-report-on-28-april-2025-blackout-in-spain-and-portugal/"
+  },
+  "summary": {
+    "pre_event_load_gw": {
+      "ES": 27.52,
+      "PT": 5.94
+    },
+    "trough_load_gw": {
+      "ES": null,
+      "PT": 0.09
+    },
+    "official_loss": "Spain lost about 60% of its generation \u2014 a sudden ~15 GW drop \u2014 in seconds (official record).",
+    "data_gap_note": "Spain's metered load is missing through the outage (reporting down); Portugal's load is recorded and collapses to near zero.",
+    "restoration": "staged, completed ~04:00 CEST on 29 April 2025"
+  }
+}

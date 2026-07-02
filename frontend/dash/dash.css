@@ -17,26 +17,12 @@ body { margin: 0; background: var(--bg); color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   line-height: 1.55; font-size: 15px; }
 
-/* ---------- Shell ---------- */
-.shell { display: grid; grid-template-columns: var(--sidebar-w) minmax(0, 1fr); min-height: 100vh; }
-
-/* ---------- Sidebar ---------- */
-.side { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column;
-  padding: 26px 18px 18px 22px; border-right: 0.5px solid var(--border); background: var(--bg); }
-.side .brand { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
-.side .brand small { display: block; color: var(--hint); font-weight: 400; font-size: 12px; margin-top: 2px; }
-.sidenav { margin-top: 26px; display: flex; flex-direction: column; gap: 1px; }
-.sidenav a { display: flex; align-items: baseline; gap: 8px; color: var(--muted); text-decoration: none;
-  font-size: 13.5px; padding: 7px 10px; border-radius: var(--radius-sm); border-left: 2px solid transparent; }
-.sidenav a .n { font-variant-numeric: tabular-nums; font-size: 10.5px; color: var(--hint); width: 14px; }
-.sidenav a:hover { color: var(--text); background: var(--surface-2); }
-.sidenav a.active { color: var(--text); font-weight: 500; background: var(--surface-2); border-left-color: var(--amber); }
-.side .foot { margin-top: auto; font-size: 11px; color: var(--hint); line-height: 1.6; }
-.side .foot a { color: var(--hint); }
-
-/* ---------- Content column ---------- */
-.main { padding: 0 36px 80px; min-width: 0; }
-.main-inner { max-width: 1060px; margin: 0 auto; }
+/* ---------- Shell / sidebar / content column ----------
+   The .shell grid, the desktop .side sidebar, and the .main/.main-inner content
+   column are all injected by nav.js — the single source of navigation truth
+   shared across every page. Keeping a second copy here would only drift out of
+   sync (the exact bug this nav round fixed), so they now live solely in nav.js.
+   Dashboard-specific layout (.ctrl, .panel, charts) stays below. */
 
 /* Control header: zones + brush */
 .ctrl { position: sticky; top: 0; z-index: 30; background: linear-gradient(var(--bg) 88%, transparent);
@@ -122,24 +108,39 @@ body { margin: 0; background: var(--bg); color: var(--text);
 
 .loading { text-align: center; color: var(--hint); padding: 60px 0; font-size: 14px; }
 
+/* ---------- Landing intro + "Deep dives" callout ----------
+   Leads the dashboard with a one-paragraph thesis and surfaces the two map-story
+   slices up front (the strongest material), instead of leaving them only in the nav. */
+.intro { padding: 4px 0 2px; }
+.intro h1 { font-size: 26px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 6px; }
+.intro-sub { color: var(--muted); font-size: 14px; line-height: 1.55; margin: 0; max-width: 76ch; }
+.deepdives { margin: 18px 0 4px; }
+.dd-head { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--amber);
+  font-weight: 600; margin-bottom: 10px; }
+.dd-head .dd-sub { color: var(--hint); font-weight: 500; text-transform: none; letter-spacing: 0; }
+.dd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.dd-card { display: flex; gap: 12px; align-items: flex-start; text-decoration: none; background: var(--surface);
+  border: 0.5px solid var(--border); border-left: 2px solid var(--amber); border-radius: var(--radius);
+  padding: 14px 16px; transition: box-shadow 0.15s ease, background 0.12s; }
+.dd-card:hover { box-shadow: 0 2px 14px rgba(40,36,20,0.07); background: var(--surface-2); }
+.dd-badge { flex: none; font-size: 11px; font-weight: 700; letter-spacing: 0.03em; color: var(--amber);
+  border: 1px solid var(--amber); border-radius: 6px; padding: 2px 6px; margin-top: 1px; }
+.dd-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.dd-title { font-size: 14.5px; font-weight: 600; color: var(--text); }
+.dd-arrow { color: var(--amber); font-weight: 700; }
+.dd-hook { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+@media (max-width: 760px) { .dd-grid { grid-template-columns: 1fr; } .intro h1 { font-size: 22px; } }
+
 /* Side-by-side pair (two small charts) */
 .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .pair .sub-t { font-size: 12px; color: var(--muted); font-weight: 500; margin: 0 0 6px; }
 
-/* ---------- Mobile ---------- */
-.topbar { display: none; }
+/* ---------- Mobile ----------
+   The sidebar↔scroll-nav swap and the .shell/.side/.main responsive rules are
+   injected by nav.js (single source of nav truth). Only dashboard-specific
+   mobile tweaks remain here. The .ctrl bar is made static so it doesn't fight
+   nav.js's sticky mobile top-nav for the top of the viewport. */
 @media (max-width: 900px) {
-  .shell { grid-template-columns: 1fr; }
-  .side { display: none; }
-  .topbar { display: block; position: sticky; top: 0; z-index: 40; background: var(--bg);
-    border-bottom: 0.5px solid var(--border); padding: 10px 16px 0; }
-  .topbar .brand { font-size: 16px; font-weight: 600; }
-  .topbar .brand small { color: var(--hint); font-weight: 400; font-size: 11px; margin-left: 8px; }
-  .topnav { display: flex; gap: 4px; overflow-x: auto; padding: 8px 0 10px; -webkit-overflow-scrolling: touch; }
-  .topnav a { font-size: 12px; color: var(--muted); text-decoration: none; white-space: nowrap;
-    padding: 6px 12px; border-radius: 999px; border: 0.5px solid transparent; min-height: 0; }
-  .topnav a.active { color: var(--text); background: var(--surface-2); border-color: var(--border); }
-  .main { padding: 0 14px 60px; }
   .ctrl { position: static; padding-top: 14px; }
   .panel { scroll-margin-top: 86px; }
   .panel h2.story { font-size: 17.5px; }

@@ -54,13 +54,13 @@ def fetch_prices(start: pd.Timestamp, end: pd.Timestamp) -> pd.Series:
     Isolated so it can be swapped for a fixture in tests. Imported lazily so the
     rest of the module (and the unit tests) don't require the entsoe package.
     """
-    from entsoe import EntsoePandasClient  # noqa: WPS433 (lazy import on purpose)
+    from entsoe_client import make_entsoe_client  # retrying client (transient-5xx safe)
 
     token = os.environ.get("ENTSOE_API_TOKEN")
     if not token:
         sys.exit("ENTSOE_API_TOKEN not set. Copy .env.example to .env and fill it in.")
 
-    client = EntsoePandasClient(api_key=token)
+    client = make_entsoe_client(token)
     logger.info("fetching %s day-ahead prices %s -> %s", ZONE, start.date(), end.date())
     return client.query_day_ahead_prices(ZONE, start=start, end=end)
 

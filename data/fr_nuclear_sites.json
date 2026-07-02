@@ -1,0 +1,193 @@
+{
+"generated_at": "2026-06-24T08:59:22+00:00",
+"source": "Public site data / RTE / IAEA PRIS (compiled), net MW",
+"as_of": "2025",
+"unit": "MW",
+"fleet_total": {
+"sites": 18,
+"reactors": 57,
+"capacity_mw": 63010
+},
+"sites": [
+{
+"name": "Gravelines",
+"region": "Hauts-de-France",
+"nuts_id": "FRE",
+"reactors": 6,
+"capacity_mw": 5460,
+"water": "coast",
+"lat": 51.015,
+"lon": 2.136
+},
+{
+"name": "Paluel",
+"region": "Normandie",
+"nuts_id": "FRD",
+"reactors": 4,
+"capacity_mw": 5320,
+"water": "coast",
+"lat": 49.858,
+"lon": 0.635
+},
+{
+"name": "Cattenom",
+"region": "Grand Est",
+"nuts_id": "FRF",
+"reactors": 4,
+"capacity_mw": 5200,
+"water": "river",
+"lat": 49.416,
+"lon": 6.218
+},
+{
+"name": "Flamanville",
+"region": "Normandie",
+"nuts_id": "FRD",
+"reactors": 3,
+"capacity_mw": 4300,
+"water": "coast",
+"lat": 49.536,
+"lon": -1.882
+},
+{
+"name": "Tricastin",
+"region": "Auvergne-Rhône-Alpes",
+"nuts_id": "FRK",
+"reactors": 4,
+"capacity_mw": 3660,
+"water": "river",
+"lat": 44.33,
+"lon": 4.732
+},
+{
+"name": "Cruas",
+"region": "Auvergne-Rhône-Alpes",
+"nuts_id": "FRK",
+"reactors": 4,
+"capacity_mw": 3660,
+"water": "river",
+"lat": 44.633,
+"lon": 4.757
+},
+{
+"name": "Blayais",
+"region": "Nouvelle-Aquitaine",
+"nuts_id": "FRI",
+"reactors": 4,
+"capacity_mw": 3640,
+"water": "estuary",
+"lat": 45.256,
+"lon": -0.693
+},
+{
+"name": "Chinon",
+"region": "Centre-Val de Loire",
+"nuts_id": "FRB",
+"reactors": 4,
+"capacity_mw": 3620,
+"water": "river",
+"lat": 47.23,
+"lon": 0.17
+},
+{
+"name": "Bugey",
+"region": "Auvergne-Rhône-Alpes",
+"nuts_id": "FRK",
+"reactors": 4,
+"capacity_mw": 3580,
+"water": "river",
+"lat": 45.798,
+"lon": 5.271
+},
+{
+"name": "Dampierre",
+"region": "Centre-Val de Loire",
+"nuts_id": "FRB",
+"reactors": 4,
+"capacity_mw": 3560,
+"water": "river",
+"lat": 47.733,
+"lon": 2.516
+},
+{
+"name": "Chooz",
+"region": "Grand Est",
+"nuts_id": "FRF",
+"reactors": 2,
+"capacity_mw": 3000,
+"water": "river",
+"lat": 50.09,
+"lon": 4.789
+},
+{
+"name": "Civaux",
+"region": "Nouvelle-Aquitaine",
+"nuts_id": "FRI",
+"reactors": 2,
+"capacity_mw": 2990,
+"water": "river",
+"lat": 46.457,
+"lon": 0.653
+},
+{
+"name": "Saint-Alban",
+"region": "Auvergne-Rhône-Alpes",
+"nuts_id": "FRK",
+"reactors": 2,
+"capacity_mw": 2670,
+"water": "river",
+"lat": 45.404,
+"lon": 4.755
+},
+{
+"name": "Penly",
+"region": "Normandie",
+"nuts_id": "FRD",
+"reactors": 2,
+"capacity_mw": 2660,
+"water": "coast",
+"lat": 49.976,
+"lon": 1.212
+},
+{
+"name": "Belleville",
+"region": "Centre-Val de Loire",
+"nuts_id": "FRB",
+"reactors": 2,
+"capacity_mw": 2620,
+"water": "river",
+"lat": 47.51,
+"lon": 2.875
+},
+{
+"name": "Golfech",
+"region": "Occitanie",
+"nuts_id": "FRJ",
+"reactors": 2,
+"capacity_mw": 2620,
+"water": "river",
+"lat": 44.107,
+"lon": 0.845
+},
+{
+"name": "Nogent",
+"region": "Grand Est",
+"nuts_id": "FRF",
+"reactors": 2,
+"capacity_mw": 2620,
+"water": "river",
+"lat": 48.515,
+"lon": 3.518
+},
+{
+"name": "Saint-Laurent",
+"region": "Centre-Val de Loire",
+"nuts_id": "FRB",
+"reactors": 2,
+"capacity_mw": 1830,
+"water": "river",
+"lat": 47.72,
+"lon": 1.578
+}
+]
+}

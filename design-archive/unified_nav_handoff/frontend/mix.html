@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Mix</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .controls { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; margin-bottom: 20px; }
+    .controls label { font-size: 12px; color: var(--muted); margin-right: 6px; }
+    .controls select, .controls .seg button {
+      font: inherit; font-size: 13px; padding: 6px 10px; border-radius: var(--radius-sm);
+      border: 0.5px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; }
+    .seg { display: inline-flex; border: 0.5px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+    .seg button { border: none; border-radius: 0; background: var(--surface); }
+    .seg button.active { background: var(--text); color: var(--bg); }
+    .fuel-legend { font-size: 11px; color: var(--muted); margin-top: 12px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .fuel-legend .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }
+  </style>
+</head>
+<body>
+  <div class="shell"><main class="main">
+  <div class="wrap">
+    <h1>The Mix</h1>
+    <p class="sub">What actually generates the electricity, hour by hour. France leans on flat nuclear baseload; Germany rides a volatile wave of wind and solar with gas and coal filling the gaps.</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 20px;"></div>
+
+    <div class="controls">
+      <div><label for="zoneA">Zone A</label><select id="zoneA"></select></div>
+      <div><label for="zoneB">Compare with</label><select id="zoneB"></select></div>
+      <div class="seg" id="modeSeg">
+        <button data-mode="profile" class="active">Average day</button>
+        <button data-mode="daily">Over 12 months</button>
+      </div>
+      <label style="cursor:pointer;"><input type="checkbox" id="carbonToggle" /> Carbon intensity overlay</label>
+    </div>
+
+    <div id="kpis" class="kpis"></div>
+
+    <div class="row2" id="charts">
+      <div class="card">
+        <div class="head"><div class="title" id="titleA">—</div><div class="meta" id="metaA"></div></div>
+        <canvas id="chartA" height="150"></canvas>
+      </div>
+      <div class="card" id="cardB">
+        <div class="head"><div class="title" id="titleB">—</div><div class="meta" id="metaB"></div></div>
+        <canvas id="chartB" height="150"></canvas>
+      </div>
+    </div>
+
+    <div class="fuel-legend" id="fuelLegend"></div>
+    <div class="meta" style="margin-top:12px;">Stacked generation by fuel type. Values are average GW; gaps in reporting render as breaks, never as fabricated zeros. Source: ENTSO-E generation per type. Bidding zones, not countries (DE-LU is Germany + Luxembourg).</div>
+    <div class="meta" id="carbonNote" style="margin-top:8px; display:none;">Carbon intensity (brown line, right axis): production-based, computed from this generation mix using IPCC AR5 lifecycle median emission factors. Reflects electricity generated in the zone (imports/exports excluded); lifecycle, not combustion-only. Watch it fall when wind/solar rise, and sit low for nuclear-heavy France.</div>
+    <div id="status" class="loading">Loading data…</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="util.js"></script>
+  <script src="fuels.js"></script>
+  <script>
+    const hh = (h) => String(h).padStart(2, "0") + ":00";
+    const gw1 = (n) => (Math.round(n * 10) / 10) + " GW";
+    let MIX = null, CARBON = null, mode = "profile", carbonOn = false, chartA = null, chartB = null;
+
+    async function loadJSON(name) {
+      for (const path of ["../data/" + name, "data/" + name, "/data/" + name]) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) {}
+      }
+      throw new Error("could not load " + name);
+    }
+
+    // Build stacked-area datasets for one zone in canonical fuel order.
+    function datasets(zoneData) {
+      const key = mode === "profile" ? "profile_gw" : "daily_gw";
+      const src = zoneData[key] || {};
+      const fuels = orderFuels(Object.keys(src));
+      return fuels.map((fuel) => ({
+        label: fuel, data: src[fuel], yAxisID: "y",
+        backgroundColor: fuelColor(fuel) + "cc", borderColor: fuelColor(fuel),
+        borderWidth: 0, fill: true, pointRadius: 0, tension: 0.25, spanGaps: false,
+      }));
+    }
+    function labelsFor(zoneData) {
+      return mode === "profile" ? zoneData.hours.map(hh) : zoneData.days.map(fmtDate);
+    }
+    // Carbon-intensity series for a zone, aligned to the current chart's x-axis.
+    function carbonLine(zoneCode, zoneData) {
+      if (!carbonOn || !CARBON || !CARBON.zones[zoneCode]) return null;
+      const cz = CARBON.zones[zoneCode];
+      let data;
+      if (mode === "profile") {
+        data = cz.intensity_profile;
+      } else {
+        const byDate = {}; (cz.days || []).forEach((d, i) => { byDate[d] = cz.intensity_daily[i]; });
+        data = zoneData.days.map(d => (d in byDate ? byDate[d] : null));
+      }
+      return { label: "Carbon intensity", data, yAxisID: "yCarbon", type: "line",
+        borderColor: "#5a3a22", backgroundColor: "transparent", borderWidth: 2,
+        pointRadius: 0, tension: 0.3, spanGaps: true, fill: false };
+    }
+
+    function renderChart(canvasId, zoneCode) {
+      const zoneData = MIX.zones[zoneCode];
+      const existing = canvasId === "chartA" ? chartA : chartB;
+      if (existing) existing.destroy();
+      const ds = datasets(zoneData);
+      const cl = carbonLine(zoneCode, zoneData);
+      if (cl) ds.push(cl);
+      const scales = {
+        x: { stacked: true, ticks: { maxTicksLimit: mode === "profile" ? 12 : 8, color: "#888780", font: { size: 10 } }, grid: { display: false } },
+        y: { stacked: true, ticks: { color: "#888780", font: { size: 10 }, callback: (v) => v + " GW" }, grid: { color: "rgba(0,0,0,0.05)" } },
+      };
+      if (cl) scales.yCarbon = { position: "right", min: 0, ticks: { color: "#5a3a22", font: { size: 10 }, callback: (v) => v + " g" }, grid: { display: false } };
+      const chart = new Chart(document.getElementById(canvasId), {
+        type: "line", data: { labels: labelsFor(zoneData), datasets: ds },
+        options: {
+          responsive: true, animation: false, interaction: { mode: "index", intersect: false },
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => c.parsed.y == null ? null :
+              (c.dataset.label === "Carbon intensity" ? `Carbon: ${Math.round(c.parsed.y)} gCO₂/kWh` : `${c.dataset.label}: ${gw1(c.parsed.y)}`) },
+              itemSort: (a, b) => b.parsed.y - a.parsed.y } },
+          scales,
+        },
+      });
+      if (canvasId === "chartA") chartA = chart; else chartB = chart;
+    }
+
+    // Average renewable share over the average-day profile for a zone.
+    function renewableShare(zoneData) {
+      const src = zoneData.profile_gw || {};
+      let ren = 0, tot = 0;
+      for (const fuel of Object.keys(src)) {
+        const sum = (src[fuel] || []).reduce((a, v) => a + (v || 0), 0);
+        tot += sum; if (RENEWABLE_FUELS.has(fuel)) ren += sum;
+      }
+      return tot > 0 ? Math.round((ren / tot) * 100) : null;
+    }
+    function topFuel(zoneData) {
+      const src = zoneData.profile_gw || {};
+      let best = null, bestSum = -1;
+      for (const fuel of Object.keys(src)) {
+        const sum = (src[fuel] || []).reduce((a, v) => a + (v || 0), 0);
+        if (sum > bestSum) { bestSum = sum; best = fuel; }
+      }
+      return best;
+    }
+
+    // Mean carbon intensity over the average-day profile for a zone (gCO2/kWh).
+    function meanCarbon(zoneCode) {
+      if (!CARBON || !CARBON.zones[zoneCode]) return null;
+      const p = (CARBON.zones[zoneCode].intensity_profile || []).filter(v => v != null);
+      return p.length ? Math.round(p.reduce((a, v) => a + v, 0) / p.length) : null;
+    }
+    function renderKPIs() {
+      const aCode = document.getElementById("zoneA").value;
+      const bCode = document.getElementById("zoneB").value;
+      const a = MIX.zones[aCode];
+      const b = bCode && bCode !== "none" ? MIX.zones[bCode] : null;
+      const items = [
+        { label: `Renewable share · ${zoneName(aCode)}`,
+          val: renewableShare(a) != null ? renewableShare(a) + "%" : "—", cls: "pos" },
+        { label: `Top source · ${zoneName(aCode)}`, val: topFuel(a) || "—" },
+      ];
+      if (carbonOn && meanCarbon(aCode) != null)
+        items.push({ label: `Carbon · ${zoneName(aCode)}`, val: meanCarbon(aCode) + " gCO₂/kWh" });
+      if (b) {
+        items.push({ label: `Renewable share · ${zoneName(bCode)}`,
+          val: renewableShare(b) != null ? renewableShare(b) + "%" : "—", cls: "pos" });
+        if (carbonOn && meanCarbon(bCode) != null)
+          items.push({ label: `Carbon · ${zoneName(bCode)}`, val: meanCarbon(bCode) + " gCO₂/kWh" });
+        else items.push({ label: `Top source · ${zoneName(bCode)}`, val: topFuel(b) || "—" });
+      }
+      document.getElementById("kpis").innerHTML = items.map(i =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
+    }
+
+    function renderLegend() {
+      const fuels = orderFuels(MIX.fuels || []);
+      document.getElementById("fuelLegend").innerHTML = fuels.map(f =>
+        `<span><span class="swatch" style="background:${fuelColor(f)}"></span>${f}</span>`).join("");
+    }
+
+    function render() {
+      const aCode = document.getElementById("zoneA").value;
+      const bCode = document.getElementById("zoneB").value;
+      const a = MIX.zones[aCode];
+      document.getElementById("titleA").textContent = zoneName(aCode);
+      document.getElementById("metaA").textContent = "source ENTSO-E";
+      renderChart("chartA", aCode);
+      const cardB = document.getElementById("cardB");
+      if (bCode && bCode !== "none" && MIX.zones[bCode]) {
+        cardB.style.display = "";
+        document.getElementById("titleB").textContent = zoneName(bCode);
+        document.getElementById("metaB").textContent = "source ENTSO-E";
+        renderChart("chartB", bCode);
+      } else {
+        cardB.style.display = "none";
+        if (chartB) { chartB.destroy(); chartB = null; }
+      }
+      renderKPIs();
+    }
+
+    function fillSelectors() {
+      const zones = MIX.zones_available || Object.keys(MIX.zones);
+      const a = document.getElementById("zoneA"), b = document.getElementById("zoneB");
+      a.innerHTML = zones.map(z => `<option value="${z}">${zoneName(z)}</option>`).join("");
+      b.innerHTML = `<option value="none">— none —</option>` +
+        zones.map(z => `<option value="${z}">${zoneName(z)}</option>`).join("");
+      a.value = MIX.zone_default || zones[0];
+      // Default comparison: DE-LU vs FR (the headline contrast) when both exist.
+      if (zones.includes("FR") && a.value !== "FR") b.value = "FR";
+      else if (zones.length > 1) b.value = zones.find(z => z !== a.value) || "none";
+    }
+
+    (async function main() {
+      const status = document.getElementById("status");
+      try { MIX = await loadJSON("mix.json"); } catch (e) {}
+      if (!MIX || !MIX.zones || !Object.keys(MIX.zones).length) {
+        status.textContent = "Could not load data. Run `python pipeline/build_mix.py` first, then serve the folder."; return; }
+      CARBON = await loadJSON("carbon.json");  // optional overlay (Phase 5)
+      document.getElementById("periodNote").textContent = `Data shown for ${fmtPeriod(MIX.period_start, MIX.period_end)}`;
+      fillSelectors(); renderLegend(); render();
+      document.getElementById("zoneA").addEventListener("change", render);
+      document.getElementById("zoneB").addEventListener("change", render);
+      document.querySelectorAll("#modeSeg button").forEach(btn =>
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("#modeSeg button").forEach(x => x.classList.remove("active"));
+          btn.classList.add("active"); mode = btn.dataset.mode; render();
+        }));
+      const toggle = document.getElementById("carbonToggle");
+      if (!CARBON) { toggle.disabled = true; toggle.parentElement.style.opacity = 0.5; }
+      toggle.addEventListener("change", () => {
+        carbonOn = toggle.checked; render();
+        document.getElementById("carbonNote").style.display = carbonOn ? "" : "none";
+      });
+      status.style.display = "none";
+    })();
+  </script>
+  <script src="nav.js"></script>
+  </main></div>
+</body>
+</html>

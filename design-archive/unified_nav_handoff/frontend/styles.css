@@ -1,0 +1,135 @@
+/* Shared Wattlas styles.
+ * Design tokens mirror the inline styles in index.html (the validated Spread
+ * view). Used by the exploratory mockup pages (pulse/divergence/mismatch).
+ * index.html keeps its own inline copy so the validated view is never affected
+ * by edits here. */
+:root {
+  --bg: #faf9f5; --surface: #ffffff; --surface-2: #f1efe8;
+  --text: #2b2a27; --muted: #5f5e5a; --hint: #888780;
+  --border: rgba(0,0,0,0.12); --blue: #185fa5; --red: #a32d2d; --green: #3b6d11;
+  --amber: #b8860b;
+  --radius: 12px; --radius-sm: 8px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; }
+.wrap { max-width: 920px; margin: 0 auto; padding: 24px 20px 64px; }
+.nav { display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 12px; border-bottom: 0.5px solid var(--border); margin-bottom: 28px;
+  flex-wrap: wrap; gap: 8px; }
+.brand { font-size: 16px; font-weight: 500; }
+.brand small { color: var(--hint); font-weight: 400; margin-left: 8px; font-size: 12px; }
+.navlinks { display: flex; gap: 18px; font-size: 13px; }
+.navlinks a { color: var(--muted); text-decoration: none; padding-bottom: 4px; }
+.navlinks a:hover { color: var(--text); }
+.navlinks a.active { color: var(--text); font-weight: 500; border-bottom: 2px solid var(--text); }
+h1 { font-size: 22px; font-weight: 500; margin: 0 0 4px; }
+.sub { color: var(--muted); font-size: 13px; margin: 0 0 24px; }
+.mock-banner { background: #fff7e0; border: 0.5px solid #e7cf86; border-left: 3px solid var(--amber);
+  border-radius: var(--radius-sm); padding: 10px 14px; font-size: 12px; color: #6b520a; margin-bottom: 24px; }
+.mock-banner strong { font-weight: 600; }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+.kpi { background: var(--surface-2); border-radius: var(--radius-sm); padding: 16px; }
+.kpi .label { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.kpi .val { font-size: 24px; font-weight: 500; }
+.kpi .val.neg { color: var(--red); } .kpi .val.pos { color: var(--green); }
+.card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius);
+  padding: 16px 20px; margin-bottom: 20px; }
+.card .head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+.card .title { font-size: 14px; font-weight: 500; } .card .meta { font-size: 12px; color: var(--hint); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.legend { font-size: 12px; color: var(--muted); margin-top: 10px; display: flex; gap: 16px; flex-wrap: wrap; }
+.legend .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+canvas { max-width: 100%; }
+@media (max-width: 640px) { .kpis { grid-template-columns: repeat(2, 1fr); } .row2 { grid-template-columns: 1fr; } }
+@media (max-width: 380px) { .kpis { grid-template-columns: 1fr; } .navlinks { gap: 12px; } }
+
+/* ---- Shared dashboard / self-explanatory components (v2 redesign) ---------
+ * Used by dashboard.html (the home page) and available to the drill-down pages.
+ * Layout specifics stay in each page; these are the reusable building blocks. */
+
+/* Sticky control bar (zone + window) */
+.bar { position: sticky; top: 0; z-index: 20; background: var(--bg);
+  display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+  padding: 10px 0; border-bottom: 0.5px solid var(--border); }
+.bar label { font-size: 12px; color: var(--muted); margin-right: 6px; }
+.bar select { font: inherit; font-size: 13px; padding: 6px 10px; border-radius: var(--radius-sm);
+  border: 0.5px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; }
+
+/* Segmented control */
+.seg { display: inline-flex; border: 0.5px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+.seg button { font: inherit; font-size: 13px; padding: 6px 11px; border: none; background: var(--surface);
+  color: var(--text); cursor: pointer; }
+.seg button.active { background: var(--text); color: var(--bg); }
+
+/* Section jump-nav (scroll-spy chips) */
+.jumpnav { position: sticky; top: 49px; z-index: 19; background: var(--bg);
+  display: flex; gap: 6px; padding: 8px 0 10px; margin-bottom: 8px; overflow-x: auto;
+  border-bottom: 0.5px solid var(--border); }
+.jumpnav a { font-size: 12px; color: var(--muted); text-decoration: none; white-space: nowrap;
+  padding: 5px 11px; border-radius: 999px; border: 0.5px solid transparent; }
+.jumpnav a:hover { color: var(--text); }
+.jumpnav a.active { color: var(--text); background: var(--surface-2); border-color: var(--border); }
+
+/* Themed section */
+.sec { padding-top: 36px; scroll-margin-top: 96px; }
+.sec > h2 { font-size: 18px; font-weight: 500; margin: 0 0 4px; padding-bottom: 8px; border-bottom: 0.5px solid var(--border); }
+.sec-intro { color: var(--muted); font-size: 13px; margin: 8px 0 18px; max-width: 70ch; }
+.sec .full-view { float: right; font-size: 12px; font-weight: 400; color: var(--muted); text-decoration: none; }
+.sec .full-view:hover { color: var(--text); }
+.card .cap { font-size: 11px; color: var(--hint); margin: 8px 0 0; }
+
+/* Card hover lift (perceived quality) */
+.card { transition: box-shadow 0.15s ease; }
+.card.hoverable:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+
+/* Info "i" affordance + tooltip popover */
+.info { font: 600 10px/14px -apple-system, sans-serif; display: inline-flex; align-items: center;
+  justify-content: center; width: 15px; height: 15px; border-radius: 50%; border: 0.5px solid var(--border);
+  background: var(--surface-2); color: var(--muted); cursor: pointer; padding: 0; margin-left: 5px; vertical-align: middle; }
+.info:hover, .info:focus-visible { color: var(--text); border-color: var(--hint); outline: none; }
+.tip-pop { position: absolute; max-width: 280px; background: var(--text); color: var(--bg);
+  font-size: 12px; line-height: 1.5; font-weight: 400; padding: 9px 11px; border-radius: var(--radius-sm);
+  z-index: 60; box-shadow: 0 4px 16px rgba(0,0,0,0.20); }
+
+/* Skeleton loader + no-data state for chart boxes */
+.chartbox { position: relative; }
+.skeleton { background: linear-gradient(100deg, var(--surface-2) 30%, #e8e6df 50%, var(--surface-2) 70%);
+  background-size: 200% 100%; animation: shimmer 1.3s infinite linear; border-radius: var(--radius-sm); }
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+.nodata { display: flex; align-items: center; justify-content: center; height: 100%; min-height: 120px;
+  color: var(--hint); font-size: 12px; text-align: center; padding: 20px; }
+
+/* ---- Topic block (Layout A: full-width stacked, KPI rail + chart) --------- */
+.block { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius);
+  padding: 20px 22px; margin-bottom: 22px; scroll-margin-top: 104px; transition: box-shadow 0.15s ease; }
+.block:hover { box-shadow: 0 2px 14px rgba(0,0,0,0.05); }
+.block-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.block-head h2 { font-size: 19px; font-weight: 500; margin: 0; }
+.block-head h2 .lede { color: var(--hint); font-weight: 400; font-size: 15px; }
+.block-head .full-view { font-size: 12px; color: var(--muted); text-decoration: none; white-space: nowrap; }
+.block-head .full-view:hover { color: var(--text); }
+.block-pitch { color: var(--muted); font-size: 13px; margin: 6px 0 16px; max-width: 75ch; }
+.block-body { display: flex; gap: 20px; align-items: stretch; }
+.rail { flex: 0 0 226px; display: flex; flex-direction: column; gap: 10px; }
+.rail .kpi { padding: 12px 14px; }
+.rail .kpi.headline { background: var(--surface); border: 0.5px solid var(--border); }
+.rail .kpi.headline .val { font-size: 30px; }
+.rail .kpi .val { font-size: 19px; }
+.chartcol { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.chartcol .seg { align-self: flex-start; margin-bottom: 10px; }
+.chartwrap { position: relative; flex: 1; min-height: 240px; height: 240px; }
+.chartwrap canvas { max-width: 100%; }
+.block .cap { font-size: 11px; color: var(--hint); margin: 10px 0 0; }
+.block .fuel-legend { font-size: 10px; color: var(--muted); margin-top: 8px; display: flex; gap: 10px; flex-wrap: wrap; }
+.block .fuel-legend .swatch { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; vertical-align: middle; }
+@media (max-width: 760px) {
+  .block-body { flex-direction: column; }
+  .rail { flex: auto; flex-direction: row; flex-wrap: wrap; }
+  .rail .kpi { flex: 1 1 calc(50% - 5px); }
+  .rail .kpi.headline { flex-basis: 100%; }
+  .chartwrap { height: 220px; }
+}
+
+/* Site navigation (sidebar + mobile scroll-nav) lives in nav.js — it injects its
+ * own styles so it works even on pages that don't load this stylesheet. */

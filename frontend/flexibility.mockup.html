@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wattlas — Flexibility (mockup)</title>
+<style>
+  body{margin:0;background:#faf9f5;color:#2b2a27;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+  .ww-wrap{max-width:960px;margin:0 auto;padding:24px 18px 56px}
+  .ww-frame{background:#faf9f5;color:#2b2a27;border:0.5px solid rgba(0,0,0,.18);border-radius:14px;overflow:hidden}
+  .ww-bbar{display:flex;gap:6px;align-items:center;padding:9px 14px;background:#f1efe8;border-bottom:0.5px solid rgba(0,0,0,.12)}
+  .ww-dot{width:10px;height:10px;border-radius:50%}
+  .ww-url{margin-left:10px;font-size:12px;color:#5f5e5a;background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:6px;padding:3px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ww-page{padding:18px 20px 24px}
+  .ww-nav{display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,.12);padding-bottom:9px;margin-bottom:15px;flex-wrap:wrap;gap:8px}
+  .ww-brand{font-size:15px;font-weight:500}
+  .ww-brand small{color:#888780;font-weight:400;margin-left:6px;font-size:12px}
+  .ww-links{display:flex;gap:13px;font-size:12px;color:#5f5e5a;flex-wrap:wrap}
+  .ww-links .on{color:#2b2a27;font-weight:500;border-bottom:2px solid #2b2a27;padding-bottom:6px}
+  .ww-banner{background:#fff7e0;border:0.5px solid #e7cf86;border-left:3px solid #b8860b;border-radius:8px;padding:9px 13px;font-size:12px;color:#6b520a;margin-bottom:15px}
+  .ww-h1{font-size:21px;font-weight:500;margin:0 0 4px}
+  .ww-sub{color:#5f5e5a;font-size:13px;margin:0 0 17px;max-width:74ch}
+  .ww-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:19px}
+  .ww-kpi{background:#f1efe8;border-radius:8px;padding:12px 13px}
+  .ww-kpi .l{font-size:12px;color:#5f5e5a;margin-bottom:5px}
+  .ww-kpi .v{font-size:22px;font-weight:500}
+  .ww-kpi .v.neg{color:#a32d2d}
+  .ww-card{background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:12px;padding:15px 17px;margin-bottom:15px}
+  .ww-ch{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;gap:10px;flex-wrap:wrap}
+  .ww-ct{font-size:15px;font-weight:500}
+  .ww-cm{font-size:12px;color:#888780}
+  .ww-pitch{font-size:12px;color:#5f5e5a;margin:0 0 12px;max-width:82ch}
+  .ww-seg{display:inline-flex;border:0.5px solid rgba(0,0,0,.18);border-radius:8px;overflow:hidden}
+  .ww-seg button{font:inherit;font-size:12px;padding:5px 13px;border:none;background:#fff;color:#2b2a27;cursor:pointer}
+  .ww-seg button.on{background:#2b2a27;color:#faf9f5}
+  .ww-legend{font-size:11px;color:#5f5e5a;margin-top:10px;display:flex;gap:13px;flex-wrap:wrap;align-items:center}
+  .ww-sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}
+  .ww-cap{font-size:11px;color:#888780;margin:9px 0 0;max-width:82ch}
+  .ww-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  @media(max-width:620px){.ww-kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="ww-wrap">
+<h2 class="ww-sr">Mockup of the Wattlas Flexibility page: a savings calculator for dynamic electricity tariffs. A 24-hour day-ahead price curve with the cheapest four-hour charging window highlighted, and a grouped bar of yearly savings by shiftable load and bidding zone. Savings assume perfect foresight and are an upper bound; figures are illustrative placeholders.</h2>
+
+<div class="ww-frame">
+  <div class="ww-bbar"><span class="ww-dot" style="background:#e2655a"></span><span class="ww-dot" style="background:#e6b54a"></span><span class="ww-dot" style="background:#6fae5f"></span><span class="ww-url">sekond.github.io/Wattlas/frontend/flexibility.html</span></div>
+  <div class="ww-page">
+
+    <div class="ww-nav">
+      <div class="ww-brand">Wattlas <small>European electricity, explained</small></div>
+      <div class="ww-links"><span>Dashboard</span><span>Spread</span><span>Mix</span><span>Carbon</span><span>Curtailment</span><span class="on">Flexibility</span></div>
+    </div>
+
+    <div class="ww-banner"><span style="font-weight:500">Mockup</span> — layout and story preview. Savings assume perfect foresight (charging in the cheapest hours, known in advance) — an upper bound, exactly like the Wattlas battery model. Real savings are lower.</div>
+
+    <div class="ww-h1">What you'd save by shifting load to the cheapest hours</div>
+    <div class="ww-sub">A dynamic tariff prices each hour at wholesale; a shiftable load — an EV, a heat pump, a home battery — that runs in the cheapest <strong>N</strong> hours per day beats a flat tariff. This calculator shows how much, per zone.</div>
+
+    <div class="ww-kpis">
+      <div class="ww-kpi"><div class="l">EV · 10 kWh/day, cheapest 4 h</div><div class="v">€185/yr</div></div>
+      <div class="ww-kpi"><div class="l">Heat pump</div><div class="v">€145/yr</div></div>
+      <div class="ww-kpi"><div class="l">Home battery</div><div class="v">€230/yr</div></div>
+      <div class="ww-kpi"><div class="l">Avg daily spread (DE-LU)</div><div class="v">€125/MWh</div></div>
+    </div>
+
+    <div class="ww-card">
+      <div class="ww-ch"><div class="ww-ct">1 · A day, and its cheapest window</div><div class="ww-cm">DE-LU day-ahead, € / MWh by hour</div></div>
+      <div class="ww-pitch">A typical day's prices follow a duck curve: cheap when solar floods midday, dear in the evening peak. A shiftable load charges in the cheapest contiguous window (amber) and avoids the peak — that gap is the saving.</div>
+      <div style="position:relative;height:240px"><canvas id="ww-day" role="img" aria-label="A 24-hour day-ahead price curve dipping to about 30 euros midday and peaking near 150 in the evening, with the cheapest four contiguous midday hours highlighted as the charging window. Illustrative placeholder.">Prices dip midday to about 30 and peak near 150 in the evening; the cheapest four midday hours are the charging window.</canvas></div>
+      <div class="ww-legend"><span><span class="ww-sw" style="background:#9a988f"></span>Hourly price</span><span><span class="ww-sw" style="background:#e3a82a"></span>Cheapest 4 h — charging window</span></div>
+      <div class="ww-cap">The calculator picks the cheapest N hours <strong>with hindsight</strong> (perfect foresight) — the honest upper bound. Real schedulers act on a day-ahead forecast and capture less. Prices resampled to one canonical hourly resolution (Germany switched to quarter-hourly settlement in Oct 2025). Illustrative placeholder.</div>
+    </div>
+
+    <div class="ww-card">
+      <div class="ww-ch"><div class="ww-ct">2 · Yearly saving by load and zone</div><div class="ww-cm">€ saved vs a flat tariff</div></div>
+      <div class="ww-pitch">Annual saving for each shiftable load, across five bidding zones. Higher-spread zones reward flexibility more — the wider the daily gap between cheap and dear hours, the more there is to capture.</div>
+      <div style="display:flex;gap:14px;font-size:11px;color:#5f5e5a;margin-bottom:6px"><span><span class="ww-sw" style="background:#2f7d78"></span>EV</span><span><span class="ww-sw" style="background:#e3a82a"></span>Heat pump</span><span><span class="ww-sw" style="background:#cf7a5a"></span>Home battery</span></div>
+      <div style="position:relative;height:240px"><canvas id="ww-zone" role="img" aria-label="Grouped bars of yearly savings by zone for three loads. Savings are largest in higher-spread zones like DE-LU and Poland and smaller in France. Illustrative placeholder.">Yearly savings by zone for EV, heat pump and home battery; largest in higher-spread zones.</canvas></div>
+      <div class="ww-cap">Flat-tariff baseline = the annual mean price; savings scale with the daily spread (Wattlas Spread) and the load's shiftable energy. Upper bound under perfect foresight; real savings are lower. Illustrative placeholder.</div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script src="vendor/chart.umd.min.js"></script>
+<script>
+(function(){
+  // Card 1 — a duck-curve day. Cheapest 4 contiguous hours sit midday (11-14).
+  const hours=Array.from({length:24},function(_,i){return i+":00";});
+  const price=[78,70,62,58,55,60,82,118,128,96,60,38,31,30,33,52,88,130,150,142,120,104,92,84];
+  const winStart=11, winLen=4; // cheapest contiguous window, picked with hindsight
+  const windowPrice=price.map(function(p,i){return (i>=winStart && i<winStart+winLen)?p:null;});
+  new Chart(document.getElementById("ww-day"),{data:{labels:hours,datasets:[
+    {type:"line",label:"Hourly price",data:price,borderColor:"#9a988f",backgroundColor:"rgba(154,152,143,.08)",borderWidth:2,tension:.35,pointRadius:0,fill:true,order:2},
+    {type:"bar",label:"Charging window",data:windowPrice,backgroundColor:"rgba(227,168,42,.28)",borderColor:"#e3a82a",borderWidth:1,borderRadius:2,barPercentage:1,categoryPercentage:1,order:1}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:"€/MWh",font:{size:11}},grid:{color:"rgba(0,0,0,.06)"},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:9},maxRotation:0,autoSkip:true,maxTicksLimit:12}}}}});
+
+  // Card 2 — yearly saving by load and zone. Bars larger in higher-spread zones.
+  new Chart(document.getElementById("ww-zone"),{type:"bar",data:{labels:["DE-LU","FR","NL","BE","PL"],datasets:[
+    {label:"EV",data:[185,120,165,158,205],backgroundColor:"#2f7d78",borderRadius:3},
+    {label:"Heat pump",data:[145,95,130,124,160],backgroundColor:"#e3a82a",borderRadius:3},
+    {label:"Home battery",data:[230,150,205,196,255],backgroundColor:"#cf7a5a",borderRadius:3}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:"€ saved / year",font:{size:11}},grid:{color:"rgba(0,0,0,.06)"},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:11}}}}}});
+})();
+</script>
+</body>
+</html>

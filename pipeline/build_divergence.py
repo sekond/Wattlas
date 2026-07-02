@@ -32,13 +32,12 @@ CACHE = DATA_DIR / "_raw_zone_prices.parquet"
 
 def fetch_zone_prices(start: pd.Timestamp, end: pd.Timestamp) -> pd.DataFrame:
     """Fetch day-ahead prices for every zone into one DataFrame (cols = zones)."""
-    from entsoe import EntsoePandasClient
+    from entsoe_client import make_entsoe_client  # retrying client (transient-5xx safe)
 
     token = os.environ.get("ENTSOE_API_TOKEN")
     if not token:
         sys.exit("ENTSOE_API_TOKEN not set. Copy .env.example to .env and fill it in.")
-    client = EntsoePandasClient(api_key=token)
-
+    client = make_entsoe_client(token)
     cols = {}
     for zone in ZONES:
         logger.info("fetching day-ahead prices for %s", zone)

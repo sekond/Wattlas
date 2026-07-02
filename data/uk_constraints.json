@@ -1,0 +1,274 @@
+{
+  "generated_at": "2026-06-24T09:35:27+00:00",
+  "currency": "GBP",
+  "status": "ok",
+  "unit_cost": "GBP million",
+  "unit_volume": "GWh",
+  "source": "NESO Constraint Breakdown \u2014 Thermal constraints (open data portal)",
+  "note": "Thermal-constraint cost and volume (NESO). The dominant thermal constraint is the B6 Scotland-England boundary, whose cost is overwhelmingly turning Scottish wind down and replacement up \u2014 a managed grid-stability cost (the British equivalent of German redispatch), not energy discarded by choice. Volume is the magnitude of net thermal down-regulation (wind turned down), shown positive \u2014 not pure metered curtailed-wind GWh.",
+  "period_start": "2022-04",
+  "period_end": "2026-06",
+  "totals": {
+    "cost_gbp_m": 6616.1,
+    "volume_gwh": 39135.7,
+    "peak_month": "2026-03",
+    "peak_cost_gbp_m": 288.7
+  },
+  "months": [
+    {
+      "month": "2022-04",
+      "cost_gbp_m": 51.2,
+      "volume_gwh": 190.4
+    },
+    {
+      "month": "2022-05",
+      "cost_gbp_m": 78.1,
+      "volume_gwh": 449.6
+    },
+    {
+      "month": "2022-06",
+      "cost_gbp_m": 172.2,
+      "volume_gwh": 157.4
+    },
+    {
+      "month": "2022-07",
+      "cost_gbp_m": 235.7,
+      "volume_gwh": 35.0
+    },
+    {
+      "month": "2022-08",
+      "cost_gbp_m": 132.9,
+      "volume_gwh": 256.0
+    },
+    {
+      "month": "2022-09",
+      "cost_gbp_m": 101.8,
+      "volume_gwh": 308.0
+    },
+    {
+      "month": "2022-10",
+      "cost_gbp_m": 206.6,
+      "volume_gwh": 669.9
+    },
+    {
+      "month": "2022-11",
+      "cost_gbp_m": 218.6,
+      "volume_gwh": 833.0
+    },
+    {
+      "month": "2022-12",
+      "cost_gbp_m": 82.7,
+      "volume_gwh": 166.3
+    },
+    {
+      "month": "2023-01",
+      "cost_gbp_m": 99.4,
+      "volume_gwh": 378.2
+    },
+    {
+      "month": "2023-02",
+      "cost_gbp_m": 91.4,
+      "volume_gwh": 462.4
+    },
+    {
+      "month": "2023-03",
+      "cost_gbp_m": 32.8,
+      "volume_gwh": 197.4
+    },
+    {
+      "month": "2023-04",
+      "cost_gbp_m": 99.6,
+      "volume_gwh": 555.0
+    },
+    {
+      "month": "2023-05",
+      "cost_gbp_m": 31.0,
+      "volume_gwh": 159.5
+    },
+    {
+      "month": "2023-06",
+      "cost_gbp_m": 10.0,
+      "volume_gwh": 27.2
+    },
+    {
+      "month": "2023-07",
+      "cost_gbp_m": 73.7,
+      "volume_gwh": 311.7
+    },
+    {
+      "month": "2023-08",
+      "cost_gbp_m": 63.7,
+      "volume_gwh": 210.2
+    },
+    {
+      "month": "2023-09",
+      "cost_gbp_m": 120.7,
+      "volume_gwh": 780.5
+    },
+    {
+      "month": "2023-10",
+      "cost_gbp_m": 168.4,
+      "volume_gwh": 864.1
+    },
+    {
+      "month": "2023-11",
+      "cost_gbp_m": 92.9,
+      "volume_gwh": 484.4
+    },
+    {
+      "month": "2023-12",
+      "cost_gbp_m": 97.0,
+      "volume_gwh": 656.4
+    },
+    {
+      "month": "2024-01",
+      "cost_gbp_m": 95.6,
+      "volume_gwh": 665.2
+    },
+    {
+      "month": "2024-02",
+      "cost_gbp_m": 93.1,
+      "volume_gwh": 748.8
+    },
+    {
+      "month": "2024-03",
+      "cost_gbp_m": 93.9,
+      "volume_gwh": 841.8
+    },
+    {
+      "month": "2024-04",
+      "cost_gbp_m": 98.7,
+      "volume_gwh": 799.6
+    },
+    {
+      "month": "2024-05",
+      "cost_gbp_m": 46.7,
+      "volume_gwh": 474.1
+    },
+    {
+      "month": "2024-06",
+      "cost_gbp_m": 117.0,
+      "volume_gwh": 957.6
+    },
+    {
+      "month": "2024-07",
+      "cost_gbp_m": 46.0,
+      "volume_gwh": 395.8
+    },
+    {
+      "month": "2024-08",
+      "cost_gbp_m": 198.3,
+      "volume_gwh": 1545.3
+    },
+    {
+      "month": "2024-09",
+      "cost_gbp_m": 92.4,
+      "volume_gwh": 687.2
+    },
+    {
+      "month": "2024-10",
+      "cost_gbp_m": 189.9,
+      "volume_gwh": 1217.9
+    },
+    {
+      "month": "2024-11",
+      "cost_gbp_m": 166.4,
+      "volume_gwh": 1113.4
+    },
+    {
+      "month": "2024-12",
+      "cost_gbp_m": 244.4,
+      "volume_gwh": 1575.9
+    },
+    {
+      "month": "2025-01",
+      "cost_gbp_m": 117.3,
+      "volume_gwh": 757.8
+    },
+    {
+      "month": "2025-02",
+      "cost_gbp_m": 217.2,
+      "volume_gwh": 1287.1
+    },
+    {
+      "month": "2025-03",
+      "cost_gbp_m": 175.7,
+      "volume_gwh": 1325.5
+    },
+    {
+      "month": "2025-04",
+      "cost_gbp_m": 47.7,
+      "volume_gwh": 417.4
+    },
+    {
+      "month": "2025-05",
+      "cost_gbp_m": 85.4,
+      "volume_gwh": 588.3
+    },
+    {
+      "month": "2025-06",
+      "cost_gbp_m": 190.8,
+      "volume_gwh": 1197.4
+    },
+    {
+      "month": "2025-07",
+      "cost_gbp_m": 92.2,
+      "volume_gwh": 640.6
+    },
+    {
+      "month": "2025-08",
+      "cost_gbp_m": 148.7,
+      "volume_gwh": 1024.5
+    },
+    {
+      "month": "2025-09",
+      "cost_gbp_m": 195.3,
+      "volume_gwh": 1319.3
+    },
+    {
+      "month": "2025-10",
+      "cost_gbp_m": 220.4,
+      "volume_gwh": 1486.9
+    },
+    {
+      "month": "2025-11",
+      "cost_gbp_m": 177.7,
+      "volume_gwh": 1195.2
+    },
+    {
+      "month": "2025-12",
+      "cost_gbp_m": 162.4,
+      "volume_gwh": 1307.7
+    },
+    {
+      "month": "2026-01",
+      "cost_gbp_m": 210.2,
+      "volume_gwh": 1606.4
+    },
+    {
+      "month": "2026-02",
+      "cost_gbp_m": 136.4,
+      "volume_gwh": 1280.1
+    },
+    {
+      "month": "2026-03",
+      "cost_gbp_m": 288.7,
+      "volume_gwh": 1920.3
+    },
+    {
+      "month": "2026-04",
+      "cost_gbp_m": 197.5,
+      "volume_gwh": 1341.1
+    },
+    {
+      "month": "2026-05",
+      "cost_gbp_m": 130.5,
+      "volume_gwh": 834.5
+    },
+    {
+      "month": "2026-06",
+      "cost_gbp_m": 79.2,
+      "volume_gwh": 430.4
+    }
+  ]
+}

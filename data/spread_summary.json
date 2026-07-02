@@ -1,17 +1,17 @@
 {
   "zone": "DE_LU",
-  "period_start": "2025-06-10",
-  "period_end": "2026-06-09",
-  "avg_daily_tb1": 124.9,
+  "period_start": "2025-06-24",
+  "period_end": "2026-06-23",
+  "avg_daily_tb1": 125.5,
   "widest_day": {
     "date": "2026-05-01",
     "tb1": 672.33
   },
-  "total_negative_hours": 547,
+  "total_negative_hours": 505,
   "negative_hours_by_month": [
     {
       "month": "2025-06",
-      "hours": 98
+      "hours": 23
     },
     {
       "month": "2025-07",
@@ -59,11 +59,11 @@
     },
     {
       "month": "2026-06",
-      "hours": 16
+      "hours": 49
     }
   ],
   "yoy_tb1_change_pct": null,
-  "perfect_arbitrage_eur_per_mw": 86135.3,
+  "perfect_arbitrage_eur_per_mw": 86578.47,
   "perfect_arbitrage_is_upper_bound": true,
   "battery_assumptions": {
     "power_mw": 1,
@@ -72,6 +72,6 @@
     "foresight": "perfect"
   },
   "missing_days": [
-    "2026-06-10"
+    "2026-06-24"
   ]
 }

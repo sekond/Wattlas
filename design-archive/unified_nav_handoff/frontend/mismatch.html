@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Mismatch</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell"><main class="main">
+  <div class="wrap">
+    <h1>Mismatch</h1>
+    <p class="sub">Residual load — the demand left for conventional plants and batteries after wind and solar. It dips midday when solar is abundant and peaks in the evening, when solar fades but people are still home.</p>
+    <div class="meta" id="periodNote" style="margin:-16px 0 24px;"></div>
+
+    <div id="kpis" class="kpis"></div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">Residual load by hour of day — DE-LU</div>
+        <div class="meta" id="chartMeta"></div>
+      </div>
+      <canvas id="residualChart" height="120"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:#185fa5"></span>Residual load (GW)</span>
+        <span><span class="swatch" style="background:#9b9a94"></span>Total load (GW)</span>
+        <span><span class="swatch" style="background:rgba(59,109,17,0.45)"></span>Covered by wind+solar</span>
+      </div>
+      <div class="meta" style="margin-top:8px;">Residual load = total demand − wind+solar generation. The shaded band is the demand met by wind+solar; its evening collapse is the point. Residual load can go negative when renewables exceed demand. Source: ENTSO-E.</div>
+    </div>
+    <div id="status" class="loading">Loading data…</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="util.js"></script>
+  <script>
+    const hh = (h) => String(h).padStart(2, "0") + ":00";
+    const gw = (n) => Math.round(n) + " GW";
+    async function loadJSON(name) {
+      for (const path of ["../data/" + name, "data/" + name, "/data/" + name]) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) {}
+      }
+      throw new Error("could not load " + name);
+    }
+    function extreme(arr, want) {
+      let idx = -1, val = want === "max" ? -Infinity : Infinity;
+      arr.forEach((v, i) => { if (v == null) return;
+        if ((want === "max" && v > val) || (want === "min" && v < val)) { val = v; idx = i; } });
+      return { idx, val };
+    }
+    function renderKPIs(m) {
+      const res = m.residual_load_gw, tot = m.total_load_gw;
+      const peak = extreme(res, "max"), trough = extreme(res, "min");
+      // Hours where wind+solar (= total − residual) covers more than half of load.
+      let over50 = 0;
+      for (let h = 0; h < 24; h++) {
+        const t = tot[h], r = res[h];
+        if (t == null || r == null || t <= 0) continue;
+        if ((t - r) > 0.5 * t) over50++;
+      }
+      const items = [
+        { label: "Residual peak", val: peak.idx >= 0 ? hh(peak.idx) + " · " + gw(peak.val) : "—", cls: "neg" },
+        { label: "Residual trough", val: trough.idx >= 0 ? hh(trough.idx) + " · " + gw(trough.val) : "—", cls: "pos" },
+        { label: "Midday→evening swing", val: (peak.idx >= 0 && trough.idx >= 0) ? "+" + gw(peak.val - trough.val) : "—" },
+        { label: "Hours wind+solar > 50%", val: over50 + " h" },
+      ];
+      document.getElementById("kpis").innerHTML = items.map(i =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
+    }
+    function renderChart(m) {
+      const labels = m.hours.map(hh);
+      new Chart(document.getElementById("residualChart"), {
+        type: "line",
+        data: { labels, datasets: [
+          // Total load: lighter reference line (dataset index 0 = fill target).
+          { label: "Total load", data: m.total_load_gw, borderColor: "#9b9a94",
+            backgroundColor: "transparent", fill: false, tension: 0.35, pointRadius: 0,
+            borderWidth: 1.5, borderDash: [4, 3], spanGaps: true },
+          // Residual load: prominent line; fill the band up to total load (= the
+          // demand covered by wind+solar).
+          { label: "Residual load", data: m.residual_load_gw, borderColor: "#185fa5",
+            backgroundColor: "rgba(59,109,17,0.15)", fill: { target: 0 }, tension: 0.35,
+            pointRadius: 0, borderWidth: 2.5, spanGaps: true } ]},
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${gw(c.parsed.y)}` } } },
+          scales: {
+            x: { ticks: { maxTicksLimit: 12, color: "#888780", font: { size: 10 } }, grid: { display: false } },
+            // No min: residual load can be negative — let the axis show it.
+            y: { ticks: { color: "#888780", font: { size: 10 }, callback: (v) => v + " GW" },
+                 grid: { color: "rgba(0,0,0,0.05)" } } } },
+      });
+      document.getElementById("chartMeta").textContent = `source ENTSO-E`;
+    }
+    (async function main() {
+      const status = document.getElementById("status");
+      let m = null;
+      try { m = await loadJSON("mismatch.json"); } catch (e) {}
+      if (!m) { status.textContent = "Could not load data. Run `python pipeline/build_mismatch.py` first, then serve the folder."; return; }
+      document.getElementById("periodNote").textContent = `Data shown for ${fmtPeriod(m.period_start, m.period_end)}`;
+      renderKPIs(m); renderChart(m);
+      status.style.display = "none";
+    })();
+  </script>
+  <script src="nav.js"></script>
+  </main></div>
+</body>
+</html>

@@ -1,0 +1,262 @@
+{
+  "generated_at": "2026-06-24T09:27:47+00:00",
+  "unit": "gCO2/kWh",
+  "methodology": "NESO regional Carbon Intensity API, consumption-based (the carbon of electricity used in each region, imports included). Great Britain only \u2014 excludes Northern Ireland. Regional values are forecast-based; means over a recent ~2-week window. renewable_pct = wind + solar + hydro.",
+  "basis": "forecast",
+  "period_start": "2026-06-09",
+  "period_end": "2026-06-23",
+  "regions": [
+    {
+      "regionid": 1,
+      "name": "North Scotland",
+      "intensity": 0,
+      "renewable_pct": 100.0,
+      "low_carbon_pct": 100.0,
+      "mix": {
+        "biomass": 0,
+        "coal": 0,
+        "imports": 0,
+        "gas": 0,
+        "nuclear": 0,
+        "other": 0,
+        "hydro": 0,
+        "solar": 4.1,
+        "wind": 95.9
+      }
+    },
+    {
+      "regionid": 2,
+      "name": "South Scotland",
+      "intensity": 1,
+      "renewable_pct": 76.3,
+      "low_carbon_pct": 98.9,
+      "mix": {
+        "biomass": 1.0,
+        "coal": 0,
+        "imports": 0.2,
+        "gas": 0,
+        "nuclear": 22.6,
+        "other": 0,
+        "hydro": 0,
+        "solar": 4.1,
+        "wind": 72.2
+      }
+    },
+    {
+      "regionid": 3,
+      "name": "North West England",
+      "intensity": 48,
+      "renewable_pct": 39.0,
+      "low_carbon_pct": 79.6,
+      "mix": {
+        "biomass": 2.3,
+        "coal": 0,
+        "imports": 6.7,
+        "gas": 11.5,
+        "nuclear": 40.6,
+        "other": 0,
+        "hydro": 0,
+        "solar": 4.1,
+        "wind": 34.9
+      }
+    },
+    {
+      "regionid": 4,
+      "name": "North East England",
+      "intensity": 14,
+      "renewable_pct": 31.6,
+      "low_carbon_pct": 57.1,
+      "mix": {
+        "biomass": 11.2,
+        "coal": 0,
+        "imports": 31.7,
+        "gas": 0,
+        "nuclear": 25.5,
+        "other": 0,
+        "hydro": 0,
+        "solar": 4.6,
+        "wind": 27.0
+      }
+    },
+    {
+      "regionid": 5,
+      "name": "Yorkshire",
+      "intensity": 108,
+      "renewable_pct": 35.3,
+      "low_carbon_pct": 43.9,
+      "mix": {
+        "biomass": 29.6,
+        "coal": 0,
+        "imports": 8.1,
+        "gas": 18.4,
+        "nuclear": 8.6,
+        "other": 0,
+        "hydro": 0,
+        "solar": 5.1,
+        "wind": 30.2
+      }
+    },
+    {
+      "regionid": 6,
+      "name": "North Wales & Merseyside",
+      "intensity": 78,
+      "renewable_pct": 57.7,
+      "low_carbon_pct": 77.5,
+      "mix": {
+        "biomass": 1.0,
+        "coal": 0,
+        "imports": 2.2,
+        "gas": 19.4,
+        "nuclear": 19.8,
+        "other": 0,
+        "hydro": 0,
+        "solar": 7.8,
+        "wind": 49.9
+      }
+    },
+    {
+      "regionid": 7,
+      "name": "South Wales",
+      "intensity": 289,
+      "renewable_pct": 25.4,
+      "low_carbon_pct": 26.4,
+      "mix": {
+        "biomass": 0.1,
+        "coal": 0,
+        "imports": 0.1,
+        "gas": 73.4,
+        "nuclear": 1.0,
+        "other": 0,
+        "hydro": 0,
+        "solar": 12.9,
+        "wind": 12.5
+      }
+    },
+    {
+      "regionid": 8,
+      "name": "West Midlands",
+      "intensity": 122,
+      "renewable_pct": 44.1,
+      "low_carbon_pct": 64.4,
+      "mix": {
+        "biomass": 2.0,
+        "coal": 0,
+        "imports": 3.3,
+        "gas": 30.3,
+        "nuclear": 20.3,
+        "other": 0,
+        "hydro": 0,
+        "solar": 12.7,
+        "wind": 31.4
+      }
+    },
+    {
+      "regionid": 9,
+      "name": "East Midlands",
+      "intensity": 164,
+      "renewable_pct": 37.3,
+      "low_carbon_pct": 42.3,
+      "mix": {
+        "biomass": 16.6,
+        "coal": 0,
+        "imports": 4.5,
+        "gas": 36.6,
+        "nuclear": 5.0,
+        "other": 0,
+        "hydro": 0,
+        "solar": 12.8,
+        "wind": 24.5
+      }
+    },
+    {
+      "regionid": 10,
+      "name": "East England",
+      "intensity": 158,
+      "renewable_pct": 50.1,
+      "low_carbon_pct": 51.9,
+      "mix": {
+        "biomass": 5.8,
+        "coal": 0,
+        "imports": 16.6,
+        "gas": 25.8,
+        "nuclear": 1.8,
+        "other": 0,
+        "hydro": 0.0,
+        "solar": 17.4,
+        "wind": 32.7
+      }
+    },
+    {
+      "regionid": 11,
+      "name": "South West England",
+      "intensity": 225,
+      "renewable_pct": 39.9,
+      "low_carbon_pct": 40.3,
+      "mix": {
+        "biomass": 0.3,
+        "coal": 0,
+        "imports": 2.9,
+        "gas": 56.5,
+        "nuclear": 0.4,
+        "other": 0,
+        "hydro": 0,
+        "solar": 30.3,
+        "wind": 9.6
+      }
+    },
+    {
+      "regionid": 12,
+      "name": "South England",
+      "intensity": 164,
+      "renewable_pct": 32.2,
+      "low_carbon_pct": 36.7,
+      "mix": {
+        "biomass": 3.6,
+        "coal": 0,
+        "imports": 22.4,
+        "gas": 37.2,
+        "nuclear": 4.5,
+        "other": 0,
+        "hydro": 0.0,
+        "solar": 19.2,
+        "wind": 13.0
+      }
+    },
+    {
+      "regionid": 13,
+      "name": "London",
+      "intensity": 167,
+      "renewable_pct": 25.5,
+      "low_carbon_pct": 26.6,
+      "mix": {
+        "biomass": 1.8,
+        "coal": 0,
+        "imports": 37.8,
+        "gas": 33.7,
+        "nuclear": 1.1,
+        "other": 0,
+        "hydro": 0.2,
+        "solar": 10.1,
+        "wind": 15.2
+      }
+    },
+    {
+      "regionid": 14,
+      "name": "South East England",
+      "intensity": 178,
+      "renewable_pct": 15.1,
+      "low_carbon_pct": 15.2,
+      "mix": {
+        "biomass": 0.1,
+        "coal": 0,
+        "imports": 48.3,
+        "gas": 36.5,
+        "nuclear": 0.1,
+        "other": 0,
+        "hydro": 0.4,
+        "solar": 6.5,
+        "wind": 8.2
+      }
+    }
+  ]
+}

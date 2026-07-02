@@ -48,13 +48,8 @@
   </style>
 </head>
 <body>
+  <div class="shell"><main class="main">
   <div class="wrap">
-    <div class="nav">
-      <div class="brand">Wattlas <small>European energy data, explored</small></div>
-      <div class="navlinks">
-        <a href="pulse.html">Pulse</a><a href="index.html" class="active">Spread</a><a href="divergence.html">Divergence</a><a href="mix.html">Mix</a><a href="mismatch.html">Mismatch</a><a href="curtailment.html">Curtailment</a><a href="dashboard.html">Dashboard</a><a href="history.html">History</a>
-      </div>
-    </div>
     <h1>The Spread</h1>
     <p class="sub">How wide is the gap each day between the cheapest and most expensive hour of electricity?</p>
     <div class="meta" id="periodNote" style="margin:-16px 0 24px;"></div>
@@ -87,7 +82,7 @@
     <div id="status" class="loading">Loading data…</div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="vendor/chart.umd.min.js"></script>
   <script src="util.js"></script>
   <script>
     const eur = (n) => "€" + Math.round(n).toLocaleString();
@@ -219,5 +214,8 @@
       }
     })();
   </script>
+  <script src="ia.js"></script>
+  <script src="nav.js"></script>
+  </main></div>
 </body>
 </html>

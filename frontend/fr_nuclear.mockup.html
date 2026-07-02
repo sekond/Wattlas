@@ -103,9 +103,9 @@
 </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="vendor/d3.min.js"></script>
+<script src="vendor/topojson.min.js"></script>
+<script src="vendor/chart.umd.min.js"></script>
 <script>
 (function(){
 const SITES=[
@@ -152,7 +152,7 @@ function renderTop(){
   });
 }
 
-d3.json("https://cdn.jsdelivr.net/npm/datamaps@0.5.10/src/js/data/fra.topo.json").then(function(fr){
+d3.json("vendor/datamaps/fra.topo.json").then(function(fr){
   const all=topojson.feature(fr,fr.objects.fra).features;
   const metro=all.filter(function(f){return typeof f.id==="string" && f.id.indexOf("FR.")===0;});
   const W=360,H=360;

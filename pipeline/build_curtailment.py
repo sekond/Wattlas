@@ -78,6 +78,12 @@ LOCAL_TZ = "Europe/Berlin"
 DIR_REDUCE = "reduzieren"        # "Wirkleistungseinspeisung reduzieren"
 ENERGY_RENEWABLE = "Erneuerbar"  # vs "Konventionell" / "Sonstiges"
 
+# v10 slice 5 — curtailment in €. The netztransparenz redispatch feed gives VOLUME (MWh),
+# not the EinsMan compensation cost, so the € figure is an ESTIMATE (landmine #7/#12):
+# curtailed MWh × a stated reference compensation rate. Real compensation varies by plant
+# and year; this is an order-of-magnitude proxy, labelled as such in the JSON and UI.
+REFERENCE_EUR_PER_MWH = 80
+
 
 def fetch_curtailment(start: datetime, end: datetime):
     """Fetch redispatch measures from the netztransparenz WebAPI, or return None.
@@ -160,7 +166,18 @@ def build(raw) -> None:
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "period_start": str(daily.index.min()) if len(daily) else None,
         "period_end": str(daily.index.max()) if len(daily) else None,
-        "days": [{"date": str(d), "curtailed_mwh": round(float(v), 1)} for d, v in daily.items()],
+        "cost_estimate": {
+            "method": ("ESTIMATE — curtailed MWh × a reference compensation rate. The redispatch "
+                       "feed reports volume, not EinsMan compensation cost, which varies by plant "
+                       "and year; this is an order-of-magnitude proxy, not the billed figure."),
+            "reference_eur_per_mwh": REFERENCE_EUR_PER_MWH,
+            "total_eur": round(float(daily.sum()) * REFERENCE_EUR_PER_MWH) if len(daily) else 0,
+            "eu_context_2024_eur_bn": 7.2,
+            "eu_context_note": ("EU 2024 curtailment cost ~€7.2bn across 7 countries — external "
+                                "context, a different scope; not this DE-only series."),
+        },
+        "days": [{"date": str(d), "curtailed_mwh": round(float(v), 1),
+                  "cost_estimate_eur": round(float(v) * REFERENCE_EUR_PER_MWH)} for d, v in daily.items()],
     }
     DATA_DIR.mkdir(exist_ok=True)
     OUT.write_text(json.dumps(payload, indent=2))

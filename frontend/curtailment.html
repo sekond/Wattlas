@@ -13,17 +13,8 @@
   </style>
 </head>
 <body>
+  <div class="shell"><main class="main">
   <div class="wrap">
-    <div class="nav">
-      <div class="brand">Wattlas <small>European energy data, explored</small></div>
-      <div class="navlinks">
-        <a href="dashboard.html">← Home</a>
-        <a href="mix.html">Mix</a>
-        <a href="divergence.html">Divergence</a>
-        <a href="history.html">History</a>
-        <a href="curtailment.html" class="active">Curtailment</a>
-      </div>
-    </div>
     <h1>Curtailment</h1>
     <p class="sub">When the grid can't absorb or move all the wind and solar it's producing, that clean energy is thrown away — "curtailed." It's the cost of Germany's north–south grid bottleneck, and it tends to spike exactly when wind is high and prices go negative.</p>
     <div class="meta" id="periodNote" style="margin:-16px 0 24px;"></div>
@@ -32,7 +23,7 @@
 
     <div id="dataView" style="display:none;">
       <div id="kpis" class="kpis"></div>
-      <div class="card">
+      <div class="card" id="cost" style="scroll-margin-top:70px">
         <div class="head">
           <div class="title">Curtailed renewable energy per day — Germany</div>
           <div class="meta" id="chartMeta"></div>
@@ -43,16 +34,19 @@
           <span><span class="swatch" style="background:#a32d2d"></span>Negative-price hours (Spread)</span>
         </div>
         <div class="meta" id="srcNote" style="margin-top:8px;"></div>
+        <div class="meta" id="costNote" style="margin-top:8px;display:none;line-height:1.6;"></div>
       </div>
     </div>
     <div id="status" class="loading">Loading data…</div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="vendor/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="util.js"></script>
   <script>
     const mwh = (n) => Math.round(n).toLocaleString() + " MWh";
+    // Format a euro figure compactly: €X.Xbn if >= 1e9, else €XM (rounded). Always rounded — never raw floats.
+    const eurCompact = (n) => n >= 1e9 ? "€" + (n / 1e9).toFixed(1) + "bn" : "€" + Math.round(n / 1e6) + "M";
     async function loadJSON(name) {
       for (const path of ["../data/" + name, "data/" + name, "/data/" + name]) {
         try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) {}
@@ -94,12 +88,27 @@
             y2: { position: "right", ticks: { color: "#a32d2d", font: { size: 10 } }, grid: { display: false } } } },
       });
       const total = curtail.reduce((a, v) => a + (v || 0), 0);
-      document.getElementById("kpis").innerHTML = [
+      const kpiItems = [
         { label: "Total curtailed", val: mwh(total) },
         { label: "Days covered", val: c.days.length },
         { label: "Units", val: "MWh/day" },
-      ].map(i => `<div class="kpi"><div class="label">${i.label}</div><div class="val">${i.val}</div></div>`).join("");
+      ];
+      // v10 "curtailment in €": running annual-total cost estimate. Guarded so the view still works without the field.
+      if (c.cost_estimate) {
+        kpiItems.push({ label: "Est. curtailment cost", val: eurCompact(c.cost_estimate.total_eur), note: "ESTIMATE" });
+      }
+      document.getElementById("kpis").innerHTML = kpiItems.map(i =>
+        `<div class="kpi"><div class="label">${i.label}${i.note ? ` <span style="color:var(--amber);font-weight:600;">(${i.note})</span>` : ""}</div><div class="val">${i.val}</div></div>`).join("");
       document.getElementById("srcNote").textContent = `Units: ${c.units}. Source: ${c.source}.`;
+      // Honest caption: the € figure is a proxy (MWh × reference rate), not the billed cost; EU €7.2bn is different-scope context.
+      if (c.cost_estimate) {
+        const ce = c.cost_estimate;
+        document.getElementById("costNote").innerHTML =
+          `<strong>Estimated cost:</strong> ~${eurCompact(ce.total_eur)} over the period ` +
+          `(${mwh(total)} curtailed × €${Math.round(ce.reference_eur_per_mwh)}/MWh reference rate). ${ce.method}` +
+          (ce.eu_context_note ? `<br>For context: ${ce.eu_context_note}` : "");
+        document.getElementById("costNote").style.display = "";
+      }
       document.getElementById("chartMeta").textContent = "MWh/day";
       document.getElementById("periodNote").textContent = `Data shown for ${fmtPeriod(c.period_start, c.period_end)}`;
     }
@@ -113,5 +122,8 @@
       status.style.display = "none";
     })();
   </script>
+  <script src="ia.js"></script>
+  <script src="nav.js"></script>
+  </main></div>
 </body>
 </html>

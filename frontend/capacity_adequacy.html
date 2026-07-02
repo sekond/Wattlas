@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Capacity adequacy</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell"><main class="main">
+  <div class="wrap">
+    <h1>Paying to keep the lights on when the wind drops</h1>
+    <p class="sub">When wind and solar vanish for days (Dunkelflaute), the grid leans on dispatchable backup. Germany's planned capacity mechanism procures gas plants and recovers the cost through a levy — a forward consumer cost. This panel pairs that cost with a residual-load stress indicator.</p>
+
+    <div class="meta" id="caveat" style="background:#fff7e0;border:0.5px solid #e7cf86;border-left:3px solid #b8860b;border-radius:8px;padding:9px 13px;color:#6b520a;margin:-8px 0 22px;"></div>
+
+    <div id="kpis" class="kpis"></div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">1 · The forward cost of capacity</div>
+        <div class="meta" id="levyMeta">levy, € bn per year — provisional</div>
+      </div>
+      <div class="meta" style="margin:-4px 0 12px;max-width:82ch;">The capacity mechanism pays plants to be available, not to run. That availability payment is recovered from consumers through a levy. The first year carries the build-out premium; the cost then settles into a steady band as plants come online and amortize.</div>
+      <canvas id="levyChart" height="120"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:rgba(184,134,11,.45)"></span>Annual levy (€ bn) — provisional, upper bound</span>
+      </div>
+      <div class="meta" id="levyCap" style="margin-top:8px;"></div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <div class="title">2 · When renewables can't cover demand</div>
+        <div class="meta">wind + solar share of demand, %</div>
+      </div>
+      <div class="meta" style="margin:-4px 0 12px;max-width:82ch;">During a Dunkelflaute, wind and solar together cover only a sliver of demand; the rest is residual load that dispatchable backup has to supply — the reason a capacity mechanism exists at all.</div>
+      <canvas id="vreChart" height="120"></canvas>
+      <div class="legend">
+        <span><span class="swatch" style="background:#a32d2d"></span>During a Dunkelflaute spell</span>
+        <span><span class="swatch" style="background:#4aa6a0"></span>Normal conditions</span>
+      </div>
+      <div class="meta" id="vreText" style="margin-top:8px;"></div>
+      <div class="meta" id="vreCap" style="margin-top:6px;"></div>
+    </div>
+
+    <div id="status" class="loading">Loading data…</div>
+  </div>
+
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="util.js"></script>
+  <script>
+    async function loadJSON(name) {
+      const candidates = ["../data/" + name, "data/" + name, "/data/" + name];
+      for (const path of candidates) {
+        try { const r = await fetch(path); if (r.ok) return r.json(); } catch (e) { /* try next */ }
+      }
+      throw new Error("could not load " + name);
+    }
+    function renderKPIs(d) {
+      const cost = d.cost, stress = d.stress;
+      const firstLevy = (cost.levy_eur_bn && cost.levy_eur_bn.length) ? cost.levy_eur_bn[0].eur_bn : null;
+      const items = [
+        { label: "Backup gas tender", val: Math.round(cost.tender_gw) + " GW" },
+        { label: "Online by", val: String(cost.target_year) },
+        { label: "Levy (" + cost.levy_eur_bn[0].year + ", up to)", val: firstLevy == null ? "—" : "€" + firstLevy.toFixed(1) + " bn", cls: "neg" },
+        { label: "Longest Dunkelflaute spell", val: Math.round(stress.longest_spell_h) + " h", cls: "neg" },
+      ];
+      document.getElementById("kpis").innerHTML = items.map(i =>
+        `<div class="kpi"><div class="label">${i.label}</div><div class="val ${i.cls||''}">${i.val}</div></div>`).join("");
+    }
+    function renderLevy(d) {
+      const rows = d.cost.levy_eur_bn || [];
+      const labels = rows.map(r => String(r.year));
+      const data = rows.map(r => r.eur_bn);
+      // Faded amber fill signals these figures are provisional ("not yet law").
+      new Chart(document.getElementById("levyChart"), {
+        type: "bar",
+        data: { labels, datasets: [{ label: "Annual levy (€ bn)", data,
+          backgroundColor: "rgba(184,134,11,.32)", borderColor: "rgba(184,134,11,.55)",
+          borderWidth: 1, borderRadius: 3 }] },
+        options: { responsive: true, animation: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => "€" + c.parsed.y.toFixed(1) + " bn (provisional)" } } },
+          scales: { x: { grid: { display: false }, ticks: { color: "#888780", font: { size: 10 }, maxTicksLimit: 12 } },
+            y: { min: 0, title: { display: true, text: "€ bn / yr", color: "#888780", font: { size: 11 } },
+              grid: { color: "rgba(0,0,0,0.05)" }, ticks: { color: "#888780", font: { size: 10 } } } } },
+      });
+      document.getElementById("levyCap").innerHTML =
+        `Provisional, pending Bundestag — ${d.cost.status}. Figures are an upper-bound range, modelled like the France cost stack. Source: ${d.cost.source}. € bn/yr.`;
+    }
+    function renderVre(d) {
+      const s = d.stress;
+      new Chart(document.getElementById("vreChart"), {
+        type: "bar",
+        data: { labels: ["Dunkelflaute spell", "Normal conditions"], datasets: [{
+          label: "Wind + solar share of demand",
+          data: [s.vre_share_spell_pct, s.vre_share_normal_pct],
+          backgroundColor: ["#a32d2d", "#4aa6a0"], borderWidth: 0, borderRadius: 3 }] },
+        options: { responsive: true, animation: false, indexAxis: "y",
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (c) => Math.round(c.parsed.x) + "% of demand" } } },
+          scales: { x: { min: 0, max: 100, grid: { color: "rgba(0,0,0,0.05)" },
+              ticks: { color: "#888780", font: { size: 10 }, callback: (v) => v + "%" } },
+            y: { grid: { display: false }, ticks: { color: "#888780", font: { size: 11 } } } } },
+      });
+      document.getElementById("vreText").textContent =
+        `During the worst spell, wind + solar covered just ${Math.round(s.vre_share_spell_pct)}% of demand (vs ${Math.round(s.vre_share_normal_pct)}% normally). ` +
+        `Peak residual load reached ${Math.round(s.peak_residual_gw)} GW against a peak total load of ${Math.round(s.peak_total_load_gw)} GW.`;
+      document.getElementById("vreCap").textContent =
+        "Residual load = demand − wind − solar (Wattlas Mismatch). Spells are auto-detected by the Dunkelflaute deep-dive. The stress is real.";
+    }
+    (async function main() {
+      const status = document.getElementById("status");
+      let d = null;
+      try { d = await loadJSON("capacity_adequacy.json"); } catch (e) { /* handled below */ }
+      if (!d || !d.cost || !d.stress) {
+        status.textContent = "Could not load data. Run the capacity-adequacy pipeline first, then serve the folder.";
+        return;
+      }
+      document.getElementById("caveat").innerHTML =
+        `<strong>Provisional</strong> — the 12 GW tender and the levy figures come from a May-2026 cabinet bill still pending Bundestag passage — <strong>NOT YET LAW</strong>; shown as a provisional, cited range. The residual-load stress is real (Wattlas Mismatch + Dunkelflaute).`;
+      renderKPIs(d); renderLevy(d); renderVre(d);
+      status.style.display = "none";
+    })();
+  </script>
+  <script src="ia.js"></script>
+  <script src="nav.js"></script>
+  </main></div>
+</body>
+</html>

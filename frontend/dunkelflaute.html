@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wattlas — Dunkelflaute</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <main class="main">
+      <div class="main-inner">
+
+        <h1>Dunkelflaute: when the wind dies and the sun's gone</h1>
+        <p class="sub">A renewable grid's hardest hours are the cold, dark, windless spells when wind and solar generate almost nothing for days, and the system leans entirely on firm power and imports. This view auto-detects the worst such spell in the last year of German data and shows what happened. The grid-stress counterpart to the storage and build-out stories.</p>
+        <p class="cap" id="intro" style="margin:-8px 0 22px; color:var(--muted); font-size:12px;"></p>
+
+        <div id="kpis" class="kpis"></div>
+
+        <!-- Panel 1 — anatomy of a Dunkelflaute. -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">1 · Anatomy of a Dunkelflaute</div>
+            <div class="meta">hourly generation + price · GW / €/MWh</div>
+          </div>
+          <p class="block-pitch">The worst low-renewable spell in the data, hour by hour. Wind and solar (the thin top slivers) all but vanish; coal, gas, biomass, hydro and imports carry the load; the day-ahead price climbs and spikes each evening.</p>
+          <div class="legend" id="anatLegend" style="margin-bottom:6px;"></div>
+          <div id="anatWrap" class="chartbox" style="height:280px;"><canvas id="anatChart"></canvas></div>
+          <p class="cap" id="anatSrc"></p>
+        </div>
+
+        <!-- Panel 2 — how often, how long. -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">2 · How often, how long</div>
+            <div class="meta" id="freqMeta">low-renewable hours by month</div>
+          </div>
+          <p class="block-pitch">Hours when wind+solar covered less than the threshold of demand, by month. Isolated low hours happen year-round — summer nights count — but the genuinely stressful events are the <em>sustained</em> multi-day spells, which cluster in the dark half of the year.</p>
+          <div id="freqWrap" class="chartbox" style="height:220px;"><canvas id="freqChart"></canvas></div>
+          <p class="cap" id="freqSrc"></p>
+        </div>
+
+        <!-- Panel 3 — what fills the gap. -->
+        <div class="card hoverable">
+          <div class="head">
+            <div class="title">3 · What fills the gap</div>
+            <div class="meta">generation mix · % of generation</div>
+          </div>
+          <p class="block-pitch">The generation mix on a normal stretch versus during the Dunkelflaute. Wind and solar collapse from a large share to almost nothing; coal, gas and net imports balloon to cover.</p>
+          <div class="legend" id="mixLegend" style="margin-bottom:6px;"></div>
+          <div id="mixWrap" class="chartbox" style="height:160px;"><canvas id="mixChart"></canvas></div>
+          <!-- copy block A — verbatim, engineering reality not anti-renewable -->
+          <p class="cap" id="blockA">A <em>Dunkelflaute</em> ("dark doldrums") is a stretch of cold, overcast, windless weather when wind and solar generate almost nothing — often for days. The grid doesn't fail; it leans on firm power (gas, nuclear, hydro) and imports. These hours are why a high-renewable system still needs firm capacity, storage or strong interconnection — not an argument against renewables, but the engineering reality they have to plan for.</p>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="vendor/chart.umd.min.js"></script>
+  <script>
+    async function loadJSON(name) {
+      for (const base of ["../data/", "data/", "/data/"]) {
+        try { const r = await fetch(base + name); if (r.ok) return r.json(); } catch (e) {}
+      }
+      return null;
+    }
+    // Canonical fuel colours (match fuels.js); coal = lignite+hard coal here.
+    const COL = { wind: "#4aa6a0", solar: "#e6b800", biomass: "#7a8c3a", hydro: "#3a7ca5",
+      nuclear: "#7d7a86", coal: "#4a4a4a", gas: "#d98c3f", imports: "#9a7fb0", other: "#bdbbb3", price: "#a32d2d" };
+    const LABEL = { wind: "Wind", solar: "Solar", biomass: "Biomass", hydro: "Hydro",
+      nuclear: "Nuclear", coal: "Coal", gas: "Gas", imports: "Net imports", other: "Other" };
+    const STACK = ["wind", "solar", "biomass", "hydro", "nuclear", "coal", "gas", "other", "imports"];
+    const eur = (v) => "€" + Math.round(v);
+
+    (async function main() {
+      const d = await loadJSON("dunkelflaute.json");
+      if (!d) { document.getElementById("anatWrap").innerHTML = '<div class="nodata">Dunkelflaute data unavailable.</div>'; return; }
+      const w = d.worst_event, s = d.summary, mix = d.mix;
+
+      document.getElementById("intro").innerHTML =
+        `A Dunkelflaute is detected where the 24-hour rolling mean of the wind+solar share of demand stays below <strong>${d.threshold_pct}%</strong> — a stated, adjustable choice, not a law. Net imports = load − generation. ENTSO-E data for ${d.zone}, ${d.period_start} to ${d.period_end}. Pre-computed and static.`;
+
+      // KPIs
+      document.getElementById("kpis").innerHTML = [
+        { label: "Wind+solar low", val: (w.min_vre_pct ?? "—") + "%", sub: "of demand" },
+        { label: "Longest spell", val: s.longest_spell_h + " h" },
+        { label: "Peak price", val: w.peak_price ? eur(w.peak_price) : "—" },
+        { label: "Coal+gas in spell", val: Math.round((mix.dunkelflaute.coal || 0) + (mix.dunkelflaute.gas || 0)) + "%" },
+      ].map((i) => `<div class="kpi"><div class="label">${i.label}${i.sub ? ` <span style="color:var(--hint)">(${i.sub})</span>` : ""}</div><div class="val" style="font-size:${(i.val + "").length > 7 ? "18px" : "24px"}">${i.val}</div></div>`).join("");
+
+      // Panel 1: anatomy — stacked generation + price line.
+      const fmtT = (iso) => { const dt = new Date(iso); const wd = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dt.getDay()];
+        return dt.getHours() === 0 ? wd : (dt.getHours() % 6 === 0 ? dt.getHours() + ":00" : ""); };
+      const ds = STACK.map((f) => ({ type: "line", label: LABEL[f], data: w[f] || [], stack: "g",
+        backgroundColor: COL[f], borderColor: COL[f], borderWidth: 0, fill: true, pointRadius: 0, tension: 0.25, yAxisID: "y" }));
+      ds.push({ type: "line", label: "Price", data: w.price, yAxisID: "y1", order: 0,
+        borderColor: COL.price, backgroundColor: COL.price, borderWidth: 2, pointRadius: 0, tension: 0.25, fill: false });
+      new Chart(document.getElementById("anatChart"), {
+        data: { labels: w.hours.map(fmtT), datasets: ds },
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          interaction: { mode: "index", intersect: false },
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { title: (it) => { const i = it[0].dataIndex; return new Date(w.hours[i]).toLocaleString("en-GB", { weekday: "short", hour: "2-digit", minute: "2-digit" }); },
+              label: (c) => `${c.dataset.label}: ${c.dataset.label === "Price" ? eur(c.parsed.y) + "/MWh" : c.parsed.y + " GW"}` } } },
+          scales: {
+            y: { stacked: true, title: { display: true, text: "GW", font: { size: 11 } }, grid: { color: "rgba(0,0,0,.06)" }, ticks: { font: { size: 10 } } },
+            y1: { position: "right", title: { display: true, text: "€/MWh", font: { size: 11 } }, grid: { drawOnChartArea: false }, ticks: { font: { size: 10 } }, beginAtZero: true },
+            x: { grid: { display: false }, ticks: { font: { size: 9 }, autoSkip: false, maxRotation: 0 } },
+          },
+        },
+      });
+      document.getElementById("anatLegend").innerHTML =
+        STACK.map((f) => `<span><span class="swatch" style="background:${COL[f]}"></span>${LABEL[f]}</span>`).join("") +
+        `<span><span class="swatch" style="background:${COL.price};border-radius:50%"></span>Price</span>`;
+      document.getElementById("anatSrc").textContent =
+        `The worst spell ran ${new Date(w.spell_start).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })} to ` +
+        `${new Date(w.spell_end).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })} (${s.longest_spell_h} h), wind+solar bottoming at ${w.min_vre_pct}% of demand, price peaking at ${eur(w.peak_price)}/MWh. Generation by type from ENTSO-E; net imports close the demand balance. Times CET.`;
+
+      // Panel 2: monthly low-renewable hours.
+      const m = d.monthly || [];
+      const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const mlabel = (ym) => { const [y, mm] = ym.split("-"); return MON[+mm - 1] + " " + y.slice(2); };
+      new Chart(document.getElementById("freqChart"), {
+        type: "bar",
+        data: { labels: m.map((x) => mlabel(x.month)), datasets: [{ label: "Low-renewable hours", data: m.map((x) => x.low_hours),
+          backgroundColor: "#5f6b6a", borderRadius: 2 }] },
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => `${c.parsed.y} hours below ${d.threshold_pct}%` } } },
+          scales: {
+            y: { title: { display: true, text: "hours / month", font: { size: 11 } }, grid: { color: "rgba(0,0,0,.06)" }, ticks: { font: { size: 10 } }, beginAtZero: true },
+            x: { grid: { display: false }, ticks: { font: { size: 9 }, maxRotation: 0, autoSkip: true } },
+          },
+        },
+      });
+      document.getElementById("freqSrc").textContent =
+        `${s.low_vre_hours_year} hours over the year had wind+solar below ${d.threshold_pct}% of demand. But only ${s.spell_count} sustained spell (≥ ${d.min_spell_hours} h) qualified as a true Dunkelflaute — the ${s.longest_spell_h}-hour run shown above. Threshold is a stated, adjustable choice.`;
+
+      // Panel 3: normal vs Dunkelflaute generation mix (horizontal stacked %).
+      const fuels = ["wind", "solar", "biomass", "hydro", "nuclear", "coal", "gas", "other"];
+      new Chart(document.getElementById("mixChart"), {
+        type: "bar",
+        data: { labels: ["Normal", "Dunkelflaute"], datasets: fuels.map((f) => ({ label: LABEL[f], stack: "m",
+          backgroundColor: COL[f], borderRadius: 2, data: [mix.normal[f] || 0, mix.dunkelflaute[f] || 0] })) },
+        options: {
+          indexAxis: "y", responsive: true, maintainAspectRatio: false, animation: false,
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.parsed.x}%` } } },
+          scales: {
+            x: { stacked: true, title: { display: true, text: "% of generation", font: { size: 11 } }, grid: { color: "rgba(0,0,0,.06)" }, ticks: { font: { size: 10 } }, max: 100 },
+            y: { stacked: true, grid: { display: false }, ticks: { font: { size: 11 } } },
+          },
+        },
+      });
+      document.getElementById("mixLegend").innerHTML =
+        fuels.map((f) => `<span><span class="swatch" style="background:${COL[f]}"></span>${LABEL[f]}</span>`).join("") +
+        `<span style="color:var(--hint)">net imports: ${mix.normal.net_import_pct}% normal → ${mix.dunkelflaute.net_import_pct}% in the spell</span>`;
+    })();
+  </script>
+  <script src="ia.js"></script>
+  <script src="nav.js"></script>
+</body>
+</html>

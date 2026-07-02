@@ -35,13 +35,12 @@ CACHE = DATA_DIR / "_raw_prices_history.parquet"
 
 def fetch_history(start: pd.Timestamp, end: pd.Timestamp) -> pd.Series:
     """Fetch DE-LU day-ahead prices over a multi-year window in 6-month chunks."""
-    from entsoe import EntsoePandasClient
+    from entsoe_client import make_entsoe_client  # retrying client (transient-5xx safe)
 
     token = os.environ.get("ENTSOE_API_TOKEN")
     if not token:
         sys.exit("ENTSOE_API_TOKEN not set. Copy .env.example to .env and fill it in.")
-    client = EntsoePandasClient(api_key=token)
-
+    client = make_entsoe_client(token)
     frames = []
     a = start
     while a < end:

@@ -1,0 +1,393 @@
+{
+"generated_at": "2026-06-24T11:21:41+00:00",
+"source": "MaStR (Bundesnetzagentur)",
+"unit": "MW",
+"wind": [
+{
+"name": "Nordfriesland",
+"fuel": "Wind onshore",
+"mw": 2618,
+"units": 881,
+"lat": 54.653,
+"lon": 8.982
+},
+{
+"name": "Dithmarschen",
+"fuel": "Wind onshore",
+"mw": 2383,
+"units": 838,
+"lat": 54.102,
+"lon": 9.004
+},
+{
+"name": "Uckermark",
+"fuel": "Wind onshore",
+"mw": 1772,
+"units": 679,
+"lat": 53.306,
+"lon": 13.974
+},
+{
+"name": "Paderborn",
+"fuel": "Wind onshore",
+"mw": 1417,
+"units": 512,
+"lat": 51.593,
+"lon": 8.745
+},
+{
+"name": "Emsland",
+"fuel": "Wind onshore",
+"mw": 1401,
+"units": 515,
+"lat": 52.81,
+"lon": 7.404
+},
+{
+"name": "Schleswig-Flensburg",
+"fuel": "Wind onshore",
+"mw": 1386,
+"units": 475,
+"lat": 54.651,
+"lon": 9.365
+},
+{
+"name": "Prignitz",
+"fuel": "Wind onshore",
+"mw": 1223,
+"units": 553,
+"lat": 53.154,
+"lon": 12.066
+},
+{
+"name": "Aurich",
+"fuel": "Wind onshore",
+"mw": 1102,
+"units": 631,
+"lat": 53.506,
+"lon": 7.342
+},
+{
+"name": "Diepholz",
+"fuel": "Wind onshore",
+"mw": 980,
+"units": 405,
+"lat": 52.739,
+"lon": 8.717
+},
+{
+"name": "Stendal",
+"fuel": "Wind onshore",
+"mw": 958,
+"units": 345,
+"lat": 52.662,
+"lon": 11.776
+},
+{
+"name": "Ostholstein",
+"fuel": "Wind onshore",
+"mw": 943,
+"units": 334,
+"lat": 54.259,
+"lon": 10.926
+},
+{
+"name": "Teltow-Fläming",
+"fuel": "Wind onshore",
+"mw": 901,
+"units": 417,
+"lat": 51.977,
+"lon": 13.231
+},
+{
+"name": "Rendsburg-Eckernförde",
+"fuel": "Wind onshore",
+"mw": 884,
+"units": 244,
+"lat": 54.259,
+"lon": 9.725
+},
+{
+"name": "Ludwigslust-Parchim",
+"fuel": "Wind onshore",
+"mw": 863,
+"units": 328,
+"lat": 53.463,
+"lon": 11.871
+},
+{
+"name": "Steinburg",
+"fuel": "Wind onshore",
+"mw": 856,
+"units": 282,
+"lat": 53.923,
+"lon": 9.486
+},
+{
+"name": "Rostock",
+"fuel": "Wind onshore",
+"mw": 822,
+"units": 329,
+"lat": 53.954,
+"lon": 12.031
+},
+{
+"name": "Cuxhaven",
+"fuel": "Wind onshore",
+"mw": 810,
+"units": 508,
+"lat": 53.643,
+"lon": 8.72
+},
+{
+"name": "Dahme-Spreewald",
+"fuel": "Wind onshore",
+"mw": 804,
+"units": 320,
+"lat": 51.958,
+"lon": 13.855
+},
+{
+"name": "Märkisch-Oderland",
+"fuel": "Wind onshore",
+"mw": 790,
+"units": 306,
+"lat": 52.59,
+"lon": 14.145
+},
+{
+"name": "Höxter",
+"fuel": "Wind onshore",
+"mw": 784,
+"units": 349,
+"lat": 51.666,
+"lon": 9.068
+},
+{
+"name": "Borken",
+"fuel": "Wind onshore",
+"mw": 771,
+"units": 318,
+"lat": 51.979,
+"lon": 6.955
+},
+{
+"name": "Offshore",
+"fuel": "Wind offshore",
+"mw": 758,
+"units": 133,
+"lat": 54.456,
+"lon": 7.677
+},
+{
+"name": "Offshore",
+"fuel": "Wind offshore",
+"mw": 751,
+"units": 112,
+"lat": 54.463,
+"lon": 6.325
+},
+{
+"name": "Offshore",
+"fuel": "Wind offshore",
+"mw": 732,
+"units": 116,
+"lat": 54.004,
+"lon": 6.471
+}
+],
+"solar": [
+{
+"name": "Leipzig",
+"fuel": "Solar",
+"mw": 519,
+"units": 140,
+"lat": 51.156,
+"lon": 12.469
+},
+{
+"name": "Märkisch-Oderland",
+"fuel": "Solar",
+"mw": 498,
+"units": 77,
+"lat": 52.649,
+"lon": 14.245
+},
+{
+"name": "Deggendorf",
+"fuel": "Solar",
+"mw": 302,
+"units": 509,
+"lat": 48.763,
+"lon": 12.899
+},
+{
+"name": "Vorpommern-Greifswald",
+"fuel": "Solar",
+"mw": 287,
+"units": 41,
+"lat": 53.859,
+"lon": 13.338
+},
+{
+"name": "Neuburg-Schrobenhausen",
+"fuel": "Solar",
+"mw": 284,
+"units": 235,
+"lat": 48.593,
+"lon": 11.252
+},
+{
+"name": "Uckermark",
+"fuel": "Solar",
+"mw": 237,
+"units": 36,
+"lat": 53.235,
+"lon": 13.666
+},
+{
+"name": "Prignitz",
+"fuel": "Solar",
+"mw": 232,
+"units": 52,
+"lat": 53.255,
+"lon": 12.286
+},
+{
+"name": "Elbe-Elster",
+"fuel": "Solar",
+"mw": 218,
+"units": 75,
+"lat": 51.591,
+"lon": 13.755
+},
+{
+"name": "Dahme-Spreewald",
+"fuel": "Solar",
+"mw": 198,
+"units": 57,
+"lat": 51.906,
+"lon": 13.786
+},
+{
+"name": "Mansfeld-Südharz",
+"fuel": "Solar",
+"mw": 192,
+"units": 150,
+"lat": 51.595,
+"lon": 11.521
+},
+{
+"name": "Ludwigslust-Parchim",
+"fuel": "Solar",
+"mw": 189,
+"units": 71,
+"lat": 53.406,
+"lon": 11.832
+},
+{
+"name": "Rendsburg-Eckernförde",
+"fuel": "Solar",
+"mw": 184,
+"units": 103,
+"lat": 54.151,
+"lon": 9.904
+},
+{
+"name": "Mittelsachsen",
+"fuel": "Solar",
+"mw": 172,
+"units": 88,
+"lat": 50.846,
+"lon": 13.196
+},
+{
+"name": "Schleswig-Flensburg",
+"fuel": "Solar",
+"mw": 169,
+"units": 155,
+"lat": 54.609,
+"lon": 9.307
+},
+{
+"name": "Barnim",
+"fuel": "Solar",
+"mw": 164,
+"units": 55,
+"lat": 52.655,
+"lon": 13.624
+},
+{
+"name": "Neumarkt i.d. OPf.",
+"fuel": "Solar",
+"mw": 161,
+"units": 165,
+"lat": 49.039,
+"lon": 11.547
+},
+{
+"name": "Straubing-Bogen",
+"fuel": "Solar",
+"mw": 160,
+"units": 175,
+"lat": 48.88,
+"lon": 12.46
+},
+{
+"name": "Anhalt-Bitterfeld",
+"fuel": "Solar",
+"mw": 157,
+"units": 210,
+"lat": 51.605,
+"lon": 12.299
+},
+{
+"name": "Ludwigslust-Parchim",
+"fuel": "Solar",
+"mw": 157,
+"units": 32,
+"lat": 53.406,
+"lon": 12.282
+},
+{
+"name": "Neuburg-Schrobenhausen",
+"fuel": "Solar",
+"mw": 155,
+"units": 194,
+"lat": 48.596,
+"lon": 11.108
+},
+{
+"name": "Teltow-Fläming",
+"fuel": "Solar",
+"mw": 153,
+"units": 83,
+"lat": 52.027,
+"lon": 13.056
+},
+{
+"name": "Steinburg",
+"fuel": "Solar",
+"mw": 150,
+"units": 124,
+"lat": 53.993,
+"lon": 9.461
+},
+{
+"name": "Memmingen",
+"fuel": "Solar",
+"mw": 148,
+"units": 487,
+"lat": 47.994,
+"lon": 10.196
+},
+{
+"name": "Oberspreewald-Lausitz",
+"fuel": "Solar",
+"mw": 148,
+"units": 91,
+"lat": 51.589,
+"lon": 13.971
+}
+]
+}

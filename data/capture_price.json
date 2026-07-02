@@ -1,0 +1,983 @@
+{
+  "generated_at": "2026-06-28T20:02:30+00:00",
+  "zone_default": "DE_LU",
+  "zones_available": [
+    "DE_LU",
+    "FR",
+    "NL",
+    "BE",
+    "PL"
+  ],
+  "source": "ENTSO-E generation + day-ahead prices",
+  "method": "generation-weighted capture price / time-weighted baseload (value factor)",
+  "groups": {
+    "solar": [
+      "Solar"
+    ],
+    "wind": [
+      "Wind onshore",
+      "Wind offshore"
+    ]
+  },
+  "context_note": "Anchor figures from the consolidated roadmap (DE solar capture ~50-60% of baseload; ~16% of solar at negative prices; 573 negative hours, 2025) are cited context, not the values computed here.",
+  "zones": {
+    "DE_LU": {
+      "solar": {
+        "capture": 51.2,
+        "baseload": 92.7,
+        "value_factor": 0.552,
+        "neg_gen_share": 20.6,
+        "monthly": [
+          {
+            "month": "2025-06",
+            "capture": 27.6,
+            "baseload": 69.7,
+            "value_factor": 0.396,
+            "neg_gen_share": 37.0
+          },
+          {
+            "month": "2025-07",
+            "capture": 59.8,
+            "baseload": 87.8,
+            "value_factor": 0.681,
+            "neg_gen_share": 5.2
+          },
+          {
+            "month": "2025-08",
+            "capture": 39.1,
+            "baseload": 77.0,
+            "value_factor": 0.507,
+            "neg_gen_share": 22.2
+          },
+          {
+            "month": "2025-09",
+            "capture": 44.3,
+            "baseload": 83.5,
+            "value_factor": 0.53,
+            "neg_gen_share": 24.5
+          },
+          {
+            "month": "2025-10",
+            "capture": 71.7,
+            "baseload": 84.4,
+            "value_factor": 0.85,
+            "neg_gen_share": 9.4
+          },
+          {
+            "month": "2025-11",
+            "capture": 92.1,
+            "baseload": 101.9,
+            "value_factor": 0.904,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2025-12",
+            "capture": 94.5,
+            "baseload": 93.5,
+            "value_factor": 1.011,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-01",
+            "capture": 111.3,
+            "baseload": 110.1,
+            "value_factor": 1.011,
+            "neg_gen_share": 1.8
+          },
+          {
+            "month": "2026-02",
+            "capture": 78.7,
+            "baseload": 96.6,
+            "value_factor": 0.815,
+            "neg_gen_share": 8.3
+          },
+          {
+            "month": "2026-03",
+            "capture": 57.5,
+            "baseload": 99.3,
+            "value_factor": 0.579,
+            "neg_gen_share": 13.5
+          },
+          {
+            "month": "2026-04",
+            "capture": 20.0,
+            "baseload": 78.5,
+            "value_factor": 0.255,
+            "neg_gen_share": 46.7
+          },
+          {
+            "month": "2026-05",
+            "capture": 37.9,
+            "baseload": 97.5,
+            "value_factor": 0.389,
+            "neg_gen_share": 30.4
+          },
+          {
+            "month": "2026-06",
+            "capture": 62.5,
+            "baseload": 106.4,
+            "value_factor": 0.588,
+            "neg_gen_share": 15.9
+          }
+        ]
+      },
+      "wind": {
+        "capture": 82.0,
+        "baseload": 92.7,
+        "value_factor": 0.885,
+        "neg_gen_share": 6.1,
+        "monthly": [
+          {
+            "month": "2025-06",
+            "capture": 66.6,
+            "baseload": 69.7,
+            "value_factor": 0.956,
+            "neg_gen_share": 17.3
+          },
+          {
+            "month": "2025-07",
+            "capture": 83.5,
+            "baseload": 87.8,
+            "value_factor": 0.952,
+            "neg_gen_share": 1.9
+          },
+          {
+            "month": "2025-08",
+            "capture": 70.9,
+            "baseload": 77.0,
+            "value_factor": 0.921,
+            "neg_gen_share": 9.6
+          },
+          {
+            "month": "2025-09",
+            "capture": 67.7,
+            "baseload": 83.5,
+            "value_factor": 0.811,
+            "neg_gen_share": 11.8
+          },
+          {
+            "month": "2025-10",
+            "capture": 61.4,
+            "baseload": 84.4,
+            "value_factor": 0.728,
+            "neg_gen_share": 12.1
+          },
+          {
+            "month": "2025-11",
+            "capture": 90.3,
+            "baseload": 101.9,
+            "value_factor": 0.887,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2025-12",
+            "capture": 84.5,
+            "baseload": 93.5,
+            "value_factor": 0.904,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-01",
+            "capture": 99.4,
+            "baseload": 110.1,
+            "value_factor": 0.903,
+            "neg_gen_share": 1.1
+          },
+          {
+            "month": "2026-02",
+            "capture": 89.5,
+            "baseload": 96.6,
+            "value_factor": 0.927,
+            "neg_gen_share": 1.0
+          },
+          {
+            "month": "2026-03",
+            "capture": 80.4,
+            "baseload": 99.3,
+            "value_factor": 0.81,
+            "neg_gen_share": 7.3
+          },
+          {
+            "month": "2026-04",
+            "capture": 72.6,
+            "baseload": 78.5,
+            "value_factor": 0.925,
+            "neg_gen_share": 15.9
+          },
+          {
+            "month": "2026-05",
+            "capture": 101.1,
+            "baseload": 97.5,
+            "value_factor": 1.037,
+            "neg_gen_share": 6.5
+          },
+          {
+            "month": "2026-06",
+            "capture": 85.4,
+            "baseload": 106.4,
+            "value_factor": 0.803,
+            "neg_gen_share": 12.3
+          }
+        ]
+      }
+    },
+    "FR": {
+      "solar": {
+        "capture": 31.5,
+        "baseload": 58.3,
+        "value_factor": 0.54,
+        "neg_gen_share": 17.7,
+        "monthly": [
+          {
+            "month": "2025-06",
+            "capture": 37.2,
+            "baseload": 67.8,
+            "value_factor": 0.548,
+            "neg_gen_share": 26.2
+          },
+          {
+            "month": "2025-07",
+            "capture": 38.1,
+            "baseload": 58.0,
+            "value_factor": 0.657,
+            "neg_gen_share": 1.8
+          },
+          {
+            "month": "2025-08",
+            "capture": 25.6,
+            "baseload": 54.4,
+            "value_factor": 0.471,
+            "neg_gen_share": 18.8
+          },
+          {
+            "month": "2025-09",
+            "capture": 17.5,
+            "baseload": 34.8,
+            "value_factor": 0.504,
+            "neg_gen_share": 14.5
+          },
+          {
+            "month": "2025-10",
+            "capture": 44.7,
+            "baseload": 57.5,
+            "value_factor": 0.778,
+            "neg_gen_share": 5.2
+          },
+          {
+            "month": "2025-11",
+            "capture": 49.2,
+            "baseload": 59.1,
+            "value_factor": 0.832,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2025-12",
+            "capture": 65.5,
+            "baseload": 68.7,
+            "value_factor": 0.953,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-01",
+            "capture": 103.0,
+            "baseload": 100.7,
+            "value_factor": 1.024,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-02",
+            "capture": 32.0,
+            "baseload": 46.0,
+            "value_factor": 0.695,
+            "neg_gen_share": 11.6
+          },
+          {
+            "month": "2026-03",
+            "capture": 30.6,
+            "baseload": 63.9,
+            "value_factor": 0.479,
+            "neg_gen_share": 13.1
+          },
+          {
+            "month": "2026-04",
+            "capture": 4.1,
+            "baseload": 39.8,
+            "value_factor": 0.102,
+            "neg_gen_share": 45.1
+          },
+          {
+            "month": "2026-05",
+            "capture": 14.4,
+            "baseload": 52.2,
+            "value_factor": 0.275,
+            "neg_gen_share": 30.2
+          },
+          {
+            "month": "2026-06",
+            "capture": 37.4,
+            "baseload": 61.3,
+            "value_factor": 0.61,
+            "neg_gen_share": 26.5
+          }
+        ]
+      },
+      "wind": {
+        "capture": 52.4,
+        "baseload": 58.3,
+        "value_factor": 0.898,
+        "neg_gen_share": 4.4,
+        "monthly": [
+          {
+            "month": "2025-06",
+            "capture": 79.4,
+            "baseload": 67.8,
+            "value_factor": 1.171,
+            "neg_gen_share": 5.5
+          },
+          {
+            "month": "2025-07",
+            "capture": 50.7,
+            "baseload": 58.0,
+            "value_factor": 0.874,
+            "neg_gen_share": 0.7
+          },
+          {
+            "month": "2025-08",
+            "capture": 53.0,
+            "baseload": 54.4,
+            "value_factor": 0.974,
+            "neg_gen_share": 4.9
+          },
+          {
+            "month": "2025-09",
+            "capture": 24.2,
+            "baseload": 34.8,
+            "value_factor": 0.694,
+            "neg_gen_share": 8.9
+          },
+          {
+            "month": "2025-10",
+            "capture": 43.9,
+            "baseload": 57.5,
+            "value_factor": 0.764,
+            "neg_gen_share": 3.2
+          },
+          {
+            "month": "2025-11",
+            "capture": 54.5,
+            "baseload": 59.1,
+            "value_factor": 0.922,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2025-12",
+            "capture": 58.6,
+            "baseload": 68.7,
+            "value_factor": 0.853,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-01",
+            "capture": 96.7,
+            "baseload": 100.7,
+            "value_factor": 0.96,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-02",
+            "capture": 38.9,
+            "baseload": 46.0,
+            "value_factor": 0.844,
+            "neg_gen_share": 4.0
+          },
+          {
+            "month": "2026-03",
+            "capture": 53.5,
+            "baseload": 63.9,
+            "value_factor": 0.838,
+            "neg_gen_share": 5.5
+          },
+          {
+            "month": "2026-04",
+            "capture": 37.2,
+            "baseload": 39.8,
+            "value_factor": 0.934,
+            "neg_gen_share": 11.9
+          },
+          {
+            "month": "2026-05",
+            "capture": 49.9,
+            "baseload": 52.2,
+            "value_factor": 0.955,
+            "neg_gen_share": 10.0
+          },
+          {
+            "month": "2026-06",
+            "capture": 48.6,
+            "baseload": 61.3,
+            "value_factor": 0.792,
+            "neg_gen_share": 14.9
+          }
+        ]
+      }
+    },
+    "NL": {
+      "solar": {
+        "capture": 59.4,
+        "baseload": 90.4,
+        "value_factor": 0.657,
+        "neg_gen_share": 11.3,
+        "monthly": [
+          {
+            "month": "2025-06",
+            "capture": 47.4,
+            "baseload": 69.0,
+            "value_factor": 0.688,
+            "neg_gen_share": 12.5
+          },
+          {
+            "month": "2025-07",
+            "capture": 62.1,
+            "baseload": 87.5,
+            "value_factor": 0.71,
+            "neg_gen_share": 3.3
+          },
+          {
+            "month": "2025-08",
+            "capture": 47.3,
+            "baseload": 74.6,
+            "value_factor": 0.635,
+            "neg_gen_share": 9.6
+          },
+          {
+            "month": "2025-09",
+            "capture": 50.9,
+            "baseload": 77.6,
+            "value_factor": 0.656,
+            "neg_gen_share": 13.1
+          },
+          {
+            "month": "2025-10",
+            "capture": 75.3,
+            "baseload": 82.3,
+            "value_factor": 0.914,
+            "neg_gen_share": 1.8
+          },
+          {
+            "month": "2025-11",
+            "capture": 93.3,
+            "baseload": 93.7,
+            "value_factor": 0.996,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2025-12",
+            "capture": 87.8,
+            "baseload": 87.7,
+            "value_factor": 1.001,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-01",
+            "capture": 107.5,
+            "baseload": 107.6,
+            "value_factor": 0.999,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-02",
+            "capture": 79.9,
+            "baseload": 92.9,
+            "value_factor": 0.859,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-03",
+            "capture": 55.8,
+            "baseload": 98.9,
+            "value_factor": 0.564,
+            "neg_gen_share": 9.3
+          },
+          {
+            "month": "2026-04",
+            "capture": 47.7,
+            "baseload": 84.6,
+            "value_factor": 0.563,
+            "neg_gen_share": 29.1
+          },
+          {
+            "month": "2026-05",
+            "capture": 55.4,
+            "baseload": 94.9,
+            "value_factor": 0.584,
+            "neg_gen_share": 17.3
+          },
+          {
+            "month": "2026-06",
+            "capture": 72.0,
+            "baseload": 106.4,
+            "value_factor": 0.677,
+            "neg_gen_share": 8.0
+          }
+        ]
+      },
+      "wind": {
+        "capture": 82.2,
+        "baseload": 90.4,
+        "value_factor": 0.909,
+        "neg_gen_share": 4.2,
+        "monthly": [
+          {
+            "month": "2025-06",
+            "capture": 72.3,
+            "baseload": 69.0,
+            "value_factor": 1.048,
+            "neg_gen_share": 13.4
+          },
+          {
+            "month": "2025-07",
+            "capture": 86.1,
+            "baseload": 87.5,
+            "value_factor": 0.984,
+            "neg_gen_share": 2.1
+          },
+          {
+            "month": "2025-08",
+            "capture": 73.8,
+            "baseload": 74.6,
+            "value_factor": 0.989,
+            "neg_gen_share": 6.3
+          },
+          {
+            "month": "2025-09",
+            "capture": 65.1,
+            "baseload": 77.6,
+            "value_factor": 0.838,
+            "neg_gen_share": 10.3
+          },
+          {
+            "month": "2025-10",
+            "capture": 62.4,
+            "baseload": 82.3,
+            "value_factor": 0.758,
+            "neg_gen_share": 10.2
+          },
+          {
+            "month": "2025-11",
+            "capture": 84.9,
+            "baseload": 93.7,
+            "value_factor": 0.906,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2025-12",
+            "capture": 81.3,
+            "baseload": 87.7,
+            "value_factor": 0.928,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-01",
+            "capture": 97.2,
+            "baseload": 107.6,
+            "value_factor": 0.903,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-02",
+            "capture": 86.6,
+            "baseload": 92.9,
+            "value_factor": 0.932,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-03",
+            "capture": 81.2,
+            "baseload": 98.9,
+            "value_factor": 0.821,
+            "neg_gen_share": 3.3
+          },
+          {
+            "month": "2026-04",
+            "capture": 81.7,
+            "baseload": 84.6,
+            "value_factor": 0.966,
+            "neg_gen_share": 13.0
+          },
+          {
+            "month": "2026-05",
+            "capture": 99.4,
+            "baseload": 94.9,
+            "value_factor": 1.048,
+            "neg_gen_share": 5.0
+          },
+          {
+            "month": "2026-06",
+            "capture": 97.1,
+            "baseload": 106.4,
+            "value_factor": 0.913,
+            "neg_gen_share": 6.9
+          }
+        ]
+      }
+    },
+    "BE": {
+      "solar": {
+        "capture": 48.1,
+        "baseload": 85.3,
+        "value_factor": 0.564,
+        "neg_gen_share": 17.8,
+        "monthly": [
+          {
+            "month": "2025-06",
+            "capture": 31.9,
+            "baseload": 69.9,
+            "value_factor": 0.456,
+            "neg_gen_share": 34.7
+          },
+          {
+            "month": "2025-07",
+            "capture": 57.5,
+            "baseload": 83.1,
+            "value_factor": 0.692,
+            "neg_gen_share": 3.5
+          },
+          {
+            "month": "2025-08",
+            "capture": 34.0,
+            "baseload": 69.0,
+            "value_factor": 0.494,
+            "neg_gen_share": 21.9
+          },
+          {
+            "month": "2025-09",
+            "capture": 37.4,
+            "baseload": 63.6,
+            "value_factor": 0.589,
+            "neg_gen_share": 20.8
+          },
+          {
+            "month": "2025-10",
+            "capture": 58.9,
+            "baseload": 75.1,
+            "value_factor": 0.785,
+            "neg_gen_share": 8.9
+          },
+          {
+            "month": "2025-11",
+            "capture": 81.6,
+            "baseload": 86.2,
+            "value_factor": 0.946,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2025-12",
+            "capture": 83.8,
+            "baseload": 85.4,
+            "value_factor": 0.982,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-01",
+            "capture": 111.0,
+            "baseload": 108.5,
+            "value_factor": 1.023,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-02",
+            "capture": 73.6,
+            "baseload": 85.1,
+            "value_factor": 0.864,
+            "neg_gen_share": 0.5
+          },
+          {
+            "month": "2026-03",
+            "capture": 51.8,
+            "baseload": 92.6,
+            "value_factor": 0.559,
+            "neg_gen_share": 7.5
+          },
+          {
+            "month": "2026-04",
+            "capture": 21.0,
+            "baseload": 78.9,
+            "value_factor": 0.266,
+            "neg_gen_share": 43.0
+          },
+          {
+            "month": "2026-05",
+            "capture": 31.2,
+            "baseload": 91.8,
+            "value_factor": 0.34,
+            "neg_gen_share": 26.1
+          },
+          {
+            "month": "2026-06",
+            "capture": 68.9,
+            "baseload": 108.1,
+            "value_factor": 0.637,
+            "neg_gen_share": 14.5
+          }
+        ]
+      },
+      "wind": {
+        "capture": 74.4,
+        "baseload": 85.3,
+        "value_factor": 0.872,
+        "neg_gen_share": 4.9,
+        "monthly": [
+          {
+            "month": "2025-06",
+            "capture": 66.1,
+            "baseload": 69.9,
+            "value_factor": 0.946,
+            "neg_gen_share": 12.7
+          },
+          {
+            "month": "2025-07",
+            "capture": 75.4,
+            "baseload": 83.1,
+            "value_factor": 0.908,
+            "neg_gen_share": 3.8
+          },
+          {
+            "month": "2025-08",
+            "capture": 65.2,
+            "baseload": 69.0,
+            "value_factor": 0.945,
+            "neg_gen_share": 7.8
+          },
+          {
+            "month": "2025-09",
+            "capture": 48.7,
+            "baseload": 63.6,
+            "value_factor": 0.766,
+            "neg_gen_share": 14.1
+          },
+          {
+            "month": "2025-10",
+            "capture": 49.7,
+            "baseload": 75.1,
+            "value_factor": 0.662,
+            "neg_gen_share": 9.3
+          },
+          {
+            "month": "2025-11",
+            "capture": 79.2,
+            "baseload": 86.2,
+            "value_factor": 0.919,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2025-12",
+            "capture": 78.5,
+            "baseload": 85.4,
+            "value_factor": 0.92,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-01",
+            "capture": 96.8,
+            "baseload": 108.5,
+            "value_factor": 0.892,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-02",
+            "capture": 76.3,
+            "baseload": 85.1,
+            "value_factor": 0.896,
+            "neg_gen_share": 0.7
+          },
+          {
+            "month": "2026-03",
+            "capture": 72.1,
+            "baseload": 92.6,
+            "value_factor": 0.779,
+            "neg_gen_share": 2.8
+          },
+          {
+            "month": "2026-04",
+            "capture": 67.3,
+            "baseload": 78.9,
+            "value_factor": 0.853,
+            "neg_gen_share": 16.7
+          },
+          {
+            "month": "2026-05",
+            "capture": 94.5,
+            "baseload": 91.8,
+            "value_factor": 1.03,
+            "neg_gen_share": 4.1
+          },
+          {
+            "month": "2026-06",
+            "capture": 93.8,
+            "baseload": 108.1,
+            "value_factor": 0.867,
+            "neg_gen_share": 6.2
+          }
+        ]
+      }
+    },
+    "PL": {
+      "solar": {
+        "capture": 76.9,
+        "baseload": 111.7,
+        "value_factor": 0.688,
+        "neg_gen_share": 7.0,
+        "monthly": [
+          {
+            "month": "2025-06",
+            "capture": 31.4,
+            "baseload": 74.0,
+            "value_factor": 0.424,
+            "neg_gen_share": 29.2
+          },
+          {
+            "month": "2025-07",
+            "capture": 75.3,
+            "baseload": 102.4,
+            "value_factor": 0.735,
+            "neg_gen_share": 1.8
+          },
+          {
+            "month": "2025-08",
+            "capture": 59.2,
+            "baseload": 89.6,
+            "value_factor": 0.661,
+            "neg_gen_share": 11.0
+          },
+          {
+            "month": "2025-09",
+            "capture": 76.3,
+            "baseload": 107.5,
+            "value_factor": 0.709,
+            "neg_gen_share": 5.7
+          },
+          {
+            "month": "2025-10",
+            "capture": 86.7,
+            "baseload": 104.9,
+            "value_factor": 0.826,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2025-11",
+            "capture": 108.0,
+            "baseload": 124.1,
+            "value_factor": 0.871,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2025-12",
+            "capture": 114.7,
+            "baseload": 116.5,
+            "value_factor": 0.985,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-01",
+            "capture": 147.4,
+            "baseload": 143.3,
+            "value_factor": 1.029,
+            "neg_gen_share": 0.5
+          },
+          {
+            "month": "2026-02",
+            "capture": 97.3,
+            "baseload": 115.7,
+            "value_factor": 0.841,
+            "neg_gen_share": 4.5
+          },
+          {
+            "month": "2026-03",
+            "capture": 55.2,
+            "baseload": 104.4,
+            "value_factor": 0.528,
+            "neg_gen_share": 17.6
+          }
+        ]
+      },
+      "wind": {
+        "capture": 104.8,
+        "baseload": 111.7,
+        "value_factor": 0.939,
+        "neg_gen_share": 1.9,
+        "monthly": [
+          {
+            "month": "2025-06",
+            "capture": 74.3,
+            "baseload": 74.0,
+            "value_factor": 1.003,
+            "neg_gen_share": 11.8
+          },
+          {
+            "month": "2025-07",
+            "capture": 97.1,
+            "baseload": 102.4,
+            "value_factor": 0.948,
+            "neg_gen_share": 0.7
+          },
+          {
+            "month": "2025-08",
+            "capture": 86.9,
+            "baseload": 89.6,
+            "value_factor": 0.97,
+            "neg_gen_share": 5.7
+          },
+          {
+            "month": "2025-09",
+            "capture": 102.6,
+            "baseload": 107.5,
+            "value_factor": 0.954,
+            "neg_gen_share": 1.7
+          },
+          {
+            "month": "2025-10",
+            "capture": 94.8,
+            "baseload": 104.9,
+            "value_factor": 0.904,
+            "neg_gen_share": 0.7
+          },
+          {
+            "month": "2025-11",
+            "capture": 119.5,
+            "baseload": 124.1,
+            "value_factor": 0.964,
+            "neg_gen_share": 0.3
+          },
+          {
+            "month": "2025-12",
+            "capture": 107.9,
+            "baseload": 116.5,
+            "value_factor": 0.926,
+            "neg_gen_share": 0.0
+          },
+          {
+            "month": "2026-01",
+            "capture": 118.3,
+            "baseload": 143.3,
+            "value_factor": 0.826,
+            "neg_gen_share": 2.4
+          },
+          {
+            "month": "2026-02",
+            "capture": 111.0,
+            "baseload": 115.7,
+            "value_factor": 0.96,
+            "neg_gen_share": 0.3
+          },
+          {
+            "month": "2026-03",
+            "capture": 102.7,
+            "baseload": 104.4,
+            "value_factor": 0.983,
+            "neg_gen_share": 5.9
+          }
+        ]
+      }
+    }
+  }
+}

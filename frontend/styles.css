@@ -100,6 +100,17 @@ canvas { max-width: 100%; }
 .nodata { display: flex; align-items: center; justify-content: center; height: 100%; min-height: 120px;
   color: var(--hint); font-size: 12px; text-align: center; padding: 20px; }
 
+/* Shared loading + empty/awaiting state for standalone data pages (#status.loading).
+   Graceful, non-alarming: a quiet spinner while loading; add .empty (or .awaiting) to
+   show a static message with no spinner for an empty / "awaiting source" state. */
+.loading { display: flex; align-items: center; justify-content: center; gap: 9px;
+  color: var(--hint); font-size: 13px; text-align: center; padding: 34px 0; }
+.loading::before { content: ""; flex: none; width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid var(--border); border-top-color: var(--hint); animation: wspin .8s linear infinite; }
+@keyframes wspin { to { transform: rotate(360deg); } }
+.loading.empty, .loading.awaiting { color: var(--muted); }
+.loading.empty::before, .loading.awaiting::before { display: none; }
+
 /* ---- Topic block (Layout A: full-width stacked, KPI rail + chart) --------- */
 .block { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius);
   padding: 20px 22px; margin-bottom: 22px; scroll-margin-top: 104px; transition: box-shadow 0.15s ease; }
@@ -130,3 +141,6 @@ canvas { max-width: 100%; }
   .rail .kpi.headline { flex-basis: 100%; }
   .chartwrap { height: 220px; }
 }
+
+/* Site navigation (sidebar + mobile scroll-nav) lives in nav.js — it injects its
+ * own styles so it works even on pages that don't load this stylesheet. */
